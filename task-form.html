@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Создать задачу — SEO Control</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/app.js"></script>
+</head>
+<body class="bg-canvas text-ink antialiased">
+<div class="min-h-screen">
+
+  <div data-app-chrome="tasks" data-roles="owner,seo_head,mgr_head,pm,employee"></div>
+
+  <div class="flex">
+
+    <main class="flex-1 min-w-0 lg:pl-64 pb-24 lg:pb-0">
+
+      <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
+        <header class="px-4 lg:px-8 h-14 flex items-center justify-between gap-3 overflow-x-auto">
+        <a href="tasks.html" class="text-sm text-zinc-500 hover:text-zinc-900 transition">← Задачи</a>
+        <button type="submit" form="task-form" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать</button>
+      </header>
+      </div>
+
+      <div class="px-4 lg:px-8 py-6 lg:py-8 max-w-3xl">
+
+        <div class="mb-6 lg:mb-8">
+          <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight">Создать задачу</h2>
+        </div>
+
+        <form id="task-form" class="flex flex-col gap-4 lg:gap-6">
+
+          <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
+            <h3 class="text-sm font-semibold tracking-tight mb-5">Основное</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-5">
+
+              <div class="md:col-span-2">
+                <label class="block text-xs font-medium text-zinc-500 mb-2">Проект</label>
+                <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                  <option>Интернет-магазин «Холод»</option>
+                  <option>Сайт услуг «Ремонт+»</option>
+                  <option>B2B портал «Стройтех»</option>
+                </select>
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-xs font-medium text-zinc-500 mb-2">Месяц</label>
+                <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                  <option>Июнь 2025</option>
+                  <option>Июль 2025</option>
+                  <option>Август 2025</option>
+                </select>
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="flex items-center gap-2.5 text-sm text-zinc-700">
+                  <input id="link-roadmap" type="checkbox" checked class="w-4 h-4 rounded border-zinc-300">
+                  Привязать к работе из дорожной карты
+                </label>
+                <p class="text-xs text-zinc-500 mt-1.5">Если снять — задача станет свободной: она не входит в выполнение дорожной карты и отмечается в списках отдельно.</p>
+              </div>
+
+              <div id="roadmap-fields" class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-5">
+                <div>
+                  <label class="block text-xs font-medium text-zinc-500 mb-2">Направление</label>
+                  <select id="direction-select" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                    <option value="audit">Аудит</option>
+                    <option value="semantics">Семантика</option>
+                    <option value="internal">Внутренняя оптимизация</option>
+                    <option value="external">Внешняя оптимизация</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-medium text-zinc-500 mb-2">Работа</label>
+                  <select id="work-select" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></select>
+                </div>
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-xs font-medium text-zinc-500 mb-2">
+                  Родительская задача <span class="text-zinc-500 font-normal">— если это подзадача</span>
+                </label>
+                <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                  <option value="">— Это самостоятельная задача —</option>
+                  <option>Аудит технический</option>
+                  <option>Сбор семантики</option>
+                  <option>Перелинковка</option>
+                </select>
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-xs font-medium text-zinc-500 mb-2">Название задачи</label>
+                <input type="text" placeholder="Кратко и по делу" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-xs font-medium text-zinc-500 mb-2">Описание</label>
+                <textarea rows="4" placeholder="Что нужно сделать" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></textarea>
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-xs font-medium text-zinc-500 mb-2">Критерии приёмки <span class="font-normal">необязательно</span></label>
+                <textarea rows="3" placeholder="Что должно быть сделано" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></textarea>
+              </div>
+
+            </div>
+          </section>
+
+          <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
+            <h3 class="text-sm font-semibold tracking-tight mb-5">Участники</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-5">
+              <div>
+                <label class="block text-xs font-medium text-zinc-500 mb-2">Роль</label>
+                <select id="role" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                  <option value="seo-lead">Руководитель SEO</option>
+                  <option value="pm">Менеджер проекта</option>
+                  <option value="employee" selected>SEO-специалист</option>
+                  <option value="contractor">Подрядчик</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-zinc-500 mb-2">Исполнитель</label>
+                <select id="executor" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></select>
+              </div>
+              <div class="md:col-span-2">
+                <label class="block text-xs font-medium text-zinc-500 mb-2">Соисполнители <span class="font-normal">— необязательно</span></label>
+                <div class="flex flex-wrap gap-2">
+                  <label class="cursor-pointer"><input type="checkbox" class="peer sr-only"><span class="inline-flex items-center px-3 py-1.5 rounded-full border border-zinc-200 bg-white text-sm text-zinc-700 transition peer-checked:bg-white peer-checked:text-zinc-900 peer-checked:shadow-sm peer-checked:border-zinc-300 peer-focus-visible:ring-4 peer-focus-visible:ring-accent/15">А. Петров</span></label>
+                  <label class="cursor-pointer"><input type="checkbox" class="peer sr-only"><span class="inline-flex items-center px-3 py-1.5 rounded-full border border-zinc-200 bg-white text-sm text-zinc-700 transition peer-checked:bg-white peer-checked:text-zinc-900 peer-checked:shadow-sm peer-checked:border-zinc-300 peer-focus-visible:ring-4 peer-focus-visible:ring-accent/15">И. Дронов</span></label>
+                  <label class="cursor-pointer"><input type="checkbox" class="peer sr-only"><span class="inline-flex items-center px-3 py-1.5 rounded-full border border-zinc-200 bg-white text-sm text-zinc-700 transition peer-checked:bg-white peer-checked:text-zinc-900 peer-checked:shadow-sm peer-checked:border-zinc-300 peer-focus-visible:ring-4 peer-focus-visible:ring-accent/15">П. Лебедев</span></label>
+                  <label class="cursor-pointer"><input type="checkbox" class="peer sr-only"><span class="inline-flex items-center px-3 py-1.5 rounded-full border border-zinc-200 bg-white text-sm text-zinc-700 transition peer-checked:bg-white peer-checked:text-zinc-900 peer-checked:shadow-sm peer-checked:border-zinc-300 peer-focus-visible:ring-4 peer-focus-visible:ring-accent/15">М. Ким</span></label>
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-zinc-500 mb-2">Принимает работу</label>
+                <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                  <option selected>Постановщик — вы</option>
+                  <option>Руководитель SEO — И. Сидоров</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-zinc-500 mb-2">Постановщик</label>
+                <div class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-zinc-50 text-sm text-zinc-700"><span data-user-full>Вы</span></div>
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-zinc-500 mb-2">Приоритет</label>
+                <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                  <option>Высокий</option>
+                  <option selected>Средний</option>
+                  <option>Низкий</option>
+                </select>
+              </div>
+              <div id="payout-fields" data-can="see_finance" class="hidden md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-5">
+                <div>
+                  <label class="block text-xs font-medium text-zinc-500 mb-2">Оплата подрядчику</label>
+                  <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                    <option>Фиксированная сумма за задачу</option>
+                    <option>Почасовая ставка</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-medium text-zinc-500 mb-2">Сумма, ₽</label>
+                  <input type="number" placeholder="3500" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm tabular-nums focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                  <div class="text-xs text-zinc-500 mt-2">Виден сотрудникам компании. Попадает в расчёт маржи проекта.</div>
+                </div>
+              </div>
+              <div class="md:col-span-2 rounded-xl border border-black/5 bg-zinc-50 p-3">
+                <p class="text-xs text-zinc-500">
+                  <strong class="text-zinc-900">Подрядчик</strong> видит только назначенные ему задачи и не создаёт их сам.
+                  Клиент внутренние задачи не видит.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
+            <h3 class="text-sm font-semibold tracking-tight mb-5">Сроки и оценка</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 lg:gap-5">
+              <div>
+                <label class="block text-xs font-medium text-zinc-500 mb-2">Оценка, ч</label>
+                <input type="number" step="0.25" min="0" placeholder="4,0" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm tabular-nums focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-zinc-500 mb-2">Срок</label>
+                <input type="date" value="2025-06-18" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              </div>
+              <div class="sm:col-span-2 md:col-span-1">
+                <label class="block text-xs font-medium text-zinc-500 mb-2">Статус</label>
+                <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                  <option selected>Запланирована</option>
+                  <option>В работе</option>
+                  <option>Ждёт клиента</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <div class="flex flex-col sm:flex-row gap-3">
+            <button type="submit" class="px-5 py-2.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать задачу</button>
+            <a href="tasks.html" class="px-5 py-2.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition text-center">Отмена</a>
+          </div>
+
+        </form>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+
+  const worksByDirection = {
+    audit:        ['Аудит поведенческих факторов', 'Аудит коммерческих факторов', 'Аудит технический', 'Конкурентный анализ'],
+    semantics:    ['Сбор маркеров', 'Сбор семантики', 'Кластеризация', 'Распределение по страницам'],
+    internal:     ['Оптимизация метаданных', 'Оптимизация текстов', 'Перелинковка'],
+    external:     ['Поиск подходящих конкурентов', 'Сбор ссылочного профиля', 'Стратегия по наращиванию ссылок']
+  };
+  const directionSel = document.getElementById('direction-select');
+  const workSel = document.getElementById('work-select');
+  function renderWorks() {
+    const list = worksByDirection[directionSel.value] || [];
+    workSel.innerHTML = list.map(w => `<option>${w}</option>`).join('');
+  }
+  directionSel.addEventListener('change', renderWorks);
+  renderWorks();
+
+  const linkRoadmap = document.getElementById('link-roadmap');
+  const roadmapFields = document.getElementById('roadmap-fields');
+  linkRoadmap.addEventListener('change', () => {
+    roadmapFields.classList.toggle('hidden', !linkRoadmap.checked);
+  });
+
+  const executorsByRole = {
+    'seo-lead':   ['Иван Сидоров'],
+    'pm':         ['Никита Морозов', 'Ольга Ветрова'],
+    'employee':   ['Алексей Петров', 'Иван Дронов'],
+    'contractor': ['Мария Ким', 'Пётр Лебедев']
+  };
+  const roleSel = document.getElementById('role');
+  const execSel = document.getElementById('executor');
+  function renderExecutors() {
+    const list = executorsByRole[roleSel.value] || [];
+    execSel.innerHTML = list.map(n => `<option>${n}</option>`).join('');
+  }
+  const payoutFields = document.getElementById('payout-fields');
+  function togglePayout() {
+    if (!payoutFields) return;
+    const on = roleSel.value === 'contractor';
+    payoutFields.classList.toggle('hidden', !on);
+    payoutFields.classList.toggle('grid', on);
+  }
+  roleSel.addEventListener('change', () => { renderExecutors(); togglePayout(); });
+  renderExecutors();
+  togglePayout();
+</script>
+</body>
+</html>

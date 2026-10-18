@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Проект · Холод — SEO Control</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/app.js"></script>
+</head>
+<body class="bg-canvas text-ink antialiased">
+<div class="min-h-screen">
+
+  <div data-app-chrome="projects" data-roles="owner,seo_head,mgr_head,pm,employee"></div>
+
+  <div class="flex">
+
+    <main class="flex-1 min-w-0 lg:pl-64 pb-24 lg:pb-0">
+
+      <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
+        <header class="px-4 lg:px-8 h-14 flex items-center justify-between gap-4 overflow-x-auto">
+          <div class="flex items-center gap-3 min-w-0">
+            <a href="projects.html" class="text-sm text-zinc-500 hover:text-zinc-900 transition shrink-0">← Проекты</a>
+            <h1 class="text-base font-semibold tracking-tight truncate">Интернет-магазин «Холод»</h1>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <div data-tab-actions="roadmap" class="flex items-center gap-2">
+              <button data-can="edit_project" data-open-modal="roadmap-edit" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition whitespace-nowrap">Редактировать карту</button>
+              <button data-can="edit_project" data-open-modal="work" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition whitespace-nowrap">+ Работа</button>
+            </div>
+            <div data-tab-actions="month" class="hidden items-center gap-2">
+              <button data-can="edit_project" data-open-modal="template" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition whitespace-nowrap">Загрузить шаблон</button>
+              <a data-can="create_tasks" href="task-form.html" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition whitespace-nowrap">+ Задача</a>
+            </div>
+            <div data-tab-actions="reports" class="hidden items-center gap-2">
+              <a data-can="compose_reports" href="report.html" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition whitespace-nowrap">+ Отчёт</a>
+            </div>
+            <div data-tab-actions="sources" class="hidden items-center gap-2">
+              <button data-can="int_seo,int_client" data-open-modal="source" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition whitespace-nowrap">+ Источник</button>
+            </div>
+          </div>
+        </header>
+        <div class="px-4 lg:px-8 py-2 border-t border-black/5 overflow-x-auto">
+          <div class="inline-flex bg-zinc-100 rounded-full p-1">
+            <button data-tab="roadmap" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium transition bg-white text-zinc-900 shadow-sm whitespace-nowrap">Дорожная карта</button>
+            <button data-tab="month" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">План месяца</button>
+            <button data-can="view_reports" data-tab="reports" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Отчёты</button>
+            <button data-deny="contractor" data-tab="sources" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Источники</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-4 lg:px-8 py-6 lg:py-8 max-w-none">
+
+        <div class="mb-4 lg:mb-6">
+          <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight">Интернет-магазин «Холод»</h2>
+          <p class="text-sm text-zinc-500 mt-1">holod-shop.ru · Старт 01.05.2025</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="audit.html" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">ИИ-аудит</a>
+            <a data-roles="owner,seo_head,mgr_head" href="templates.html#brief" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Вопросы брифа</a>
+            <a data-roles="pm,employee" href="brief-form.html" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Бриф</a>
+            <button data-can="transfer_project" data-open-modal="transfer" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Передать специалисту</button>
+            <button data-can="archive_project" data-toast="Проект отправлен в архив" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">В архив</button>
+            <button data-can="delete_project" data-toast="Проект будет удалён" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium text-red-600 hover:bg-red-50 transition">Удалить</button>
+          </div>
+        </div>
+
+          <section class="grid grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4 mb-6">
+            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+              <div class="text-xs font-medium text-zinc-500 mb-2">Трафик</div>
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-2xl font-semibold tracking-tight tabular-nums">24 380</span>
+                <span class="text-xs text-zinc-500 tabular-nums">из 26 000</span>
+              </div>
+              <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+                <div class="h-full bg-amber-500 rounded-full w-[94%]"></div>
+              </div>
+              <div class="text-xs font-medium tabular-nums text-amber-700 mt-1.5">94% плана</div>
+            </div>
+            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+              <div class="text-xs font-medium text-zinc-500 mb-2">Лиды</div>
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-2xl font-semibold tracking-tight tabular-nums">312</span>
+                <span class="text-xs text-zinc-500 tabular-nums">из 290</span>
+              </div>
+              <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+                <div class="h-full bg-emerald-500 rounded-full w-full"></div>
+              </div>
+              <div class="text-xs font-medium tabular-nums text-emerald-700 mt-1.5">108% плана</div>
+            </div>
+            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+              <div class="text-xs font-medium text-zinc-500 mb-2">Запросы в топ-10</div>
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-2xl font-semibold tracking-tight tabular-nums">148</span>
+                <span class="text-xs text-zinc-500 tabular-nums">из 130</span>
+              </div>
+              <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+                <div class="h-full bg-emerald-500 rounded-full w-full"></div>
+              </div>
+              <div class="text-xs font-medium tabular-nums text-emerald-700 mt-1.5">114% плана</div>
+            </div>
+            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+              <div class="text-xs font-medium text-zinc-500 mb-2">Работы принято</div>
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-2xl font-semibold tracking-tight tabular-nums">22</span>
+                <span class="text-xs text-zinc-500 tabular-nums">из 23</span>
+              </div>
+              <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+                <div class="h-full bg-amber-500 rounded-full w-[96%]"></div>
+              </div>
+              <div class="text-xs font-medium tabular-nums text-amber-700 mt-1.5">96% плана</div>
+            </div>
+            <div class="col-span-2 lg:col-span-1 bg-white rounded-2xl shadow-card p-4 lg:p-5">
+              <div class="text-xs font-medium text-zinc-500 mb-2">Часы</div>
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-2xl font-semibold tracking-tight tabular-nums">82</span>
+                <span class="text-xs text-zinc-500 tabular-nums">из 96 ч</span>
+              </div>
+              <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+                <div class="h-full bg-zinc-400 rounded-full w-[85%]"></div>
+              </div>
+              <div class="text-xs font-medium tabular-nums text-zinc-500 mt-1.5">85% лимита</div>
+            </div>
+          </section>
+
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+          <div class="lg:col-span-2 min-w-0">
+        <!-- ДОРОЖНАЯ КАРТА -->
+        <div data-tab-panel="roadmap">
+
+          <section class="bg-white rounded-2xl shadow-card overflow-hidden">
+            <div class="px-4 lg:px-6 py-4 flex items-center justify-between">
+              <h3 class="text-sm font-semibold tracking-tight">Дорожная карта</h3>
+            </div>
+
+            <div class="border-t border-zinc-100 divide-y divide-zinc-100">
+
+              <details open class="group">
+                <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
+                  <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="text-sm font-medium truncate">Аудит</span>
+                    <span class="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 shrink-0">
+                      <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>В работе
+                    </span>
+                  </div>
+                  <div class="text-xs text-zinc-500 tabular-nums shrink-0">2 / 4 · 1 в плане</div>
+                </summary>
+                <ul class="px-4 lg:px-6 pb-4 border-t border-zinc-100 pt-3 divide-y divide-zinc-50">
+                  <li class="flex items-center justify-between py-2.5 pl-6 lg:pl-8 text-sm gap-2">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="w-4 h-4 rounded-full bg-zinc-900 flex items-center justify-center shrink-0">
+                        <svg class="w-2.5 h-2.5 text-white" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5L9.5 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </span>
+                      <span class="text-zinc-500 line-through truncate">Аудит поведенческих факторов</span>
+                    </div>
+                    <span class="text-xs text-zinc-500 tabular-nums shrink-0">12.05</span>
+                  </li>
+                  <li class="flex items-center justify-between py-2.5 pl-6 lg:pl-8 text-sm gap-2">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="w-4 h-4 rounded-full bg-zinc-900 flex items-center justify-center shrink-0">
+                        <svg class="w-2.5 h-2.5 text-white" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5L9.5 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </span>
+                      <span class="text-zinc-500 line-through truncate">Аудит коммерческих факторов</span>
+                    </div>
+                    <span class="text-xs text-zinc-500 tabular-nums shrink-0">14.05</span>
+                  </li>
+                  <li class="flex items-center justify-between py-2.5 pl-6 lg:pl-8 text-sm gap-2">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="w-4 h-4 rounded-full border-2 border-blue-600 shrink-0"></span>
+                      <a href="task.html" class="font-medium hover:underline truncate">Аудит технический</a>
+                      <span class="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-50 text-blue-700 shrink-0">
+                        <span class="w-1 h-1 rounded-full bg-blue-600"></span>июнь
+                      </span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">14.06</span>
+                      <a href="task.html" class="text-xs text-zinc-500 hover:text-zinc-900 transition hidden sm:inline">Задача →</a>
+                    </div>
+                  </li>
+                  <li class="flex items-center justify-between py-2.5 pl-6 lg:pl-8 text-sm gap-2">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="w-4 h-4 rounded-full border border-zinc-300 shrink-0"></span>
+                      <span class="text-zinc-500 truncate">Конкурентный анализ</span>
+                    </div>
+                    <button data-open-modal="work" class="text-xs text-zinc-500 hover:text-zinc-900 transition shrink-0">+ Запланировать</button>
+                  </li>
+                </ul>
+              </details>
+
+              <details class="group">
+                <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
+                  <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="text-sm font-medium truncate">Семантика</span>
+                    <span class="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 shrink-0">
+                      <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>В работе
+                    </span>
+                  </div>
+                  <div class="text-xs text-zinc-500 tabular-nums shrink-0">1 / 4 · 1 в плане</div>
+                </summary>
+                <ul class="px-4 lg:px-6 pb-4 border-t border-zinc-100 pt-3 divide-y divide-zinc-50">
+                  <li class="flex items-center justify-between py-2.5 pl-6 lg:pl-8 text-sm gap-2">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="w-4 h-4 rounded-full bg-zinc-900 flex items-center justify-center shrink-0">
+                        <svg class="w-2.5 h-2.5 text-white" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5L9.5 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </span>
+                      <span class="text-zinc-500 line-through truncate">Сбор маркеров</span>
+                    </div>
+                    <span class="text-xs text-zinc-500 tabular-nums shrink-0">20.05</span>
+                  </li>
+                  <li class="flex items-center justify-between py-2.5 pl-6 lg:pl-8 text-sm gap-2">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="w-4 h-4 rounded-full border-2 border-blue-600 shrink-0"></span>
+                      <a href="task.html" class="font-medium hover:underline truncate">Сбор семантики</a>
+                      <span class="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-50 text-blue-700 shrink-0">
+                        <span class="w-1 h-1 rounded-full bg-blue-600"></span>июнь
+                      </span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">22.06</span>
+                      <a href="task.html" class="text-xs text-zinc-500 hover:text-zinc-900 transition hidden sm:inline">Задача →</a>
+                    </div>
+                  </li>
+                  <li class="flex items-center justify-between py-2.5 pl-6 lg:pl-8 text-sm gap-2">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="w-4 h-4 rounded-full border border-zinc-300 shrink-0"></span>
+                      <span class="text-zinc-500 truncate">Кластеризация</span>
+                    </div>
+                    <button data-open-modal="work" class="text-xs text-zinc-500 hover:text-zinc-900 transition shrink-0">+ Запланировать</button>
+                  </li>
+                  <li class="flex items-center justify-between py-2.5 pl-6 lg:pl-8 text-sm gap-2">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="w-4 h-4 rounded-full border border-zinc-300 shrink-0"></span>
+                      <span class="text-zinc-500 truncate">Распределение по страницам</span>
+                    </div>
+                    <button data-open-modal="work" class="text-xs text-zinc-500 hover:text-zinc-900 transition shrink-0">+ Запланировать</button>
+                  </li>
+                </ul>
+              </details>
+
+              <details class="group">
+                <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
+                  <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="text-sm font-medium truncate">Внутренняя оптимизация</span>
+                    <span class="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700 shrink-0">
+                      <span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>Запланирована
+                    </span>
+                  </div>
+                  <div class="text-xs text-zinc-500 tabular-nums shrink-0">0 / 3 · 1 в плане</div>
+                </summary>
+                <ul class="px-4 lg:px-6 pb-4 border-t border-zinc-100 pt-3 divide-y divide-zinc-50">
+                  <li class="flex items-center justify-between py-2.5 pl-6 lg:pl-8 text-sm gap-2">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="w-4 h-4 rounded-full border border-zinc-300 shrink-0"></span>
+                      <span class="text-zinc-500 truncate">Оптимизация метаданных</span>
+                    </div>
+                    <button data-open-modal="work" class="text-xs text-zinc-500 hover:text-zinc-900 transition shrink-0">+ Запланировать</button>
+                  </li>
+                  <li class="flex items-center justify-between py-2.5 pl-6 lg:pl-8 text-sm gap-2">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="w-4 h-4 rounded-full border border-zinc-300 shrink-0"></span>
+                      <span class="text-zinc-500 truncate">Оптимизация текстов</span>
+                    </div>
+                    <button data-open-modal="work" class="text-xs text-zinc-500 hover:text-zinc-900 transition shrink-0">+ Запланировать</button>
+                  </li>
+                  <li class="flex items-center justify-between py-2.5 pl-6 lg:pl-8 text-sm gap-2">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="w-4 h-4 rounded-full border-2 border-blue-600 shrink-0"></span>
+                      <a href="task.html" class="font-medium hover:underline truncate">Перелинковка</a>
+                      <span class="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-50 text-blue-700 shrink-0">
+                        <span class="w-1 h-1 rounded-full bg-blue-600"></span>июнь
+                      </span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">20.06</span>
+                      <a href="task.html" class="text-xs text-zinc-500 hover:text-zinc-900 transition hidden sm:inline">Задача →</a>
+                    </div>
+                  </li>
+                </ul>
+              </details>
+
+              <details class="group">
+                <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
+                  <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="text-sm font-medium truncate">Внешняя оптимизация</span>
+                    <span class="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700 shrink-0">
+                      <span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>Запланирована
+                    </span>
+                  </div>
+                  <div class="text-xs text-zinc-500 tabular-nums shrink-0">0 / 3 · 1 в плане</div>
+                </summary>
+                <ul class="px-4 lg:px-6 pb-4 border-t border-zinc-100 pt-3 divide-y divide-zinc-50">
+                  <li class="flex items-center justify-between py-2.5 pl-6 lg:pl-8 text-sm gap-2">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="w-4 h-4 rounded-full border border-zinc-300 shrink-0"></span>
+                      <span class="text-zinc-500 truncate">Поиск подходящих конкурентов</span>
+                    </div>
+                    <button data-open-modal="work" class="text-xs text-zinc-500 hover:text-zinc-900 transition shrink-0">+ Запланировать</button>
+                  </li>
+                  <li class="flex items-center justify-between py-2.5 pl-6 lg:pl-8 text-sm gap-2">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="w-4 h-4 rounded-full border border-zinc-300 shrink-0"></span>
+                      <span class="text-zinc-500 truncate">Сбор ссылочного профиля конкурентов</span>
+                    </div>
+                    <button data-open-modal="work" class="text-xs text-zinc-500 hover:text-zinc-900 transition shrink-0">+ Запланировать</button>
+                  </li>
+                  <li class="flex items-center justify-between py-2.5 pl-6 lg:pl-8 text-sm gap-2">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="w-4 h-4 rounded-full border-2 border-blue-600 shrink-0"></span>
+                      <a href="task.html" class="font-medium hover:underline truncate">Стратегия по наращиванию ссылок</a>
+                      <span class="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-50 text-blue-700 shrink-0">
+                        <span class="w-1 h-1 rounded-full bg-blue-600"></span>июнь
+                      </span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">30.06</span>
+                      <a href="task.html" class="text-xs text-zinc-500 hover:text-zinc-900 transition hidden sm:inline">Задача →</a>
+                    </div>
+                  </li>
+                </ul>
+              </details>
+
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ПЛАН МЕСЯЦА -->
+        <div data-tab-panel="month" class="hidden">
+
+          <section class="bg-white rounded-2xl shadow-card overflow-hidden mb-6">
+            <div class="px-4 lg:px-6 py-4 flex items-center justify-between gap-3">
+              <div class="min-w-0">
+                <h3 class="text-sm font-semibold tracking-tight">Задачи на июнь</h3>
+                <p class="text-xs text-zinc-500 mt-0.5">10 задач · 2 на проверке · 2 ждут клиента</p>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <button aria-label="Предыдущий месяц" class="w-8 h-8 rounded-full bg-white border border-zinc-200 text-zinc-500 hover:bg-zinc-50 flex items-center justify-center shrink-0">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <div class="px-3 lg:px-4 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium tabular-nums whitespace-nowrap">Июнь 2025</div>
+                <button aria-label="Следующий месяц" class="w-8 h-8 rounded-full bg-white border border-zinc-200 text-zinc-500 hover:bg-zinc-50 flex items-center justify-center shrink-0">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="overflow-x-auto border-t border-zinc-100">
+              <table class="w-full block md:table">
+                <thead class="hidden md:table-header-group">
+                  <tr class="border-b border-zinc-100">
+                    <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-4 lg:px-6 py-3">Задача</th>
+                    <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">Исполнитель</th>
+                    <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">Статус</th>
+                    <th class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-4 lg:px-6 py-3">Срок</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-zinc-100 block md:table-row-group">
+                  <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <a href="task.html" class="text-base font-medium hover:underline">Canonical для фильтров</a>
+                        <span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">соисполнитель</span>
+                      </div>
+                      <div class="text-xs text-zinc-500 mt-0.5">Аудит</div>
+                    </td>
+                    <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <a href="tasks.html?executor=petrov" class="flex items-center gap-2 hover:underline">
+                        <span class="flex -space-x-2">
+                          <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">АП</span>
+                        </span>
+                        <span class="text-sm whitespace-nowrap">А. Петров</span>
+                      </a>
+                    </td>
+                    <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>На проверке</span>
+                        <span class="text-xs text-zinc-500 tabular-nums">1 дн.</span>
+                      </div>
+                    </td>
+                    <td data-label="Срок" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">17.06</td>
+                  </tr>
+                  <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <a href="task.html" class="text-base font-medium hover:underline">Проверить индексацию в GSC</a>
+                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-red-50 text-red-700">Высокий</span>
+                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-zinc-100 text-zinc-600">5 подзадач</span>
+                        <span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">соисполнитель</span>
+                      </div>
+                      <div class="text-xs text-zinc-500 mt-0.5">Аудит</div>
+                    </td>
+                    <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <a href="tasks.html?executor=kim" class="flex items-center gap-2 hover:underline">
+                        <span class="flex -space-x-2">
+                          <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">МК</span>
+                        </span>
+                        <span class="text-sm whitespace-nowrap">М. Ким</span>
+                      </a>
+                    </td>
+                    <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>На проверке</span>
+                        <span class="text-xs text-zinc-500 tabular-nums">2 дн.</span>
+                      </div>
+                    </td>
+                    <td data-label="Срок" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">18.06</td>
+                  </tr>
+                  <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <a href="task.html" class="text-base font-medium hover:underline">Статья «Как выбрать холодильник»</a>
+                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-orange-50 text-orange-700">На доработке</span>
+                        <span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">соисполнитель</span>
+                      </div>
+                      <div class="text-xs text-zinc-500 mt-0.5">Текстовая</div>
+                    </td>
+                    <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <a href="tasks.html?executor=kim" class="flex items-center gap-2 hover:underline">
+                        <span class="flex -space-x-2">
+                          <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">МК</span>
+                        </span>
+                        <span class="text-sm whitespace-nowrap">М. Ким</span>
+                      </a>
+                    </td>
+                    <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>В работе</span>
+                      </div>
+                    </td>
+                    <td data-label="Срок" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">20.06</td>
+                  </tr>
+                  <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <a href="task.html" class="text-base font-medium hover:underline">Чек-лист аудита для шаблона</a>
+                        <span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">соисполнитель</span>
+                      </div>
+                      <div class="text-xs text-zinc-500 mt-0.5">Аудит</div>
+                    </td>
+                    <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <a href="tasks.html?executor=petrov" class="flex items-center gap-2 hover:underline">
+                        <span class="flex -space-x-2">
+                          <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">АП</span>
+                        </span>
+                        <span class="text-sm whitespace-nowrap">А. Петров</span>
+                      </a>
+                    </td>
+                    <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>В работе</span>
+                      </div>
+                    </td>
+                    <td data-label="Срок" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">21.06</td>
+                  </tr>
+                  <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <a href="task.html" class="text-base font-medium hover:underline">Сбор семантики</a>
+                        <span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">соисполнитель</span>
+                      </div>
+                      <div class="text-xs text-zinc-500 mt-0.5">Семантика</div>
+                    </td>
+                    <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <a href="tasks.html?executor=sidorov" class="flex items-center gap-2 hover:underline">
+                        <span class="flex -space-x-2">
+                          <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">ИС</span>
+                          <span title="Соисполнитель: М. Ким" class="w-7 h-7 rounded-full bg-zinc-200 text-zinc-700 text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">МК</span>
+                        </span>
+                        <span class="text-sm whitespace-nowrap">И. Сидоров</span>
+                        <span class="text-xs text-zinc-500 tabular-nums">+1</span>
+                      </a>
+                    </td>
+                    <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>В работе</span>
+                      </div>
+                    </td>
+                    <td data-label="Срок" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">22.06</td>
+                  </tr>
+                  <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <a href="task.html" class="text-base font-medium hover:underline">Перелинковка в карточках</a>
+                        <span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">соисполнитель</span>
+                      </div>
+                      <div class="text-xs text-zinc-500 mt-0.5">Внутренняя</div>
+                    </td>
+                    <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <a href="tasks.html?executor=petrov" class="flex items-center gap-2 hover:underline">
+                        <span class="flex -space-x-2">
+                          <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">АП</span>
+                        </span>
+                        <span class="text-sm whitespace-nowrap">А. Петров</span>
+                      </a>
+                    </td>
+                    <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>Запланирована</span>
+                      </div>
+                    </td>
+                    <td data-label="Срок" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">24.06</td>
+                  </tr>
+                  <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <a href="task.html" class="text-base font-medium hover:underline">Кластеризация запросов</a>
+                        <span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">соисполнитель</span>
+                      </div>
+                      <div class="text-xs text-zinc-500 mt-0.5">Семантика</div>
+                    </td>
+                    <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <a href="tasks.html?executor=sidorov" class="flex items-center gap-2 hover:underline">
+                        <span class="flex -space-x-2">
+                          <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">ИС</span>
+                        </span>
+                        <span class="text-sm whitespace-nowrap">И. Сидоров</span>
+                      </a>
+                    </td>
+                    <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>Запланирована</span>
+                      </div>
+                    </td>
+                    <td data-label="Срок" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">27.06</td>
+                  </tr>
+                  <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <a href="task.html" class="text-base font-medium hover:underline">Стратегия по наращиванию ссылок</a>
+                        <span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">соисполнитель</span>
+                      </div>
+                      <div class="text-xs text-zinc-500 mt-0.5">Внешняя</div>
+                    </td>
+                    <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <a href="tasks.html?executor=lebedev" class="flex items-center gap-2 hover:underline">
+                        <span class="flex -space-x-2">
+                          <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">ПЛ</span>
+                          <span title="Соисполнитель: А. Петров" class="w-7 h-7 rounded-full bg-zinc-200 text-zinc-700 text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">АП</span>
+                        </span>
+                        <span class="text-sm whitespace-nowrap">П. Лебедев</span>
+                        <span class="text-xs text-zinc-500 tabular-nums">+1</span>
+                      </a>
+                    </td>
+                    <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>В работе</span>
+                      </div>
+                    </td>
+                    <td data-label="Срок" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">30.06</td>
+                  </tr>
+                  <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <a href="task.html" class="text-base font-medium hover:underline">Доступы к GSC и Метрике</a>
+                        <span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">соисполнитель</span>
+                      </div>
+                    </td>
+                    <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <a href="tasks.html?executor=dronov" class="flex items-center gap-2 hover:underline">
+                        <span class="flex -space-x-2">
+                          <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">ИД</span>
+                        </span>
+                        <span class="text-sm whitespace-nowrap">И. Дронов</span>
+                      </a>
+                    </td>
+                    <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-violet-50 text-violet-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-violet-600"></span>Ждёт клиента</span>
+                        <span class="text-xs text-zinc-500 tabular-nums">ждём 6 дн.</span>
+                      </div>
+                    </td>
+                    <td data-label="Срок" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">—</td>
+                  </tr>
+                  <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <a href="task.html" class="text-base font-medium hover:underline">Тексты категорий на согласование</a>
+                        <span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">соисполнитель</span>
+                      </div>
+                      <div class="text-xs text-zinc-500 mt-0.5">Текстовая</div>
+                    </td>
+                    <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <a href="tasks.html?executor=kim" class="flex items-center gap-2 hover:underline">
+                        <span class="flex -space-x-2">
+                          <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">МК</span>
+                        </span>
+                        <span class="text-sm whitespace-nowrap">М. Ким</span>
+                      </a>
+                    </td>
+                    <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-violet-50 text-violet-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-violet-600"></span>Ждёт клиента</span>
+                        <span class="text-xs text-zinc-500 tabular-nums">ждём 3 дн.</span>
+                      </div>
+                    </td>
+                    <td data-label="Срок" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ОТЧЁТЫ -->
+        <div data-tab-panel="reports" data-can="view_reports" class="hidden">
+          <section class="bg-white rounded-2xl shadow-card overflow-hidden">
+            <div class="px-4 lg:px-6 py-4">
+              <h3 class="text-sm font-semibold tracking-tight">Отчёты клиенту</h3>
+            </div>
+            <ul class="divide-y divide-zinc-100 border-t border-zinc-100">
+              <li>
+                <a href="report.html" class="px-4 lg:px-6 py-4 flex items-center justify-between gap-3 hover:bg-zinc-50 transition">
+                  <div class="min-w-0">
+                    <div class="text-sm font-medium">Отчёт за июнь 2025</div>
+                    <div class="text-xs text-zinc-500 mt-0.5">Составляет А. Петров · создан автоматически 01.06</div>
+                  </div>
+                  <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700 shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>Черновик</span>
+                </a>
+              </li>
+              <li>
+                <a href="report.html" class="px-4 lg:px-6 py-4 flex items-center justify-between gap-3 hover:bg-zinc-50 transition">
+                  <div class="min-w-0">
+                    <div class="text-sm font-medium">Отчёт за май 2025</div>
+                    <div class="text-xs text-zinc-500 mt-0.5">Отправлен 03.06 · Н. Морозов · клиент открыл 04.06</div>
+                  </div>
+                  <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Отправлен</span>
+                </a>
+              </li>
+            </ul>
+          </section>
+        </div>
+
+        <!-- ИСТОЧНИКИ -->
+        <div data-tab-panel="sources" data-deny="contractor" class="hidden">
+
+          <!-- SEO-инструменты -->
+          <section class="bg-white rounded-2xl shadow-card overflow-hidden mb-4">
+            <div class="px-4 lg:px-6 py-4 flex items-center gap-3">
+              <span class="w-2 h-2 rounded-full bg-blue-600 shrink-0"></span>
+              <div class="flex-1 min-w-0">
+                <h3 class="text-sm font-semibold tracking-tight">SEO-инструменты</h3>
+                <p class="text-xs text-zinc-500 mt-0.5">Метрика, Вебмастер, GSC</p>
+              </div>
+            </div>
+            <div class="overflow-x-auto border-t border-zinc-100">
+              <table class="w-full block md:table">
+                <thead class="hidden md:table-header-group">
+                  <tr class="border-b border-zinc-100">
+                    <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-4 lg:px-6 py-3">Метрика</th>
+                    <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">Источник</th>
+                    <th class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">Значение</th>
+                    <th class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-4 lg:px-6 py-3">Обновлено</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-zinc-100 block md:table-row-group">
+                  <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm font-medium col-span-2 md:col-span-1">Трафик</td>
+                    <td data-label="Источник" class="md:px-3 md:py-3 lg:py-4 text-sm text-zinc-500 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">Метрика · счётчик 12345678</td>
+                    <td data-label="Значение" class="md:px-3 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">24 380</td>
+                    <td data-label="Обновлено" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm text-zinc-500 tabular-nums whitespace-nowrap min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">сегодня 06:00</td>
+                  </tr>
+                  <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm font-medium col-span-2 md:col-span-1">Топ-10</td>
+                    <td data-label="Источник" class="md:px-3 md:py-3 lg:py-4 text-sm text-zinc-500 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">Вебмастер · holod-shop.ru</td>
+                    <td data-label="Значение" class="md:px-3 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">148</td>
+                    <td data-label="Обновлено" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm text-zinc-500 tabular-nums whitespace-nowrap min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">вчера 22:15</td>
+                  </tr>
+                  <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm font-medium col-span-2 md:col-span-1">Показы</td>
+                    <td data-label="Источник" class="md:px-3 md:py-3 lg:py-4 text-sm text-zinc-500 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">GSC · holod-shop.ru</td>
+                    <td data-label="Значение" class="md:px-3 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">12 400</td>
+                    <td data-label="Обновлено" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm text-zinc-500 tabular-nums whitespace-nowrap min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">сегодня 05:00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Клиентские метрики -->
+          <section class="bg-white rounded-2xl shadow-card overflow-hidden mb-4">
+            <div class="px-4 lg:px-6 py-4 flex items-center gap-3">
+              <span class="w-2 h-2 rounded-full bg-amber-600 shrink-0"></span>
+              <div class="flex-1 min-w-0">
+                <h3 class="text-sm font-semibold tracking-tight">Клиентские метрики</h3>
+                <p class="text-xs text-zinc-500 mt-0.5">Коллтрекинг и CRM</p>
+              </div>
+            </div>
+            <div class="overflow-x-auto border-t border-zinc-100">
+              <table class="w-full block md:table">
+                <thead class="hidden md:table-header-group">
+                  <tr class="border-b border-zinc-100">
+                    <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-4 lg:px-6 py-3">Метрика</th>
+                    <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">Источник</th>
+                    <th class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">Значение</th>
+                    <th class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-4 lg:px-6 py-3">Обновлено</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-zinc-100 block md:table-row-group">
+                  <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm font-medium col-span-2 md:col-span-1">Лиды из звонков</td>
+                    <td data-label="Источник" class="md:px-3 md:py-3 lg:py-4 text-sm text-zinc-500 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">Callibri · holod-shop</td>
+                    <td data-label="Значение" class="md:px-3 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">87</td>
+                    <td data-label="Обновлено" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm text-zinc-500 tabular-nums whitespace-nowrap min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">сегодня 06:00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <div class="flex justify-end">
+            <button data-can="link_counter" data-toast="Счётчик привязан к проекту" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition shrink-0">Привязать счётчик</button>
+          </div>
+
+        </div>
+
+          </div>
+          <aside class="min-w-0">
+          <div class="flex flex-col gap-4">
+
+            <section class="bg-white rounded-2xl shadow-card overflow-hidden">
+              <div class="px-4 lg:px-6 py-4 flex items-center justify-between">
+                <div>
+                  <h3 class="text-sm font-semibold tracking-tight">Команда проекта</h3>
+                </div>
+                <button data-can="edit_project" data-toast="Добавление в команду — в разработке" class="text-xs text-zinc-500 hover:text-zinc-900 transition">+ Добавить</button>
+              </div>
+              <ul class="divide-y divide-zinc-100 border-t border-zinc-100">
+                <li class="px-4 lg:px-6 py-3 flex items-center gap-3">
+                  <span class="w-8 h-8 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0">ИС</span>
+                  <div class="min-w-0 flex-1"><div class="text-sm font-medium">Иван Сидоров</div><div class="text-xs text-zinc-500">Методология и приёмка</div></div>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 shrink-0">Рук. SEO</span>
+                </li>
+                <li class="px-4 lg:px-6 py-3 flex items-center gap-3">
+                  <span class="w-8 h-8 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0">НМ</span>
+                  <div class="min-w-0 flex-1"><div class="text-sm font-medium">Никита Морозов</div><div class="text-xs text-zinc-500">Клиент, отчёты, коллтрекинг</div></div>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 shrink-0">Менеджер</span>
+                </li>
+                <li class="px-4 lg:px-6 py-3 flex items-center gap-3">
+                  <span class="w-8 h-8 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0">АП</span>
+                  <div class="min-w-0 flex-1"><div class="text-sm font-medium">Алексей Петров</div><div class="text-xs text-zinc-500">Технический SEO</div></div>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                </li>
+                <li class="px-4 lg:px-6 py-3 flex items-center gap-3">
+                  <span class="w-8 h-8 rounded-full bg-zinc-200 text-zinc-700 text-[10px] font-semibold flex items-center justify-center shrink-0">МК</span>
+                  <div class="min-w-0 flex-1"><div class="text-sm font-medium">Мария Ким</div><div class="text-xs text-zinc-500">Тексты · доступ до 30.06</div></div>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700 shrink-0">Подрядчик</span>
+                </li>
+              </ul>
+            </section>
+
+            <section data-can="see_finance" class="bg-white rounded-2xl shadow-card overflow-hidden">
+              <div class="px-4 lg:px-6 py-4">
+                <h3 class="text-sm font-semibold tracking-tight">Финансы проекта</h3>
+              </div>
+              <dl class="grid grid-cols-2 gap-x-4 gap-y-4 text-sm px-4 lg:px-6 py-4 border-t border-zinc-100">
+                <div><dt class="text-xs text-zinc-500 mb-0.5">Чек в месяц</dt><dd class="font-medium tabular-nums">240 000 ₽</dd></div>
+                <div><dt class="text-xs text-zinc-500 mb-0.5">Ставка</dt><dd class="font-medium tabular-nums">2 500 ₽/ч</dd></div>
+                <div><dt class="text-xs text-zinc-500 mb-0.5">Себестоимость часов</dt><dd class="font-medium tabular-nums">136 000 ₽</dd></div>
+                <div><dt class="text-xs text-zinc-500 mb-0.5">Маржа</dt><dd class="font-medium tabular-nums text-emerald-700">104 000 ₽ · 43%</dd></div>
+              </dl>
+            </section>
+
+          </div>
+
+          </aside>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+
+<div id="transfer-modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
+  <div class="absolute inset-x-0 bottom-0 sm:inset-0 sm:flex sm:items-center sm:justify-center sm:p-6">
+    <div class="bg-white w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl shadow-pop max-h-[85vh] overflow-y-auto">
+      <div class="px-5 py-4 border-b border-zinc-100 flex items-center justify-between">
+        <h3 class="text-sm font-semibold tracking-tight">Передать специалисту</h3>
+        <button data-close-modal class="text-sm text-zinc-500">Закрыть</button>
+      </div>
+      <ul class="divide-y divide-zinc-100">
+        <li class="px-5 py-3 flex items-center justify-between gap-3"><span class="text-sm">Алексей Петров · SEO-специалист</span><button data-toast="Проект передан А. Петрову" data-close-modal class="px-3 py-1.5 rounded-full bg-accent text-white text-sm font-medium">Передать</button></li>
+        <li class="px-5 py-3 flex items-center justify-between gap-3"><span class="text-sm">Иван Сидоров · руководитель SEO</span><button data-toast="Проект передан И. Сидорову" data-close-modal class="px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium">Передать</button></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- МОДАЛКА: + Работа -->
+<div id="work-modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
+  <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-y-auto">
+      <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
+        <div>
+          <h3 class="text-sm font-semibold tracking-tight">Запланировать работу</h3>
+          <p class="text-xs text-zinc-500 mt-0.5">Создаст задачу в плане месяца</p>
+        </div>
+        <button data-close-modal class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
+          <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="p-5 sm:p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="md:col-span-2">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Название задачи</label>
+          <input type="text" value="Аудит технический" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Месяц</label>
+          <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <option>Июнь 2025</option><option>Июль 2025</option><option>Август 2025</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Срок</label>
+          <input type="date" value="2025-06-14" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Исполнитель</label>
+          <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <option>Алексей Петров</option><option>Дмитрий Ковалёв</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Оценка, ч</label>
+          <input type="number" step="0.25" min="0" value="8" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm tabular-nums focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+        </div>
+      </div>
+      <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row gap-2 sm:justify-end sticky bottom-0 bg-white rounded-b-3xl">
+        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
+        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать задачу</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- МОДАЛКА: Редактировать карту -->
+<div id="roadmap-edit-modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
+  <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-y-auto">
+      <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
+        <h3 class="text-sm font-semibold tracking-tight">Редактировать дорожную карту</h3>
+        <button data-close-modal class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
+          <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="p-5 sm:p-6">
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Проект</label>
+          <input type="text" value="Интернет-магазин «Холод»" disabled class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-zinc-50 text-sm text-zinc-500 focus:outline-none">
+        </div>
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Название карты</label>
+          <input type="text" value="Дорожная карта · Интернет-магазин" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+        </div>
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Описание</label>
+          <textarea rows="2" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">Карта для интернет-магазинов и маркетплейсов.</textarea>
+        </div>
+        <div class="rounded-xl border border-black/5 p-3 bg-zinc-50">
+          <p class="text-xs text-zinc-500">Направления и работы редактируются прямо в карточке проекта.</p>
+        </div>
+      </div>
+      <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
+        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
+        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- МОДАЛКА: Загрузить шаблон -->
+<div id="template-modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
+  <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-2xl pointer-events-auto max-h-[90vh] overflow-y-auto">
+      <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
+        <div>
+          <h3 class="text-sm font-semibold tracking-tight">Загрузить шаблон месяца</h3>
+          <p class="text-xs text-zinc-500 mt-0.5">Развернёт задачи из готового набора</p>
+        </div>
+        <button data-close-modal class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
+          <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="p-5 sm:p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+          <div>
+            <label class="block text-xs font-medium text-zinc-500 mb-2">Шаблон</label>
+            <select id="tpl-select" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              <option value="m1" selected>Месяц 1 · Запуск магазина</option>
+              <option value="m2">Месяц 2 · Структура и текст</option>
+              <option value="reg">Регулярный месяц</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-zinc-500 mb-2">На какой месяц</label>
+            <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              <option>Июнь 2025</option><option>Июль 2025</option><option>Август 2025</option>
+            </select>
+          </div>
+        </div>
+        <div class="border border-black/5 rounded-xl overflow-hidden mb-4">
+          <div class="px-4 py-3 border-b border-zinc-100 flex items-center justify-between bg-zinc-50">
+            <span class="text-xs font-medium text-zinc-700">Содержимое шаблона</span>
+            <span id="tpl-summary" class="text-xs text-zinc-500 tabular-nums">4 задачи · 26 ч</span>
+          </div>
+          <ul id="tpl-preview" class="divide-y divide-zinc-100 text-sm"></ul>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <a data-can="roadmap_template" href="templates.html" class="text-xs text-zinc-500 hover:text-zinc-900 transition text-center sm:text-left">Управлять шаблонами →</a>
+          <div class="flex gap-2">
+            <button data-close-modal class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
+            <button class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Загрузить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- МОДАЛКА: Подключить источник -->
+<div id="source-modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
+  <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-y-auto">
+      <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
+        <h3 class="text-sm font-semibold tracking-tight">Подключить источник</h3>
+        <button data-close-modal class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
+          <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="p-5 sm:p-6 space-y-4">
+
+        <div>
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Тип источника</label>
+          <div class="grid grid-cols-2 gap-2">
+            <label class="flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-900 bg-zinc-50 cursor-pointer">
+              <input type="radio" name="source-type" checked class="sr-only">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-600 shrink-0"></span>
+              <span class="text-sm font-medium">Метрика</span>
+            </label>
+            <label class="flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-200 hover:bg-zinc-50 cursor-pointer">
+              <input type="radio" name="source-type" class="sr-only">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-600 shrink-0"></span>
+              <span class="text-sm font-medium">Вебмастер</span>
+            </label>
+            <label class="flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-200 hover:bg-zinc-50 cursor-pointer">
+              <input type="radio" name="source-type" class="sr-only">
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-600 shrink-0"></span>
+              <span class="text-sm font-medium">GSC</span>
+            </label>
+            <label class="flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-200 hover:bg-zinc-50 cursor-pointer">
+              <input type="radio" name="source-type" class="sr-only">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-600 shrink-0"></span>
+              <span class="text-sm font-medium">Callibri</span>
+            </label>
+            <label class="flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-200 hover:bg-zinc-50 cursor-pointer col-span-2">
+              <input type="radio" name="source-type" class="sr-only">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-600 shrink-0"></span>
+              <span class="text-sm font-medium">CRM (amoCRM, Битрикс24)</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Аккаунт</label>
+          <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <option>direct@romashka.ru (подключён 12.05.2025)</option>
+            <option>+ Подключить другой аккаунт</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Счётчик / проект</label>
+          <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <option>12345678 · holod-shop.ru</option>
+            <option>87654321 · holod-blog.ru</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Какую метрику тянем</label>
+          <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <option>Трафик (визиты)</option>
+            <option>Лиды (цель «Заявка»)</option>
+            <option>Топ-10 запросов</option>
+            <option>Показы</option>
+            <option>Звонки (Callibri)</option>
+          </select>
+          <div class="text-xs text-zinc-500 mt-1.5">Можно подключить несколько источников для разных метрик</div>
+        </div>
+
+      </div>
+
+      <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row gap-2 sm:justify-end sticky bottom-0 bg-white rounded-b-3xl">
+        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
+        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Подключить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  const templates = {
+    m1: { items: [
+      { direction: 'Аудит', work: 'Аудит технический', hours: 8 },
+      { direction: 'Семантика', work: 'Сбор семантики', hours: 10 },
+      { direction: 'Внутренняя', work: 'Перелинковка', hours: 4 },
+      { direction: '— Не привязано —', work: 'Настроить доступы к GSC и Метрике', hours: 4 }
+    ]},
+    m2: { items: [
+      { direction: 'Внутренняя', work: 'Оптимизация метаданных', hours: 8 },
+      { direction: 'Внутренняя', work: 'Оптимизация текстов', hours: 14 },
+      { direction: 'Внутренняя', work: 'Перелинковка', hours: 4 },
+      { direction: 'Семантика', work: 'Распределение по страницам', hours: 6 }
+    ]},
+    reg: { items: [
+      { direction: 'Внешняя', work: 'Аутрич и размещения', hours: 10 },
+      { direction: 'Внутренняя', work: 'Обновление контента', hours: 8 },
+      { direction: 'Аудит', work: 'Мониторинг технических ошибок', hours: 3 },
+      { direction: '— Не привязано —', work: 'Отчёт и корректировка стратегии', hours: 4 }
+    ]}
+  };
+  const tplSel = document.getElementById('tpl-select');
+  const tplPrev = document.getElementById('tpl-preview');
+  const tplSum = document.getElementById('tpl-summary');
+  function renderTpl() {
+    const tpl = templates[tplSel.value];
+    if (!tpl) return;
+    let h = 0;
+    tplPrev.innerHTML = tpl.items.map(i => {
+      h += i.hours;
+      return `<li class="px-4 py-3 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3 min-w-0">
+          <span class="w-4 h-4 rounded-full border-2 border-blue-600 shrink-0"></span>
+          <div class="min-w-0">
+            <div class="text-sm font-medium truncate">${i.work}</div>
+            <div class="text-xs text-zinc-500 mt-0.5">${i.direction}</div>
+          </div>
+        </div>
+        <div class="text-sm text-zinc-500 tabular-nums shrink-0">${i.hours} ч</div>
+      </li>`;
+    }).join('');
+    tplSum.textContent = `${tpl.items.length} задач · ${h} ч`;
+  }
+  tplSel.addEventListener('change', renderTpl);
+  renderTpl();
+</script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ИИ-аудит — SEO Control</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/app.js"></script>
+</head>
+<body class="bg-canvas text-ink antialiased">
+<div class="min-h-screen">
+
+  <div data-app-chrome="projects" data-roles="owner,seo_head,mgr_head,pm,employee"></div>
+
+  <div class="flex">
+
+    <main class="flex-1 min-w-0 lg:pl-64 pb-24 lg:pb-0">
+
+      <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
+        <header class="px-4 lg:px-8 h-14 flex items-center justify-between gap-3">
+          <div class="flex items-center gap-3 min-w-0">
+            <a href="project.html" class="text-sm text-zinc-500 hover:text-zinc-900 transition shrink-0">← Проект «Холод»</a>
+            <h1 class="text-base font-semibold tracking-tight truncate">ИИ-аудит</h1>
+          </div>
+          <button data-toast="Проверка поставлена в очередь" class="shrink-0 px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Запустить проверку</button>
+        </header>
+      </div>
+
+      <div class="px-4 lg:px-8 py-6 lg:py-8 max-w-3xl">
+
+        <div class="mb-6 lg:mb-8">
+          <p class="text-sm text-zinc-500">holod-shop.ru · проверка 04.06.2025</p>
+        </div>
+
+        <div class="flex flex-col gap-3">
+
+          <article class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="min-w-0">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-700">Высокая</span>
+                <span class="text-xs text-zinc-500">Программирование</span>
+              </div>
+              <h3 class="text-sm font-medium mt-2">Нет canonical на фильтрах каталога</h3>
+              <p class="text-sm text-zinc-500 mt-1">Фильтры отдают одни и те же товары по разным URL. Нужен один канонический адрес.</p>
+            </div>
+            <button type="button" data-open-modal="rec-task" data-rec-task data-title="Canonical для фильтров" data-direction="Программирование" class="shrink-0 px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Сделать задачей</button>
+          </article>
+
+          <article class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="min-w-0">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700">Средняя</span>
+                <span class="text-xs text-zinc-500">Программирование</span>
+              </div>
+              <h3 class="text-sm font-medium mt-2">Дубли Title на пагинации</h3>
+              <p class="text-sm text-zinc-500 mt-1">Вторая и следующие страницы каталога повторяют заголовок первой.</p>
+            </div>
+            <button type="button" data-open-modal="rec-task" data-rec-task data-title="Дубли Title на пагинации" data-direction="Программирование" class="shrink-0 px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Сделать задачей</button>
+          </article>
+
+          <article class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="min-w-0">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-700">Высокая</span>
+                <span class="text-xs text-zinc-500">Семантика</span>
+              </div>
+              <h3 class="text-sm font-medium mt-2">Категории не закрыты запросами</h3>
+              <p class="text-sm text-zinc-500 mt-1">У 18 категорий нет кластера. Спрос уходит на карточки и фильтры.</p>
+            </div>
+            <button type="button" data-open-modal="rec-task" data-rec-task data-title="Сбор семантики категорий" data-direction="Семантика" class="shrink-0 px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Сделать задачей</button>
+          </article>
+
+          <article class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="min-w-0">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700">Средняя</span>
+                <span class="text-xs text-zinc-500">Программирование</span>
+              </div>
+              <h3 class="text-sm font-medium mt-2">Медленная карточка товара</h3>
+              <p class="text-sm text-zinc-500 mt-1">LCP на карточке выше 4 секунд из-за галереи без размеров.</p>
+            </div>
+            <button type="button" data-open-modal="rec-task" data-rec-task data-title="Ускорить карточку товара" data-direction="Программирование" class="shrink-0 px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Сделать задачей</button>
+          </article>
+
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="rec-task-modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
+  <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-y-auto">
+      <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
+        <h3 class="text-sm font-semibold tracking-tight">Сделать задачей</h3>
+        <button data-close-modal class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center" aria-label="Закрыть">
+          <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <form class="p-5 sm:p-6 space-y-4" onsubmit="return false">
+        <div>
+          <label class="block text-xs font-medium text-zinc-500 mb-2" for="rec-title">Название</label>
+          <input id="rec-title" type="text" value="Canonical для фильтров" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-zinc-500 mb-2" for="rec-direction">Направление</label>
+          <select id="rec-direction" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <option>Программирование</option>
+            <option>Семантика</option>
+            <option>Аудит</option>
+            <option>Внутренняя оптимизация</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-zinc-500 mb-2" for="rec-assignee">Исполнитель</label>
+          <select id="rec-assignee" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <option>Алексей Петров</option>
+            <option>Иван Сидоров</option>
+            <option>Мария Ким</option>
+          </select>
+        </div>
+        <p class="text-xs text-zinc-500">Задача создастся в первом статусе процесса выбранного направления.</p>
+      </form>
+      <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
+        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
+        <button data-close-modal data-toast="Задача создана из рекомендации" class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('click', function (e) {
+    var button = e.target.closest('[data-rec-task]');
+    if (!button) return;
+    var title = document.getElementById('rec-title');
+    var direction = document.getElementById('rec-direction');
+    if (title) title.value = button.dataset.title || '';
+    if (direction && button.dataset.direction) direction.value = button.dataset.direction;
+  });
+</script>
+</body>
+</html>

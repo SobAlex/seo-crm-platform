@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Составить бриф — SEO Control</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/app.js"></script>
+</head>
+<body class="bg-canvas text-ink antialiased">
+<div class="min-h-screen">
+
+  <div data-app-chrome="projects" data-roles="owner,seo_head,mgr_head,pm,employee"></div>
+
+  <div class="flex">
+
+    <main class="flex-1 min-w-0 lg:pl-64 pb-24 lg:pb-0">
+
+      <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
+        <header class="px-4 lg:px-8 h-14 flex items-center justify-between gap-3 overflow-x-auto">
+        <a href="project.html" class="text-sm text-zinc-500 hover:text-zinc-900 transition">← Проект «Холод»</a>
+        <button type="submit" form="brief-form" data-toast="Бриф сохранён" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
+      </header>
+      </div>
+
+      <div class="px-4 lg:px-8 py-6 lg:py-8 max-w-3xl">
+
+        <div class="mb-6 lg:mb-8">
+          <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight">Бриф для клиента</h2>
+        </div>
+
+        <form id="brief-form" class="flex flex-col gap-4 lg:gap-6" onsubmit="return false">
+
+          <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
+            <h3 class="text-sm font-semibold tracking-tight mb-5">Вопрос 1</h3>
+            <label class="block text-xs font-medium text-zinc-500 mb-2" for="q1">Формулировка</label>
+            <input id="q1" type="text" value="Какая главная цель на ближайшие 3 месяца?" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <p class="text-xs text-zinc-500 mt-3 mb-2">Варианты ответа</p>
+            <div class="space-y-2">
+              <input type="text" value="Рост органического трафика" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              <input type="text" value="Заявки из поиска" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              <input type="text" value="Выход в топ по категориям" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            </div>
+          </section>
+
+          <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
+            <h3 class="text-sm font-semibold tracking-tight mb-5">Вопрос 2</h3>
+            <label class="block text-xs font-medium text-zinc-500 mb-2" for="q2">Формулировка</label>
+            <input id="q2" type="text" value="Какие доступы уже есть у команды?" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <p class="text-xs text-zinc-500 mt-3 mb-2">Варианты ответа, можно выбрать несколько</p>
+            <div class="space-y-2">
+              <input type="text" value="Яндекс Метрика" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              <input type="text" value="Google Search Console" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              <input type="text" value="Админка сайта" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            </div>
+          </section>
+
+          <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
+            <h3 class="text-sm font-semibold tracking-tight mb-5">Вопрос 3</h3>
+            <label class="block text-xs font-medium text-zinc-500 mb-2" for="q3">Формулировка</label>
+            <input id="q3" type="text" value="Что важно учесть по ассортименту и сезонности?" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <p class="text-xs text-zinc-500 mt-3">Клиент ответит свободным текстом.</p>
+          </section>
+
+          <button type="button" data-toast="Новый вопрос добавится в редакторе брифа" class="w-full px-4 py-3 rounded-2xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить вопрос</button>
+
+          <div class="flex flex-col sm:flex-row gap-2 sm:justify-end">
+            <a href="project.html" class="px-5 py-2.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition text-center">Отмена</a>
+            <button type="submit" data-toast="Бриф сохранён" class="px-5 py-2.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

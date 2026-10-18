@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Мой проект — SEO Control</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/app.js"></script>
+</head>
+<body class="bg-canvas text-ink antialiased">
+<div class="min-h-screen">
+
+  <div data-app-chrome="portal" data-roles="owner,seo_head,mgr_head,pm,employee,client"></div>
+
+  <div class="flex">
+
+    <main class="flex-1 min-w-0 lg:pl-64 pb-24 lg:pb-0">
+
+      <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
+        <header class="px-4 lg:px-8 h-14 flex items-center justify-between gap-4">
+          <h1 class="text-base font-semibold tracking-tight">Мой проект</h1>
+          <a href="#reports" class="text-sm text-zinc-500 hover:text-zinc-900 transition">Отчёты</a>
+        </header>
+      </div>
+
+      <div class="px-4 lg:px-8 py-6 lg:py-8 max-w-4xl">
+
+        <div data-deny="client" class="mb-6 rounded-2xl bg-blue-50 px-4 py-3 text-sm text-blue-800">
+          <strong class="font-medium">Предпросмотр.</strong> Так проект видит клиент Елена Крылова: результаты, дорожная карта и принятые отчёты. Внутренние задачи, часы, ставки и состав команды ему не показываются.
+        </div>
+
+        <div class="mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+          <div>
+            <p class="text-sm text-zinc-500 mb-1">Ромашка Digital · SEO-продвижение</p>
+            <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight">Интернет-магазин «Холод»</h2>
+            <p class="text-sm text-zinc-500 mt-1">holod-shop.ru · Июнь 2025</p>
+          </div>
+          <div class="flex items-center gap-3 bg-white rounded-2xl shadow-card px-4 py-3 sm:self-auto">
+            <span class="w-9 h-9 rounded-full bg-zinc-900 text-white text-[11px] font-semibold flex items-center justify-center shrink-0">НМ</span>
+            <div class="min-w-0">
+              <div class="text-sm font-medium">Никита Морозов</div>
+              <div class="text-xs text-zinc-500">Ваш менеджер · n.morozov@romashka.ru</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Нужно от вас -->
+        <section class="mb-8">
+          <h3 class="text-sm font-semibold tracking-tight mb-3">Нужно от вас</h3>
+          <div class="flex flex-col gap-3">
+
+            <a href="brief.html" class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 hover:bg-zinc-50 transition">
+              <div class="flex items-start gap-3 min-w-0">
+                <span class="w-2 h-2 rounded-full bg-blue-500 mt-2 shrink-0"></span>
+                <div class="min-w-0">
+                  <div class="text-sm font-medium">Заполнить бриф</div>
+                  <div class="text-xs text-zinc-500 mt-1">3 вопроса · нужно, чтобы команда начала работу</div>
+                </div>
+              </div>
+              <span class="text-sm font-medium text-accent shrink-0">Открыть</span>
+            </a>
+
+            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div class="flex items-start gap-3 min-w-0">
+                <span class="w-2 h-2 rounded-full bg-violet-500 mt-2 shrink-0"></span>
+                <div class="min-w-0">
+                  <div class="text-sm font-medium">Предоставить доступ к Google Search Console</div>
+                  <div class="text-xs text-zinc-500 mt-1">Нужен, чтобы видеть позиции и индексацию. Ответить до 20.06</div>
+                </div>
+              </div>
+              <div class="flex gap-2 shrink-0">
+                <button data-toast="Спасибо! Менеджер получил уведомление" class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Доступ выдан</button>
+                <button data-toast="Сообщение менеджеру — в разработке" class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Вопрос</button>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div class="flex items-start gap-3 min-w-0">
+                <span class="w-2 h-2 rounded-full bg-amber-500 mt-2 shrink-0"></span>
+                <div class="min-w-0">
+                  <div class="text-sm font-medium">Согласовать тексты для категорий каталога</div>
+                  <div class="text-xs text-zinc-500 mt-1">12 текстов · после согласования опубликуем на сайте</div>
+                </div>
+              </div>
+              <div class="flex gap-2 shrink-0">
+                <button data-toast="Тексты согласованы" class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Согласовать</button>
+                <button data-toast="Комментарий отправлен" class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Есть замечания</button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Результаты -->
+        <section class="mb-8">
+          <div class="mb-3 flex items-end justify-between gap-3">
+            <h3 class="text-sm font-semibold tracking-tight">Результаты</h3>
+            <span class="text-xs text-zinc-500">Данные на 18.06</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4">
+            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+              <div class="text-xs font-medium text-zinc-500 mb-2">Посетители сайта</div>
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-2xl font-semibold tracking-tight tabular-nums">24 380</span>
+                <span class="text-xs text-zinc-500 tabular-nums">из 26 000</span>
+              </div>
+              <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+                <div class="h-full bg-amber-500 rounded-full w-[94%]"></div>
+              </div>
+              <div class="text-xs font-medium tabular-nums text-amber-700 mt-1.5">94% от цели</div>
+            </div>
+            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+              <div class="text-xs font-medium text-zinc-500 mb-2">Заявки и звонки</div>
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-2xl font-semibold tracking-tight tabular-nums">312</span>
+                <span class="text-xs text-zinc-500 tabular-nums">из 290</span>
+              </div>
+              <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+                <div class="h-full bg-emerald-500 rounded-full w-full"></div>
+              </div>
+              <div class="text-xs font-medium tabular-nums text-emerald-700 mt-1.5">108% от цели</div>
+            </div>
+            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+              <div class="text-xs font-medium text-zinc-500 mb-2">Запросы в топ-10</div>
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-2xl font-semibold tracking-tight tabular-nums">148</span>
+                <span class="text-xs text-zinc-500 tabular-nums">из 130</span>
+              </div>
+              <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+                <div class="h-full bg-emerald-500 rounded-full w-full"></div>
+              </div>
+              <div class="text-xs font-medium tabular-nums text-emerald-700 mt-1.5">114% от цели</div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl shadow-card p-4 lg:p-6 mt-3 lg:mt-4">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="text-sm font-medium">Посетители за 6 месяцев</h4>
+              <span class="text-xs text-emerald-700 font-medium">+38% с января</span>
+            </div>
+            <div class="overflow-x-auto">
+              <svg viewBox="0 0 600 160" class="w-full h-36 min-w-[420px]" role="img" aria-label="График посетителей сайта за шесть месяцев">
+                <line x1="20" y1="140" x2="580" y2="140" class="stroke-zinc-200" stroke-width="1"/>
+                <line x1="20" y1="90" x2="580" y2="90" class="stroke-zinc-100" stroke-width="1"/>
+                <line x1="20" y1="40" x2="580" y2="40" class="stroke-zinc-100" stroke-width="1"/>
+                <path d="M 20,118 L 132,104 L 244,92 L 356,70 L 468,56 L 580,44" class="fill-none stroke-accent" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="20" cy="118" r="4" class="fill-white stroke-accent" stroke-width="2"/>
+                <circle cx="132" cy="104" r="4" class="fill-white stroke-accent" stroke-width="2"/>
+                <circle cx="244" cy="92" r="4" class="fill-white stroke-accent" stroke-width="2"/>
+                <circle cx="356" cy="70" r="4" class="fill-white stroke-accent" stroke-width="2"/>
+                <circle cx="468" cy="56" r="4" class="fill-white stroke-accent" stroke-width="2"/>
+                <circle cx="580" cy="44" r="4.5" class="fill-accent stroke-accent" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="flex justify-between text-xs text-zinc-500 mt-1 px-1"><span>Янв</span><span>Фев</span><span>Мар</span><span>Апр</span><span>Май</span><span>Июн</span></div>
+          </div>
+        </section>
+
+        <!-- Дорожная карта -->
+        <section class="mb-8">
+          <h3 class="text-sm font-semibold tracking-tight mb-3">Дорожная карта</h3>
+          <div class="bg-white rounded-2xl shadow-card overflow-hidden">
+            <ul class="divide-y divide-zinc-100">
+              <li class="px-4 lg:px-6 py-4">
+                <div class="flex items-center justify-between gap-3 mb-2"><span class="text-sm font-medium">Аудит сайта</span><span class="text-xs text-zinc-500 tabular-nums">3 из 4 работ</span></div>
+                <div class="h-1.5 bg-zinc-100 rounded-full overflow-hidden"><div class="h-full bg-zinc-900 rounded-full w-[75%]"></div></div>
+              </li>
+              <li class="px-4 lg:px-6 py-4">
+                <div class="flex items-center justify-between gap-3 mb-2"><span class="text-sm font-medium">Семантика</span><span class="text-xs text-zinc-500 tabular-nums">1 из 4 работ</span></div>
+                <div class="h-1.5 bg-zinc-100 rounded-full overflow-hidden"><div class="h-full bg-zinc-900 rounded-full w-[25%]"></div></div>
+              </li>
+              <li class="px-4 lg:px-6 py-4">
+                <div class="flex items-center justify-between gap-3 mb-2"><span class="text-sm font-medium">Внутренняя оптимизация</span><span class="text-xs text-zinc-500 tabular-nums">2 из 6 работ</span></div>
+                <div class="h-1.5 bg-zinc-100 rounded-full overflow-hidden"><div class="h-full bg-zinc-900 rounded-full w-[33%]"></div></div>
+              </li>
+              <li class="px-4 lg:px-6 py-4">
+                <div class="flex items-center justify-between gap-3 mb-2"><span class="text-sm font-medium">Внешняя оптимизация</span><span class="text-xs text-zinc-500 tabular-nums">2 из 5 работ</span></div>
+                <div class="h-1.5 bg-zinc-100 rounded-full overflow-hidden"><div class="h-full bg-zinc-900 rounded-full w-[40%]"></div></div>
+              </li>
+            </ul>
+          </div>
+          <p class="text-xs text-zinc-500 mt-3">Показан общий прогресс по направлениям. В этом месяце в работе: индексация, сбор семантики, перелинковка.</p>
+        </section>
+
+        <!-- Отчёты -->
+        <section id="reports" class="mb-8">
+          <h3 class="text-sm font-semibold tracking-tight mb-3">Отчёты</h3>
+          <div class="bg-white rounded-2xl shadow-card overflow-hidden">
+            <ul class="divide-y divide-zinc-100">
+              <li class="px-4 lg:px-6 py-4 flex items-center justify-between gap-3">
+                <div class="min-w-0">
+                  <div class="text-sm font-medium">Отчёт за май 2025</div>
+                  <div class="text-xs text-zinc-500 mt-0.5">Отправлен 03.06</div>
+                </div>
+                <div class="flex items-center gap-3 shrink-0 text-sm">
+                  <button data-toast="Открываем отчёт" class="text-accent hover:underline">Открыть</button>
+                  <span class="text-zinc-300">·</span>
+                  <button data-toast="PDF скачивается" class="text-zinc-500 hover:text-zinc-900 transition">PDF</button>
+                </div>
+              </li>
+              <li class="px-4 lg:px-6 py-4 flex items-center justify-between gap-3">
+                <div class="min-w-0">
+                  <div class="text-sm font-medium">Отчёт за апрель 2025</div>
+                  <div class="text-xs text-zinc-500 mt-0.5">Отправлен 02.05</div>
+                </div>
+                <div class="flex items-center gap-3 shrink-0 text-sm">
+                  <button data-toast="Открываем отчёт" class="text-accent hover:underline">Открыть</button>
+                  <span class="text-zinc-300">·</span>
+                  <button data-toast="PDF скачивается" class="text-zinc-500 hover:text-zinc-900 transition">PDF</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <p class="text-xs text-zinc-500 text-center">Остались вопросы? Напишите менеджеру — ответим в течение рабочего дня.</p>
+
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

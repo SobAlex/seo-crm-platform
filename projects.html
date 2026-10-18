@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Проекты — SEO Control</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/app.js"></script>
+</head>
+<body class="bg-canvas text-ink antialiased">
+<div class="min-h-screen">
+
+  <div data-app-chrome="projects" data-roles="owner,seo_head,mgr_head,pm,employee"></div>
+
+  <div class="flex">
+
+    <main class="flex-1 min-w-0 lg:pl-64 pb-24 lg:pb-0">
+
+      <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
+        <header class="px-4 lg:px-8 h-14 flex items-center justify-between gap-4">
+          <h1 class="text-base font-semibold tracking-tight">Проекты</h1>
+          <a data-can="create_project" href="project-form.html" class="shrink-0 px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Новый проект</a>
+        </header>
+        <div class="px-4 lg:px-8 py-2 flex items-center gap-2 overflow-x-auto border-t border-black/5">
+          <input type="date" aria-label="Начало периода" value="2025-05-01" class="px-3 py-1.5 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+          <span class="text-sm text-zinc-500">—</span>
+          <input type="date" aria-label="Конец периода" value="2025-05-31" class="px-3 py-1.5 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+        </div>
+      </div>
+
+      <div class="px-4 lg:px-8 py-6 lg:py-8 max-w-none">
+
+        <section class="grid grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4 mb-3">
+          <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+            <div class="text-xs font-medium text-zinc-500 mb-2">Трафик</div>
+            <div class="flex items-baseline gap-1.5">
+              <span class="text-2xl font-semibold tracking-tight tabular-nums">52 900</span>
+              <span class="text-xs text-zinc-500 tabular-nums">из 55 500</span>
+            </div>
+            <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+              <div class="h-full bg-amber-500 rounded-full w-[95%]"></div>
+            </div>
+            <div class="text-xs font-medium tabular-nums text-amber-700 mt-1.5">95% плана</div>
+          </div>
+          <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+            <div class="text-xs font-medium text-zinc-500 mb-2">Лиды</div>
+            <div class="flex items-baseline gap-1.5">
+              <span class="text-2xl font-semibold tracking-tight tabular-nums">644</span>
+              <span class="text-xs text-zinc-500 tabular-nums">из 690</span>
+            </div>
+            <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+              <div class="h-full bg-amber-500 rounded-full w-[93%]"></div>
+            </div>
+            <div class="text-xs font-medium tabular-nums text-amber-700 mt-1.5">93% плана</div>
+          </div>
+          <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+            <div class="text-xs font-medium text-zinc-500 mb-2">Запросы в топ-10</div>
+            <div class="flex items-baseline gap-1.5">
+              <span class="text-2xl font-semibold tracking-tight tabular-nums">412</span>
+              <span class="text-xs text-zinc-500 tabular-nums">из 380</span>
+            </div>
+            <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+              <div class="h-full bg-emerald-500 rounded-full w-full"></div>
+            </div>
+            <div class="text-xs font-medium tabular-nums text-emerald-700 mt-1.5">108% плана</div>
+          </div>
+          <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+            <div class="text-xs font-medium text-zinc-500 mb-2">Работы принято</div>
+            <div class="flex items-baseline gap-1.5">
+              <span class="text-2xl font-semibold tracking-tight tabular-nums">55</span>
+              <span class="text-xs text-zinc-500 tabular-nums">из 60</span>
+            </div>
+            <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+              <div class="h-full bg-amber-500 rounded-full w-[92%]"></div>
+            </div>
+            <div class="text-xs font-medium tabular-nums text-amber-700 mt-1.5">92% плана</div>
+          </div>
+          <div class="col-span-2 lg:col-span-1 bg-white rounded-2xl shadow-card p-4 lg:p-5">
+            <div class="text-xs font-medium text-zinc-500 mb-2">Часы</div>
+            <div class="flex items-baseline gap-1.5">
+              <span class="text-2xl font-semibold tracking-tight tabular-nums">156</span>
+              <span class="text-xs text-zinc-500 tabular-nums">из 268 ч</span>
+            </div>
+            <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+              <div class="h-full bg-zinc-400 rounded-full w-[58%]"></div>
+            </div>
+            <div class="text-xs font-medium tabular-nums text-zinc-500 mt-1.5">58% лимита</div>
+          </div>
+        </section>
+        <p class="text-xs text-zinc-500 mb-6 flex flex-wrap items-center gap-x-4 gap-y-1">
+          <span>Факт / план. Цвет — выполнение плана:</span>
+          <span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500"></span>от 100%</span>
+          <span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-500"></span>90–99%</span>
+          <span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-red-500"></span>ниже 90%</span>
+          <span>Часы — расход от лимита: красный только при превышении.</span>
+        </p>
+
+        <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6 mb-6">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-4 lg:mb-6">
+            <div>
+              <h3 class="text-sm font-semibold tracking-tight">Общая динамика</h3>
+              <p class="text-xs text-zinc-500 mt-0.5">6 месяцев</p>
+            </div>
+            <div class="inline-flex bg-zinc-100 rounded-full p-1">
+              <button class="px-3 lg:px-4 py-1.5 rounded-full bg-white text-xs lg:text-sm font-medium shadow-sm transition">Трафик</button>
+              <button class="px-3 lg:px-4 py-1.5 rounded-full text-xs lg:text-sm text-zinc-500 hover:text-zinc-900 transition">Лиды</button>
+              <button class="px-3 lg:px-4 py-1.5 rounded-full text-xs lg:text-sm text-zinc-500 hover:text-zinc-900 transition">Топ-10</button>
+            </div>
+          </div>
+          <div class="w-full overflow-x-auto">
+            <svg viewBox="0 0 660 200" class="w-full h-40 lg:h-56 min-w-[500px]">
+              <defs>
+                <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#71717a" stop-opacity="0.1"/>
+                  <stop offset="100%" stop-color="#71717a" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <line x1="30" y1="30" x2="630" y2="30" stroke="#f4f4f5" stroke-width="1"/>
+              <line x1="30" y1="65" x2="630" y2="65" stroke="#f4f4f5" stroke-width="1"/>
+              <line x1="30" y1="100" x2="630" y2="100" stroke="#f4f4f5" stroke-width="1"/>
+              <line x1="30" y1="135" x2="630" y2="135" stroke="#f4f4f5" stroke-width="1"/>
+              <line x1="30" y1="170" x2="630" y2="170" stroke="#e4e4e7" stroke-width="1"/>
+              <path d="M 30,140 L 150,125 L 270,105 L 390,80 L 510,58 L 630,30 L 630,170 L 30,170 Z" fill="url(#g2)"/>
+              <path d="M 30,140 L 150,125 L 270,105 L 390,80 L 510,58 L 630,30" fill="none" stroke="#71717a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="30" cy="140" r="3.5" fill="#fff" stroke="#71717a" stroke-width="2"/>
+              <circle cx="150" cy="125" r="3.5" fill="#fff" stroke="#71717a" stroke-width="2"/>
+              <circle cx="270" cy="105" r="3.5" fill="#fff" stroke="#71717a" stroke-width="2"/>
+              <circle cx="390" cy="80" r="3.5" fill="#fff" stroke="#71717a" stroke-width="2"/>
+              <circle cx="510" cy="58" r="3.5" fill="#fff" stroke="#71717a" stroke-width="2"/>
+              <circle cx="630" cy="30" r="3.5" fill="#71717a"/>
+            </svg>
+          </div>
+          <div class="flex justify-between px-6 mt-1 text-xs text-zinc-500">
+            <span>Янв</span><span>Фев</span><span>Мар</span><span>Апр</span><span>Май</span><span>Июн</span>
+          </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-card overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full block md:table">
+              <thead class="hidden md:table-header-group">
+                <tr class="border-b border-zinc-100">
+                  <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-4 lg:px-6 py-3">
+                    <button class="inline-flex items-center gap-1 hover:text-zinc-900 transition select-none">Проект<svg class="w-3 h-3 text-zinc-500" viewBox="0 0 16 16" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 3v10M5 6l3-3 3 3M5 10l3 3 3-3"/></svg></button>
+                  </th>
+                  <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">
+                    <button class="inline-flex items-center gap-1 hover:text-zinc-900 transition select-none">Статус<svg class="w-3 h-3 text-zinc-500" viewBox="0 0 16 16" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 3v10M5 6l3-3 3 3M5 10l3 3 3-3"/></svg></button>
+                  </th>
+                  <th class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">
+                    <button class="inline-flex items-center gap-1 hover:text-zinc-900 transition select-none">Трафик<svg class="w-3 h-3 text-zinc-500" viewBox="0 0 16 16" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 3v10M5 6l3-3 3 3M5 10l3 3 3-3"/></svg></button>
+                  </th>
+                  <th class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">
+                    <button class="inline-flex items-center gap-1 hover:text-zinc-900 transition select-none">Лиды<svg class="w-3 h-3 text-zinc-500" viewBox="0 0 16 16" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 3v10M5 6l3-3 3 3M5 10l3 3 3-3"/></svg></button>
+                  </th>
+                  <th class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">
+                    <button class="inline-flex items-center gap-1 hover:text-zinc-900 transition select-none">Топ-10<svg class="w-3 h-3 text-zinc-500" viewBox="0 0 16 16" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 3v10M5 6l3-3 3 3M5 10l3 3 3-3"/></svg></button>
+                  </th>
+                  <th class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">
+                    <button class="inline-flex items-center gap-1 hover:text-zinc-900 transition select-none">Работы<svg class="w-3 h-3 text-zinc-500" viewBox="0 0 16 16" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 3v10M5 6l3-3 3 3M5 10l3 3 3-3"/></svg></button>
+                  </th>
+                  <th class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">
+                    <button class="inline-flex items-center gap-1 hover:text-zinc-900 transition select-none">Часы<svg class="w-3 h-3 text-zinc-500" viewBox="0 0 16 16" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 3v10M5 6l3-3 3 3M5 10l3 3 3-3"/></svg></button>
+                  </th>
+                  <th data-can="see_finance" class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-4 lg:px-6 py-3">Чек</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-zinc-100 block md:table-row-group">
+                <tr data-project-row="holod" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
+                    <a href="project.html" class="text-base font-medium hover:underline">Интернет-магазин «Холод»</a>
+                    <div class="text-xs text-zinc-500 mt-0.5">holod-shop.ru</div>
+                  </td>
+                  <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Активен</span>
+                  </td>
+                  <td data-label="Трафик" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">24 380 <span class="text-zinc-500">/26 000</span> <span class="text-xs font-medium text-amber-700 ml-2">94%</span></td>
+                  <td data-label="Лиды" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">312 <span class="text-zinc-500">/290</span> <span class="text-xs font-medium text-emerald-700 ml-2">108%</span></td>
+                  <td data-label="Топ-10" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">148 <span class="text-zinc-500">/130</span> <span class="text-xs font-medium text-emerald-700 ml-2">114%</span></td>
+                  <td data-label="Работы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">22 <span class="text-zinc-500">/23</span> <span class="text-xs font-medium text-amber-700 ml-2">96%</span></td>
+                  <td data-label="Часы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">82 <span class="text-zinc-500">/96</span> <span class="text-xs font-medium text-zinc-500 ml-2">85%</span></td>
+                  <td data-can="see_finance" data-label="Чек" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">240 000 ₽</td>
+                </tr>
+                <tr data-project-row="remont" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
+                    <a href="project.html" class="text-base font-medium hover:underline">Сайт услуг «Ремонт+»</a>
+                    <div class="text-xs text-zinc-500 mt-0.5">remont-plus.ru</div>
+                  </td>
+                  <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Активен</span>
+                  </td>
+                  <td data-label="Трафик" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">8 120 <span class="text-zinc-500">/9 000</span> <span class="text-xs font-medium text-amber-700 ml-2">90%</span></td>
+                  <td data-label="Лиды" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">94 <span class="text-zinc-500">/110</span> <span class="text-xs font-medium text-red-600 ml-2">85%</span></td>
+                  <td data-label="Топ-10" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">52 <span class="text-zinc-500">/70</span> <span class="text-xs font-medium text-red-600 ml-2">74%</span></td>
+                  <td data-label="Работы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">13 <span class="text-zinc-500">/15</span> <span class="text-xs font-medium text-red-600 ml-2">87%</span></td>
+                  <td data-label="Часы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">42 <span class="text-zinc-500">/60</span> <span class="text-xs font-medium text-zinc-500 ml-2">70%</span></td>
+                  <td data-can="see_finance" data-label="Чек" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">120 000 ₽</td>
+                </tr>
+                <tr data-project-row="stroytech" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
+                    <a href="project.html" class="text-base font-medium hover:underline">B2B портал «Стройтех»</a>
+                    <div class="text-xs text-zinc-500 mt-0.5">stroytech.ru</div>
+                  </td>
+                  <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>На паузе</span>
+                  </td>
+                  <td data-label="Трафик" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">4 500 <span class="text-zinc-500">/6 500</span> <span class="text-xs font-medium text-red-600 ml-2">69%</span></td>
+                  <td data-label="Лиды" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">28 <span class="text-zinc-500">/55</span> <span class="text-xs font-medium text-red-600 ml-2">51%</span></td>
+                  <td data-label="Топ-10" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">31 <span class="text-zinc-500">/60</span> <span class="text-xs font-medium text-red-600 ml-2">52%</span></td>
+                  <td data-label="Работы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">10 <span class="text-zinc-500">/12</span> <span class="text-xs font-medium text-red-600 ml-2">83%</span></td>
+                  <td data-label="Часы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">18 <span class="text-zinc-500">/72</span> <span class="text-xs font-medium text-zinc-500 ml-2">25%</span></td>
+                  <td data-can="see_finance" data-label="Чек" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">180 000 ₽</td>
+                </tr>
+                <tr data-project-row="medlife" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
+                    <a href="project.html" class="text-base font-medium hover:underline">Клиника «МедЛайф»</a>
+                    <div class="text-xs text-zinc-500 mt-0.5">medlife-clinic.ru</div>
+                  </td>
+                  <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Активен</span>
+                  </td>
+                  <td data-label="Трафик" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">15 900 <span class="text-zinc-500">/14 000</span> <span class="text-xs font-medium text-emerald-700 ml-2">114%</span></td>
+                  <td data-label="Лиды" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">210 <span class="text-zinc-500">/235</span> <span class="text-xs font-medium text-red-600 ml-2">89%</span></td>
+                  <td data-label="Топ-10" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">181 <span class="text-zinc-500">/120</span> <span class="text-xs font-medium text-emerald-700 ml-2">151%</span></td>
+                  <td data-label="Работы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">10 <span class="text-zinc-500">/10</span> <span class="text-xs font-medium text-emerald-700 ml-2">100%</span></td>
+                  <td data-label="Часы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">14 <span class="text-zinc-500">/40</span> <span class="text-xs font-medium text-zinc-500 ml-2">35%</span></td>
+                  <td data-can="see_finance" data-label="Чек" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">80 000 ₽</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="px-4 lg:px-6 py-4 border-t border-zinc-100 flex flex-wrap items-center justify-between gap-3">
+            <div data-project-summary class="text-sm text-zinc-500">Показано <span class="tabular-nums text-zinc-900 font-medium">1–4</span> из <span class="tabular-nums text-zinc-900 font-medium">4</span></div>
+            <div class="flex items-center gap-2 text-sm text-zinc-500">
+              <span>На странице</span>
+              <select class="px-2.5 py-1 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+        <option>10</option><option>20</option><option>50</option><option>Все</option>
+      </select>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Шаблоны — SEO Control</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/app.js"></script>
+</head>
+<body class="bg-canvas text-ink antialiased">
+<div class="min-h-screen">
+
+  <div data-app-chrome="templates" data-roles="owner,seo_head,mgr_head"></div>
+
+  <div class="flex">
+
+    <main class="flex-1 min-w-0 lg:pl-64 pb-24 lg:pb-0">
+
+      <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
+        <header class="px-4 lg:px-8 h-14 flex items-center">
+          <h1 class="text-base font-semibold tracking-tight">Шаблоны</h1>
+        </header>
+        <div class="px-4 lg:px-8 py-2 border-t border-black/5 overflow-x-auto">
+          <div class="inline-flex bg-zinc-100 rounded-full p-1">
+            <button data-tab="types" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium transition bg-white text-zinc-900 shadow-sm whitespace-nowrap">Типы проектов</button>
+            <button data-tab="roadmap" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Дорожные карты</button>
+            <button data-tab="month" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Месячные планы</button>
+            <button data-tab="workflows" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Бизнес-процессы</button>
+            <button data-tab="brief" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Бриф</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-4 lg:px-8 py-6 lg:py-8 max-w-4xl">
+
+        <!-- ============ ТИПЫ ПРОЕКТОВ ============ -->
+        <div data-tab-panel="types">
+          <div class="flex flex-col gap-4">
+
+            <div class="bg-white rounded-2xl shadow-card overflow-hidden">
+              <ul class="divide-y divide-zinc-100">
+                <li class="px-4 lg:px-6 py-4 flex items-center justify-between gap-3">
+                  <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <span class="w-2.5 h-2.5 rounded-full bg-violet-600 shrink-0"></span>
+                    <div class="min-w-0">
+                      <div class="text-sm font-medium truncate">Интернет-магазин</div>
+                      <div class="text-xs text-zinc-500 mt-0.5">1 карта · 4 месячных плана</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 text-xs shrink-0">
+                    <button data-open-modal="type-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                    <span class="text-zinc-300">·</span>
+                    <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                  </div>
+                </li>
+                <li class="px-4 lg:px-6 py-4 flex items-center justify-between gap-3">
+                  <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-600 shrink-0"></span>
+                    <div class="min-w-0">
+                      <div class="text-sm font-medium truncate">Информационный сайт</div>
+                      <div class="text-xs text-zinc-500 mt-0.5">1 карта · 2 месячных плана</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 text-xs shrink-0">
+                    <button data-open-modal="type-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                    <span class="text-zinc-300">·</span>
+                    <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                  </div>
+                </li>
+                <li class="px-4 lg:px-6 py-4 flex items-center justify-between gap-3">
+                  <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <span class="w-2.5 h-2.5 rounded-full bg-blue-600 shrink-0"></span>
+                    <div class="min-w-0">
+                      <div class="text-sm font-medium truncate">Лендинг</div>
+                      <div class="text-xs text-zinc-500 mt-0.5">1 карта · 2 месячных плана</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 text-xs shrink-0">
+                    <button data-open-modal="type-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                    <span class="text-zinc-300">·</span>
+                    <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                  </div>
+                </li>
+                <li class="px-4 lg:px-6 py-4 flex items-center justify-between gap-3">
+                  <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-600 shrink-0"></span>
+                    <div class="min-w-0">
+                      <div class="text-sm font-medium truncate">B2B портал</div>
+                      <div class="text-xs text-zinc-500 mt-0.5">1 карта · 1 месячный план</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 text-xs shrink-0">
+                    <button data-open-modal="type-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                    <span class="text-zinc-300">·</span>
+                    <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                  </div>
+                </li>
+                <li class="px-4 lg:px-6 py-4 flex items-center justify-between gap-3">
+                  <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <span class="w-2.5 h-2.5 rounded-full bg-cyan-600 shrink-0"></span>
+                    <div class="min-w-0">
+                      <div class="text-sm font-medium truncate">Сайт услуг</div>
+                      <div class="text-xs text-zinc-500 mt-0.5">1 карта · 1 месячный план</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 text-xs shrink-0">
+                    <button data-open-modal="type-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                    <span class="text-zinc-300">·</span>
+                    <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <button data-open-modal="type" class="w-full px-4 py-3 rounded-2xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Создать тип проекта</button>
+
+          </div>
+        </div>
+
+        <!-- ============ ДОРОЖНЫЕ КАРТЫ ============ -->
+        <div data-tab-panel="roadmap" class="hidden">
+          <div class="flex flex-col gap-4">
+
+            <details open class="bg-white rounded-2xl shadow-card overflow-hidden group">
+              <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
+                <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                  <svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 min-w-0">
+                    <span class="text-sm font-medium truncate">Дорожная карта · Интернет-магазин</span>
+                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-violet-50 text-violet-700 w-fit shrink-0">
+                      <span class="w-1.5 h-1.5 rounded-full bg-violet-600"></span>E-commerce
+                    </span>
+                  </div>
+                </div>
+                <div class="text-xs text-zinc-500 tabular-nums shrink-0">4 направления · 14 работ</div>
+              </summary>
+
+              <div class="px-4 lg:px-6 py-3 border-t border-zinc-100 flex flex-wrap items-center justify-between gap-3">
+                <p class="text-sm text-zinc-600">Карта для интернет-магазинов и маркетплейсов.</p>
+                <div class="flex items-center gap-3 text-xs shrink-0">
+                  <button class="text-zinc-500 hover:text-zinc-900 transition">Дублировать</button>
+                  <button data-open-modal="roadmap-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                  <span class="text-zinc-300">·</span>
+                  <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                </div>
+              </div>
+
+              <div class="px-4 lg:px-6 pb-4 space-y-3 border-t border-zinc-100 pt-4">
+
+                <div class="rounded-xl border border-black/5 overflow-hidden">
+                  <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
+                    <span class="text-sm font-medium">Аудит</span>
+                    <div class="flex items-center gap-3 text-xs">
+                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <span class="text-zinc-500 tabular-nums">4 работы</span>
+                      <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </div>
+                  <ul class="divide-y divide-zinc-50 text-sm">
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Аудит технический</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Аудит коммерческих факторов</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Аудит ассортимента</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Конкурентный анализ</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
+                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="rounded-xl border border-black/5 overflow-hidden">
+                  <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
+                    <span class="text-sm font-medium">Семантика</span>
+                    <div class="flex items-center gap-3 text-xs">
+                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <span class="text-zinc-500 tabular-nums">4 работы</span>
+                      <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </div>
+                  <ul class="divide-y divide-zinc-50 text-sm">
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Сбор маркеров</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Сбор семантики</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Кластеризация</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Распределение по страницам</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
+                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="rounded-xl border border-black/5 overflow-hidden">
+                  <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
+                    <span class="text-sm font-medium">Внутренняя оптимизация</span>
+                    <div class="flex items-center gap-3 text-xs">
+                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <span class="text-zinc-500 tabular-nums">3 работы</span>
+                      <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </div>
+                  <ul class="divide-y divide-zinc-50 text-sm">
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Оптимизация метаданных</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Оптимизация текстов</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-zinc-100 text-zinc-700 shrink-0">Подрядчик</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Перелинковка</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
+                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="rounded-xl border border-black/5 overflow-hidden">
+                  <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
+                    <span class="text-sm font-medium">Внешняя оптимизация</span>
+                    <div class="flex items-center gap-3 text-xs">
+                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <span class="text-zinc-500 tabular-nums">3 работы</span>
+                      <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </div>
+                  <ul class="divide-y divide-zinc-50 text-sm">
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Поиск подходящих конкурентов</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Сбор ссылочного профиля конкурентов</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-zinc-100 text-zinc-700 shrink-0">Подрядчик</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Стратегия по наращиванию ссылок</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-zinc-100 text-zinc-700 shrink-0">Подрядчик</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
+                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                    </li>
+                  </ul>
+                </div>
+
+                <button data-open-modal="direction" class="w-full px-4 py-2.5 rounded-xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить направление</button>
+
+              </div>
+            </details>
+
+            <details class="bg-white rounded-2xl shadow-card overflow-hidden group">
+              <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
+                <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                  <svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 min-w-0">
+                    <span class="text-sm font-medium truncate">Дорожная карта · Информационный сайт</span>
+                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 w-fit shrink-0">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Контент
+                    </span>
+                  </div>
+                </div>
+                <div class="text-xs text-zinc-500 tabular-nums shrink-0">3 направления · 10 работ</div>
+              </summary>
+              <div class="px-4 lg:px-6 py-3 border-t border-zinc-100 flex flex-wrap items-center justify-between gap-3">
+                <p class="text-sm text-zinc-600">Карта для блогов, медиа, информационных порталов.</p>
+                <div class="flex items-center gap-3 text-xs shrink-0">
+                  <button class="text-zinc-500 hover:text-zinc-900 transition">Дублировать</button>
+                  <button data-open-modal="roadmap-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                  <span class="text-zinc-300">·</span>
+                  <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                </div>
+              </div>
+              <div class="px-4 lg:px-6 pb-4 space-y-3 border-t border-zinc-100 pt-4">
+                <div class="rounded-xl border border-black/5 overflow-hidden">
+                  <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
+                    <span class="text-sm font-medium">Аудит</span>
+                    <div class="flex items-center gap-3 text-xs">
+                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <span class="text-zinc-500 tabular-nums">3 работы</span>
+                      <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </div>
+                  <ul class="divide-y divide-zinc-50 text-sm">
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Аудит технический</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Аудит контента</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Аудит поведенческих факторов</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
+                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                    </li>
+                  </ul>
+                </div>
+                                <div class="rounded-xl border border-black/5 overflow-hidden">
+                  <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
+                    <span class="text-sm font-medium">Семантика</span>
+                    <div class="flex items-center gap-3 text-xs">
+                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <span class="text-zinc-500 tabular-nums">4 работы</span>
+                      <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </div>
+                  <ul class="divide-y divide-zinc-50 text-sm">
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Сбор маркеров</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Сбор семантики</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Кластеризация</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Контент-план</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-zinc-100 text-zinc-700 shrink-0">Подрядчик</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
+                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                    </li>
+                  </ul>
+                </div>
+                <div class="rounded-xl border border-black/5 overflow-hidden">
+                  <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
+                    <span class="text-sm font-medium">Продвижение</span>
+                    <div class="flex items-center gap-3 text-xs">
+                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <span class="text-zinc-500 tabular-nums">3 работы</span>
+                      <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </div>
+                  <ul class="divide-y divide-zinc-50 text-sm">
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Внутренняя перелинковка</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Внешние упоминания</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Отчёт по видимости</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
+                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                    </li>
+                  </ul>
+                </div>
+<button data-open-modal="direction" class="w-full px-4 py-2.5 rounded-xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить направление</button>
+              </div>
+            </details>
+
+            <details class="bg-white rounded-2xl shadow-card overflow-hidden group">
+              <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
+                <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                  <svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 min-w-0">
+                    <span class="text-sm font-medium truncate">Дорожная карта · Лендинг</span>
+                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 w-fit shrink-0">
+                      <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>Landing
+                    </span>
+                  </div>
+                </div>
+                <div class="text-xs text-zinc-500 tabular-nums shrink-0">2 направления · 6 работ</div>
+              </summary>
+              <div class="px-4 lg:px-6 py-3 border-t border-zinc-100 flex flex-wrap items-center justify-between gap-3">
+                <p class="text-sm text-zinc-600">Компактный набор для одностраничных сайтов.</p>
+                <div class="flex items-center gap-3 text-xs shrink-0">
+                  <button class="text-zinc-500 hover:text-zinc-900 transition">Дублировать</button>
+                  <button data-open-modal="roadmap-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                  <span class="text-zinc-300">·</span>
+                  <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                </div>
+              </div>
+              <div class="px-4 lg:px-6 pb-4 space-y-3 border-t border-zinc-100 pt-4">
+                <div class="rounded-xl border border-black/5 overflow-hidden">
+                  <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
+                    <span class="text-sm font-medium">Аудит</span>
+                    <div class="flex items-center gap-3 text-xs">
+                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <span class="text-zinc-500 tabular-nums">3 работы</span>
+                      <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </div>
+                  <ul class="divide-y divide-zinc-50 text-sm">
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Аудит технический</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Аудит конверсии</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Проверка скорости загрузки</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
+                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                    </li>
+                  </ul>
+                </div>
+                                <div class="rounded-xl border border-black/5 overflow-hidden">
+                  <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
+                    <span class="text-sm font-medium">Оптимизация</span>
+                    <div class="flex items-center gap-3 text-xs">
+                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <span class="text-zinc-500 tabular-nums">3 работы</span>
+                      <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </div>
+                  <ul class="divide-y divide-zinc-50 text-sm">
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Микроразметка</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Скорость посадочной</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Тексты оффера</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-zinc-100 text-zinc-700 shrink-0">Подрядчик</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
+                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                    </li>
+                  </ul>
+                </div>
+<button data-open-modal="direction" class="w-full px-4 py-2.5 rounded-xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить направление</button>
+              </div>
+            </details>
+
+                        <details class="bg-white rounded-2xl shadow-card overflow-hidden group">
+              <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
+                <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                  <svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 min-w-0">
+                    <span class="text-sm font-medium truncate">Дорожная карта · B2B портал</span>
+                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 w-fit shrink-0">
+                      <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>B2B
+                    </span>
+                  </div>
+                </div>
+                <div class="text-xs text-zinc-500 tabular-nums shrink-0">3 направления · 6 работ</div>
+              </summary>
+              <div class="px-4 lg:px-6 py-3 border-t border-zinc-100 flex flex-wrap items-center justify-between gap-3">
+                <p class="text-sm text-zinc-600">Длинный цикл сделки: семантика, посадочные под отрасли, доступы клиента.</p>
+                <div class="flex items-center gap-3 text-xs shrink-0">
+                  <button class="text-zinc-500 hover:text-zinc-900 transition">Дублировать</button>
+                  <button data-open-modal="roadmap-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                  <span class="text-zinc-300">·</span>
+                  <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                </div>
+              </div>
+              <div class="px-4 lg:px-6 pb-4 space-y-3 border-t border-zinc-100 pt-4">
+                <div class="rounded-xl border border-black/5 overflow-hidden">
+                  <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
+                    <span class="text-sm font-medium">Аудит</span>
+                    <div class="flex items-center gap-3 text-xs">
+                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <span class="text-zinc-500 tabular-nums">2 работы</span>
+                      <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </div>
+                  <ul class="divide-y divide-zinc-50 text-sm">
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Аудит технический</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Аудит коммерческих факторов</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
+                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="rounded-xl border border-black/5 overflow-hidden">
+                  <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
+                    <span class="text-sm font-medium">Семантика</span>
+                    <div class="flex items-center gap-3 text-xs">
+                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <span class="text-zinc-500 tabular-nums">2 работы</span>
+                      <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </div>
+                  <ul class="divide-y divide-zinc-50 text-sm">
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Сбор семантики</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Кластеризация</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
+                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="rounded-xl border border-black/5 overflow-hidden">
+                  <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
+                    <span class="text-sm font-medium">Запуск</span>
+                    <div class="flex items-center gap-3 text-xs">
+                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <span class="text-zinc-500 tabular-nums">2 работы</span>
+                      <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </div>
+                  <ul class="divide-y divide-zinc-50 text-sm">
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Доступы к GSC и Метрике</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-amber-50 text-amber-700 shrink-0">Менеджер проекта</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Тексты отраслевых страниц</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-zinc-100 text-zinc-700 shrink-0">Подрядчик</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
+                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                    </li>
+                  </ul>
+                </div>
+
+                <button data-open-modal="direction" class="w-full px-4 py-2.5 rounded-xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить направление</button>
+              </div>
+            </details>
+            <details class="bg-white rounded-2xl shadow-card overflow-hidden group">
+              <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
+                <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                  <svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 min-w-0">
+                    <span class="text-sm font-medium truncate">Дорожная карта · Сайт услуг</span>
+                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-cyan-50 text-cyan-700 w-fit shrink-0">
+                      <span class="w-1.5 h-1.5 rounded-full bg-cyan-600"></span>Услуги
+                    </span>
+                  </div>
+                </div>
+                <div class="text-xs text-zinc-500 tabular-nums shrink-0">3 направления · 6 работ</div>
+              </summary>
+              <div class="px-4 lg:px-6 py-3 border-t border-zinc-100 flex flex-wrap items-center justify-between gap-3">
+                <p class="text-sm text-zinc-600">Локальные услуги: семантика, страницы услуг, тексты.</p>
+                <div class="flex items-center gap-3 text-xs shrink-0">
+                  <button class="text-zinc-500 hover:text-zinc-900 transition">Дублировать</button>
+                  <button data-open-modal="roadmap-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                  <span class="text-zinc-300">·</span>
+                  <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                </div>
+              </div>
+              <div class="px-4 lg:px-6 pb-4 space-y-3 border-t border-zinc-100 pt-4">
+                <div class="rounded-xl border border-black/5 overflow-hidden">
+                  <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
+                    <span class="text-sm font-medium">Аудит</span>
+                    <div class="flex items-center gap-3 text-xs">
+                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <span class="text-zinc-500 tabular-nums">2 работы</span>
+                      <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </div>
+                  <ul class="divide-y divide-zinc-50 text-sm">
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Аудит технический</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Аудит конверсии</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
+                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="rounded-xl border border-black/5 overflow-hidden">
+                  <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
+                    <span class="text-sm font-medium">Семантика</span>
+                    <div class="flex items-center gap-3 text-xs">
+                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <span class="text-zinc-500 tabular-nums">2 работы</span>
+                      <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </div>
+                  <ul class="divide-y divide-zinc-50 text-sm">
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Сбор семантики</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Распределение по страницам</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
+                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="rounded-xl border border-black/5 overflow-hidden">
+                  <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
+                    <span class="text-sm font-medium">Страницы</span>
+                    <div class="flex items-center gap-3 text-xs">
+                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <span class="text-zinc-500 tabular-nums">2 работы</span>
+                      <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </div>
+                  <ul class="divide-y divide-zinc-50 text-sm">
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Тексты услуг</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-zinc-100 text-zinc-700 shrink-0">Подрядчик</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3">
+                      <span class="truncate">Перелинковка</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button>
+                    </li>
+                    <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
+                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                    </li>
+                  </ul>
+                </div>
+
+                <button data-open-modal="direction" class="w-full px-4 py-2.5 rounded-xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить направление</button>
+              </div>
+            </details>
+            <button data-open-modal="roadmap" class="w-full px-4 py-3 rounded-2xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Создать дорожную карту</button>
+
+          </div>
+        </div>
+
+        <!-- ============ МЕСЯЧНЫЕ ПЛАНЫ ============ -->
+        <div data-tab-panel="month" class="hidden">
+
+          <div class="mb-6">
+            <div class="text-xs font-medium text-zinc-500 mb-3">Тип проекта</div>
+            <div class="flex flex-wrap gap-2">
+              <button data-month-type="ecommerce" class="month-type-btn px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium transition">Интернет-магазин</button>
+              <button data-month-type="info" class="month-type-btn px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-zinc-600 text-sm font-medium transition">Информационный сайт</button>
+              <button data-month-type="landing" class="month-type-btn px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-zinc-600 text-sm font-medium transition">Лендинг</button>
+              <button data-month-type="b2b" class="month-type-btn px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-zinc-600 text-sm font-medium transition">B2B портал</button>
+              <button data-month-type="services" class="month-type-btn px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-zinc-600 text-sm font-medium transition">Сайт услуг</button>
+            </div>
+            <div class="text-xs text-zinc-500 mt-3">План собирается из работ карты. У задачи указан участник, который её выполняет.</div>
+          </div>
+
+          <div data-month-panel="ecommerce">
+            <div class="flex flex-col gap-4">
+              <details open class="bg-white rounded-2xl shadow-card overflow-hidden group">
+                <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
+                  <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="text-sm font-medium truncate">Месяц 1 · Запуск магазина</span>
+                  </div>
+                  <div class="text-xs text-zinc-500 tabular-nums shrink-0">4 задачи · 26 ч</div>
+                </summary>
+                <div class="px-4 lg:px-6 py-3 border-t border-zinc-100 flex flex-wrap items-center justify-between gap-3">
+                  <p class="text-sm text-zinc-600">Аудит, семантика, первые правки.</p>
+                  <div class="flex items-center gap-3 text-xs shrink-0">
+                    <button class="text-zinc-500 hover:text-zinc-900 transition">Дублировать</button>
+                    <button data-open-modal="month-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                    <span class="text-zinc-300">·</span>
+                    <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                  </div>
+                </div>
+                <ul class="border-t border-zinc-100 divide-y divide-zinc-50">
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Аудит</span>
+                      <span class="truncate">Аудит технический</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">8,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Семантика</span>
+                      <span class="truncate">Сбор семантики</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">10,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Внутренняя</span>
+                      <span class="truncate">Перелинковка</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">— Не привязано —</span>
+                      <span class="truncate">Настроить доступы к GSC и Метрике</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-amber-50 text-amber-700 shrink-0">Менеджер проекта</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-4 bg-zinc-50/50">
+                    <div class="text-xs text-zinc-500 mb-3">Добавить задачу</div>
+                    <div class="flex flex-col lg:flex-row items-stretch gap-2">
+                      <select data-direction class="px-3 py-2 rounded-xl border border-zinc-200 bg-white text-xs focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40 lg:w-48">
+                        <option value="audit">Аудит</option>
+                        <option value="semantics">Семантика</option>
+                        <option value="internal">Внутренняя оптимизация</option>
+                        <option value="external">Внешняя оптимизация</option>
+                        <option value="free">— Не привязано —</option>
+                      </select>
+                      <select data-works class="flex-1 px-3 py-2 rounded-xl border border-zinc-200 bg-white text-xs focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></select>
+                      <input type="text" data-free placeholder="Название свободной задачи" class="hidden flex-1 px-3 py-2 rounded-xl border border-zinc-200 bg-white text-xs focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                      <input type="number" step="0.25" min="0" placeholder="ч" class="px-3 py-2 rounded-xl border border-zinc-200 bg-white text-xs tabular-nums focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40 lg:w-20">
+                      <button class="px-4 py-2 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shrink-0">+ Задача</button>
+                    </div>
+                  </li>
+                </ul>
+              </details>
+              <details class="bg-white rounded-2xl shadow-card overflow-hidden group">
+                <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
+                  <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="text-sm font-medium truncate">Месяц 2 · Каталог</span>
+                  </div>
+                  <div class="text-xs text-zinc-500 tabular-nums shrink-0">3 задачи · 12 ч</div>
+                </summary>
+                <div class="px-4 lg:px-6 py-3 border-t border-zinc-100">
+                  <p class="text-sm text-zinc-600">Метаданные, тексты и перелинковка.</p>
+                </div>
+                <ul class="border-t border-zinc-100 divide-y divide-zinc-50">
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Внутренняя</span>
+                      <span class="truncate">Оптимизация метаданных</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Внутренняя</span>
+                      <span class="truncate">Оптимизация текстов</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-zinc-100 text-zinc-700 shrink-0">Подрядчик</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Внутренняя</span>
+                      <span class="truncate">Перелинковка</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                </ul>
+              </details>
+              <details class="bg-white rounded-2xl shadow-card overflow-hidden group">
+                <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
+                  <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="text-sm font-medium truncate">Месяц 3 · Ссылки</span>
+                  </div>
+                  <div class="text-xs text-zinc-500 tabular-nums shrink-0">3 задачи · 12 ч</div>
+                </summary>
+                <div class="px-4 lg:px-6 py-3 border-t border-zinc-100">
+                  <p class="text-sm text-zinc-600">Внешняя оптимизация отдаётся подрядчику.</p>
+                </div>
+                <ul class="border-t border-zinc-100 divide-y divide-zinc-50">
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Внешняя</span>
+                      <span class="truncate">Поиск подходящих конкурентов</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Внешняя</span>
+                      <span class="truncate">Сбор ссылочного профиля конкурентов</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-zinc-100 text-zinc-700 shrink-0">Подрядчик</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Внешняя</span>
+                      <span class="truncate">Стратегия по наращиванию ссылок</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-zinc-100 text-zinc-700 shrink-0">Подрядчик</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                </ul>
+              </details>
+              <details class="bg-white rounded-2xl shadow-card overflow-hidden group">
+                <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
+                  <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="text-sm font-medium truncate">Месяц 4 · Удержание</span>
+                  </div>
+                  <div class="text-xs text-zinc-500 tabular-nums shrink-0">2 задачи · 8 ч</div>
+                </summary>
+                <div class="px-4 lg:px-6 py-3 border-t border-zinc-100">
+                  <p class="text-sm text-zinc-600">Повторный срез и распределение запросов.</p>
+                </div>
+                <ul class="border-t border-zinc-100 divide-y divide-zinc-50">
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Аудит</span>
+                      <span class="truncate">Конкурентный анализ</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Семантика</span>
+                      <span class="truncate">Распределение по страницам</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                </ul>
+              </details>
+            </div>
+          </div>
+
+          <div data-month-panel="info" class="hidden">
+            <div class="flex flex-col gap-4">
+              <details open class="bg-white rounded-2xl shadow-card overflow-hidden group">
+                <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
+                  <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="text-sm font-medium truncate">Месяц 1 · Запуск контента</span>
+                  </div>
+                  <div class="text-xs text-zinc-500 tabular-nums shrink-0">3 задачи · 22 ч</div>
+                </summary>
+                <div class="px-4 lg:px-6 py-3 border-t border-zinc-100 flex flex-wrap items-center justify-between gap-3">
+                  <p class="text-sm text-zinc-600">Аудит, семантика, контент-план.</p>
+                  <div class="flex items-center gap-3 text-xs shrink-0">
+                    <button class="text-zinc-500 hover:text-zinc-900 transition">Дублировать</button>
+                    <button data-open-modal="month-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                    <span class="text-zinc-300">·</span>
+                    <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                  </div>
+                </div>
+                <ul class="border-t border-zinc-100 divide-y divide-zinc-50">
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Аудит</span>
+                      <span class="truncate">Аудит технический</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">6,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Семантика</span>
+                      <span class="truncate">Сбор семантики</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">10,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Продвижение</span>
+                      <span class="truncate">Контент-план</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-zinc-100 text-zinc-700 shrink-0">Подрядчик</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">6,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-4 bg-zinc-50/50">
+                    <div class="text-xs text-zinc-500 mb-3">Добавить задачу</div>
+                    <div class="flex flex-col lg:flex-row items-stretch gap-2">
+                      <select data-direction class="px-3 py-2 rounded-xl border border-zinc-200 bg-white text-xs focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40 lg:w-48">
+                        <option value="audit">Аудит</option>
+                        <option value="semantics">Семантика</option>
+                        <option value="promotion">Продвижение</option>
+                        <option value="free">— Не привязано —</option>
+                      </select>
+                      <select data-works class="flex-1 px-3 py-2 rounded-xl border border-zinc-200 bg-white text-xs focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></select>
+                      <input type="text" data-free placeholder="Название свободной задачи" class="hidden flex-1 px-3 py-2 rounded-xl border border-zinc-200 bg-white text-xs focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                      <input type="number" step="0.25" min="0" placeholder="ч" class="px-3 py-2 rounded-xl border border-zinc-200 bg-white text-xs tabular-nums focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40 lg:w-20">
+                      <button class="px-4 py-2 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shrink-0">+ Задача</button>
+                    </div>
+                  </li>
+                </ul>
+              </details>
+              <details class="bg-white rounded-2xl shadow-card overflow-hidden group">
+                <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
+                  <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="text-sm font-medium truncate">Месяц 2 · Контент</span>
+                  </div>
+                  <div class="text-xs text-zinc-500 tabular-nums shrink-0">2 задачи · 8 ч</div>
+                </summary>
+                <div class="px-4 lg:px-6 py-3 border-t border-zinc-100">
+                  <p class="text-sm text-zinc-600">Тексты готовит подрядчик, план ведёт специалист.</p>
+                </div>
+                <ul class="border-t border-zinc-100 divide-y divide-zinc-50">
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Продвижение</span>
+                      <span class="truncate">Контент-план</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-zinc-100 text-zinc-700 shrink-0">Подрядчик</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Аудит</span>
+                      <span class="truncate">Аудит контента</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                </ul>
+              </details>
+            </div>
+          </div>
+
+          <div data-month-panel="landing" class="hidden">
+            <div class="flex flex-col gap-4">
+              <details open class="bg-white rounded-2xl shadow-card overflow-hidden group">
+                <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
+                  <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="text-sm font-medium truncate">Месяц 1 · Аудит и запуск</span>
+                  </div>
+                  <div class="text-xs text-zinc-500 tabular-nums shrink-0">3 задачи · 14 ч</div>
+                </summary>
+                <div class="px-4 lg:px-6 py-3 border-t border-zinc-100 flex flex-wrap items-center justify-between gap-3">
+                  <p class="text-sm text-zinc-600">Технический аудит, конверсия, скорость.</p>
+                  <div class="flex items-center gap-3 text-xs shrink-0">
+                    <button class="text-zinc-500 hover:text-zinc-900 transition">Дублировать</button>
+                    <button data-open-modal="month-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                    <span class="text-zinc-300">·</span>
+                    <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                  </div>
+                </div>
+                <ul class="border-t border-zinc-100 divide-y divide-zinc-50">
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Аудит</span>
+                      <span class="truncate">Аудит технический</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Аудит</span>
+                      <span class="truncate">Аудит конверсии</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Оптимизация</span>
+                      <span class="truncate">Микроразметка</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">6,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-4 bg-zinc-50/50">
+                    <div class="text-xs text-zinc-500 mb-3">Добавить задачу</div>
+                    <div class="flex flex-col lg:flex-row items-stretch gap-2">
+                      <select data-direction class="px-3 py-2 rounded-xl border border-zinc-200 bg-white text-xs focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40 lg:w-48">
+                        <option value="audit">Аудит</option>
+                        <option value="optimization">Оптимизация</option>
+                        <option value="free">— Не привязано —</option>
+                      </select>
+                      <select data-works class="flex-1 px-3 py-2 rounded-xl border border-zinc-200 bg-white text-xs focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></select>
+                      <input type="text" data-free placeholder="Название свободной задачи" class="hidden flex-1 px-3 py-2 rounded-xl border border-zinc-200 bg-white text-xs focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                      <input type="number" step="0.25" min="0" placeholder="ч" class="px-3 py-2 rounded-xl border border-zinc-200 bg-white text-xs tabular-nums focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40 lg:w-20">
+                      <button class="px-4 py-2 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shrink-0">+ Задача</button>
+                    </div>
+                  </li>
+                </ul>
+              </details>
+              <details class="bg-white rounded-2xl shadow-card overflow-hidden group">
+                <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
+                  <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="text-sm font-medium truncate">Месяц 2 · Конверсия</span>
+                  </div>
+                  <div class="text-xs text-zinc-500 tabular-nums shrink-0">2 задачи · 8 ч</div>
+                </summary>
+                <div class="px-4 lg:px-6 py-3 border-t border-zinc-100">
+                  <p class="text-sm text-zinc-600">Посадочная и микроразметка.</p>
+                </div>
+                <ul class="border-t border-zinc-100 divide-y divide-zinc-50">
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Аудит</span>
+                      <span class="truncate">Аудит конверсии</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Оптимизация</span>
+                      <span class="truncate">Микроразметка</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                </ul>
+              </details>
+
+            </div>
+          </div>
+
+          <div data-month-panel="b2b" class="hidden">
+            <div class="flex flex-col gap-4">
+              <details class="bg-white rounded-2xl shadow-card overflow-hidden group">
+                <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
+                  <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="text-sm font-medium truncate">Месяц 1 · Запуск портала</span>
+                  </div>
+                  <div class="text-xs text-zinc-500 tabular-nums shrink-0">3 задачи · 12 ч</div>
+                </summary>
+                <div class="px-4 lg:px-6 py-3 border-t border-zinc-100">
+                  <p class="text-sm text-zinc-600">Аудит, семантика и доступы клиента.</p>
+                </div>
+                <ul class="border-t border-zinc-100 divide-y divide-zinc-50">
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Аудит</span>
+                      <span class="truncate">Аудит технический</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Семантика</span>
+                      <span class="truncate">Сбор семантики</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Запуск</span>
+                      <span class="truncate">Доступы к GSC и Метрике</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-amber-50 text-amber-700 shrink-0">Менеджер проекта</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                </ul>
+              </details>
+            </div>
+          </div>
+          <div data-month-panel="services" class="hidden">
+            <div class="flex flex-col gap-4">
+              <details class="bg-white rounded-2xl shadow-card overflow-hidden group">
+                <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
+                  <div class="flex items-center gap-3 lg:gap-4 min-w-0">
+                    <svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="text-sm font-medium truncate">Месяц 1 · Страницы услуг</span>
+                  </div>
+                  <div class="text-xs text-zinc-500 tabular-nums shrink-0">3 задачи · 12 ч</div>
+                </summary>
+                <div class="px-4 lg:px-6 py-3 border-t border-zinc-100">
+                  <p class="text-sm text-zinc-600">Семантика и тексты услуг.</p>
+                </div>
+                <ul class="border-t border-zinc-100 divide-y divide-zinc-50">
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Аудит</span>
+                      <span class="truncate">Аудит технический</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Семантика</span>
+                      <span class="truncate">Сбор семантики</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-emerald-50 text-emerald-700 shrink-0">SEO-специалист</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">Страницы</span>
+                      <span class="truncate">Тексты услуг</span>
+                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-zinc-100 text-zinc-700 shrink-0">Подрядчик</span>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs text-zinc-500 tabular-nums">4,0 ч</span>
+                      <button class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>
+                    </div>
+                  </li>
+                </ul>
+              </details>
+            </div>
+          </div>
+          <button data-open-modal="month" class="w-full mt-4 px-4 py-3 rounded-2xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Создать месячный план</button>
+
+        </div>
+
+        <div data-tab-panel="workflows" class="hidden">
+          <div class="flex flex-col gap-3">
+            <section class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div class="min-w-0">
+                <h3 class="text-sm font-semibold tracking-tight">Семантика</h3>
+                <div class="flex flex-wrap gap-1.5 mt-2">
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">Сбор</span>
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">Кластеризация</span>
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">Распределение</span>
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">Готово</span>
+                </div>
+              </div>
+              <button type="button" data-open-modal="workflow" data-workflow-direction="Семантика" class="shrink-0 px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Настроить</button>
+            </section>
+            <section class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div class="min-w-0">
+                <h3 class="text-sm font-semibold tracking-tight">Программирование</h3>
+                <div class="flex flex-wrap gap-1.5 mt-2">
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">Бэклог</span>
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">В разработке</span>
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">На ревью</span>
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">Выложено</span>
+                </div>
+              </div>
+              <button type="button" data-open-modal="workflow" data-workflow-direction="Программирование" class="shrink-0 px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Настроить</button>
+            </section>
+            <section class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div class="min-w-0">
+                <h3 class="text-sm font-semibold tracking-tight">Аудит</h3>
+                <div class="flex flex-wrap gap-1.5 mt-2">
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">Очередь</span>
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">В проверке</span>
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">Отчёт</span>
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">Закрыт</span>
+                </div>
+              </div>
+              <button type="button" data-open-modal="workflow" data-workflow-direction="Аудит" class="shrink-0 px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Настроить</button>
+            </section>
+            <section class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div class="min-w-0">
+                <h3 class="text-sm font-semibold tracking-tight">Внутренняя оптимизация</h3>
+                <div class="flex flex-wrap gap-1.5 mt-2">
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">К выполнению</span>
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">В работе</span>
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">На проверке</span>
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">Готово</span>
+                </div>
+              </div>
+              <button type="button" data-open-modal="workflow" data-workflow-direction="Внутренняя оптимизация" class="shrink-0 px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Настроить</button>
+            </section>
+            <section class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div class="min-w-0">
+                <h3 class="text-sm font-semibold tracking-tight">Внешняя оптимизация</h3>
+                <div class="flex flex-wrap gap-1.5 mt-2">
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">Поиск</span>
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">Согласование</span>
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">Размещение</span>
+                  <span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">Готово</span>
+                </div>
+              </div>
+              <button type="button" data-open-modal="workflow" data-workflow-direction="Внешняя оптимизация" class="shrink-0 px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Настроить</button>
+            </section>
+          </div>
+        </div>
+
+        <div data-tab-panel="brief" class="hidden">
+          <div class="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <p class="text-sm text-zinc-500">Вопросы, которые клиент увидит в портале в начале проекта.</p>
+            <button type="button" data-toast="Вопросы брифа сохранены" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition shrink-0">Сохранить</button>
+          </div>
+          <div data-brief-questions class="flex flex-col gap-4">
+            <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
+              <h3 class="text-sm font-semibold tracking-tight mb-5">Вопрос 1</h3>
+              <label class="block text-xs font-medium text-zinc-500 mb-2">Формулировка</label>
+              <input type="text" value="Какая главная цель на ближайшие 3 месяца?" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              <p class="text-xs text-zinc-500 mt-3 mb-2">Варианты ответа</p>
+              <div class="space-y-2">
+                <input type="text" value="Рост органического трафика" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                <input type="text" value="Заявки из поиска" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                <input type="text" value="Выход в топ по категориям" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              </div>
+            </section>
+            <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
+              <h3 class="text-sm font-semibold tracking-tight mb-5">Вопрос 2</h3>
+              <label class="block text-xs font-medium text-zinc-500 mb-2">Формулировка</label>
+              <input type="text" value="Какие доступы уже есть у команды?" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              <p class="text-xs text-zinc-500 mt-3 mb-2">Варианты ответа, можно выбрать несколько</p>
+              <div class="space-y-2">
+                <input type="text" value="Яндекс Метрика" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                <input type="text" value="Google Search Console" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                <input type="text" value="Админка сайта" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              </div>
+            </section>
+            <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
+              <h3 class="text-sm font-semibold tracking-tight mb-5">Вопрос 3</h3>
+              <label class="block text-xs font-medium text-zinc-500 mb-2">Формулировка</label>
+              <input type="text" value="Что важно учесть по ассортименту и сезонности?" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              <p class="text-xs text-zinc-500 mt-3">Клиент ответит свободным текстом.</p>
+            </section>
+          </div>
+          <button type="button" data-add-brief-question class="w-full mt-4 px-4 py-3 rounded-2xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить вопрос</button>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- МОДАЛКИ -->
+<div id="type-modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
+  <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-y-auto">
+      <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
+        <h3 class="text-sm font-semibold tracking-tight">Создать тип проекта</h3>
+        <button data-close-modal class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
+          <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="p-5 sm:p-6">
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Название</label>
+          <input type="text" placeholder="Например: Маркетплейс" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+        </div>
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Описание <span class="text-zinc-500 font-normal">— опционально</span></label>
+          <textarea rows="2" placeholder="Чем этот тип отличается от других" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></textarea>
+        </div>
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Цвет маркера</label>
+          <div class="flex items-center gap-2">
+            <button class="w-7 h-7 rounded-full bg-violet-600 ring-2 ring-zinc-900 ring-offset-2"></button>
+            <button class="w-7 h-7 rounded-full bg-emerald-600"></button>
+            <button class="w-7 h-7 rounded-full bg-blue-600"></button>
+            <button class="w-7 h-7 rounded-full bg-amber-600"></button>
+            <button class="w-7 h-7 rounded-full bg-cyan-600"></button>
+            <button class="w-7 h-7 rounded-full bg-rose-600"></button>
+          </div>
+        </div>
+        <div class="rounded-xl border border-black/5 p-3 bg-zinc-50">
+          <p class="text-xs text-zinc-500">После создания тип появится в списке и станет доступен в формах создания карт и планов.</p>
+        </div>
+      </div>
+      <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
+        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
+        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать тип</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="type-edit-modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
+  <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-y-auto">
+      <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
+        <h3 class="text-sm font-semibold tracking-tight">Редактировать тип проекта</h3>
+        <button data-close-modal class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
+          <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="p-5 sm:p-6">
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Название</label>
+          <input type="text" value="Интернет-магазин" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+        </div>
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Описание</label>
+          <textarea rows="2" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">Проекты для интернет-магазинов и маркетплейсов.</textarea>
+        </div>
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Цвет маркера</label>
+          <div class="flex items-center gap-2">
+            <button class="w-7 h-7 rounded-full bg-violet-600 ring-2 ring-zinc-900 ring-offset-2"></button>
+            <button class="w-7 h-7 rounded-full bg-emerald-600"></button>
+            <button class="w-7 h-7 rounded-full bg-blue-600"></button>
+            <button class="w-7 h-7 rounded-full bg-amber-600"></button>
+            <button class="w-7 h-7 rounded-full bg-cyan-600"></button>
+            <button class="w-7 h-7 rounded-full bg-rose-600"></button>
+          </div>
+        </div>
+        <div class="rounded-xl border border-black/5 p-3 bg-zinc-50">
+          <p class="text-xs text-zinc-500">Изменения применяются ко всем картам и планам этого типа.</p>
+        </div>
+      </div>
+      <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
+        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
+        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="roadmap-modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
+  <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-y-auto">
+      <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
+        <h3 class="text-sm font-semibold tracking-tight">Создать дорожную карту</h3>
+        <button data-close-modal class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
+          <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="p-5 sm:p-6">
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Тип проекта</label>
+          <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <option>Интернет-магазин</option>
+            <option>Информационный сайт</option>
+            <option>Лендинг</option>
+            <option>B2B портал</option>
+            <option>Сайт услуг</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Название</label>
+          <input type="text" placeholder="Например: Базовая дорожная карта" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+        </div>
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Описание <span class="text-zinc-500 font-normal">— опционально</span></label>
+          <textarea rows="2" placeholder="Короткое описание" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></textarea>
+        </div>
+        <div class="rounded-xl border border-black/5 p-3 bg-zinc-50">
+          <p class="text-xs text-zinc-500">После создания откроется редактор, где можно добавить направления и работы.</p>
+        </div>
+      </div>
+      <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
+        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
+        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать и открыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="roadmap-edit-modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
+  <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-y-auto">
+      <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
+        <h3 class="text-sm font-semibold tracking-tight">Редактировать дорожную карту</h3>
+        <button data-close-modal class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
+          <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="p-5 sm:p-6">
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Тип проекта</label>
+          <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <option selected>Интернет-магазин</option>
+            <option>Информационный сайт</option>
+            <option>Лендинг</option>
+            <option>B2B портал</option>
+            <option>Сайт услуг</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Название</label>
+          <input type="text" value="Дорожная карта · Интернет-магазин" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+        </div>
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Описание</label>
+          <textarea rows="2" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">Карта для интернет-магазинов и маркетплейсов.</textarea>
+        </div>
+        <div class="rounded-xl border border-black/5 p-3 bg-zinc-50">
+          <p class="text-xs text-zinc-500">Направления и работы редактируются прямо в карточке карты.</p>
+        </div>
+      </div>
+      <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
+        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
+        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="direction-modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
+  <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-y-auto">
+      <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
+        <h3 class="text-sm font-semibold tracking-tight">Добавить направление</h3>
+        <button data-close-modal class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
+          <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="p-5 sm:p-6">
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Карта</label>
+          <input type="text" value="Дорожная карта · Интернет-магазин" disabled class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-zinc-50 text-sm text-zinc-500 focus:outline-none">
+        </div>
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Название направления</label>
+          <input type="text" placeholder="Например: Аналитика" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+        </div>
+        <div class="rounded-xl border border-black/5 p-3 bg-zinc-50">
+          <p class="text-xs text-zinc-500">Направление появится в конце списка. Внутри можно будет добавить работы.</p>
+        </div>
+      </div>
+      <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
+        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
+        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Добавить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="work-modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
+  <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-y-auto">
+      <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
+        <h3 class="text-sm font-semibold tracking-tight">Добавить работу</h3>
+        <button data-close-modal class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
+          <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="p-5 sm:p-6">
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Карта</label>
+          <input type="text" value="Дорожная карта · Интернет-магазин" disabled class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-zinc-50 text-sm text-zinc-500 focus:outline-none">
+        </div>
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Направление</label>
+          <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <option>Аудит</option>
+            <option>Семантика</option>
+            <option>Внутренняя оптимизация</option>
+            <option>Внешняя оптимизация</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Название работы</label>
+          <input type="text" placeholder="Например: Проверка хлебных крошек" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+        </div>
+        <div class="rounded-xl border border-black/5 p-3 bg-zinc-50">
+          <p class="text-xs text-zinc-500">Работа появится в выбранном направлении и станет доступна для задач в планах месяца.</p>
+        </div>
+      </div>
+      <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
+        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
+        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Добавить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="month-modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
+  <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-y-auto">
+      <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
+        <h3 class="text-sm font-semibold tracking-tight">Создать месячный план</h3>
+        <button data-close-modal class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
+          <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="p-5 sm:p-6">
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Тип проекта</label>
+          <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <option>Интернет-магазин</option>
+            <option>Информационный сайт</option>
+            <option>Лендинг</option>
+            <option disabled class="text-zinc-500">B2B портал — нет дорожной карты</option>
+            <option disabled class="text-zinc-500">Сайт услуг — нет дорожной карты</option>
+          </select>
+          <p class="text-xs text-zinc-500 mt-2">План собирается из работ карты выбранного типа.</p>
+        </div>
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Название</label>
+          <input type="text" placeholder="Например: Месяц 1 · Запуск магазина" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+        </div>
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Описание <span class="text-zinc-500 font-normal">— опционально</span></label>
+          <textarea rows="2" placeholder="Короткое описание" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></textarea>
+        </div>
+        <div class="rounded-xl border border-black/5 p-3 bg-zinc-50">
+          <p class="text-xs text-zinc-500">После создания откроется редактор, где можно добавить задачи из дорожной карты или свободные задачи.</p>
+        </div>
+      </div>
+      <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
+        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
+        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать и открыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="month-edit-modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
+  <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-y-auto">
+      <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
+        <h3 class="text-sm font-semibold tracking-tight">Редактировать месячный план</h3>
+        <button data-close-modal class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
+          <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="p-5 sm:p-6">
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Тип проекта</label>
+          <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <option selected>Интернет-магазин</option>
+            <option>Информационный сайт</option>
+            <option>Лендинг</option>
+            <option disabled class="text-zinc-500">B2B портал — нет дорожной карты</option>
+            <option disabled class="text-zinc-500">Сайт услуг — нет дорожной карты</option>
+          </select>
+          <p class="text-xs text-zinc-500 mt-2">План собирается из работ карты выбранного типа.</p>
+        </div>
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Название</label>
+          <input type="text" value="Месяц 1 · Запуск магазина" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+        </div>
+        <div class="mb-4">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Описание</label>
+          <textarea rows="2" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">Аудит, семантика, первые правки.</textarea>
+        </div>
+        <div class="rounded-xl border border-black/5 p-3 bg-zinc-50">
+          <p class="text-xs text-zinc-500">Список задач редактируется прямо в карточке плана.</p>
+        </div>
+      </div>
+      <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
+        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
+        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="workflow-modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
+  <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-y-auto">
+      <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
+        <h3 class="text-sm font-semibold tracking-tight">Бизнес-процесс · <span data-workflow-name>Семантика</span></h3>
+        <button data-close-modal class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center" aria-label="Закрыть">
+          <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="p-5 sm:p-6">
+        <p class="text-xs text-zinc-500 mb-4">Статусы — шаги процесса. На общей доске задач они становятся колонками. Сотрудник колонки не меняет, он двигает задачи.</p>
+        <ul data-workflow-list class="rounded-xl border border-zinc-200 divide-y divide-zinc-100 mb-4"></ul>
+        <div class="flex gap-2">
+          <input data-workflow-new type="text" placeholder="Новый статус" class="flex-1 min-w-0 px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+          <button type="button" data-workflow-add class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition shrink-0">Добавить</button>
+        </div>
+      </div>
+      <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
+        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
+        <button data-close-modal data-toast="Бизнес-процесс сохранён" class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  const monthTypeBtns = document.querySelectorAll('.month-type-btn');
+  const monthPanels = document.querySelectorAll('[data-month-panel]');
+  monthTypeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.disabled) return;
+      const type = btn.dataset.monthType;
+      monthTypeBtns.forEach(b => {
+        if (b.disabled) return;
+        const active = b.dataset.monthType === type;
+        b.classList.toggle('bg-accent', active);
+        b.classList.toggle('text-white', active);
+        b.classList.toggle('bg-white', !active);
+        b.classList.toggle('border', !active);
+        b.classList.toggle('border-zinc-200', !active);
+        b.classList.toggle('text-zinc-600', !active);
+      });
+      monthPanels.forEach(p => p.classList.toggle('hidden', p.dataset.monthPanel !== type));
+    });
+  });
+
+
+  const worksByDirection = {
+    audit:          ['Аудит технический', 'Аудит коммерческих факторов', 'Аудит ассортимента', 'Конкурентный анализ'],
+    semantics:      ['Сбор маркеров', 'Сбор семантики', 'Кластеризация', 'Распределение по страницам'],
+    internal:       ['Оптимизация метаданных', 'Оптимизация текстов', 'Перелинковка'],
+    external:       ['Поиск подходящих конкурентов', 'Сбор ссылочного профиля конкурентов', 'Стратегия по наращиванию ссылок'],
+    promotion:      ['Оптимизация метаданных', 'Написание и публикация статей', 'Перелинковка статей', 'Внешние ссылки'],
+    optimization:   ['Оптимизация метаданных', 'Оптимизация текстов и заголовков', 'Микроразметка']
+  };
+
+  document.querySelectorAll('[data-direction]').forEach(dirSel => {
+    const form = dirSel.closest('li');
+    const workSel = form.querySelector('[data-works]');
+    const freeInput = form.querySelector('[data-free]');
+    function update() {
+      const dir = dirSel.value;
+      if (dir === 'free') {
+        workSel.classList.add('hidden');
+        freeInput.classList.remove('hidden');
+      } else {
+        freeInput.classList.add('hidden');
+        workSel.classList.remove('hidden');
+        const works = worksByDirection[dir] || [];
+        workSel.innerHTML = works.map(w => `<option>${w}</option>`).join('');
+      }
+    }
+    dirSel.addEventListener('change', update);
+    update();
+  });
+
+  const workflowProcesses = {
+    'Семантика': ['Сбор', 'Кластеризация', 'Распределение', 'Готово'],
+    'Программирование': ['Бэклог', 'В разработке', 'На ревью', 'Выложено'],
+    'Аудит': ['Очередь', 'В проверке', 'Отчёт', 'Закрыт'],
+    'Внутренняя оптимизация': ['К выполнению', 'В работе', 'На проверке', 'Готово'],
+    'Внешняя оптимизация': ['Поиск', 'Согласование', 'Размещение', 'Готово']
+  };
+  const workflowList = document.querySelector('[data-workflow-list]');
+  const workflowName = document.querySelector('[data-workflow-name]');
+  const workflowNew = document.querySelector('[data-workflow-new]');
+
+  function workflowRow(label) {
+    const li = document.createElement('li');
+    li.className = 'flex items-center gap-2 px-3 py-2';
+    li.innerHTML = '<span class="text-sm flex-1 min-w-0 truncate" data-status-label></span>' +
+      '<button type="button" data-status-up class="text-xs text-zinc-500 hover:text-zinc-900 transition">Вверх</button>' +
+      '<button type="button" data-status-down class="text-xs text-zinc-500 hover:text-zinc-900 transition">Вниз</button>' +
+      '<button type="button" data-status-remove class="text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button>';
+    li.querySelector('[data-status-label]').textContent = label;
+    return li;
+  }
+
+  function fillWorkflow(name) {
+    const statuses = workflowProcesses[name] || ['К выполнению', 'В работе', 'Готово'];
+    workflowName.textContent = name;
+    workflowList.replaceChildren.apply(workflowList, statuses.map(workflowRow));
+  }
+
+  document.addEventListener('click', function (e) {
+    const open = e.target.closest('[data-open-modal="workflow"]');
+    if (open) {
+      if (open.dataset.workflowDirection) {
+        fillWorkflow(open.dataset.workflowDirection);
+        return;
+      }
+      const card = open.closest('.rounded-xl');
+      const title = card ? card.querySelector('.text-sm.font-medium') : null;
+      fillWorkflow(title ? title.textContent.trim() : 'Направление');
+      return;
+    }
+    if (e.target.closest('[data-add-brief-question]')) {
+      const list = document.querySelector('[data-brief-questions]');
+      const n = list.querySelectorAll('section').length + 1;
+      const section = document.createElement('section');
+      section.className = 'bg-white rounded-2xl shadow-card p-4 lg:p-6';
+      section.innerHTML = '<h3 class="text-sm font-semibold tracking-tight mb-5">Вопрос ' + n + '</h3>' +
+        '<label class="block text-xs font-medium text-zinc-500 mb-2">Формулировка</label>' +
+        '<input type="text" placeholder="Текст вопроса" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">' +
+        '<p class="text-xs text-zinc-500 mt-3 mb-2">Вариант ответа</p>' +
+        '<input type="text" placeholder="Вариант, если нужен выбор" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">';
+      list.appendChild(section);
+      section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    const up = e.target.closest('[data-status-up]');
+    const down = e.target.closest('[data-status-down]');
+    const remove = e.target.closest('[data-status-remove]');
+    const row = (up || down || remove) && (up || down || remove).closest('li');
+    if (!row || !workflowList.contains(row)) return;
+    if (up && row.previousElementSibling) workflowList.insertBefore(row, row.previousElementSibling);
+    if (down && row.nextElementSibling) workflowList.insertBefore(row.nextElementSibling, row);
+    if (remove) row.remove();
+  });
+
+  document.querySelector('[data-workflow-add]').addEventListener('click', function () {
+    const label = workflowNew.value.trim();
+    if (!label) return;
+    workflowList.appendChild(workflowRow(label));
+    workflowNew.value = '';
+  });
+
+  fillWorkflow('Семантика');
+</script>
+</body>
+</html>

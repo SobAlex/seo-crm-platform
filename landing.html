@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SEO Control — кабинет SEO-агентства</title>
+  <meta name="description" content="Проекты, приёмка задач и отчёт клиенту в одном кабинете.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif']
+          },
+          colors: {
+            void: '#0a0a0f',
+            soft: '#12121a',
+            card: '#16161f',
+            line: '#23232e',
+            ink: '#e8e8f0',
+            dim: '#8a8a9a',
+            accent: '#7c5cff',
+            mint: '#00e0b8'
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-void text-ink antialiased overflow-x-hidden">
+  <div class="pointer-events-none fixed -top-1/2 left-1/2 -translate-x-1/2 w-[1000px] h-[1000px] bg-[radial-gradient(circle,rgba(124,92,255,0.15)_0%,transparent_60%)]"></div>
+  <div class="pointer-events-none fixed -bottom-[30%] -right-[10%] w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(0,224,184,0.1)_0%,transparent_60%)]"></div>
+
+  <nav class="fixed top-0 inset-x-0 z-50 py-5 bg-void/70 backdrop-blur-xl border-b border-white/5">
+    <div class="max-w-6xl mx-auto px-6 flex items-center justify-between gap-4">
+      <a href="landing.html" class="flex items-center gap-2.5 text-[22px] font-bold tracking-tight">
+        <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-accent to-mint shadow-[0_0_24px_rgba(124,92,255,0.4)] flex items-center justify-center text-base">◆</span>
+        SEO Control
+      </a>
+      <ul class="hidden md:flex items-center gap-9 text-sm font-medium text-dim">
+        <li><a href="#features" class="hover:text-ink transition">Возможности</a></li>
+        <li><a href="#stats" class="hover:text-ink transition">Как устроено</a></li>
+        <li><a href="#pricing" class="hover:text-ink transition">Тарифы</a></li>
+      </ul>
+      <a href="index.html" class="inline-flex items-center px-5 py-2.5 rounded-[10px] text-sm font-semibold text-white bg-gradient-to-br from-accent to-[#9d7cff] shadow-[0_8px_32px_rgba(124,92,255,0.4)] hover:-translate-y-0.5 transition">Войти в демо</a>
+    </div>
+  </nav>
+
+  <header class="relative z-10 min-h-screen flex items-center px-6 pt-36 pb-20">
+    <div class="max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-14 lg:gap-16 items-center">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-accent/10 border border-accent/30 text-[13px] font-medium text-[#b8a8ff] mb-6">
+          <span class="w-1.5 h-1.5 rounded-full bg-mint shadow-[0_0_12px_#00e0b8] animate-pulse"></span>
+          Кабинет для SEO-агентства
+        </div>
+        <h1 class="text-[40px] sm:text-6xl font-extrabold leading-[1.05] tracking-[-2px] mb-6">
+          Проекты, приёмка<br>
+          <span class="bg-gradient-to-br from-[#a58aff] to-mint bg-clip-text text-transparent">и отчёт клиенту</span>
+        </h1>
+        <p class="text-lg text-dim max-w-lg leading-relaxed mb-10">SEO Control собирает задачи по направлениям, очередь приёмки и месячный отчёт. На главной видно, что принять и что горит.</p>
+        <div class="flex flex-col sm:flex-row gap-4 mb-12">
+          <a href="index.html" class="inline-flex items-center justify-center px-8 py-4 rounded-[10px] text-base font-semibold text-white bg-gradient-to-br from-accent to-[#9d7cff] shadow-[0_8px_32px_rgba(124,92,255,0.4)] hover:-translate-y-0.5 transition">Открыть демо →</a>
+          <a href="#pricing" class="inline-flex items-center justify-center px-8 py-4 rounded-[10px] text-base font-semibold border border-line hover:bg-card hover:border-[#333340] transition">Смотреть тарифы</a>
+        </div>
+        <div class="flex items-center gap-4 text-[13px] text-dim">
+          <div class="flex">
+            <span class="w-8 h-8 rounded-full border-2 border-void bg-gradient-to-br from-[#ff6b9d] to-[#ff8a5c] flex items-center justify-center text-xs font-semibold text-white">А</span>
+            <span class="w-8 h-8 -ml-2.5 rounded-full border-2 border-void bg-gradient-to-br from-accent to-[#00d4ff] flex items-center justify-center text-xs font-semibold text-white">П</span>
+            <span class="w-8 h-8 -ml-2.5 rounded-full border-2 border-void bg-gradient-to-br from-mint to-[#7cffb8] flex items-center justify-center text-xs font-semibold text-white">М</span>
+          </div>
+          <div>Демо компании <span class="text-ink font-semibold">Ромашка Digital</span></div>
+        </div>
+      </div>
+
+      <div class="relative">
+        <div class="rounded-2xl bg-gradient-to-b from-card to-soft border border-line p-5 shadow-[0_40px_80px_rgba(0,0,0,0.6)] [transform:perspective(1200px)_rotateY(-8deg)_rotateX(4deg)] hover:[transform:perspective(1200px)_rotateY(-4deg)_rotateX(2deg)_translateY(-6px)] transition duration-500 max-lg:[transform:none]">
+          <div class="flex items-center gap-2 mb-5 pb-4 border-b border-line">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#ff5f57]"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-[#febc2e]"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-[#28c840]"></span>
+            <span class="ml-auto text-xs text-dim">Главная · Холод</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2.5">
+            <div>
+              <div class="text-[10px] uppercase tracking-wider text-dim font-semibold mb-2">На приёмке</div>
+              <div class="rounded-lg border border-line bg-white/[0.03] p-2.5 mb-2 text-[11px]">
+                <span class="inline-block px-1.5 py-0.5 rounded text-[9px] font-semibold bg-accent/20 text-[#a58aff] mb-1.5">Аудит</span>
+                <div>Индексация в GSC</div>
+                <div class="mt-2 h-1 rounded bg-white/5 overflow-hidden"><div class="h-full w-[70%] bg-gradient-to-r from-accent to-mint"></div></div>
+              </div>
+              <div class="rounded-lg border border-line bg-white/[0.03] p-2.5 text-[11px]">
+                <span class="inline-block px-1.5 py-0.5 rounded text-[9px] font-semibold bg-[#ff8a5c]/20 text-[#ff8a5c] mb-1.5">Внутренняя</span>
+                <div>Мета-теги категорий</div>
+                <div class="mt-2 h-1 rounded bg-white/5 overflow-hidden"><div class="h-full w-[45%] bg-gradient-to-r from-accent to-mint"></div></div>
+              </div>
+            </div>
+            <div>
+              <div class="text-[10px] uppercase tracking-wider text-dim font-semibold mb-2">В работе</div>
+              <div class="rounded-lg border border-line bg-white/[0.03] p-2.5 mb-2 text-[11px]">
+                <span class="inline-block px-1.5 py-0.5 rounded text-[9px] font-semibold bg-mint/20 text-mint mb-1.5">Семантика</span>
+                <div>Кластеризация</div>
+                <div class="mt-2 h-1 rounded bg-white/5 overflow-hidden"><div class="h-full w-[60%] bg-gradient-to-r from-accent to-mint"></div></div>
+              </div>
+              <div class="rounded-lg border border-line bg-white/[0.03] p-2.5 text-[11px]">
+                <span class="inline-block px-1.5 py-0.5 rounded text-[9px] font-semibold bg-accent/20 text-[#a58aff] mb-1.5">Ссылки</span>
+                <div>Стратегия наращивания</div>
+                <div class="mt-2 h-1 rounded bg-white/5 overflow-hidden"><div class="h-full w-[30%] bg-gradient-to-r from-accent to-mint"></div></div>
+              </div>
+            </div>
+            <div>
+              <div class="text-[10px] uppercase tracking-wider text-dim font-semibold mb-2">Готово</div>
+              <div class="rounded-lg border border-line bg-white/[0.03] p-2.5 mb-2 text-[11px]">
+                <span class="inline-block px-1.5 py-0.5 rounded text-[9px] font-semibold bg-mint/20 text-mint mb-1.5">Аудит</span>
+                <div>Canonical фильтров</div>
+                <div class="mt-2 h-1 rounded bg-white/5 overflow-hidden"><div class="h-full w-full bg-gradient-to-r from-accent to-mint"></div></div>
+              </div>
+              <div class="rounded-lg border border-line bg-white/[0.03] p-2.5 text-[11px]">
+                <span class="inline-block px-1.5 py-0.5 rounded text-[9px] font-semibold bg-[#ff8a5c]/20 text-[#ff8a5c] mb-1.5">Отчёт</span>
+                <div>Июнь для клиента</div>
+                <div class="mt-2 h-1 rounded bg-white/5 overflow-hidden"><div class="h-full w-full bg-gradient-to-r from-accent to-mint"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hidden lg:flex absolute -top-5 -right-6 items-center gap-2.5 px-4 py-3 rounded-xl bg-card border border-line text-xs font-semibold shadow-[0_12px_32px_rgba(0,0,0,0.4)]">
+          <span class="w-7 h-7 rounded-lg bg-accent/20 text-[#a58aff] flex items-center justify-center">✓</span>
+          На приёмке
+        </div>
+        <div class="hidden lg:flex absolute -bottom-5 -left-6 items-center gap-2.5 px-4 py-3 rounded-xl bg-card border border-line text-xs font-semibold shadow-[0_12px_32px_rgba(0,0,0,0.4)]">
+          <span class="w-7 h-7 rounded-lg bg-mint/20 text-mint flex items-center justify-center">%</span>
+          94% плана
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="features" class="relative z-10 px-6 py-16 sm:py-24">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <div class="text-[13px] font-semibold uppercase tracking-[2px] text-mint mb-4">Возможности</div>
+        <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight mb-5">Что ведёт кабинет</h2>
+        <p class="text-[17px] text-dim leading-relaxed">Один путь: шаблон, проект, задачи по направлениям, приёмка и отчёт. Клиент видит только портал.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <article class="relative overflow-hidden rounded-2xl border border-line bg-gradient-to-b from-card to-card/50 p-8 hover:-translate-y-1 hover:border-[#333344] transition">
+          <div class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center text-xl border border-accent/20 bg-gradient-to-br from-accent/15 to-mint/10">✓</div>
+          <h3 class="text-xl font-bold tracking-tight mb-3">Приёмка</h3>
+          <p class="text-[15px] text-dim leading-relaxed">Владелец и руководители видят все задачи на проверке. Сотрудник видит только те, что поставил сам.</p>
+        </article>
+        <article class="relative overflow-hidden rounded-2xl border border-line bg-gradient-to-b from-card to-card/50 p-8 hover:-translate-y-1 hover:border-[#333344] transition">
+          <div class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center text-xl border border-accent/20 bg-gradient-to-br from-accent/15 to-mint/10">▦</div>
+          <h3 class="text-xl font-bold tracking-tight mb-3">Направления</h3>
+          <p class="text-[15px] text-dim leading-relaxed">Семантика, программирование, ссылки. У каждого направления свой процесс, задачи по нему отбирают в общем списке.</p>
+        </article>
+        <article class="relative overflow-hidden rounded-2xl border border-line bg-gradient-to-b from-card to-card/50 p-8 hover:-translate-y-1 hover:border-[#333344] transition">
+          <div class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center text-xl border border-accent/20 bg-gradient-to-br from-accent/15 to-mint/10">☰</div>
+          <h3 class="text-xl font-bold tracking-tight mb-3">Шаблоны</h3>
+          <p class="text-[15px] text-dim leading-relaxed">Карта, план месяца и вопросы брифа копируются в проект. Дальше правят уже его.</p>
+        </article>
+        <article class="relative overflow-hidden rounded-2xl border border-line bg-gradient-to-b from-card to-card/50 p-8 hover:-translate-y-1 hover:border-[#333344] transition">
+          <div class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center text-xl border border-accent/20 bg-gradient-to-br from-accent/15 to-mint/10">✎</div>
+          <h3 class="text-xl font-bold tracking-tight mb-3">Отчёт</h3>
+          <p class="text-[15px] text-dim leading-relaxed">Черновик собирается из текстов в задачах и метрик. В портале и в PDF один текст.</p>
+        </article>
+        <article class="relative overflow-hidden rounded-2xl border border-line bg-gradient-to-b from-card to-card/50 p-8 hover:-translate-y-1 hover:border-[#333344] transition">
+          <div class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center text-xl border border-accent/20 bg-gradient-to-br from-accent/15 to-mint/10">◉</div>
+          <h3 class="text-xl font-bold tracking-tight mb-3">Портал клиента</h3>
+          <p class="text-[15px] text-dim leading-relaxed">Бриф и отправленный отчёт. Часы, ставки и черновики остаются внутри агентства.</p>
+        </article>
+        <article class="relative overflow-hidden rounded-2xl border border-line bg-gradient-to-b from-card to-card/50 p-8 hover:-translate-y-1 hover:border-[#333344] transition">
+          <div class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center text-xl border border-accent/20 bg-gradient-to-br from-accent/15 to-mint/10">⚑</div>
+          <h3 class="text-xl font-bold tracking-tight mb-3">Внимание</h3>
+          <p class="text-[15px] text-dim leading-relaxed">Просрочено или ждёт клиента. Пометка ставится сама.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="stats" class="relative z-10 px-6 py-8 sm:py-12">
+    <div class="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8 p-8 sm:p-12 rounded-3xl border border-line bg-gradient-to-b from-card to-card/50">
+      <div class="text-center">
+        <div class="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-br from-[#a58aff] to-mint bg-clip-text text-transparent mb-2">2</div>
+        <div class="text-sm text-dim">Очереди на главной</div>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-br from-[#a58aff] to-mint bg-clip-text text-transparent mb-2">94%</div>
+        <div class="text-sm text-dim">План «Холода»</div>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-br from-[#a58aff] to-mint bg-clip-text text-transparent mb-2">1</div>
+        <div class="text-sm text-dim">Текст отчёта и PDF</div>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-br from-[#a58aff] to-mint bg-clip-text text-transparent mb-2">3</div>
+        <div class="text-sm text-dim">Команда, подрядчик, клиент</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="relative z-10 px-6 py-16 sm:py-24">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <div class="text-[13px] font-semibold uppercase tracking-[2px] text-mint mb-4">Тарифы</div>
+        <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight">Один кабинет на компанию</h2>
+      </div>
+      <div class="grid lg:grid-cols-3 gap-6">
+        <article class="rounded-2xl border border-line bg-card p-8">
+          <h3 class="text-sm text-dim font-medium">Старт</h3>
+          <p class="mt-4 text-4xl font-extrabold tracking-tight">0 ₽</p>
+          <p class="mt-2 text-sm text-dim">14 дней, до 2 проектов</p>
+        </article>
+        <article class="rounded-2xl border border-accent/40 bg-gradient-to-b from-accent/15 to-card p-8">
+          <h3 class="text-sm text-[#b8a8ff] font-medium">Агентство</h3>
+          <p class="mt-4 text-4xl font-extrabold tracking-tight">9 900 ₽</p>
+          <p class="mt-2 text-sm text-dim">В месяц. Шаблоны, отчёты, метрики. До 15 проектов.</p>
+        </article>
+        <article class="rounded-2xl border border-line bg-card p-8">
+          <h3 class="text-sm text-dim font-medium">Сеть</h3>
+          <p class="mt-4 text-4xl font-extrabold tracking-tight">24 900 ₽</p>
+          <p class="mt-2 text-sm text-dim">В месяц, без лимита проектов</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="relative z-10 px-6 pb-24">
+    <div class="max-w-6xl mx-auto">
+      <div class="relative overflow-hidden text-center rounded-[32px] border border-accent/30 bg-gradient-to-br from-accent/15 to-mint/10 px-6 py-16 sm:px-10 sm:py-20">
+        <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(124,92,255,0.3),transparent_60%)]"></div>
+        <h2 class="relative text-4xl sm:text-5xl font-extrabold tracking-tight mb-5">Откройте демо</h2>
+        <p class="relative text-[17px] text-dim max-w-md mx-auto mb-10">Компания «Ромашка Digital», проект «Холод». Главная, задачи и отчёт уже заполнены.</p>
+        <a href="index.html" class="relative inline-flex items-center px-8 py-4 rounded-[10px] text-base font-semibold text-white bg-gradient-to-br from-accent to-[#9d7cff] shadow-[0_8px_32px_rgba(124,92,255,0.4)] hover:-translate-y-0.5 transition">Войти в кабинет →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="relative z-10 px-6 pt-14 pb-10 border-t border-line">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-6">
+      <a href="landing.html" class="flex items-center gap-2.5 text-lg font-bold">
+        <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-accent to-mint flex items-center justify-center text-base">◆</span>
+        SEO Control
+      </a>
+      <ul class="flex gap-7 text-sm text-dim">
+        <li><a href="#features" class="hover:text-ink transition">Возможности</a></li>
+        <li><a href="#pricing" class="hover:text-ink transition">Тарифы</a></li>
+        <li><a href="index.html" class="hover:text-ink transition">Демо</a></li>
+      </ul>
+      <div class="text-sm text-dim">Кабинет SEO-агентства</div>
+    </div>
+  </footer>
+</body>
+</html>
