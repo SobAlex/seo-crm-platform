@@ -74,19 +74,19 @@
   const PSTATUS = { active: ['bg-emerald-500', 'Активен'], launch: ['bg-blue-500', 'Запуск'], paused: ['bg-zinc-400', 'На паузе'] };
   /* brief: filled — заполнен, sent — отправлен (дата, напоминания), none — не отправлен */
   const CLIENTS = [
-    { id: 'holod', name: 'ООО «Холод Групп»', status: 'active', since: 'с мая 2025', contact: 'Сергей Волков', email: 's.volkov@holod.ru',
+    { id: 'holod', name: 'ООО «Холод Групп»', status: 'active', since: 'с мая 2025', contact: 'Сергей Волков', phone: '+7 495 123-45-67', email: 's.volkov@holod.ru',
       brief: { state: 'filled', date: '03.05' },
       projects: [{ name: 'Интернет-магазин «Холод»', site: 'holod-shop.ru', status: 'active' }, { name: 'Оптовый портал «Холод B2B»', site: 'b2b.holod-shop.ru', status: 'launch' }] },
-    { id: 'smirnov', name: 'ИП Смирнов А.', status: 'active', since: 'с марта 2025', contact: 'Андрей Смирнов', email: 'a@remont-plus.ru',
+    { id: 'smirnov', name: 'ИП Смирнов А.', status: 'active', since: 'с марта 2025', contact: 'Андрей Смирнов', phone: '+7 916 555-12-34', email: 'a@remont-plus.ru',
       brief: { state: 'sent', date: '12.06' },
       projects: [{ name: 'Сайт услуг «Ремонт+»', site: 'remont-plus.ru', status: 'active' }] },
-    { id: 'stroytech', name: 'АО «Стройтех»', status: 'paused', since: 'пауза с 01.06', contact: 'Михаил Орлов', email: 'm.orlov@stroytech.ru',
+    { id: 'stroytech', name: 'АО «Стройтех»', status: 'paused', since: 'пауза с 01.06', contact: 'Михаил Орлов', phone: '+7 812 300-40-50', email: 'm.orlov@stroytech.ru',
       brief: { state: 'filled', date: '14.02' },
       projects: [{ name: 'B2B портал «Стройтех»', site: 'stroytech.ru', status: 'paused' }] },
-    { id: 'medlife', name: 'ООО «МедЛайф»', status: 'active', since: 'с апреля 2025', contact: 'Елена Крылова', email: 'e.krylova@medlife.ru',
+    { id: 'medlife', name: 'ООО «МедЛайф»', status: 'active', since: 'с апреля 2025', contact: 'Елена Крылова', phone: '+7 383 200-10-20', email: 'e.krylova@medlife.ru',
       brief: { state: 'none' },
       projects: [{ name: 'Клиника «МедЛайф»', site: 'medlife-clinic.ru', status: 'active' }] },
-    { id: 'alfa', name: 'ООО «Альфа»', status: 'lead', since: 'КП отправлено 10.06', contact: 'Дмитрий Лебедев', email: 'd.lebedev@alfa-group.ru',
+    { id: 'alfa', name: 'ООО «Альфа»', status: 'lead', since: 'КП отправлено 10.06', contact: 'Дмитрий Лебедев', phone: '+7 343 222-33-44', email: 'd.lebedev@alfa-group.ru',
       brief: { state: 'sent', date: '16.06' },
       projects: [] }
   ];
@@ -107,8 +107,8 @@
     const st = STATUS[c.status];
     const n = c.projects.length;
     return '<tr data-client="' + c.id + '" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top">' +
-      '<td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1"><a href="client.html" class="text-base md:text-sm font-medium hover:underline">' + c.name + '</a></td>' +
-      '<td data-label="Сотрудничество" class="' + TD + '">' + chip(st[0], st[1], st[2]) + '<div class="text-xs text-zinc-500 mt-1">' + c.since + '</div></td>' +
+      '<td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1"><div class="flex flex-wrap items-center gap-x-2 gap-y-1"><a href="client.html" class="text-sm font-semibold hover:underline">' + c.name + '</a>' + chip(st[0], st[1], st[2]) + '</div><div class="text-xs text-zinc-500 mt-0.5">' + c.contact + (c.phone ? ' · ' + c.phone : '') + '</div></td>' +
+      '<td data-label="Сотрудничество" class="' + TD + '"><div class="text-sm text-zinc-700">' + c.since + '</div></td>' +
       '<td data-label="Контакт" class="' + TD + '"><div class="text-sm">' + c.contact + '</div><div class="text-xs text-zinc-500 mt-0.5">' + c.email + '</div></td>' +
       '<td data-label="Бриф" data-brief-cell="' + c.id + '" class="' + TD + '">' + brief(c) + '</td>' +
       '<td data-label="Проектов" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">' +
@@ -149,7 +149,7 @@
   });
   document.addEventListener('client:created', e => {
     const c = e.detail;
-    CLIENTS.unshift({ id: c.id, name: c.name, status: 'lead', since: 'добавлен 18.06', contact: c.contact, email: c.email, brief: { state: 'none' }, projects: [] });
+    CLIENTS.unshift({ id: c.id, name: c.name, status: 'lead', since: 'добавлен 18.06', contact: c.contact, phone: c.phone || '', email: c.email, brief: { state: 'none' }, projects: [] });
     paint();
     tbody.firstElementChild.classList.add('bg-accent/5');
     App.applyPermissions();

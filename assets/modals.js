@@ -179,7 +179,7 @@
     title: 'Новый клиент', subtitle: 'Реквизиты, контакт и бриф для старта', size: 'lg', submit: 'Создать клиента', submitCan: 'create_client',
     body: () => clientBody() + check('send_brief', 'Отправить бриф контакту сразу после создания', { checked: true }),
     onSubmit(m, d) {
-      const c = { id: 'c' + Date.now(), name: val(m, 'name'), inn: val(m, 'inn'), city: val(m, 'city'), rate: +val(m, 'rate') || 0, contact: val(m, 'contact'), email: val(m, 'email'), brief: val(m, 'brief') };
+      const c = { id: 'c' + Date.now(), name: val(m, 'name'), inn: val(m, 'inn'), city: val(m, 'city'), rate: +val(m, 'rate') || 0, contact: val(m, 'contact'), phone: val(m, 'phone'), email: val(m, 'email'), brief: val(m, 'brief') };
       CLIENTS.push(c);
       document.querySelectorAll('select[name="client"]').forEach(s => {
         const o = document.createElement('option');
