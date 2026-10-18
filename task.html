@@ -24,8 +24,9 @@
             <h1 class="text-base font-semibold tracking-tight truncate">Проверить индексацию в GSC</h1>
           </div>
           <div class="flex items-center gap-2 shrink-0">
-            <button data-accept-item data-creator="petrov" data-acceptor="petrov" data-toast="Возвращено на доработку · исполнитель уведомлён" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition whitespace-nowrap">На доработку</button>
-            <button data-accept-item data-creator="petrov" data-acceptor="petrov" data-toast="Задача принята" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition whitespace-nowrap">Принять</button>
+            <button type="button" data-task-action="rework" data-accept-item data-creator="petrov" data-acceptor="petrov" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition whitespace-nowrap">На доработку</button>
+            <button type="button" data-task-action="accept" data-accept-item data-creator="petrov" data-acceptor="petrov" class="px-3.5 py-1.5 rounded-full bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition whitespace-nowrap">Принять</button>
+            <span data-status-note class="hidden inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap"></span>
             <span data-accept-deny data-creator="petrov" data-acceptor="petrov" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 text-amber-700 text-sm font-medium whitespace-nowrap">
               <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>Принимает А. Петров
             </span>
@@ -37,35 +38,13 @@
 
         <div class="mb-6">
           <div class="flex flex-wrap items-center gap-3 mb-2">
-            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700">
-              <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>На проверке
-            </span>
+            <span data-task-status class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium"></span>
             <a href="tasks.html?direction=audit" class="text-xs text-zinc-500 hover:text-zinc-900 hover:underline">Аудит · Аудит технический</a>
           </div>
           <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight">Проверить индексацию в GSC</h2>
 
-          <ol aria-label="Этапы задачи" class="mt-5 grid grid-cols-4 gap-1 sm:gap-2 max-w-xl">
-            <li>
-              <div class="h-1 rounded-full bg-zinc-900"></div>
-              <div class="mt-2 text-[11px] sm:text-xs font-medium text-zinc-900">Запланирована</div>
-              <div class="text-[11px] text-zinc-500 tabular-nums">10.06</div>
-            </li>
-            <li>
-              <div class="h-1 rounded-full bg-zinc-900"></div>
-              <div class="mt-2 text-[11px] sm:text-xs font-medium text-zinc-900">В работе</div>
-              <div class="text-[11px] text-zinc-500 tabular-nums">12.06</div>
-            </li>
-            <li aria-current="step">
-              <div class="h-1 rounded-full bg-amber-500"></div>
-              <div class="mt-2 text-[11px] sm:text-xs font-medium text-amber-700">На проверке</div>
-              <div class="text-[11px] text-zinc-500 tabular-nums">14.06</div>
-            </li>
-            <li>
-              <div class="h-1 rounded-full bg-zinc-200"></div>
-              <div class="mt-2 text-[11px] sm:text-xs text-zinc-500">Принята</div>
-              <div class="text-[11px] text-zinc-500">—</div>
-            </li>
-          </ol>
+          <ol data-lifecycle aria-label="Этапы задачи" class="mt-5 grid grid-cols-4 gap-1 sm:gap-2 max-w-xl"></ol>
+          <div data-return-note class="hidden mt-4 max-w-xl"></div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
@@ -73,15 +52,16 @@
           <div class="lg:col-span-2 flex flex-col gap-4 lg:gap-6">
 
             <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
-              <h3 class="text-sm font-semibold tracking-tight mb-3">Описание</h3>
-              <p class="text-sm text-zinc-600 leading-relaxed">
-                Проверить индексацию ключевых категорий и карточек товаров после внедрения canonical. Убедиться, что служебные страницы закрыты от обхода.
-              </p>
-            </section>
-
-            <section class="bg-zinc-100/70 rounded-2xl p-4 lg:p-6">
-              <h3 class="text-sm font-semibold tracking-tight">Критерии приёмки</h3>
-              <p class="text-sm text-zinc-700 leading-relaxed">Проверены ключевые категории и карточки товаров. Список выпавших из индекса URL передан в переобход. Результат для клиента написан простым языком.</p>
+              <h3 class="text-sm font-semibold tracking-tight mb-3">Описание задачи</h3>
+              <p class="text-sm text-zinc-700 leading-relaxed">Проверить индексацию ключевых категорий и карточек товаров после внедрения canonical. Убедиться, что служебные страницы закрыты от обхода.</p>
+              <div class="mt-4 pt-4 border-t border-zinc-100">
+                <div class="text-xs font-medium text-zinc-500 mb-2">Готово, когда</div>
+                <ul class="space-y-1.5 text-sm text-zinc-700">
+                  <li class="flex gap-2"><svg class="w-4 h-4 mt-0.5 shrink-0 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 13l4 4L19 7"/></svg>Проверены ключевые категории и карточки товаров</li>
+                  <li class="flex gap-2"><svg class="w-4 h-4 mt-0.5 shrink-0 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 13l4 4L19 7"/></svg>Выпавшие из индекса URL переданы в переобход</li>
+                  <li class="flex gap-2"><svg class="w-4 h-4 mt-0.5 shrink-0 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 13l4 4L19 7"/></svg>Результат для клиента написан простым языком и включён в отчёт</li>
+                </ul>
+              </div>
             </section>
 
             <section class="bg-white rounded-2xl shadow-card overflow-hidden">
@@ -116,239 +96,91 @@
               </ul>
             </section>
 
-            <section class="bg-white rounded-2xl shadow-card overflow-hidden">
-              <div class="px-4 lg:px-6 py-4 flex items-center justify-between">
+            <section id="comments" data-comments class="bg-white rounded-2xl shadow-card overflow-hidden">
+              <div class="px-4 lg:px-6 py-4 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
                 <div>
-                  <h3 class="text-sm font-semibold tracking-tight">Ход работ и время</h3>
-                  <p class="text-xs text-zinc-500 mt-0.5">Что сделано и сколько часов · только для команды</p>
+                  <h3 class="text-sm font-semibold tracking-tight">Комментарии <span data-comments-count class="ml-1 text-xs font-normal text-zinc-500 tabular-nums">0</span></h3>
+                  <p class="text-xs text-zinc-500 mt-0.5">Обсуждение, ход работ и списание времени. Сообщения с отметкой «В отчёте» уходят клиенту.</p>
                 </div>
-                <span class="text-xs text-zinc-500 shrink-0">4 записи · 2,5 ч</span>
+                <a data-report-link href="report.html" class="hidden inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-medium hover:bg-emerald-100 transition">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6M9 17h4M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8l-5-5z"/></svg>
+                  В отчёте: <span data-report-count class="tabular-nums">0</span> · открыть
+                </a>
               </div>
 
-              <div class="grid grid-cols-3 border-t border-zinc-100">
-                <div class="p-4 lg:p-5">
-                  <div class="text-xs font-medium text-zinc-500 mb-2">Оценка</div>
-                  <div class="text-2xl font-semibold tracking-tight tabular-nums">4,0 <span class="text-xs font-normal text-zinc-500">ч</span></div>
-                </div>
-                <div class="p-4 lg:p-5 border-x border-zinc-100">
-                  <div class="text-xs font-medium text-zinc-500 mb-2">Затрачено</div>
-                  <div class="text-2xl font-semibold tracking-tight tabular-nums">2,5 <span class="text-xs font-normal text-zinc-500">ч</span></div>
-                </div>
-                <div class="p-4 lg:p-5">
-                  <div class="text-xs font-medium text-zinc-500 mb-2">Остаток</div>
-                  <div class="text-2xl font-semibold tracking-tight tabular-nums text-emerald-700">1,5 <span class="text-xs font-normal text-zinc-500">ч</span></div>
-                </div>
-              </div>
+              <ul data-feed class="max-h-[420px] overflow-y-auto overscroll-contain divide-y divide-zinc-100 border-t border-zinc-100 [scrollbar-width:thin]"></ul>
 
-              <div class="px-4 lg:px-6 py-3 border-t border-zinc-100">
-                <div class="flex justify-between text-xs text-zinc-500 mb-2">
-                  <span>Использовано <span class="tabular-nums text-zinc-900 font-medium">62%</span></span>
-                  <span class="tabular-nums">2,5 / 4,0 ч</span>
-                </div>
-                <div class="h-1.5 bg-zinc-100 rounded-full overflow-hidden">
-                  <div class="h-full bg-zinc-900 rounded-full w-[62%]"></div>
-                </div>
-              </div>
-
-              <ul class="divide-y divide-zinc-100 border-t border-zinc-100">
-                <li class="p-4 lg:p-5">
-                  <div class="flex gap-3">
-                    <span class="w-8 h-8 shrink-0 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center">МК</span>
-                    <div class="flex-1 min-w-0">
-                      <div class="flex flex-wrap items-baseline gap-x-2 mb-1">
-                        <span class="text-sm font-medium">М. Ким</span>
-                        <span class="text-xs text-zinc-500">14.06, 16:40</span>
-                        <span class="text-xs font-medium text-zinc-900 ml-auto tabular-nums">1,0 ч</span>
-                      </div>
-                      <p class="text-sm text-zinc-600">Сверил проиндексированные страницы, 3 URL выпали из индекса — выясняю причину.</p>
-                    </div>
+              <div class="border-t border-zinc-100 bg-zinc-50/80 p-3 lg:p-4">
+                <div data-composer class="rounded-2xl border border-zinc-200 bg-white transition focus-within:ring-4 focus-within:ring-accent/15 focus-within:border-accent/40">
+                  <div data-toolbar class="flex items-center gap-0.5 px-1.5 py-1 border-b border-zinc-100" role="toolbar" aria-label="Форматирование">
+                    <button type="button" data-cmd="bold" title="Жирный (⌘B)" aria-label="Жирный" class="w-8 h-8 rounded-lg text-sm font-bold text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 transition">B</button>
+                    <button type="button" data-cmd="italic" title="Курсив (⌘I)" aria-label="Курсив" class="w-8 h-8 rounded-lg text-sm italic font-serif text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 transition">I</button>
+                    <span class="w-px h-5 bg-zinc-200 mx-1" aria-hidden="true"></span>
+                    <button type="button" data-cmd="insertUnorderedList" title="Маркированный список" aria-label="Маркированный список" class="w-8 h-8 rounded-lg text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 transition flex items-center justify-center">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-width="2" d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.2" fill="currentColor"/><circle cx="4.5" cy="12" r="1.2" fill="currentColor"/><circle cx="4.5" cy="18" r="1.2" fill="currentColor"/></svg>
+                    </button>
+                    <button type="button" data-cmd="insertOrderedList" title="Нумерованный список" aria-label="Нумерованный список" class="w-8 h-8 rounded-lg text-[11px] font-semibold text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 transition">1.</button>
+                    <button type="button" data-cmd="link" title="Ссылка" aria-label="Ссылка" class="w-8 h-8 rounded-lg text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 transition flex items-center justify-center">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14a4 4 0 005.66 0l3-3a4 4 0 00-5.66-5.66l-1 1M14 10a4 4 0 00-5.66 0l-3 3a4 4 0 005.66 5.66l1-1"/></svg>
+                    </button>
+                    <span class="w-px h-5 bg-zinc-200 mx-1" aria-hidden="true"></span>
+                    <button type="button" data-cmd="attach" title="Прикрепить файл" aria-label="Прикрепить файл" class="w-8 h-8 rounded-lg text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 transition flex items-center justify-center">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+                    </button>
+                    <input type="file" data-file-input multiple class="hidden">
+                    <span class="ml-auto pr-2 text-[11px] text-zinc-400 hidden sm:inline">⌘V — вставить скриншот</span>
                   </div>
-                </li>
-                <li class="p-4 lg:p-5">
-                  <div class="flex gap-3">
-                    <span class="w-8 h-8 shrink-0 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center">МК</span>
-                    <div class="flex-1 min-w-0">
-                      <div class="flex flex-wrap items-baseline gap-x-2 mb-1">
-                        <span class="text-sm font-medium">М. Ким</span>
-                        <span class="text-xs text-zinc-500">14.06, 12:15</span>
-                        <span class="text-xs font-medium text-zinc-900 ml-auto tabular-nums">1,2 ч</span>
-                      </div>
-                      <p class="text-sm text-zinc-600">Проверил отчёт «Индексирование». Основной массив в порядке.</p>
-                    </div>
+                  <div data-link-row class="hidden flex items-center gap-2 px-3 py-2 border-b border-zinc-100 bg-zinc-50/60">
+                    <input data-link-input type="url" placeholder="https://…" aria-label="Адрес ссылки" class="flex-1 min-w-0 px-3 py-1.5 rounded-lg border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                    <button type="button" data-link-apply class="px-3 py-1.5 rounded-full bg-zinc-900 text-white text-xs font-medium hover:bg-zinc-800 transition">Вставить</button>
+                    <button type="button" data-link-cancel class="px-2.5 py-1.5 rounded-full text-xs text-zinc-500 hover:text-zinc-900 hover:bg-black/5 transition">Отмена</button>
                   </div>
-                </li>
-                <li class="p-4 lg:p-5">
-                  <div class="flex gap-3">
-                    <span class="w-8 h-8 shrink-0 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center">АП</span>
-                    <div class="flex-1 min-w-0">
-                      <div class="flex flex-wrap items-baseline gap-x-2 mb-1">
-                        <span class="text-sm font-medium">А. Петров</span>
-                        <span class="text-xs text-zinc-500">13.06, 18:20</span>
-                        <span class="text-xs font-medium text-zinc-900 ml-auto tabular-nums">0,3 ч</span>
-                      </div>
-                      <p class="text-sm text-zinc-600">Уточнил список проверяемых URL, сократил до 40 приоритетных.</p>
-                      <div class="mt-3 inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-200 text-xs">
-                        <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
-                        <span class="font-medium">gsc-export.csv</span>
-                        <span class="text-zinc-500 tabular-nums">96 KB</span>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-
-              <div class="border-t border-zinc-100 p-4 lg:p-5 bg-zinc-50">
-                <div class="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
-                  <div class="flex items-center gap-2 shrink-0">
-                    <input type="number" step="0.25" min="0" placeholder="0,5" class="w-20 px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm tabular-nums focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-                    <span class="text-sm text-zinc-500">ч</span>
-                  </div>
-                  <input type="text" placeholder="Что сделано" class="flex-1 px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-                  <button data-can="track_time" data-toast="Таймер запущен" class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition shrink-0">▶ Таймер</button>
-                  <button data-can="track_time" data-toast="Запись добавлена в ход работ" class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition shrink-0">Добавить</button>
+                  <div data-editor contenteditable="true" role="textbox" aria-multiline="true" aria-label="Текст комментария" data-empty="true" data-placeholder="Написать комментарий… Скриншот можно вставить через ⌘V / Ctrl+V"
+                       class="px-3.5 py-2.5 min-h-[76px] max-h-48 overflow-y-auto outline-none text-sm text-zinc-800 leading-relaxed break-words data-[empty=true]:before:content-[attr(data-placeholder)] data-[empty=true]:before:text-zinc-400 data-[empty=true]:before:pointer-events-none [&_b]:font-semibold [&_strong]:font-semibold [&_i]:italic [&_em]:italic [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-accent [&_a]:underline"></div>
+                  <div data-pending class="hidden flex flex-wrap gap-2 px-3 pb-3"></div>
                 </div>
-                <label class="mt-3 inline-flex items-center gap-2 text-xs text-zinc-600 cursor-pointer">
-                  <input type="checkbox" checked data-can="edit_time" data-deny-tip="Лимит часов задаёт сотрудник компании" class="w-4 h-4 rounded border-zinc-300">
-                  Входит в лимит часов проекта
-                </label>
-                <button type="button" data-attach class="mt-3 inline-flex items-center gap-2 text-xs text-zinc-500 hover:text-zinc-900 transition">
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
-                  Прикрепить файл
-                </button>
-              </div>
-            </section>
 
-            <section id="comments" data-seg-scope class="bg-white rounded-2xl shadow-card overflow-hidden">
-              <div class="px-4 lg:px-6 py-4 flex flex-col xl:flex-row xl:items-center justify-between gap-3">
-                <div>
-                  <h3 class="text-sm font-semibold tracking-tight">Комментарии</h3>
-                  <p class="text-xs text-zinc-500 mt-0.5">Обсуждение видит только команда. Заметка для отчёта уходит клиенту.</p>
-                </div>
-                <div data-segmented class="shrink-0 self-start xl:self-auto" role="group" aria-label="Тип комментариев">
-                  <button type="button" data-seg="internal" aria-pressed="true" class="px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap">Внутреннее обсуждение<span data-chat-count class="ml-1.5 text-xs tabular-nums opacity-60">4</span></button>
-                  <button type="button" data-seg="report" class="px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap">Заметка для отчёта</button>
-                </div>
-              </div>
-
-              <!-- Внутреннее обсуждение -->
-              <div data-seg-panel="internal">
-                <ul data-chat-list class="divide-y divide-zinc-100 border-t border-zinc-100">
-                  <li class="p-4 lg:p-5">
-                    <div class="flex gap-3">
-                      <span class="w-8 h-8 shrink-0 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center">АП</span>
-                      <div class="flex-1 min-w-0">
-                        <div class="flex flex-wrap items-baseline gap-x-2 mb-1">
-                          <span class="text-sm font-medium">А. Петров</span>
-                          <span class="text-xs text-zinc-500">постановщик</span>
-                          <span class="text-xs text-zinc-500 tabular-nums ml-auto">12.06, 10:05</span>
-                        </div>
-                        <p class="text-sm text-zinc-600">Берём 40 приоритетных URL — список в gsc-export.csv. Выпавшие из индекса сразу отправляй на переобход.</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="p-4 lg:p-5">
-                    <div class="flex gap-3">
-                      <span class="w-8 h-8 shrink-0 rounded-full bg-zinc-200 text-zinc-700 text-[10px] font-semibold flex items-center justify-center">МК</span>
-                      <div class="flex-1 min-w-0">
-                        <div class="flex flex-wrap items-baseline gap-x-2 mb-1">
-                          <span class="text-sm font-medium">М. Ким</span>
-                          <span class="text-xs text-zinc-500">исполнитель</span>
-                          <span class="text-xs text-zinc-500 tabular-nums ml-auto">14.06, 12:20</span>
-                        </div>
-                        <p class="text-sm text-zinc-600">Основной массив в порядке, 3 URL выпали после релиза. Причины выясняю, отпишусь здесь.</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="px-4 lg:px-5 py-3 flex items-center justify-center gap-2 text-xs text-zinc-500">
-                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-                    <span>М. Ким передал задачу на проверку · <span class="tabular-nums">14.06, 17:05</span></span>
-                  </li>
-                  <li class="p-4 lg:p-5 bg-amber-50/40">
-                    <div class="flex gap-3">
-                      <span class="w-8 h-8 shrink-0 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center">АП</span>
-                      <div class="flex-1 min-w-0">
-                        <div class="flex flex-wrap items-center gap-x-2 gap-y-1 mb-1">
-                          <span class="text-sm font-medium">А. Петров</span>
-                          <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-amber-50 text-amber-700 ring-1 ring-amber-200">Замечание к приёмке</span>
-                          <span class="text-xs text-zinc-500 tabular-nums ml-auto">15.06, 09:40</span>
-                        </div>
-                        <p class="text-sm text-zinc-600">Добавь таблицу выпавших URL с причинами — без неё не приму. И перепиши заметку для отчёта проще, клиенту не нужно слово «canonical».</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="p-4 lg:p-5">
-                    <div class="flex gap-3">
-                      <span class="w-8 h-8 shrink-0 rounded-full bg-zinc-200 text-zinc-700 text-[10px] font-semibold flex items-center justify-center">МК</span>
-                      <div class="flex-1 min-w-0">
-                        <div class="flex flex-wrap items-baseline gap-x-2 mb-1">
-                          <span class="text-sm font-medium">М. Ким</span>
-                          <span class="text-xs text-zinc-500">исполнитель</span>
-                          <span class="text-xs text-zinc-500 tabular-nums ml-auto">15.06, 11:02</span>
-                        </div>
-                        <p class="text-sm text-zinc-600">Принято, таблицу приложу до конца дня.</p>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-
-                <div class="border-t border-zinc-100 p-4 lg:p-5 bg-zinc-50">
-                  <textarea data-chat-input rows="2" placeholder="Написать команде… Клиент это не увидит" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></textarea>
-                  <div class="mt-3 flex flex-col sm:flex-row sm:items-center gap-2">
-                    <div data-segmented data-chat-kind class="shrink-0 self-start sm:self-auto" role="group" aria-label="Тип сообщения">
-                      <button type="button" data-seg="comment" aria-pressed="true" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Комментарий</button>
-                      <button type="button" data-seg="remark" data-accept-item data-creator="petrov" data-acceptor="petrov" data-deny-tip="Замечание к приёмке оставляет постановщик (А. Петров) или руководитель" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Замечание к приёмке</button>
-                    </div>
-                    <div class="flex items-center gap-2 sm:ml-auto">
-                      <button type="button" data-attach class="inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs text-zinc-500 hover:text-zinc-900 hover:bg-black/5 transition">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
-                        Файл
-                      </button>
-                      <button type="button" data-chat-send data-can="own_tasks" class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Отправить</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Заметка для отчёта -->
-              <div data-seg-panel="report" class="hidden border-t border-zinc-100">
-                <div class="p-4 lg:p-5 space-y-4">
-                  <div class="rounded-xl bg-zinc-50 p-3 flex gap-3">
-                    <svg class="w-4 h-4 text-zinc-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    <p class="text-xs text-zinc-600">Этот текст увидит клиент в отчёте <span class="font-medium text-zinc-900">«Холод · Июнь 2025»</span>, раздел «Аудит». Пишите простым языком: что сделано и что это даёт. Время и внутренние детали сюда не попадают.</p>
-                  </div>
-
-                  <div>
-                    <label for="report-note" class="block text-xs font-medium text-zinc-500 mb-2">Текст для клиента</label>
-                    <textarea id="report-note" data-note-input rows="4" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">Проверили индексацию сайта: 92% страниц находятся в поиске Google. Три страницы выпали после последнего обновления сайта — мы отправили их на повторную проверку. Служебные страницы скрыты от поиска правильно.</textarea>
-                    <div class="mt-1.5 flex justify-between text-xs text-zinc-500">
-                      <span>Изменено: А. Петров, <span class="tabular-nums">14.06, 15:00</span></span>
-                      <span class="tabular-nums"><span data-note-len>0</span> / 600</span>
-                    </div>
-                  </div>
-
-                  <label class="flex items-start gap-3 p-3 rounded-xl border border-zinc-200 cursor-pointer has-[:checked]:border-emerald-300 has-[:checked]:bg-emerald-50/40 transition">
-                    <input type="checkbox" data-note-include checked data-can="compose_reports" data-deny-tip="Включить заметку в отчёт может сотрудник компании. Подрядчик готовит текст — его включит менеджер проекта." class="mt-0.5 w-4 h-4 rounded border-zinc-300 accent-emerald-600">
-                    <span class="min-w-0">
-                      <span class="block text-sm font-medium">Включить в отчёт</span>
-                      <span data-note-state class="block text-xs text-zinc-500 mt-0.5">Заметка попадёт в клиентский отчёт после приёмки задачи</span>
-                    </span>
+                <div class="mt-3 flex flex-col sm:flex-row sm:items-center gap-3">
+                  <label class="inline-flex items-center gap-1.5 shrink-0 text-sm text-zinc-600" title="Списать время вместе с комментарием">
+                    <span aria-hidden="true">⏱</span>Время:
+                    <input data-hours data-can="track_time" type="text" inputmode="decimal" placeholder="+2,5" aria-label="Списать часов" class="w-16 px-2.5 py-1 rounded-lg border border-zinc-200 bg-white text-sm text-center tabular-nums focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40 disabled:opacity-40">
+                    <span class="text-zinc-500">ч</span>
                   </label>
-
-                  <div data-note-preview class="rounded-xl border border-dashed border-zinc-300 p-4 transition">
-                    <div class="text-[11px] font-medium text-zinc-500 mb-2">Так увидит клиент</div>
-                    <div class="text-sm font-medium mb-1">Проверка индексации в Google</div>
-                    <p data-note-text class="text-sm text-zinc-600 leading-relaxed"></p>
+                  <span class="hidden sm:block w-px h-5 bg-zinc-200" aria-hidden="true"></span>
+                  <label class="inline-flex items-center gap-2.5 cursor-pointer select-none">
+                    <input type="checkbox" data-report-toggle data-can="compose_reports" data-deny-tip="Включить комментарий в отчёт может сотрудник компании. Подрядчик пишет текст — его включит менеджер проекта." class="peer sr-only">
+                    <span class="relative w-9 h-5 shrink-0 rounded-full bg-zinc-200 transition peer-checked:bg-emerald-500 peer-disabled:opacity-40 peer-focus-visible:ring-4 peer-focus-visible:ring-accent/20 after:absolute after:left-0.5 after:top-0.5 after:w-4 after:h-4 after:rounded-full after:bg-white after:shadow-sm after:transition peer-checked:after:translate-x-4"></span>
+                    <span class="text-sm text-zinc-700 peer-disabled:text-zinc-400">📄 Включить в отчёт клиенту</span>
+                  </label>
+                  <div class="sm:ml-auto flex items-center gap-3">
+                    <span class="hidden sm:inline text-[11px] text-zinc-400">⌘↵ — отправить</span>
+                    <button type="button" data-send data-can="own_tasks" class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Отправить</button>
                   </div>
                 </div>
-                <div class="px-4 lg:px-5 py-3 border-t border-zinc-100 bg-zinc-50 flex justify-end">
-                  <button type="button" data-can="own_tasks" data-toast="Заметка для отчёта сохранена" class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить заметку</button>
-                </div>
+                <p data-report-hint class="hidden mt-2 text-xs text-emerald-700">Текст со списками, жирным, ссылками и изображениями попадёт в отчёт «Холод · Июнь 2025» в том же виде.</p>
               </div>
             </section>
 
           </div>
 
           <aside class="flex flex-col gap-4 lg:gap-6">
+
+            <section data-time-widget class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
+              <div class="flex items-center justify-between gap-3 mb-3">
+                <h3 class="text-sm font-semibold tracking-tight">Учёт времени</h3>
+                <span data-time-state class="text-[11px] font-medium px-2 py-0.5 rounded-full"></span>
+              </div>
+              <div class="text-sm text-zinc-600">⏱ Затрачено: <span data-time-spent class="font-semibold text-zinc-900 tabular-nums"></span> из <span data-time-estimate class="tabular-nums"></span> <span data-time-left class="text-zinc-500 tabular-nums"></span></div>
+              <div class="mt-3 h-2 rounded-full bg-zinc-100 overflow-hidden" role="progressbar" aria-label="Затрачено от оценки" aria-valuemin="0" aria-valuemax="100" data-time-bar-wrap>
+                <div data-time-bar class="h-full rounded-full transition-all duration-500"></div>
+              </div>
+              <ul data-time-people class="mt-4 space-y-2 text-xs"></ul>
+              <label class="mt-4 pt-4 border-t border-zinc-100 flex items-center gap-2 text-xs text-zinc-600 cursor-pointer">
+                <input type="checkbox" checked data-can="edit_time" data-deny-tip="Лимит часов задаёт сотрудник компании" class="w-4 h-4 rounded border-zinc-300">
+                Входит в лимит часов проекта
+              </label>
+              <p class="mt-2 text-[11px] text-zinc-400">Время списывается в комментарии — поле «⏱ Время» под редактором.</p>
+            </section>
 
             <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
               <h3 class="text-sm font-semibold tracking-tight mb-1">Ожидание клиента</h3>
@@ -408,26 +240,33 @@
 
             <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
               <h3 class="text-sm font-semibold tracking-tight mb-4">История</h3>
-              <ul class="space-y-4 text-sm">
+              <ul data-history class="space-y-4 text-sm">
                 <li class="flex gap-3">
                   <span class="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 shrink-0"></span>
                   <div>
-                    <div class="text-zinc-500 text-xs tabular-nums">14.06 17:05</div>
-                    <div class="text-zinc-700">М. Ким передал задачу на проверку</div>
+                    <div class="text-zinc-500 text-xs tabular-nums">16.06 18:12</div>
+                    <div class="text-zinc-700">М. Ким повторно передал задачу на проверку</div>
+                  </div>
+                </li>
+                <li class="flex gap-3">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 shrink-0"></span>
+                  <div>
+                    <div class="text-zinc-500 text-xs tabular-nums">15.06 09:41</div>
+                    <div class="text-zinc-700">А. Петров вернул задачу на доработку</div>
                   </div>
                 </li>
                 <li class="flex gap-3">
                   <span class="w-1.5 h-1.5 rounded-full bg-zinc-300 mt-2 shrink-0"></span>
                   <div>
                     <div class="text-zinc-500 text-xs tabular-nums">14.06 16:40</div>
-                    <div class="text-zinc-700">+1,0 ч в оперативный ход</div>
+                    <div class="text-zinc-700">М. Ким списал 1,0 ч в комментарии</div>
                   </div>
                 </li>
                 <li class="flex gap-3">
                   <span class="w-1.5 h-1.5 rounded-full bg-zinc-300 mt-2 shrink-0"></span>
                   <div>
                     <div class="text-zinc-500 text-xs tabular-nums">14.06 15:00</div>
-                    <div class="text-zinc-700">Обновлена заметка для отчёта · включена в отчёт</div>
+                    <div class="text-zinc-700">Комментарий А. Петрова включён в отчёт клиенту</div>
                   </div>
                 </li>
                 <li class="flex gap-3">
@@ -489,55 +328,443 @@
 </div>
 
 <script>
-  (function () {
-    const app = window.SEOApp;
-    const me = app.ROLES.find(r => r.id === app.role);
+(function () {
+  const App = window.SEOApp;
+  const me = App.ROLES.find(r => r.id === App.role) || { user: 'Вы', initials: '—', label: '' };
+  const canReport = App.can('compose_reports');
+  const canWrite = App.can('own_tasks');
 
-    const list = document.querySelector('[data-chat-list]');
-    const input = document.querySelector('[data-chat-input]');
-    const count = document.querySelector('[data-chat-count]');
-    const kindBox = document.querySelector('[data-chat-kind]');
-    document.querySelector('[data-chat-send]').addEventListener('click', () => {
-      const text = input.value.trim();
-      if (!text) return app.toast('Напишите сообщение');
-      const pressed = kindBox.querySelector('[aria-pressed="true"]');
-      const remark = pressed && pressed.dataset.seg === 'remark';
-      const now = new Date();
-      const pad = n => String(n).padStart(2, '0');
-      const li = document.createElement('li');
-      li.className = 'p-4 lg:p-5' + (remark ? ' bg-amber-50/40' : '');
-      li.innerHTML = '<div class="flex gap-3">' +
-        '<span class="w-8 h-8 shrink-0 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center"></span>' +
-        '<div class="flex-1 min-w-0"><div class="flex flex-wrap items-center gap-x-2 gap-y-1 mb-1">' +
-        '<span class="text-sm font-medium" data-author></span>' +
-        (remark ? '<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-amber-50 text-amber-700 ring-1 ring-amber-200">Замечание к приёмке</span>' : '') +
-        '<span class="text-xs text-zinc-500 tabular-nums ml-auto">' + pad(now.getDate()) + '.' + pad(now.getMonth() + 1) + ', ' + pad(now.getHours()) + ':' + pad(now.getMinutes()) + '</span></div>' +
-        '<p class="text-sm text-zinc-600" data-body></p></div></div>';
-      li.querySelector('span').textContent = me.initials;
-      li.querySelector('[data-author]').textContent = me.user;
-      li.querySelector('[data-body]').textContent = text;
-      list.appendChild(li);
-      count.textContent = list.querySelectorAll('li.p-4').length;
-      input.value = '';
-      app.toast(remark ? 'Замечание отправлено исполнителю' : 'Сообщение отправлено команде');
-    });
+  /* Лента: обсуждение, списанное время, возврат на доработку и сообщения «В отчёте» */
+  const SEED = [
+    { id: 's1', author: 'А. Петров', initials: 'АП', dark: true, role: 'постановщик', time: '12.06, 10:05', hours: 0.3,
+      html: 'Берём <b>40 приоритетных URL</b> — список во вложении. Выпавшие из индекса сразу отправляй на переобход.',
+      files: [{ name: 'gsc-export.csv', size: 98304 }] },
+    { id: 's2', author: 'М. Ким', initials: 'МК', role: 'исполнитель', time: '14.06, 12:20', hours: 1.2,
+      html: 'Проверил отчёт «Индексирование»: основной массив в порядке, 3 URL выпали после релиза. Причины выясняю.' },
+    { id: 's3', author: 'А. Петров', initials: 'АП', dark: true, role: 'постановщик', time: '14.06, 15:00', report: true,
+      html: '<p>Проверили индексацию сайта: <b>92% страниц</b> находятся в поиске Google.</p><ul><li>Три страницы выпали после последнего обновления сайта — отправили их на повторную проверку.</li><li>Служебные страницы скрыты от поиска правильно.</li></ul>' },
+    { id: 's4', author: 'М. Ким', initials: 'МК', role: 'исполнитель', time: '14.06, 16:40', hours: 1.0,
+      html: 'Сверил проиндексированные страницы с sitemap, выпавшие URL отправил на переобход.' },
+    { id: 's5', system: true, text: 'М. Ким передал задачу на проверку · <span class="tabular-nums">14.06, 17:05</span>' },
+    { id: 's6', author: 'А. Петров', initials: 'АП', dark: true, role: 'постановщик', time: '15.06, 09:40', remark: true,
+      html: 'Добавь таблицу выпавших URL с причинами — без неё не приму. И перепиши текст для отчёта проще, клиенту не нужно слово «canonical».' },
+    { id: 's7', system: true, tone: 'amber', text: 'А. Петров вернул задачу на доработку · <span class="tabular-nums">15.06, 09:41</span>' },
+    { id: 's8', author: 'М. Ким', initials: 'МК', role: 'исполнитель', time: '16.06, 18:10', hours: 0.5,
+      html: 'Таблица выпавших URL с причинами во вложении, текст для отчёта упростил.',
+      files: [{ name: 'vypavshie-url.xlsx', size: 22528 }] },
+    { id: 's9', system: true, text: 'М. Ким повторно передал задачу на проверку · <span class="tabular-nums">16.06, 18:12</span>' }
+  ];
+  const ESTIMATE = 4;
+  const task = {
+    status: 'review',
+    dates: { planned: '10.06', progress: '12.06', review: '16.06', done: '' },
+    returns: [{ date: '15.06', who: 'А. Петров', reason: 'Нет таблицы выпавших URL с причинами, текст для отчёта нужно упростить.' }]
+  };
+  const events = [];
 
-    const note = document.querySelector('[data-note-input]');
-    const include = document.querySelector('[data-note-include]');
-    const preview = document.querySelector('[data-note-preview]');
-    const state = document.querySelector('[data-note-state]');
-    function paintNote() {
-      document.querySelector('[data-note-text]').textContent = note.value.trim() || 'Текст ещё не написан';
-      document.querySelector('[data-note-len]').textContent = note.value.length;
-      preview.classList.toggle('opacity-40', !include.checked);
-      state.textContent = include.checked
-        ? 'Заметка попадёт в клиентский отчёт после приёмки задачи'
-        : 'Заметка останется внутри задачи и в отчёт не попадёт';
+  const store = App.comments.load();
+  const all = () => SEED.map(c => Object.assign({}, c, c.id in store.flags ? { report: store.flags[c.id] } : {})).concat(store.items, events);
+
+  const feed = document.querySelector('[data-feed]');
+  const editor = document.querySelector('[data-editor]');
+  const pendingBox = document.querySelector('[data-pending]');
+  const toggle = document.querySelector('[data-report-toggle]');
+  const composer = document.querySelector('[data-composer]');
+  let pending = [];
+
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const pad = n => String(n).padStart(2, '0');
+  const stamp = d => '18.06, ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  const fmtH = h => (Math.round(h * 10) / 10).toString().replace('.', ',') + ' ч';
+  const fmtSize = b => b == null ? '' : (b >= 1048576 ? (b / 1048576).toFixed(1).replace('.', ',') + ' МБ' : Math.max(1, Math.round(b / 1024)) + ' КБ');
+
+  const ICON_FILE = '<svg class="w-3.5 h-3.5 text-zinc-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>';
+  function chip(f, removable) {
+    const thumb = f.url ? '<img src="' + f.url + '" alt="" class="w-6 h-6 rounded object-cover ring-1 ring-black/5 shrink-0">' : ICON_FILE;
+    return '<span data-file="' + esc(f.id || f.name) + '" class="inline-flex items-center gap-2 max-w-full pl-1.5 pr-' + (removable ? '1' : '2.5') + ' py-1 rounded-lg bg-zinc-50 border border-zinc-200 text-xs">' +
+      (f.url ? '<button type="button" data-preview class="inline-flex items-center gap-2 min-w-0" title="Показать">' + thumb : thumb + '<span class="inline-flex items-center gap-2 min-w-0">') +
+      '<span class="font-medium truncate max-w-[180px]">' + esc(f.name) + '</span><span class="text-zinc-500 tabular-nums">' + fmtSize(f.size) + '</span>' +
+      (f.url ? '</button>' : '</span>') +
+      (removable ? '<button type="button" data-remove="' + esc(f.id) + '" aria-label="Убрать вложение" class="w-5 h-5 rounded-full text-zinc-400 hover:text-zinc-800 hover:bg-black/5 flex items-center justify-center">×</button>' : '') +
+    '</span>';
+  }
+
+  function message(c) {
+    if (c.system) return '<li class="px-4 lg:px-5 py-3 flex items-center justify-center gap-2 text-xs ' + (c.tone === 'amber' ? 'text-amber-700' : c.tone === 'green' ? 'text-emerald-700' : 'text-zinc-500') + '"><span class="w-1.5 h-1.5 rounded-full ' + (c.tone === 'amber' ? 'bg-amber-500' : c.tone === 'green' ? 'bg-emerald-500' : 'bg-zinc-300') + '"></span><span>' + c.text + '</span></li>';
+    const tone = c.report ? 'bg-emerald-50/50 border-emerald-500' : (c.remark ? 'bg-amber-50/40 border-amber-400' : 'border-transparent');
+    const images = (c.files || []).filter(f => f.url);
+    return '<li data-msg="' + c.id + '" class="p-4 lg:p-5 border-l-[3px] ' + tone + ' transition-colors">' +
+      '<div class="flex gap-3">' +
+        '<span class="w-8 h-8 shrink-0 rounded-full ' + (c.dark ? 'bg-zinc-900 text-white' : 'bg-zinc-200 text-zinc-700') + ' text-[10px] font-semibold flex items-center justify-center">' + esc(c.initials) + '</span>' +
+        '<div class="flex-1 min-w-0">' +
+          '<div class="flex flex-wrap items-center gap-x-2 gap-y-1 mb-1">' +
+            '<span class="text-sm font-medium">' + esc(c.author) + '</span>' +
+            (c.role ? '<span class="text-xs text-zinc-500">' + esc(c.role) + '</span>' : '') +
+            (c.remark ? '<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-50 text-amber-700 ring-1 ring-amber-200">Замечание к приёмке</span>' : '') +
+            (c.report ? '<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200">📄 В отчёте</span>' : '') +
+            (c.hours ? '<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-zinc-100 text-zinc-700 tabular-nums" title="Списано времени">⏱ ' + fmtH(c.hours) + '</span>' : '') +
+            '<span class="ml-auto flex items-center gap-2">' +
+              (canReport ? '<button type="button" data-flip="' + c.id + '" class="text-[11px] text-zinc-400 hover:text-zinc-900 transition">' + (c.report ? 'Убрать из отчёта' : 'В отчёт') + '</button>' : '') +
+              '<span class="text-xs text-zinc-500 tabular-nums">' + esc(c.time) + '</span>' +
+            '</span>' +
+          '</div>' +
+          '<div class="' + App.RICH + '">' + c.html + '</div>' +
+          (c.files && c.files.length ? '<div class="mt-2.5 flex flex-wrap gap-2">' + c.files.map(f => chip(f)).join('') + '</div>' : '') +
+          (images.length ? '<div data-gallery class="hidden mt-2.5 flex flex-wrap gap-2">' + images.map(f => '<img src="' + f.url + '" alt="' + esc(f.name) + '" class="max-h-64 max-w-full rounded-xl ring-1 ring-black/5">').join('') + '</div>' : '') +
+        '</div>' +
+      '</div>' +
+    '</li>';
+  }
+
+  function paint(scroll) {
+    const list = all();
+    feed.innerHTML = list.map(message).join('');
+    const msgs = list.filter(c => !c.system);
+    const inReport = msgs.filter(c => c.report).length;
+    document.querySelector('[data-comments-count]').textContent = msgs.length;
+    document.querySelector('[data-report-count]').textContent = inReport;
+    document.querySelector('[data-report-link]').classList.toggle('hidden', !inReport);
+    if (scroll) feed.scrollTop = feed.scrollHeight;
+    paintTime(msgs);
+  }
+
+  /* ---------- Учёт времени (сайдбар) ---------- */
+  function paintTime(msgs) {
+    const people = {};
+    msgs.forEach(c => { if (c.hours) people[c.author] = (people[c.author] || 0) + c.hours; });
+    const spent = Object.values(people).reduce((a, b) => a + b, 0);
+    const pct = spent / ESTIMATE * 100;
+    const over = spent > ESTIMATE;
+    const q = sel => document.querySelector(sel);
+    q('[data-time-spent]').textContent = fmtH(spent);
+    q('[data-time-estimate]').textContent = fmtH(ESTIMATE);
+    q('[data-time-left]').textContent = over ? '(Перерасход: ' + fmtH(spent - ESTIMATE) + ')' : '(Остаток: ' + fmtH(ESTIMATE - spent) + ')';
+    q('[data-time-left]').className = (over ? 'text-red-600 font-medium' : 'text-zinc-500') + ' tabular-nums';
+    const bar = q('[data-time-bar]');
+    bar.style.width = Math.min(100, pct) + '%';
+    bar.className = 'h-full rounded-full transition-all duration-500 ' + (over ? 'bg-red-500' : pct >= 85 ? 'bg-amber-500' : 'bg-accent');
+    q('[data-time-bar-wrap]').setAttribute('aria-valuenow', Math.round(pct));
+    const st = q('[data-time-state]');
+    st.textContent = over ? 'Перерасход' : pct >= 85 ? 'Почти исчерпано' : Math.round(pct) + '%';
+    st.className = 'text-[11px] font-medium px-2 py-0.5 rounded-full tabular-nums ' + (over ? 'bg-red-50 text-red-700' : pct >= 85 ? 'bg-amber-50 text-amber-700' : 'bg-zinc-100 text-zinc-600');
+    q('[data-time-people]').innerHTML = Object.keys(people).sort((a, b) => people[b] - people[a]).map(n =>
+      '<li class="flex items-center gap-2"><span class="text-zinc-600 truncate">' + esc(n) + '</span><span class="flex-1 border-b border-dotted border-zinc-200"></span><span class="tabular-nums text-zinc-900 font-medium">' + fmtH(people[n]) + '</span></li>').join('');
+  }
+
+  /* ---------- Жизненный цикл: Запланирована → В работе → На проверке / На доработке → Принята ---------- */
+  const STATUS = {
+    review: { label: 'На проверке', badge: 'bg-amber-50 text-amber-700', dot: 'bg-amber-600' },
+    rework: { label: '↩ На доработке', badge: 'bg-amber-500 text-white', dot: 'bg-white' },
+    done:   { label: 'Принята', badge: 'bg-emerald-50 text-emerald-700', dot: 'bg-emerald-600' }
+  };
+  function paintLifecycle() {
+    const st = STATUS[task.status];
+    document.querySelector('[data-task-status]').className = 'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium ' + st.badge;
+    document.querySelector('[data-task-status]').innerHTML = '<span class="w-1.5 h-1.5 rounded-full ' + st.dot + '"></span>' + st.label;
+    const rework = task.status === 'rework';
+    const done = task.status === 'done';
+    const last = task.returns[task.returns.length - 1];
+    const steps = [
+      { label: 'Запланирована', date: task.dates.planned, state: 'past' },
+      { label: 'В работе', date: task.dates.progress, state: 'past' },
+      rework ? { label: '↩ На доработке', date: last.date, state: 'rework' }
+             : { label: 'На проверке', date: task.dates.review, state: done ? 'past' : 'current', returns: task.returns.length },
+      { label: 'Принята', date: task.dates.done || '—', state: done ? 'done' : 'next' }
+    ];
+    const BAR = { past: done ? 'bg-emerald-500' : 'bg-zinc-900', current: 'bg-amber-500', rework: 'bg-amber-500', done: 'bg-emerald-500', next: 'bg-zinc-200' };
+    const TXT = { past: 'text-zinc-900', current: 'text-amber-700', rework: 'text-amber-800', done: 'text-emerald-700', next: 'text-zinc-500' };
+    document.querySelector('[data-lifecycle]').innerHTML = steps.map(x =>
+      '<li' + (x.state === 'current' || x.state === 'rework' ? ' aria-current="step"' : '') + '>' +
+        '<div class="h-1 rounded-full ' + BAR[x.state] + '"></div>' +
+        '<div class="mt-2 text-[11px] sm:text-xs font-medium ' + TXT[x.state] + '">' + x.label + '</div>' +
+        '<div class="flex flex-wrap items-center gap-1 text-[11px] text-zinc-500 tabular-nums">' + x.date +
+          (x.returns ? '<span class="px-1.5 rounded bg-amber-50 text-amber-700 ring-1 ring-amber-200 font-medium" title="Возвратов на доработку">↩ ' + x.returns + '</span>' : '') +
+        '</div>' +
+      '</li>').join('');
+    const note = document.querySelector('[data-return-note]');
+    note.classList.toggle('hidden', !last || done);
+    if (last && !done) note.innerHTML =
+      '<div class="flex gap-3 rounded-2xl px-3.5 py-3 ' + (rework ? 'bg-amber-50 ring-1 ring-amber-200' : 'bg-white ring-1 ring-black/5') + '">' +
+        '<span class="mt-0.5 shrink-0 inline-flex items-center px-1.5 py-0.5 h-fit rounded-md text-[10px] font-semibold bg-amber-500 text-white">REWORK</span>' +
+        '<div class="min-w-0 text-sm">' +
+          '<div class="' + (rework ? 'font-medium text-amber-900' : 'text-zinc-700') + '">' + (rework ? 'Возвращена на доработку' : 'Возвращалась на доработку') + ' · <span class="tabular-nums">' + last.date + '</span> · ' + esc(last.who) + '</div>' +
+          '<div class="text-xs mt-0.5 ' + (rework ? 'text-amber-800' : 'text-zinc-500') + '">Причина: ' + esc(last.reason) + '</div>' +
+        '</div>' +
+      '</div>';
+    document.querySelectorAll('[data-task-action]').forEach(b => b.classList.toggle('hidden', task.status !== 'review'));
+    const sn = document.querySelector('[data-status-note]');
+    sn.classList.toggle('hidden', task.status === 'review');
+    sn.className = (task.status === 'review' ? 'hidden ' : '') + 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap ' + st.badge;
+    sn.innerHTML = '<span class="w-1.5 h-1.5 rounded-full ' + st.dot + '"></span>' + (rework ? 'Ждём исправлений от М. Кима' : 'Принята ' + task.dates.done);
+  }
+  function addHistory(text, tone) {
+    const li = document.createElement('li');
+    li.className = 'flex gap-3';
+    li.innerHTML = '<span class="w-1.5 h-1.5 rounded-full ' + (tone || 'bg-zinc-300') + ' mt-2 shrink-0"></span><div><div class="text-zinc-500 text-xs tabular-nums">' + stamp(new Date()).replace(',', '') + '</div><div class="text-zinc-700">' + esc(text) + '</div></div>';
+    document.querySelector('[data-history]').prepend(li);
+  }
+  const shortName = n => { const p = n.split(' '); return p.length > 1 ? p[0][0] + '. ' + p[1] : n; };
+  document.querySelectorAll('[data-task-action]').forEach(btn => btn.addEventListener('click', async () => {
+    if (btn.disabled || btn.getAttribute('aria-disabled') === 'true' || task.status !== 'review') return;
+    const who = shortName(me.user);
+    if (btn.dataset.taskAction === 'accept') {
+      task.status = 'done';
+      task.dates.done = '18.06';
+      events.push({ id: 'e' + Date.now(), system: true, tone: 'green', text: esc(who) + ' принял задачу · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });
+      addHistory(who + ' принял задачу', 'bg-emerald-500');
+      paint(true); paintLifecycle();
+      return App.toast('Задача принята · исполнитель уведомлён', 'success');
     }
-    note.addEventListener('input', paintNote);
-    include.addEventListener('change', paintNote);
-    paintNote();
-  })();
+    const reason = await App.askReason(btn, { sub: 'Проверить индексацию в GSC · М. Ким' });
+    if (!reason) return;
+    task.status = 'rework';
+    task.returns.push({ date: '18.06', who, reason });
+    events.push({ id: 'e' + Date.now(), author: me.user, initials: me.initials, dark: true, role: 'принимает работу', time: stamp(new Date()), remark: true, html: esc(reason) },
+                { id: 'e' + Date.now() + 'r', system: true, tone: 'amber', text: esc(who) + ' вернул задачу на доработку · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });
+    addHistory(who + ' вернул задачу на доработку', 'bg-amber-500');
+    paint(true); paintLifecycle();
+    App.toast('Задача отправлена на доработку · исполнитель уведомлён', 'warning');
+  }));
+
+  /* ---------- Редактор ---------- */
+  const isEmpty = () => !editor.textContent.trim() && !editor.querySelector('img');
+  const syncEmpty = () => { editor.dataset.empty = isEmpty() ? 'true' : 'false'; };
+  editor.addEventListener('input', syncEmpty);
+
+  /* Разрешённая разметка: жирный, курсив, списки, ссылки, переносы строк */
+  const TAGS = { B: 'b', STRONG: 'b', I: 'i', EM: 'i', UL: 'ul', OL: 'ol', LI: 'li', A: 'a', BR: 'br', P: 'p', DIV: 'p' };
+  function clean(node) {
+    let out = '';
+    node.childNodes.forEach(n => {
+      if (n.nodeType === 3) { out += esc(n.textContent); return; }
+      if (n.nodeType !== 1) return;
+      const tag = TAGS[n.tagName];
+      const inner = clean(n);
+      if (!tag) { out += inner; return; }
+      if (tag === 'br') { out += '<br>'; return; }
+      if (tag === 'a') {
+        const href = n.getAttribute('href') || '';
+        out += /^(https?:|mailto:)/i.test(href) ? '<a href="' + esc(href) + '" target="_blank" rel="noopener">' + inner + '</a>' : inner;
+        return;
+      }
+      if (tag === 'p' && /<(ul|ol|p)>/.test(inner)) { out += inner; return; }
+      if (tag === 'p' && !inner.replace(/<br>/g, '').trim()) return;
+      out += '<' + tag + '>' + inner + '</' + tag + '>';
+    });
+    return out;
+  }
+
+  const toolbar = document.querySelector('[data-toolbar]');
+  const STATEFUL = ['bold', 'italic', 'insertUnorderedList', 'insertOrderedList'];
+  function paintToolbar() {
+    const inside = editor.contains(document.getSelection().anchorNode);
+    STATEFUL.forEach(cmd => {
+      const b = toolbar.querySelector('[data-cmd="' + cmd + '"]');
+      let on = false;
+      try { on = inside && document.queryCommandState(cmd); } catch (e) { /* ignore */ }
+      b.classList.toggle('bg-zinc-900', on);
+      b.classList.toggle('text-white', on);
+      b.classList.toggle('hover:bg-zinc-100', !on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  document.addEventListener('selectionchange', paintToolbar);
+
+  let savedRange = null;
+  const linkRow = document.querySelector('[data-link-row]');
+  const linkInput = document.querySelector('[data-link-input]');
+  function restoreRange() {
+    editor.focus();
+    if (!savedRange) return;
+    const sel = document.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(savedRange);
+  }
+  function closeLink() { linkRow.classList.add('hidden'); linkInput.value = ''; }
+  function applyLink() {
+    let url = linkInput.value.trim();
+    if (!url) return closeLink();
+    if (!/^(https?:|mailto:)/i.test(url)) url = 'https://' + url;
+    restoreRange();
+    const sel = document.getSelection();
+    if (sel.isCollapsed) document.execCommand('insertHTML', false, '<a href="' + esc(url) + '">' + esc(url.replace(/^https?:\/\//, '')) + '</a>&nbsp;');
+    else document.execCommand('createLink', false, url);
+    closeLink();
+    syncEmpty();
+  }
+
+  toolbar.addEventListener('mousedown', e => { if (e.target.closest('[data-cmd]')) e.preventDefault(); });
+  toolbar.addEventListener('click', e => {
+    const b = e.target.closest('[data-cmd]');
+    if (!b) return;
+    const cmd = b.dataset.cmd;
+    if (cmd === 'attach') return document.querySelector('[data-file-input]').click();
+    if (cmd === 'link') {
+      const sel = document.getSelection();
+      savedRange = sel.rangeCount && editor.contains(sel.anchorNode) ? sel.getRangeAt(0).cloneRange() : null;
+      linkRow.classList.remove('hidden');
+      linkInput.focus();
+      return;
+    }
+    editor.focus();
+    document.execCommand(cmd, false, null);
+    syncEmpty();
+    paintToolbar();
+  });
+  document.querySelector('[data-link-apply]').addEventListener('click', applyLink);
+  document.querySelector('[data-link-cancel]').addEventListener('click', () => { closeLink(); restoreRange(); });
+  linkInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); applyLink(); }
+    if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); closeLink(); restoreRange(); }
+  });
+
+  /* ---------- Вложения: файл, вставка скриншота, перетаскивание ---------- */
+  function readImage(file) {
+    return new Promise(resolve => {
+      const r = new FileReader();
+      r.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          const k = Math.min(1, 1400 / img.width);
+          const c = document.createElement('canvas');
+          c.width = Math.round(img.width * k);
+          c.height = Math.round(img.height * k);
+          const ctx = c.getContext('2d');
+          ctx.fillStyle = '#fff';
+          ctx.fillRect(0, 0, c.width, c.height);
+          ctx.drawImage(img, 0, 0, c.width, c.height);
+          resolve(c.toDataURL('image/jpeg', 0.82));
+        };
+        img.onerror = () => resolve(r.result);
+        img.src = r.result;
+      };
+      r.onerror = () => resolve(null);
+      r.readAsDataURL(file);
+    });
+  }
+  let seq = 0;
+  async function addFiles(files, pasted) {
+    for (const f of files) {
+      if (f.size > 20 * 1048576) { App.toast('Файл слишком большой: «' + f.name + '» больше 20 МБ', 'error'); continue; }
+      const item = { id: 'p' + (++seq), name: f.name, size: f.size };
+      if (pasted) item.name = 'Скриншот ' + stamp(new Date()).replace(', ', ' ') + '.png';
+      if (/^image\//.test(f.type)) item.url = await readImage(f);
+      pending.push(item);
+    }
+    paintPending();
+    if (pasted) App.toast('Скриншот прикреплён к комментарию', 'success');
+  }
+  function paintPending() {
+    pendingBox.classList.toggle('hidden', !pending.length);
+    pendingBox.innerHTML = pending.map(f => f.url
+      ? '<span class="relative group" data-file="' + f.id + '"><img src="' + f.url + '" alt="' + esc(f.name) + '" class="h-20 w-auto max-w-[160px] rounded-xl object-cover ring-1 ring-black/10">' +
+        '<button type="button" data-remove="' + f.id + '" aria-label="Убрать скриншот" class="absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full bg-zinc-900 text-white text-sm leading-none flex items-center justify-center shadow-pop ring-2 ring-white hover:bg-red-600 transition">×</button>' +
+        '<span class="absolute left-1.5 bottom-1.5 px-1.5 py-0.5 rounded bg-black/55 text-white text-[10px] tabular-nums">' + fmtSize(f.size) + '</span></span>'
+      : chip(f, true)).join('');
+  }
+  pendingBox.addEventListener('click', e => {
+    const r = e.target.closest('[data-remove]');
+    if (!r) return;
+    pending = pending.filter(f => f.id !== r.dataset.remove);
+    paintPending();
+  });
+  document.querySelector('[data-file-input]').addEventListener('change', e => {
+    addFiles(Array.from(e.target.files || []));
+    e.target.value = '';
+  });
+  editor.addEventListener('paste', e => {
+    const items = Array.from((e.clipboardData || {}).items || []);
+    const images = items.filter(i => i.kind === 'file' && /^image\//.test(i.type)).map(i => i.getAsFile()).filter(Boolean);
+    e.preventDefault();
+    if (images.length) { addFiles(images, true); return; }
+    const text = e.clipboardData.getData('text/plain');
+    if (text) document.execCommand('insertText', false, text);
+    syncEmpty();
+  });
+  composer.addEventListener('dragover', e => { if (e.dataTransfer && Array.from(e.dataTransfer.types).includes('Files')) { e.preventDefault(); composer.classList.add('ring-4', 'ring-accent/15'); } });
+  composer.addEventListener('dragleave', e => { if (!composer.contains(e.relatedTarget)) composer.classList.remove('ring-4', 'ring-accent/15'); });
+  composer.addEventListener('drop', e => {
+    if (!e.dataTransfer || !e.dataTransfer.files.length) return;
+    e.preventDefault();
+    composer.classList.remove('ring-4', 'ring-accent/15');
+    addFiles(Array.from(e.dataTransfer.files));
+  });
+
+  /* ---------- Тумблер «В отчёт» ---------- */
+  function paintToggle() {
+    const on = toggle.checked;
+    composer.classList.toggle('!border-emerald-300', on);
+    composer.classList.toggle('bg-emerald-50/30', on);
+    document.querySelector('[data-report-hint]').classList.toggle('hidden', !on);
+  }
+  toggle.addEventListener('change', paintToggle);
+
+  /* ---------- Отправка ---------- */
+  function send() {
+    if (!canWrite) return App.toast('Недоступно для вашей роли', 'error');
+    const html = clean(editor).replace(/^(<br>)+|(<br>)+$/g, '');
+    const hoursInput = document.querySelector('[data-hours]');
+    const rawH = hoursInput.value.trim().replace(/^\+/, '').replace(',', '.');
+    const hours = rawH ? Number(rawH) : 0;
+    if (rawH && !(hours > 0 && hours <= 24)) { hoursInput.focus(); return App.toast('Укажите время от 0,1 до 24 ч', 'error'); }
+    const hasText = !!html.replace(/<[^>]+>/g, '').trim();
+    if (!hasText && !pending.length && !hours) { editor.focus(); return App.toast('Напишите комментарий, прикрепите файл или укажите время', 'error'); }
+    const report = !!toggle.checked && canReport;
+    const item = {
+      id: 'u' + Date.now(), author: me.user, initials: me.initials, dark: true, role: me.label, time: stamp(new Date()),
+      html: hasText ? html : '<span class="text-zinc-500">' + (pending.length ? 'Вложение' : 'Списано время') + '</span>',
+      files: pending.map(f => ({ id: f.id, name: f.name, size: f.size, url: f.url })), report, hours: hours || undefined
+    };
+    store.items.push(item);
+    if (!App.comments.save(store)) {
+      item.files.forEach(f => { delete f.url; });
+      if (!App.comments.save(store)) App.toast('Не удалось сохранить комментарий в браузере — он останется до перезагрузки', 'warning');
+      else App.toast('Изображения слишком большие для демо-хранилища — сохранены только названия файлов', 'warning');
+    }
+    editor.innerHTML = '';
+    syncEmpty();
+    pending = [];
+    paintPending();
+    toggle.checked = false;
+    hoursInput.value = '';
+    paintToggle();
+    paint(true);
+    const extra = hours ? ' · списано ' + fmtH(hours) : '';
+    App.toast((report ? 'Комментарий добавлен и включён в отчёт клиенту' : 'Комментарий отправлен команде') + extra, 'success');
+  }
+  document.querySelector('[data-send]').addEventListener('click', send);
+  editor.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); send(); }
+  });
+
+  feed.addEventListener('click', e => {
+    const flip = e.target.closest('[data-flip]');
+    if (flip) {
+      const id = flip.dataset.flip;
+      const own = store.items.find(c => c.id === id);
+      let now;
+      if (own) { own.report = !own.report; now = own.report; }
+      else {
+        const seed = SEED.find(c => c.id === id);
+        now = !(id in store.flags ? store.flags[id] : !!seed.report);
+        store.flags[id] = now;
+      }
+      App.comments.save(store);
+      paint();
+      App.toast(now ? 'Комментарий включён в отчёт клиенту' : 'Комментарий снят с отчёта', now ? 'success' : 'warning');
+      return;
+    }
+    const prev = e.target.closest('[data-preview]');
+    if (prev) {
+      const g = prev.closest('[data-msg]').querySelector('[data-gallery]');
+      if (g) g.classList.toggle('hidden');
+    }
+  });
+
+  paint(true);
+  paintLifecycle();
+  syncEmpty();
+})();
 </script>
 </body>
 </html>

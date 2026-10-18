@@ -35,6 +35,12 @@
             </div>
             <a href="tasks.html?view=review" class="text-sm text-zinc-500 hover:text-zinc-900 transition shrink-0">Все →</a>
           </div>
+          <div class="px-4 lg:px-6 pb-3 -mt-1">
+            <div data-queue-switch class="inline-flex bg-zinc-100 rounded-full p-1 max-w-full overflow-x-auto" role="group" aria-label="Фильтр приёмки">
+              <button type="button" data-queue="all" class="px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap transition">Все <span data-queue-count="all" class="ml-0.5 text-xs text-zinc-500 tabular-nums">0</span></button>
+              <button type="button" data-queue="mine" class="px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap transition">Где я постановщик <span data-queue-count="mine" class="ml-0.5 text-xs text-zinc-500 tabular-nums">0</span></button>
+            </div>
+          </div>
           <div class="overflow-x-auto border-t border-zinc-100">
             <table data-sortable data-setter-col class="w-full block md:table">
               <thead class="hidden md:table-header-group">
@@ -48,112 +54,10 @@
                   <th class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-4 lg:px-6 py-3 lg:!pl-10 whitespace-nowrap"></th>
                 </tr>
               </thead>
-              <tbody data-task-group data-accept-queue class="divide-y divide-zinc-100 block md:table-row-group">
-                <tr data-task data-id="3" data-project="remont" data-assignee="lebedev" data-co="" data-creator="petrov" data-acceptor="petrov" data-self="0" data-flags="review" data-status="review" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <a href="task.html" class="text-base font-medium hover:underline">Мета-теги категорий</a>
-                      <span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">соисполнитель</span>
-                    </div>
-                  </td>
-                  <td data-label="Проект" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <a href="tasks.html?project=remont" class="text-sm hover:underline">Ремонт+</a>
-                    <div class="text-xs text-zinc-500 mt-0.5">Внутренняя</div>
-                  </td>
-                  <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <a href="tasks.html?executor=lebedev" class="flex items-center gap-2 hover:underline">
-                      <span class="flex -space-x-2">
-                        <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">ПЛ</span>
-                      </span>
-                      <span class="text-sm whitespace-nowrap">П. Лебедев</span>
-                    </a>
-                  </td>
-                  <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>На проверке</span>
-                      <span class="text-xs text-zinc-500 tabular-nums">3 дн.</span>
-                    </div>
-                  </td>
-                  <td data-label="Срок" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">16.06</td>
-                  <td data-label="" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden col-span-2 md:col-span-1 md:text-right lg:!pl-10">
-                    <div class="flex gap-2 md:justify-end">
-                      <button data-resolve="Принято: «Мета-теги категорий»" class="px-3 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition whitespace-nowrap">Принять</button>
-                      <button data-resolve="Возвращено на доработку · исполнитель уведомлён" class="px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition whitespace-nowrap">На доработку</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr data-task data-id="1" data-project="holod" data-assignee="kim" data-co="" data-creator="petrov" data-acceptor="petrov" data-self="0" data-flags="review" data-status="review" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <a href="task.html" class="text-base font-medium hover:underline">Проверить индексацию в GSC</a>
-                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-red-50 text-red-700">Высокий</span>
-                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-zinc-100 text-zinc-600">5 подзадач</span>
-                      <span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">соисполнитель</span>
-                    </div>
-                  </td>
-                  <td data-label="Проект" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <a href="tasks.html?project=holod" class="text-sm hover:underline">Холод</a>
-                    <div class="text-xs text-zinc-500 mt-0.5">Аудит</div>
-                  </td>
-                  <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <a href="tasks.html?executor=kim" class="flex items-center gap-2 hover:underline">
-                      <span class="flex -space-x-2">
-                        <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">МК</span>
-                      </span>
-                      <span class="text-sm whitespace-nowrap">М. Ким</span>
-                    </a>
-                  </td>
-                  <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>На проверке</span>
-                      <span class="text-xs text-zinc-500 tabular-nums">2 дн.</span>
-                    </div>
-                  </td>
-                  <td data-label="Срок" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">18.06</td>
-                  <td data-label="" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden col-span-2 md:col-span-1 md:text-right lg:!pl-10">
-                    <div class="flex gap-2 md:justify-end">
-                      <button data-resolve="Принято: «Проверить индексацию в GSC»" class="px-3 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition whitespace-nowrap">Принять</button>
-                      <button data-resolve="Возвращено на доработку · исполнитель уведомлён" class="px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition whitespace-nowrap">На доработку</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr data-task data-id="2" data-project="holod" data-assignee="petrov" data-co="" data-creator="morozov" data-acceptor="sidorov" data-self="0" data-flags="review" data-status="review" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <a href="task.html" class="text-base font-medium hover:underline">Canonical для фильтров</a>
-                      <span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">соисполнитель</span>
-                    </div>
-                  </td>
-                  <td data-label="Проект" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <a href="tasks.html?project=holod" class="text-sm hover:underline">Холод</a>
-                    <div class="text-xs text-zinc-500 mt-0.5">Аудит</div>
-                  </td>
-                  <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <a href="tasks.html?executor=petrov" class="flex items-center gap-2 hover:underline">
-                      <span class="flex -space-x-2">
-                        <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">АП</span>
-                      </span>
-                      <span class="text-sm whitespace-nowrap">А. Петров</span>
-                    </a>
-                  </td>
-                  <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>На проверке</span>
-                      <span class="text-xs text-zinc-500 tabular-nums">1 дн.</span>
-                    </div>
-                  </td>
-                  <td data-label="Срок" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">17.06</td>
-                  <td data-label="" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden col-span-2 md:col-span-1 md:text-right lg:!pl-10">
-                    <div class="flex gap-2 md:justify-end">
-                      <button data-resolve="Принято: «Canonical для фильтров»" class="px-3 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition whitespace-nowrap">Принять</button>
-                      <button data-resolve="Возвращено на доработку · исполнитель уведомлён" class="px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition whitespace-nowrap">На доработку</button>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
+              <tbody data-task-group data-accept-queue class="divide-y divide-zinc-100 block md:table-row-group"></tbody></tbody>
             </table>
           </div>
-          <div data-task-empty class="hidden px-4 lg:px-6 py-8 text-center text-sm text-zinc-500">Нет работ, ожидающих приёмки</div>
+          <div data-task-empty data-empty-filter="Задач, которые вы поставили, на приёмке нет" class="hidden px-4 lg:px-6 py-8 text-center text-sm text-zinc-500">Нет работ, ожидающих приёмки</div>
         </section>
         <section data-home-feed data-task-region class="bg-white rounded-2xl shadow-card overflow-hidden mb-4 lg:mb-6">
           <div class="px-4 lg:px-6 py-4 flex items-center justify-between gap-3">
@@ -170,235 +74,11 @@
                   <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3"><button type="button" data-sort="project" class="inline-flex items-center gap-1 hover:text-zinc-900 transition select-none">Проект<svg class="w-3 h-3 text-zinc-400" viewBox="0 0 16 16" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 3v10M5 6l3-3 3 3M5 10l3 3 3-3"/></svg></button></th>
                   <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3"><button type="button" data-sort="setter" class="inline-flex items-center gap-1 hover:text-zinc-900 transition select-none">Постановщик<svg class="w-3 h-3 text-zinc-400" viewBox="0 0 16 16" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 3v10M5 6l3-3 3 3M5 10l3 3 3-3"/></svg></button></th>
                   <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3"><button type="button" data-sort="assignee" class="inline-flex items-center gap-1 hover:text-zinc-900 transition select-none">Исполнитель<svg class="w-3 h-3 text-zinc-400" viewBox="0 0 16 16" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 3v10M5 6l3-3 3 3M5 10l3 3 3-3"/></svg></button></th>
-                  <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3"><button type="button" data-sort="status" class="inline-flex items-center gap-1 hover:text-zinc-900 transition select-none">Статус<svg class="w-3 h-3 text-zinc-400" viewBox="0 0 16 16" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 3v10M5 6l3-3 3 3M5 10l3 3 3-3"/></svg></button></th>
+                  <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3"><button type="button" data-sort="status" class="inline-flex items-center gap-1 hover:text-zinc-900 transition select-none">Причина<svg class="w-3 h-3 text-zinc-400" viewBox="0 0 16 16" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 3v10M5 6l3-3 3 3M5 10l3 3 3-3"/></svg></button></th>
                   <th class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-4 lg:px-6 py-3"><button type="button" data-sort="due" class="inline-flex items-center gap-1 hover:text-zinc-900 transition select-none">Срок<svg class="w-3 h-3 text-zinc-400" viewBox="0 0 16 16" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 3v10M5 6l3-3 3 3M5 10l3 3 3-3"/></svg></button></th>
                 </tr>
               </thead>
-              <tbody data-task-group class="divide-y divide-zinc-100 block md:table-row-group">
-                <tr data-task data-id="13" data-project="medlife" data-assignee="lebedev" data-co="" data-creator="vetrova" data-acceptor="sidorov" data-self="0" data-flags="overdue attention" data-status="progress" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <a href="task.html" class="text-base font-medium hover:underline">Настройка целей в Метрике</a>
-                      <span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">соисполнитель</span>
-                    </div>
-                  </td>
-                  <td data-label="Проект" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <a href="tasks.html?project=medlife" class="text-sm hover:underline">МедЛайф</a>
-                    <div class="text-xs text-zinc-500 mt-0.5">Аудит</div>
-                  </td>
-                  <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <a href="tasks.html?executor=lebedev" class="flex items-center gap-2 hover:underline">
-                      <span class="flex -space-x-2">
-                        <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">ПЛ</span>
-                      </span>
-                      <span class="text-sm whitespace-nowrap">П. Лебедев</span>
-                    </a>
-                  </td>
-                  <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>В работе</span>
-                    </div>
-                  </td>
-                  <td data-label="Срок" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">
-                    <div class="text-red-600">09.06</div>
-                    <div class="text-xs text-red-600">просрочена 9 дн.</div>
-                  </td>
-                </tr>
-                <tr data-task data-id="12" data-project="remont" data-assignee="dronov" data-co="petrov" data-creator="morozov" data-acceptor="sidorov" data-self="0" data-flags="overdue attention" data-status="progress" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <a href="task.html" class="text-base font-medium hover:underline">Оптимизация карточек услуг</a>
-                      <span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">соисполнитель</span>
-                    </div>
-                  </td>
-                  <td data-label="Проект" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <a href="tasks.html?project=remont" class="text-sm hover:underline">Ремонт+</a>
-                    <div class="text-xs text-zinc-500 mt-0.5">Внутренняя</div>
-                  </td>
-                  <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <a href="tasks.html?executor=dronov" class="flex items-center gap-2 hover:underline">
-                      <span class="flex -space-x-2">
-                        <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">ИД</span>
-                        <span title="Соисполнитель: А. Петров" class="w-7 h-7 rounded-full bg-zinc-200 text-zinc-700 text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">АП</span>
-                      </span>
-                      <span class="text-sm whitespace-nowrap">И. Дронов</span>
-                      <span class="text-xs text-zinc-500 tabular-nums">+1</span>
-                    </a>
-                  </td>
-                  <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>В работе</span>
-                    </div>
-                  </td>
-                  <td data-label="Срок" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">
-                    <div class="text-red-600">10.06</div>
-                    <div class="text-xs text-red-600">просрочена 8 дн.</div>
-                  </td>
-                </tr>
-                <tr data-task data-id="11" data-project="remont" data-assignee="petrov" data-co="dronov" data-creator="sidorov" data-acceptor="sidorov" data-self="0" data-flags="overdue attention" data-status="progress" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <a href="task.html" class="text-base font-medium hover:underline">Дубли Title на пагинации</a>
-                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-red-50 text-red-700">Высокий</span>
-                      <span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">соисполнитель</span>
-                    </div>
-                  </td>
-                  <td data-label="Проект" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <a href="tasks.html?project=remont" class="text-sm hover:underline">Ремонт+</a>
-                    <div class="text-xs text-zinc-500 mt-0.5">Аудит</div>
-                  </td>
-                  <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <a href="tasks.html?executor=petrov" class="flex items-center gap-2 hover:underline">
-                      <span class="flex -space-x-2">
-                        <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">АП</span>
-                        <span title="Соисполнитель: И. Дронов" class="w-7 h-7 rounded-full bg-zinc-200 text-zinc-700 text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">ИД</span>
-                      </span>
-                      <span class="text-sm whitespace-nowrap">А. Петров</span>
-                      <span class="text-xs text-zinc-500 tabular-nums">+1</span>
-                    </a>
-                  </td>
-                  <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>В работе</span>
-                    </div>
-                  </td>
-                  <td data-label="Срок" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">
-                    <div class="text-red-600">12.06</div>
-                    <div class="text-xs text-red-600">просрочена 6 дн.</div>
-                  </td>
-                </tr>
-                <tr data-task data-id="6" data-project="holod" data-assignee="kim" data-co="" data-creator="petrov" data-acceptor="petrov" data-self="0" data-flags="returned attention" data-status="progress" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <a href="task.html" class="text-base font-medium hover:underline">Статья «Как выбрать холодильник»</a>
-                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-orange-50 text-orange-700">На доработке</span>
-                      <span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">соисполнитель</span>
-                    </div>
-                  </td>
-                  <td data-label="Проект" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <a href="tasks.html?project=holod" class="text-sm hover:underline">Холод</a>
-                    <div class="text-xs text-zinc-500 mt-0.5">Текстовая</div>
-                  </td>
-                  <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <a href="tasks.html?executor=kim" class="flex items-center gap-2 hover:underline">
-                      <span class="flex -space-x-2">
-                        <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">МК</span>
-                      </span>
-                      <span class="text-sm whitespace-nowrap">М. Ким</span>
-                    </a>
-                  </td>
-                  <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>В работе</span>
-                    </div>
-                  </td>
-                  <td data-label="Срок" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">20.06</td>
-                </tr>
-                <tr data-task data-id="9" data-project="holod" data-assignee="dronov" data-co="" data-creator="morozov" data-acceptor="sidorov" data-self="0" data-flags="waiting attention" data-status="waiting" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <a href="task.html" class="text-base font-medium hover:underline">Доступы к GSC и Метрике</a>
-                      <span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">соисполнитель</span>
-                    </div>
-                  </td>
-                  <td data-label="Проект" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden"><a href="tasks.html?project=holod" class="text-sm hover:underline">Холод</a></td>
-                  <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <a href="tasks.html?executor=dronov" class="flex items-center gap-2 hover:underline">
-                      <span class="flex -space-x-2">
-                        <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">ИД</span>
-                      </span>
-                      <span class="text-sm whitespace-nowrap">И. Дронов</span>
-                    </a>
-                  </td>
-                  <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-violet-50 text-violet-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-violet-600"></span>Ждёт клиента</span>
-                      <span class="text-xs text-zinc-500 tabular-nums">ждём 6 дн.</span>
-                    </div>
-                  </td>
-                  <td data-label="Срок" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">—</td>
-                </tr>
-                <tr data-task data-id="10" data-project="holod" data-assignee="kim" data-co="" data-creator="petrov" data-acceptor="petrov" data-self="0" data-flags="waiting attention" data-status="waiting" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <a href="task.html" class="text-base font-medium hover:underline">Тексты категорий на согласование</a>
-                      <span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">соисполнитель</span>
-                    </div>
-                  </td>
-                  <td data-label="Проект" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <a href="tasks.html?project=holod" class="text-sm hover:underline">Холод</a>
-                    <div class="text-xs text-zinc-500 mt-0.5">Текстовая</div>
-                  </td>
-                  <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <a href="tasks.html?executor=kim" class="flex items-center gap-2 hover:underline">
-                      <span class="flex -space-x-2">
-                        <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">МК</span>
-                      </span>
-                      <span class="text-sm whitespace-nowrap">М. Ким</span>
-                    </a>
-                  </td>
-                  <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-violet-50 text-violet-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-violet-600"></span>Ждёт клиента</span>
-                      <span class="text-xs text-zinc-500 tabular-nums">ждём 3 дн.</span>
-                    </div>
-                  </td>
-                  <td data-label="Срок" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">—</td>
-                </tr>
-                <tr data-task data-project="medlife" data-assignee="dronov" data-co="" data-creator="" data-acceptor="" data-flags="attention" data-can="send_reports" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <a href="report.html" class="text-base font-medium hover:underline">Отчёт за май 2025</a>
-                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-zinc-100 text-zinc-600">Отчёт</span>
-                    </div>
-                  </td>
-                  <td data-label="Проект" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden"><a href="tasks.html?project=medlife" class="text-sm hover:underline">МедЛайф</a></td>
-                  <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <a href="tasks.html?executor=dronov" class="flex items-center gap-2 hover:underline">
-                      <span class="flex -space-x-2">
-                        <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">ИД</span>
-                      </span>
-                      <span class="text-sm whitespace-nowrap">И. Дронов</span>
-                    </a>
-                  </td>
-                  <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>На проверке</span>
-                      <span class="text-xs text-zinc-500 tabular-nums">у Н. Морозова 3 дн.</span>
-                    </div>
-                  </td>
-                  <td data-label="Срок" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">
-                    <div class="text-red-600">05.06</div>
-                    <div class="text-xs text-red-600">просрочен 13 дн.</div>
-                  </td>
-                </tr>
-                <tr data-task data-project="" data-assignee="sidorov" data-co="" data-creator="" data-acceptor="" data-flags="attention" data-can="int_seo" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <a href="settings.html#integrations" class="text-sm font-medium hover:underline">Переподключить Google Search Console</a>
-                      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-blue-50 text-blue-700">Авто</span>
-                    </div>
-                  </td>
-                  <td data-label="Проект" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden"><span class="text-zinc-500">Вся компания</span></td>
-                  <td data-label="Исполнитель" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <a href="tasks.html?executor=sidorov" class="flex items-center gap-2 hover:underline">
-                      <span class="flex -space-x-2">
-                        <span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">ИС</span>
-                      </span>
-                      <span class="text-sm whitespace-nowrap">И. Сидоров</span>
-                    </a>
-                  </td>
-                  <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>Запланирована</span>
-                    </div>
-                  </td>
-                  <td data-label="Срок" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-500">
-                    <div class="text-red-600">15.06</div>
-                    <div class="text-xs text-red-600">просрочена 3 дн.</div>
-                  </td>
-                </tr>
-              </tbody>
+              <tbody data-task-group class="divide-y divide-zinc-100 block md:table-row-group"></tbody>
             </table>
           </div>
           <div data-task-empty data-empty-exec="По вашим задачам ничего срочного" data-empty-set="Поставленные вами задачи идут по плану" data-empty-team="В ваших проектах всё спокойно" data-empty-all="В отделе всё спокойно" class="hidden px-4 lg:px-6 py-8 text-center text-sm text-zinc-500">Ничего срочного — отличная работа</div>
@@ -408,5 +88,121 @@
     </main>
   </div>
 </div>
+<script>
+(function () {
+  const App = window.SEOApp;
+  const PEOPLE = {
+    smirnov: ['А. Смирнов', 'АС'], sidorov: ['И. Сидоров', 'ИС'], vetrova: ['О. Ветрова', 'ОВ'], morozov: ['Н. Морозов', 'НМ'],
+    petrov: ['А. Петров', 'АП'], dronov: ['И. Дронов', 'ИД'], lebedev: ['П. Лебедев', 'ПЛ'], kim: ['М. Ким', 'МК']
+  };
+  const PROJECTS = { holod: 'Холод', remont: 'Ремонт+', medlife: 'МедЛайф', stroytech: 'Стройтех' };
+  /* На приёмке: творец (creator) — постановщик, acceptor — кто принимает */
+  const QUEUE = [
+    { id: 3,  title: 'Мета-теги категорий', project: 'remont', dir: 'Внутренняя', assignee: 'lebedev', creator: 'petrov', days: 3, due: '16.06' },
+    { id: 1,  title: 'Проверить индексацию в GSC', project: 'holod', dir: 'Аудит', assignee: 'kim', creator: 'petrov', days: 2, due: '18.06', prio: true },
+    { id: 2,  title: 'Canonical для фильтров', project: 'holod', dir: 'Аудит', assignee: 'petrov', creator: 'morozov', acceptor: 'sidorov', days: 1, due: '17.06' },
+    { id: 21, title: 'Кластеризация раздела «Морозильники»', project: 'holod', dir: 'Семантика', assignee: 'kim', creator: 'smirnov', days: 1, due: '19.06' },
+    { id: 22, title: 'Перелинковка статей блога', project: 'remont', dir: 'Внутренняя', assignee: 'lebedev', creator: 'smirnov', days: 2, due: '20.06' },
+    { id: 23, title: 'Технический аудит после релиза', project: 'medlife', dir: 'Аудит', assignee: 'dronov', creator: 'smirnov', days: 4, due: '14.06', prio: true },
+    { id: 24, title: 'Тексты для 5 страниц услуг', project: 'medlife', dir: 'Контент', assignee: 'lebedev', creator: 'vetrova', days: 1, due: '21.06' },
+    { id: 25, title: 'Размещение ссылок: отчёт за неделю', project: 'stroytech', dir: 'Внешняя', assignee: 'dronov', creator: 'morozov', days: 2, due: '18.06' }
+  ];
+  /* Требует внимания: причина — overdue (красный), waiting / returned (янтарный) */
+  const ATTENTION = [
+    { id: 13, title: 'Настройка целей в Метрике', project: 'medlife', dir: 'Аудит', assignee: 'lebedev', creator: 'vetrova', acceptor: 'sidorov', reason: 'overdue', days: 9, due: '09.06', flags: 'overdue' },
+    { id: 12, title: 'Оптимизация карточек услуг', project: 'remont', dir: 'Внутренняя', assignee: 'dronov', co: 'petrov', creator: 'morozov', acceptor: 'sidorov', reason: 'overdue', days: 8, due: '10.06', flags: 'overdue' },
+    { id: 11, title: 'Дубли Title на пагинации', project: 'remont', dir: 'Аудит', assignee: 'petrov', co: 'dronov', creator: 'sidorov', acceptor: 'sidorov', reason: 'overdue', days: 6, due: '12.06', flags: 'overdue', prio: true },
+    { id: 6,  title: 'Статья «Как выбрать холодильник»', project: 'holod', dir: 'Контент', assignee: 'kim', creator: 'petrov', acceptor: 'petrov', reason: 'returned', due: '20.06', flags: 'returned' },
+    { id: 9,  title: 'Доступы к GSC и Метрике', project: 'holod', assignee: 'dronov', creator: 'morozov', acceptor: 'sidorov', reason: 'waiting', days: 6, flags: 'waiting' },
+    { id: 10, title: 'Тексты категорий на согласование', project: 'holod', dir: 'Контент', assignee: 'kim', creator: 'petrov', acceptor: 'petrov', reason: 'waiting', days: 3, flags: 'waiting' },
+    { title: 'Отчёт за май 2025', href: 'report.html', tag: 'Отчёт', project: 'medlife', assignee: 'dronov', reason: 'overdue', days: 13, due: '05.06', can: 'send_reports', noun: 'Просрочен' },
+    { title: 'Переподключить Google Search Console', href: 'settings.html#integrations', tag: 'Авто', project: '', assignee: 'sidorov', reason: 'overdue', days: 3, due: '15.06', can: 'int_seo' }
+  ];
+
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const TD = 'md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden';
+  const ROW = 'hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row';
+  const days = n => n + ' ' + App.plural(n, ['день', 'дня', 'дней']);
+  const REASON = {
+    overdue:  t => '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-700 ring-1 ring-red-100 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>' + (t.noun || 'Просрочена') + ' на ' + days(t.days) + '</span>',
+    waiting:  t => '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 ring-1 ring-amber-100 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Ждёт клиента</span><span class="text-xs text-zinc-500 tabular-nums">' + days(t.days) + '</span>',
+    returned: () => '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 ring-1 ring-amber-100 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Возвращена на доработку</span>'
+  };
+
+  function cells(t) {
+    const p = PEOPLE[t.assignee];
+    const co = t.co ? PEOPLE[t.co] : null;
+    return '<td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1"><div class="flex flex-wrap items-center gap-x-2 gap-y-1">' +
+        '<a href="' + (t.href || 'task.html') + '" class="text-base md:text-sm font-medium hover:underline">' + esc(t.title) + '</a>' +
+        (t.prio ? '<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-red-50 text-red-700">Высокий</span>' : '') +
+        (t.tag ? '<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-zinc-100 text-zinc-600">' + t.tag + '</span>' : '') +
+        '<span data-co-tag class="hidden inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-50 text-blue-700">соисполнитель</span>' +
+      '</div></td>' +
+      '<td data-label="Проект" class="' + TD + '">' + (t.project
+        ? '<a href="tasks.html?project=' + t.project + '" class="text-sm hover:underline">' + PROJECTS[t.project] + '</a>' + (t.dir ? '<div class="text-xs text-zinc-500 mt-0.5">' + t.dir + '</div>' : '')
+        : '<span class="text-zinc-500">Вся компания</span>') + '</td>' +
+      '<td data-label="Исполнитель" class="' + TD + '"><a href="tasks.html?executor=' + t.assignee + '" class="flex items-center gap-2 hover:underline"><span class="flex -space-x-2">' +
+        '<span class="w-7 h-7 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">' + p[1] + '</span>' +
+        (co ? '<span title="Соисполнитель: ' + co[0] + '" class="w-7 h-7 rounded-full bg-zinc-200 text-zinc-700 text-[10px] font-semibold flex items-center justify-center shrink-0 ring-2 ring-white">' + co[1] + '</span>' : '') +
+        '</span><span class="text-sm whitespace-nowrap">' + p[0] + '</span>' + (co ? '<span class="text-xs text-zinc-500 tabular-nums">+1</span>' : '') + '</a></td>';
+  }
+  const attrs = (t, extra) => 'data-task' + (t.id ? ' data-id="' + t.id + '"' : '') + ' data-project="' + t.project + '" data-assignee="' + t.assignee + '" data-co="' + (t.co || '') +
+    '" data-creator="' + (t.creator || '') + '" data-acceptor="' + (t.acceptor || t.creator || '') + '" data-flags="' + extra + '"' + (t.can ? ' data-can="' + t.can + '"' : '') + ' class="' + ROW + '"';
+
+  document.querySelector('[data-accept-queue]').innerHTML = QUEUE.map(t =>
+    '<tr ' + attrs(t, 'review') + ' data-status="review" data-title="' + esc(t.title) + '">' + cells(t) +
+      '<td data-label="Статус" class="' + TD + '"><div class="flex flex-wrap items-center gap-x-2 gap-y-1"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>На проверке</span><span class="text-xs text-zinc-500 tabular-nums">' + t.days + ' дн.</span></div></td>' +
+      '<td data-label="Срок" class="' + TD + ' md:text-right whitespace-nowrap tabular-nums text-zinc-500">' + t.due + '</td>' +
+      '<td data-label="" class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1 md:text-right"><div class="flex gap-2 md:justify-end">' +
+        '<button type="button" data-resolve="Принято: «' + esc(t.title) + '»" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 active:scale-[.97] transition whitespace-nowrap"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Принять</button>' +
+        '<button type="button" data-rework class="px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-amber-50 hover:border-amber-200 hover:text-amber-800 transition whitespace-nowrap">На доработку</button>' +
+      '</div></td>' +
+    '</tr>').join('');
+
+  document.querySelector('[data-task-region]:not([data-hide-empty]) [data-task-group]').innerHTML = ATTENTION.map(t =>
+    '<tr ' + attrs(t, t.flags ? t.flags + ' attention' : 'attention') + '>' + cells(t) +
+      '<td data-label="Причина" data-sort-col="status" class="' + TD + '"><div class="flex flex-wrap items-center gap-x-2 gap-y-1">' + REASON[t.reason](t) + '</div></td>' +
+      '<td data-label="Срок" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums ' + (t.reason === 'overdue' ? 'text-red-600 font-medium' : 'text-zinc-500') + '">' + (t.due || '—') + '</td>' +
+    '</tr>').join('');
+
+  /* Фильтр приёмки «Все / Где я постановщик» */
+  let mode = 'all';
+  const queue = document.querySelector('[data-accept-queue]');
+  const mineFilter = el => !el.closest('[data-accept-queue]') || el.dataset.creator === App.me;
+  function recount() {
+    App.setTaskFilter(null);
+    const rows = Array.from(queue.querySelectorAll(':scope > [data-task]')).filter(r => r.dataset.match === '1');
+    document.querySelector('[data-queue-count="all"]').textContent = rows.length;
+    document.querySelector('[data-queue-count="mine"]').textContent = rows.filter(r => r.dataset.creator === App.me).length;
+    App.setTaskFilter(mode === 'mine' ? mineFilter : null);
+    document.querySelectorAll('[data-queue]').forEach(b => {
+      const on = b.dataset.queue === mode;
+      ['bg-white', 'text-zinc-900', 'shadow-sm'].forEach(c => b.classList.toggle(c, on));
+      b.classList.toggle('text-zinc-500', !on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  document.querySelector('[data-queue-switch]').addEventListener('click', e => {
+    const b = e.target.closest('[data-queue]');
+    if (!b) return;
+    mode = b.dataset.queue;
+    recount();
+  });
+  queue.addEventListener('click', e => {
+    if (e.target.closest('[data-resolve]')) return setTimeout(recount);
+    const btn = e.target.closest('[data-rework]');
+    if (!btn) return;
+    const row = btn.closest('[data-task]');
+    const who = PEOPLE[row.dataset.assignee][0];
+    App.askReason(btn, { sub: row.dataset.title + ' · ' + who }).then(reason => {
+      if (!reason) return;
+      row.remove();
+      recount();
+      App.toast('«' + row.dataset.title + '» отправлена на доработку · ' + who + ' получит замечание', 'warning');
+    });
+  });
+  document.addEventListener('seo:ready', recount);
+})();
+</script>
 </body>
 </html>

@@ -99,10 +99,10 @@
             <section data-report-sheet class="bg-white rounded-2xl shadow-card overflow-hidden">
               <div class="px-4 lg:px-6 py-4">
                 <h3 class="text-sm font-semibold tracking-tight">Что сделано</h3>
-                <p class="text-xs text-zinc-500 mt-0.5">Собрано из блоков «для отчёта» в принятых задачах</p>
+                <p class="text-xs text-zinc-500 mt-0.5">Собрано из комментариев задач с отметкой «В отчёте»</p>
               </div>
-              <div class="px-4 lg:px-6 py-4 border-t border-zinc-100 space-y-4 text-sm text-zinc-700 leading-relaxed">
-                <p><span class="font-medium text-zinc-900">Проверка индексации.</span> 92% страниц в индексе Google. Найдено 3 URL, выпавших после релиза, — направлены на переобход. Служебные страницы закрыты корректно.</p>
+              <div data-report-done class="px-4 lg:px-6 py-4 border-t border-zinc-100 space-y-4 text-sm text-zinc-700 leading-relaxed">
+                <p data-report-seed="s3"><span class="font-medium text-zinc-900">Проверка индексации.</span> 92% страниц в индексе Google. Найдено 3 URL, выпавших после релиза, — направлены на переобход. Служебные страницы закрыты корректно.</p>
                 <p><span class="font-medium text-zinc-900">Canonical для фильтров.</span> Настроили canonical для страниц фильтров каталога и убрали дубли из индекса.</p>
               </div>
             </section>
@@ -162,6 +162,31 @@
     </main>
   </div>
 </div>
+<script>
+(function () {
+  /* Комментарии задач с отметкой «В отчёте» — в том же виде: списки, жирный, ссылки, изображения */
+  const App = window.SEOApp;
+  const data = App.comments.load();
+  const box = document.querySelector('[data-report-done]');
+  if (!box) return;
+  if (data.flags.s3 === false) box.querySelector('[data-report-seed="s3"]').remove();
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  data.items.filter(c => c.report).forEach(c => {
+    const files = c.files || [];
+    const images = files.filter(f => f.url);
+    const other = files.filter(f => !f.url);
+    const el = document.createElement('div');
+    el.dataset.reportItem = c.id;
+    el.innerHTML =
+      '<div class="font-medium text-zinc-900">Проверка индексации в GSC</div>' +
+      '<div data-staff-only class="text-[11px] text-emerald-700 mt-0.5">📄 Из комментария к задаче · ' + esc(c.author) + ', ' + esc(c.time) + '</div>' +
+      '<div class="mt-1 ' + App.RICH + '">' + c.html + '</div>' +
+      (images.length ? '<div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">' + images.map(f => '<figure><img src="' + f.url + '" alt="' + esc(f.name) + '" class="w-full rounded-xl ring-1 ring-black/5"><figcaption class="mt-1 text-[11px] text-zinc-500">' + esc(f.name) + '</figcaption></figure>').join('') + '</div>' : '') +
+      (other.length ? '<div class="mt-2 flex flex-wrap gap-2">' + other.map(f => '<span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-zinc-50 border border-zinc-200 text-xs font-medium">' + esc(f.name) + '</span>').join('') + '</div>' : '');
+    box.appendChild(el);
+  });
+})();
+</script>
 <script>
 (function () {
   const buttons = document.querySelectorAll('[data-report-mode]');

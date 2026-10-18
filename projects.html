@@ -32,7 +32,7 @@
       <div class="px-4 lg:px-8 py-6 lg:py-8 max-w-none">
 
         <section class="grid grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4 mb-3">
-          <div data-metric-card="traffic" class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+          <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
             <div class="text-xs font-medium text-zinc-500 mb-2">Трафик</div>
             <div class="flex items-baseline gap-1.5">
               <span class="text-2xl font-semibold tracking-tight tabular-nums">52 900</span>
@@ -43,7 +43,7 @@
             </div>
             <div class="text-xs font-medium tabular-nums text-amber-700 mt-1.5">95% плана</div>
           </div>
-          <div data-metric-card="leads" class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+          <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
             <div class="text-xs font-medium text-zinc-500 mb-2">Лиды</div>
             <div class="flex items-baseline gap-1.5">
               <span class="text-2xl font-semibold tracking-tight tabular-nums">644</span>
@@ -54,7 +54,7 @@
             </div>
             <div class="text-xs font-medium tabular-nums text-amber-700 mt-1.5">93% плана</div>
           </div>
-          <div data-metric-card="top10" class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+          <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
             <div class="text-xs font-medium text-zinc-500 mb-2">Запросы в топ-10</div>
             <div class="flex items-baseline gap-1.5">
               <span class="text-2xl font-semibold tracking-tight tabular-nums">412</span>
@@ -94,6 +94,7 @@
           <span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-500"></span>90–99%</span>
           <span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-red-500"></span>ниже 90%</span>
           <span>Часы — расход от лимита: красный только при превышении.</span>
+          <span class="inline-flex items-center gap-1.5">Точка у проекта — здоровье динамики: <span class="w-2 h-2 rounded-full bg-emerald-500"></span>в плане <span class="w-2 h-2 rounded-full bg-amber-400"></span>отставание <span class="w-2 h-2 rounded-full bg-red-500"></span>сильно отстаёт <span class="w-2 h-2 rounded-full bg-zinc-300"></span>нет данных · процент — переход к графику</span>
         </p>
 
         <section data-metric-chart class="bg-white rounded-2xl shadow-card p-4 lg:p-6 mb-6">
@@ -108,13 +109,10 @@
                 <button type="button" data-seg="leads" class="px-3 lg:px-4 py-1.5 rounded-full text-xs lg:text-sm font-medium text-zinc-500 hover:text-zinc-900 transition">Лиды</button>
                 <button type="button" data-seg="top10" class="px-3 lg:px-4 py-1.5 rounded-full text-xs lg:text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">% в ТОП-10</button>
               </div>
-              <button type="button" data-can="edit_project" data-open-modal="fact" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition whitespace-nowrap">Внести факт</button>
             </div>
           </div>
-          <div data-chart-stats class="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-3 mb-4"></div>
           <div class="w-full overflow-x-auto">
             <div data-chart-svg></div>
-            <div data-chart-months class="flex justify-between px-[3%] mt-1 text-xs text-zinc-500 min-w-[500px]"></div>
           </div>
         </section>
 
@@ -150,69 +148,85 @@
               <tbody class="divide-y divide-zinc-100 block md:table-row-group">
                 <tr data-project-row="holod" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <a href="project.html" class="text-base font-medium hover:underline">Интернет-магазин «Холод»</a>
-                    <div class="text-xs text-zinc-500 mt-0.5">holod-shop.ru</div>
+                    <span class="inline-flex items-center gap-2"><span role="img" aria-label="Динамика в плане · трафик 94%, лиды 108%, ТОП-10 114%" title="Динамика в плане · трафик 94%, лиды 108%, ТОП-10 114%" class="relative flex w-2.5 h-2.5 shrink-0"><span class="relative w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white"></span></span><a href="project.html" class="text-base font-medium hover:underline">Интернет-магазин «Холод»</a></span>
+                    <div class="text-xs text-zinc-500 mt-0.5 pl-[18px]">holod-shop.ru</div>
                   </td>
                   <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
                     <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Активен</span>
                   </td>
-                  <td data-label="Трафик" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">24 380 <span class="text-zinc-500">/26 000</span> <span class="text-xs font-medium text-amber-700 ml-2">94%</span></td>
-                  <td data-label="Лиды" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">312 <span class="text-zinc-500">/290</span> <span class="text-xs font-medium text-emerald-700 ml-2">108%</span></td>
-                  <td data-label="Топ-10" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">148 <span class="text-zinc-500">/130</span> <span class="text-xs font-medium text-emerald-700 ml-2">114%</span></td>
+                  <td data-label="Трафик" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">24 380 <span class="text-zinc-500">/26 000</span> <a href="project.html?metric=traffic#analytics" title="Открыть динамику: трафик" class="ml-2 inline-flex items-center gap-0.5 px-1.5 py-0.5 -my-0.5 rounded-md text-xs font-medium text-amber-700 hover:bg-zinc-100 hover:underline underline-offset-2 transition">94% <span class="font-normal text-zinc-500">трафик</span></a></td>
+                  <td data-label="Лиды" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">312 <span class="text-zinc-500">/290</span> <a href="project.html?metric=leads#analytics" title="Открыть динамику: лиды" class="ml-2 inline-flex items-center gap-0.5 px-1.5 py-0.5 -my-0.5 rounded-md text-xs font-medium text-emerald-700 hover:bg-zinc-100 hover:underline underline-offset-2 transition">108% <span class="font-normal text-zinc-500">лиды</span></a></td>
+                  <td data-label="Топ-10" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">148 <span class="text-zinc-500">/130</span> <a href="project.html?metric=top10#analytics" title="Открыть динамику: ТОП-10" class="ml-2 inline-flex items-center gap-0.5 px-1.5 py-0.5 -my-0.5 rounded-md text-xs font-medium text-emerald-700 hover:bg-zinc-100 hover:underline underline-offset-2 transition">114% <span class="font-normal text-zinc-500">ТОП-10</span></a></td>
                   <td data-label="Работы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">22 <span class="text-zinc-500">/23</span> <span class="text-xs font-medium text-amber-700 ml-2">96%</span></td>
                   <td data-label="Часы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">82 <span class="text-zinc-500">/96</span> <span class="text-xs font-medium text-zinc-500 ml-2">85%</span></td>
                   <td data-can="see_finance" data-label="Чек" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">240 000 ₽</td>
                 </tr>
                 <tr data-project-row="remont" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <a href="project.html" class="text-base font-medium hover:underline">Сайт услуг «Ремонт+»</a>
-                    <div class="text-xs text-zinc-500 mt-0.5">remont-plus.ru</div>
+                    <span class="inline-flex items-center gap-2"><span role="img" aria-label="Есть отставание от плана · трафик 90%, лиды 85%, ТОП-10 74%" title="Есть отставание от плана · трафик 90%, лиды 85%, ТОП-10 74%" class="relative flex w-2.5 h-2.5 shrink-0"><span class="relative w-2.5 h-2.5 rounded-full bg-amber-400 ring-2 ring-white"></span></span><a href="project.html" class="text-base font-medium hover:underline">Сайт услуг «Ремонт+»</a></span>
+                    <div class="text-xs text-zinc-500 mt-0.5 pl-[18px]">remont-plus.ru</div>
                   </td>
                   <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
                     <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Активен</span>
                   </td>
-                  <td data-label="Трафик" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">8 120 <span class="text-zinc-500">/9 000</span> <span class="text-xs font-medium text-amber-700 ml-2">90%</span></td>
-                  <td data-label="Лиды" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">94 <span class="text-zinc-500">/110</span> <span class="text-xs font-medium text-red-600 ml-2">85%</span></td>
-                  <td data-label="Топ-10" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">52 <span class="text-zinc-500">/70</span> <span class="text-xs font-medium text-red-600 ml-2">74%</span></td>
+                  <td data-label="Трафик" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">8 120 <span class="text-zinc-500">/9 000</span> <a href="project.html?metric=traffic#analytics" title="Открыть динамику: трафик" class="ml-2 inline-flex items-center gap-0.5 px-1.5 py-0.5 -my-0.5 rounded-md text-xs font-medium text-amber-700 hover:bg-zinc-100 hover:underline underline-offset-2 transition">90% <span class="font-normal text-zinc-500">трафик</span></a></td>
+                  <td data-label="Лиды" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">94 <span class="text-zinc-500">/110</span> <a href="project.html?metric=leads#analytics" title="Открыть динамику: лиды" class="ml-2 inline-flex items-center gap-0.5 px-1.5 py-0.5 -my-0.5 rounded-md text-xs font-medium text-red-600 hover:bg-zinc-100 hover:underline underline-offset-2 transition">85% <span class="font-normal text-zinc-500">лиды</span></a></td>
+                  <td data-label="Топ-10" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">52 <span class="text-zinc-500">/70</span> <a href="project.html?metric=top10#analytics" title="Открыть динамику: ТОП-10" class="ml-2 inline-flex items-center gap-0.5 px-1.5 py-0.5 -my-0.5 rounded-md text-xs font-medium text-red-600 hover:bg-zinc-100 hover:underline underline-offset-2 transition">74% <span class="font-normal text-zinc-500">ТОП-10</span></a></td>
                   <td data-label="Работы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">13 <span class="text-zinc-500">/15</span> <span class="text-xs font-medium text-red-600 ml-2">87%</span></td>
                   <td data-label="Часы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">42 <span class="text-zinc-500">/60</span> <span class="text-xs font-medium text-zinc-500 ml-2">70%</span></td>
                   <td data-can="see_finance" data-label="Чек" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">120 000 ₽</td>
                 </tr>
                 <tr data-project-row="stroytech" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <a href="project.html" class="text-base font-medium hover:underline">B2B портал «Стройтех»</a>
-                    <div class="text-xs text-zinc-500 mt-0.5">stroytech.ru</div>
+                    <span class="inline-flex items-center gap-2"><span role="img" aria-label="Сильно отстаёт от плана · трафик 69%, лиды 51%, ТОП-10 52%" title="Сильно отстаёт от плана · трафик 69%, лиды 51%, ТОП-10 52%" class="relative flex w-2.5 h-2.5 shrink-0"><span class="relative w-2.5 h-2.5 rounded-full bg-red-500 ring-2 ring-white"></span></span><a href="project.html" class="text-base font-medium hover:underline">B2B портал «Стройтех»</a></span>
+                    <div class="text-xs text-zinc-500 mt-0.5 pl-[18px]">stroytech.ru</div>
                   </td>
                   <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
                     <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>На паузе</span>
                   </td>
-                  <td data-label="Трафик" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">4 500 <span class="text-zinc-500">/6 500</span> <span class="text-xs font-medium text-red-600 ml-2">69%</span></td>
-                  <td data-label="Лиды" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">28 <span class="text-zinc-500">/55</span> <span class="text-xs font-medium text-red-600 ml-2">51%</span></td>
-                  <td data-label="Топ-10" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">31 <span class="text-zinc-500">/60</span> <span class="text-xs font-medium text-red-600 ml-2">52%</span></td>
+                  <td data-label="Трафик" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">4 500 <span class="text-zinc-500">/6 500</span> <a href="project.html?metric=traffic#analytics" title="Открыть динамику: трафик" class="ml-2 inline-flex items-center gap-0.5 px-1.5 py-0.5 -my-0.5 rounded-md text-xs font-medium text-red-600 hover:bg-zinc-100 hover:underline underline-offset-2 transition">69% <span class="font-normal text-zinc-500">трафик</span></a></td>
+                  <td data-label="Лиды" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">28 <span class="text-zinc-500">/55</span> <a href="project.html?metric=leads#analytics" title="Открыть динамику: лиды" class="ml-2 inline-flex items-center gap-0.5 px-1.5 py-0.5 -my-0.5 rounded-md text-xs font-medium text-red-600 hover:bg-zinc-100 hover:underline underline-offset-2 transition">51% <span class="font-normal text-zinc-500">лиды</span></a></td>
+                  <td data-label="Топ-10" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">31 <span class="text-zinc-500">/60</span> <a href="project.html?metric=top10#analytics" title="Открыть динамику: ТОП-10" class="ml-2 inline-flex items-center gap-0.5 px-1.5 py-0.5 -my-0.5 rounded-md text-xs font-medium text-red-600 hover:bg-zinc-100 hover:underline underline-offset-2 transition">52% <span class="font-normal text-zinc-500">ТОП-10</span></a></td>
                   <td data-label="Работы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">10 <span class="text-zinc-500">/12</span> <span class="text-xs font-medium text-red-600 ml-2">83%</span></td>
                   <td data-label="Часы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">18 <span class="text-zinc-500">/72</span> <span class="text-xs font-medium text-zinc-500 ml-2">25%</span></td>
                   <td data-can="see_finance" data-label="Чек" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">180 000 ₽</td>
                 </tr>
                 <tr data-project-row="medlife" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <a href="project.html" class="text-base font-medium hover:underline">Клиника «МедЛайф»</a>
-                    <div class="text-xs text-zinc-500 mt-0.5">medlife-clinic.ru</div>
+                    <span class="inline-flex items-center gap-2"><span role="img" aria-label="Есть отставание от плана · трафик 114%, лиды 89%, ТОП-10 151%" title="Есть отставание от плана · трафик 114%, лиды 89%, ТОП-10 151%" class="relative flex w-2.5 h-2.5 shrink-0"><span class="relative w-2.5 h-2.5 rounded-full bg-amber-400 ring-2 ring-white"></span></span><a href="project.html" class="text-base font-medium hover:underline">Клиника «МедЛайф»</a></span>
+                    <div class="text-xs text-zinc-500 mt-0.5 pl-[18px]">medlife-clinic.ru</div>
                   </td>
                   <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
                     <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Активен</span>
                   </td>
-                  <td data-label="Трафик" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">15 900 <span class="text-zinc-500">/14 000</span> <span class="text-xs font-medium text-emerald-700 ml-2">114%</span></td>
-                  <td data-label="Лиды" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">210 <span class="text-zinc-500">/235</span> <span class="text-xs font-medium text-red-600 ml-2">89%</span></td>
-                  <td data-label="Топ-10" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">181 <span class="text-zinc-500">/120</span> <span class="text-xs font-medium text-emerald-700 ml-2">151%</span></td>
+                  <td data-label="Трафик" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">15 900 <span class="text-zinc-500">/14 000</span> <a href="project.html?metric=traffic#analytics" title="Открыть динамику: трафик" class="ml-2 inline-flex items-center gap-0.5 px-1.5 py-0.5 -my-0.5 rounded-md text-xs font-medium text-emerald-700 hover:bg-zinc-100 hover:underline underline-offset-2 transition">114% <span class="font-normal text-zinc-500">трафик</span></a></td>
+                  <td data-label="Лиды" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">210 <span class="text-zinc-500">/235</span> <a href="project.html?metric=leads#analytics" title="Открыть динамику: лиды" class="ml-2 inline-flex items-center gap-0.5 px-1.5 py-0.5 -my-0.5 rounded-md text-xs font-medium text-red-600 hover:bg-zinc-100 hover:underline underline-offset-2 transition">89% <span class="font-normal text-zinc-500">лиды</span></a></td>
+                  <td data-label="Топ-10" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">181 <span class="text-zinc-500">/120</span> <a href="project.html?metric=top10#analytics" title="Открыть динамику: ТОП-10" class="ml-2 inline-flex items-center gap-0.5 px-1.5 py-0.5 -my-0.5 rounded-md text-xs font-medium text-emerald-700 hover:bg-zinc-100 hover:underline underline-offset-2 transition">151% <span class="font-normal text-zinc-500">ТОП-10</span></a></td>
                   <td data-label="Работы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">10 <span class="text-zinc-500">/10</span> <span class="text-xs font-medium text-emerald-700 ml-2">100%</span></td>
                   <td data-label="Часы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">14 <span class="text-zinc-500">/40</span> <span class="text-xs font-medium text-zinc-500 ml-2">35%</span></td>
                   <td data-can="see_finance" data-label="Чек" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">80 000 ₽</td>
+                </tr>
+                <tr data-project-row="holodb2b" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
+                    <span class="inline-flex items-center gap-2"><span role="img" aria-label="Нет данных — проект на запуске, план с июля" title="Нет данных — проект на запуске, план с июля" class="relative flex w-2.5 h-2.5 shrink-0"><span class="relative w-2.5 h-2.5 rounded-full bg-zinc-300 ring-2 ring-white"></span></span><a href="project.html" class="text-base font-medium hover:underline">Оптовый портал «Холод B2B»</a></span>
+                    <div class="text-xs text-zinc-500 mt-0.5 pl-[18px]">b2b.holod-shop.ru</div>
+                  </td>
+                  <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>Запуск</span>
+                    <div class="text-xs text-zinc-500 mt-0.5">план с июля</div>
+                  </td>
+                  <td data-label="Трафик" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-400">—</td>
+                  <td data-label="Лиды" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-400">—</td>
+                  <td data-label="Топ-10" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums text-zinc-400">—</td>
+                  <td data-label="Работы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">2 <span class="text-zinc-500">/4</span> <span class="text-xs font-medium text-zinc-500 ml-2">50%</span></td>
+                  <td data-label="Часы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">6 <span class="text-zinc-500">/40</span> <span class="text-xs font-medium text-zinc-500 ml-2">15%</span></td>
+                  <td data-can="see_finance" data-label="Чек" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">90 000 ₽</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="px-4 lg:px-6 py-4 border-t border-zinc-100 flex flex-wrap items-center justify-between gap-3">
-            <div data-project-summary class="text-sm text-zinc-500">Показано <span class="tabular-nums text-zinc-900 font-medium">1–4</span> из <span class="tabular-nums text-zinc-900 font-medium">4</span></div>
+            <div data-project-summary class="text-sm text-zinc-500">Показано <span class="tabular-nums text-zinc-900 font-medium">1–5</span> из <span class="tabular-nums text-zinc-900 font-medium">5</span></div>
             <div class="flex items-center gap-2 text-sm text-zinc-500">
               <span>На странице</span>
               <select class="px-2.5 py-1 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
@@ -238,30 +252,9 @@
       top10:   { label: '% в ТОП-10', color: '#7c3aed', suffix: '%', fact: [24.1, 26.8, 29.5, 31.2, 33.9, 35.8], plan: [25, 27, 29, 31, 32, 33] }
     }
   };
-  const SHARE = { holod: 0.46, remont: 0.19, stroytech: 0.21, medlife: 0.14 };
-  const scaled = (arr, k, pct) => arr.map(v => pct ? Math.round((v + (k - 0.25) * 12) * 10) / 10 : Math.round(v * k));
-  const perProject = {};
-  Object.keys(SHARE).forEach(id => {
-    const k = SHARE[id];
-    perProject[id] = { months: MONTHS, series: {} };
-    Object.keys(TOTAL.series).forEach(key => {
-      const s = TOTAL.series[key], pct = key === 'top10';
-      perProject[id].series[key] = Object.assign({}, s, { fact: scaled(s.fact, k, pct), plan: scaled(s.plan, k, pct) });
-    });
-  });
-  SEOApp.metricsFor = id => perProject[id] || TOTAL;
-
   document.addEventListener('seo:ready', () => {
     const root = document.querySelector('[data-metric-chart]');
     if (root) SEOApp.metricChart(root, TOTAL);
-  });
-
-  document.addEventListener('fact:saved', e => {
-    const fact = document.querySelector('#fact-modal [name="project"]');
-    const id = fact && fact.value;
-    const d = perProject[id];
-    if (!d) return;
-    Object.keys(e.detail.values).forEach(k => { d.series[k].fact[e.detail.index] = e.detail.values[k]; });
   });
 
   /* Новый проект появляется в таблице сразу после создания */

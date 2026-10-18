@@ -314,7 +314,7 @@ tailwind.config = {
     el.dataset.tip = tip;
     el.setAttribute('title', tip);
     if (el.tagName === 'A') {
-      el.addEventListener('click', e => e.preventDefault());
+      el.addEventListener('click', e => { e.preventDefault(); toast(tip, 'error'); });
       el.removeAttribute('href');
     } else {
       el.disabled = true;
@@ -850,8 +850,8 @@ tailwind.config = {
   }
 
   /* График метрик: SEOApp.metricChart(root, { months, series: { key: { label, color, fact, plan, suffix } } })
-     В root: [data-segmented] с data-seg=key, [data-chart-svg], [data-chart-months], [data-chart-stats].
-     [data-metric-card="key"] на странице подсвечивается вместе с выбранным показателем. */
+     В root: [data-segmented] с data-seg=key, [data-chart-svg], необязательно [data-chart-stats].
+     Показатель переключается только сегментами самого графика. */
   function fmtNum(v, suffix) {
     return (Math.round(v * 10) / 10).toLocaleString('ru-RU') + (suffix || '');
   }
@@ -908,24 +908,10 @@ tailwind.config = {
           tile('Выполнение плана', pct != null ? pct + '%' : '—', pct == null ? '' : (pct >= 100 ? 'text-emerald-700' : (pct >= 90 ? 'text-amber-700' : 'text-red-700'))) +
           tile('К прошлому месяцу', diff == null ? '—' : (diff >= 0 ? '+' : '−') + fmtNum(Math.abs(diff), s.suffix), diff == null ? '' : (diff >= 0 ? 'text-emerald-700' : 'text-red-700'));
       }
-      document.querySelectorAll('[data-metric-card]').forEach(c => {
-        const on = c.dataset.metricCard === current;
-        c.classList.toggle('ring-2', on);
-        c.classList.toggle('ring-accent/30', on);
-      });
     }
     if (seg) seg.addEventListener('seg:change', e => { current = e.detail.value; render(); });
     let resizeTimer;
     window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(render, 120); });
-    document.querySelectorAll('[data-metric-card]').forEach(c => {
-      c.classList.add('cursor-pointer', 'transition');
-      c.addEventListener('click', () => {
-        if (!data.series[c.dataset.metricCard]) return;
-        current = c.dataset.metricCard;
-        if (seg) paintSegment(seg, current);
-        render();
-      });
-    });
     render();
     return {
       set(key, index, value) { if (data.series[key]) data.series[key].fact[index] = value; render(); },
@@ -967,28 +953,136 @@ tailwind.config = {
     });
   }
 
-  /* ---------- Тосты для демо-действий: data-toast="Текст" ---------- */
-  let toastEl, toastTimer;
-  function toast(msg) {
-    if (!toastEl) return;
-    toastEl.textContent = msg;
-    toastEl.classList.remove('hidden');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toastEl.classList.add('hidden'), 2600);
+  /* ---------- Тосты: SEOApp.toast(текст, тон) и data-toast="Текст" (+ data-toast-tone) ----------
+     Тон: success — зелёный, warning — янтарный, error — красный, info — нейтральный.
+     Без явного тона определяется по тексту. Стек в правом верхнем углу, новые сверху, не больше трёх. */
+  const TOAST_TONES = {
+    success: ['bg-emerald-500', '<path d="M5 13l4 4L19 7"/>'],
+    warning: ['bg-amber-500', '<path d="M12 7v6M12 17h.01"/>'],
+    error:   ['bg-red-500', '<path d="M7 7l10 10M17 7L7 17"/>'],
+    info:    ['bg-zinc-800', '<path d="M12 11v6M12 7h.01"/>']
+  };
+  const TOAST_ERROR = /^(Заполните|Проверьте|Напишите|Добавьте|Укажите|Выберите|Сначала|Нельзя|Недоступно|Недостаточно|Нет доступа|Ошибка|Не удалось|Принятые задачи не|Порученную задачу|Вернуть из проверки|Вставьте|Файл слишком)/;
+  const TOAST_WARNING = /доработк|ждёт клиента|пауз|отключ|в архив|снят[ао]? с|отменен/i;
+  const TOAST_SUCCESS = /принят|сохран|создан|отправлен|добавлен|подключ|оформлен|скопир|приглаш|передан|загружен|обновл|прикреплён|удален|удалён|готов|запущен|собран|включ|назначен|перенесен|перенесён|→/i;
+  function toastTone(msg) {
+    if (TOAST_ERROR.test(msg)) return 'error';
+    if (TOAST_WARNING.test(msg)) return 'warning';
+    if (TOAST_SUCCESS.test(msg)) return 'success';
+    return 'info';
+  }
+  let toastBox;
+  function dismissToast(el) {
+    clearTimeout(el._timer);
+    el.classList.add('opacity-0', 'translate-x-4');
+    setTimeout(() => el.remove(), 250);
+  }
+  function toast(msg, tone) {
+    if (!toastBox || !msg) return;
+    tone = TOAST_TONES[tone] ? tone : toastTone(String(msg));
+    const top = toastBox.firstElementChild;
+    if (top && top.dataset.msg === msg) {
+      clearTimeout(top._timer);
+      top._timer = setTimeout(() => dismissToast(top), 3400);
+      return;
+    }
+    const [dot, icon] = TOAST_TONES[tone];
+    const el = document.createElement('div');
+    el.setAttribute('role', 'status');
+    el.dataset.tone = tone;
+    el.dataset.msg = msg;
+    el.className = 'pointer-events-auto flex items-start gap-3 w-full sm:w-auto sm:min-w-[260px] sm:max-w-sm pl-3 pr-2 py-2.5 rounded-2xl bg-white/90 backdrop-blur-xl shadow-pop ring-1 ring-black/5 text-sm text-zinc-900 transition duration-200 ease-out opacity-0 -translate-y-2';
+    el.innerHTML = '<span class="mt-0.5 w-5 h-5 shrink-0 rounded-full ' + dot + ' text-white flex items-center justify-center">' +
+      '<svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">' + icon + '</svg></span>' +
+      '<span data-toast-text class="flex-1 min-w-0 py-0.5 leading-snug font-medium"></span>' +
+      '<button type="button" aria-label="Закрыть" class="w-6 h-6 shrink-0 rounded-full text-zinc-400 hover:text-zinc-700 hover:bg-black/5 flex items-center justify-center transition">' +
+      '<svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18L18 6M6 6l12 12"/></svg></button>';
+    el.querySelector('[data-toast-text]').textContent = msg;
+    el.querySelector('button').addEventListener('click', () => dismissToast(el));
+    el.addEventListener('mouseenter', () => clearTimeout(el._timer));
+    el.addEventListener('mouseleave', () => { el._timer = setTimeout(() => dismissToast(el), 1800); });
+    toastBox.prepend(el);
+    Array.from(toastBox.children).slice(3).forEach(dismissToast);
+    requestAnimationFrame(() => requestAnimationFrame(() => el.classList.remove('opacity-0', '-translate-y-2')));
+    el._timer = setTimeout(() => dismissToast(el), tone === 'error' ? 4200 : 3400);
   }
   function initToasts() {
-    toastEl = document.createElement('div');
-    toastEl.setAttribute('role', 'status');
-    toastEl.className = 'hidden fixed left-1/2 -translate-x-1/2 bottom-24 lg:bottom-8 z-[60] px-4 py-2.5 rounded-full bg-zinc-900/90 backdrop-blur text-white text-sm font-medium shadow-pop max-w-[90vw] text-center';
-    document.body.appendChild(toastEl);
+    toastBox = document.createElement('div');
+    toastBox.setAttribute('aria-live', 'polite');
+    toastBox.className = 'fixed top-4 right-4 left-4 sm:left-auto sm:top-6 sm:right-6 z-[70] flex flex-col items-stretch sm:items-end gap-2 pointer-events-none';
+    document.body.appendChild(toastBox);
     document.addEventListener('click', e => {
       const t = e.target.closest('[data-toast]');
-      if (t) toast(t.dataset.toast);
+      if (t && !t.disabled && t.getAttribute('aria-disabled') !== 'true') toast(t.dataset.toast, t.dataset.toastTone);
     });
   }
+  /* Комментарии задачи: task.html пишет, report.html берёт отмеченные «В отчёте».
+     RICH — оформление отформатированного текста (жирный, курсив, списки, ссылки) в ленте и в отчёте. */
+  const RICH = 'text-sm text-zinc-700 leading-relaxed break-words [&_b]:font-semibold [&_b]:text-zinc-900 [&_strong]:font-semibold [&_i]:italic [&_em]:italic [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:my-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:my-1 [&_li]:my-0.5 [&_a]:text-accent [&_a]:underline [&_p+p]:mt-1.5';
+  const COMMENTS_KEY = 'seo_task_comments_1';
+  const comments = {
+    load() {
+      try { return Object.assign({ items: [], flags: {} }, JSON.parse(localStorage.getItem(COMMENTS_KEY))); } catch (e) { return { items: [], flags: {} }; }
+    },
+    save(data) {
+      try { localStorage.setItem(COMMENTS_KEY, JSON.stringify(data)); return true; } catch (e) { return false; }
+    }
+  };
+
+  /* Микро-попап «На доработку» у кнопки: resolve(причина) или resolve(null) при отмене */
+  let reasonPop = null;
+  function askReason(anchor, opts) {
+    opts = opts || {};
+    if (reasonPop) reasonPop.cancel();
+    return new Promise(resolve => {
+      const el = document.createElement('div');
+      el.setAttribute('role', 'dialog');
+      el.setAttribute('aria-label', opts.title || 'Вернуть на доработку');
+      el.className = 'fixed z-[65] w-[min(320px,calc(100vw-24px))] p-3 rounded-2xl bg-white/95 backdrop-blur-xl shadow-pop ring-1 ring-black/5';
+      el.innerHTML =
+        '<div class="text-sm font-semibold tracking-tight">' + (opts.title || 'Вернуть на доработку') + '</div>' +
+        (opts.sub ? '<div class="text-xs text-zinc-500 mt-0.5 truncate">' + opts.sub + '</div>' : '') +
+        '<textarea rows="3" data-reason aria-label="Что исправить" placeholder="' + (opts.placeholder || 'Что исправить — исполнитель увидит это в задаче') + '" class="mt-2 w-full px-3 py-2 rounded-xl border border-zinc-200 bg-white text-sm resize-none focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></textarea>' +
+        '<div class="mt-2 flex items-center justify-end gap-2"><span class="mr-auto text-[11px] text-zinc-400">⌘↵ — ' + (opts.ok || 'Вернуть').toLowerCase() + '</span>' +
+        '<button type="button" data-cancel class="px-3 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 hover:bg-black/5 transition">Отмена</button>' +
+        '<button type="button" data-ok class="px-3.5 py-1.5 rounded-full bg-amber-500 text-white text-sm font-medium hover:bg-amber-600 transition">' + (opts.ok || 'Вернуть') + '</button></div>';
+      document.body.appendChild(el);
+      const r = anchor.getBoundingClientRect();
+      const w = el.offsetWidth, h = el.offsetHeight;
+      let top = r.bottom + 8;
+      if (top + h > innerHeight - 12) top = Math.max(12, r.top - h - 8);
+      el.style.left = Math.min(Math.max(12, r.right - w), innerWidth - w - 12) + 'px';
+      el.style.top = top + 'px';
+      const ta = el.querySelector('[data-reason]');
+      ta.focus();
+      const outside = e => { if (!el.contains(e.target)) done(null); };
+      const key = e => {
+        if (e.key === 'Escape') { e.stopPropagation(); done(null); }
+        if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); ok(); }
+      };
+      function done(v) {
+        el.remove();
+        reasonPop = null;
+        document.removeEventListener('mousedown', outside, true);
+        document.removeEventListener('keydown', key, true);
+        resolve(v);
+      }
+      function ok() {
+        const v = ta.value.trim();
+        if (!v) { ta.classList.add('!border-red-300'); ta.focus(); return toast('Напишите, что нужно исправить', 'error'); }
+        done(v);
+      }
+      reasonPop = { cancel: () => done(null) };
+      el.querySelector('[data-cancel]').addEventListener('click', () => done(null));
+      el.querySelector('[data-ok]').addEventListener('click', ok);
+      setTimeout(() => document.addEventListener('mousedown', outside, true));
+      document.addEventListener('keydown', key, true);
+    });
+  }
+
   Object.assign(window.SEOApp, {
     toast, segment: paintSegment, registerModal, openModal, closeModals, syncDeps,
-    metricChart, plural, fmtNum, MONTHS, FIELD, roleInfo
+    metricChart, plural, fmtNum, MONTHS, FIELD, roleInfo, RICH, comments, askReason, applyPermissions
   });
 
   /* ---------- Матрица разрешений (страница «Настройки → Роли») ---------- */
@@ -1126,10 +1220,13 @@ tailwind.config = {
     return exec || setter || (!!project && ME.projects.includes(project));
   }
   const hasFlag = (el, v) => v === 'all' || words(el.dataset.flags).includes(v);
+  /* Дополнительный фильтр страницы (например, отчётный месяц): SEOApp.setTaskFilter(el => bool) */
+  let pageFilter = null;
+  const inScope = el => matchesScope(el) && (!pageFilter || pageFilter(el));
 
   function applyFilters() {
     document.querySelectorAll('[data-task]').forEach(el => {
-      el.dataset.match = (matchesScope(el) && hasFlag(el, view)) ? '1' : '0';
+      el.dataset.match = (inScope(el) && hasFlag(el, view)) ? '1' : '0';
       const isCo = words(el.dataset.co).includes(ME.id);
       el.querySelectorAll('[data-co-tag]').forEach(t => t.classList.toggle('hidden', !isCo));
       el.querySelectorAll('[data-tags]').forEach(h => {
@@ -1159,8 +1256,9 @@ tailwind.config = {
         m.classList.toggle('hidden', n > 0);
         const text = m.querySelector('[data-empty-text]') || m;
         if (text.children.length > 0) return;
-        const inScope = g ? Array.from(g.querySelectorAll(':scope > [data-task]')).filter(el => matchesScope(el)).length : n;
-        if (m.dataset[emptyKey] && inScope === 0) text.textContent = m.dataset[emptyKey];
+        const inScopeCount = g ? Array.from(g.querySelectorAll(':scope > [data-task]')).filter(inScope).length : n;
+        if (pageFilter && inScopeCount === 0 && m.dataset.emptyFilter) text.textContent = m.dataset.emptyFilter;
+        else if (m.dataset[emptyKey] && inScopeCount === 0) text.textContent = m.dataset[emptyKey];
         else if (m.dataset.emptyView && view !== 'all') text.textContent = m.dataset.emptyView;
         else if (m.dataset[emptyKey]) text.textContent = m.dataset[emptyKey];
       });
@@ -1171,7 +1269,7 @@ tailwind.config = {
     const pool = Array.from(source.querySelectorAll('[data-task]'));
     document.querySelectorAll('[data-view-count]').forEach(c => {
       const v = c.dataset.viewCount;
-      c.textContent = pool.filter(el => matchesScope(el) && hasFlag(el, v)).length;
+      c.textContent = pool.filter(el => inScope(el) && hasFlag(el, v)).length;
     });
     document.querySelectorAll('[data-visible-count]').forEach(c => {
       c.textContent = pool.filter(el => el.dataset.match === '1').length;
@@ -1235,111 +1333,12 @@ tailwind.config = {
     applyFilters();
   }
 
-  /* ---------- 6. Канбан-доска: перетаскивание карточек ----------
-     Колонки = статусы: planned → progress → review → waiting / done.
-     Правила: порученную задачу принимает постановщик, в том числе если он же исполнитель.
-     Владелец и руководители принимают любую. Чужую постановку исполнитель не принимает. */
-  const STATUS_NAME = { planned: 'Запланирована', progress: 'В работе', review: 'На проверке', waiting: 'Ждёт клиента', done: 'Принята' };
-  const CHIP_CLS = {
-    planned:  ['bg-zinc-100', 'text-zinc-700', 'bg-zinc-500'],
-    progress: ['bg-blue-50', 'text-blue-700', 'bg-blue-600'],
-    review:   ['bg-amber-50', 'text-amber-700', 'bg-amber-600'],
-    waiting:  ['bg-violet-50', 'text-violet-700', 'bg-violet-600'],
-    done:     ['bg-emerald-50', 'text-emerald-700', 'bg-emerald-600']
-  };
-  const TAG_BASE = 'inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap ';
-
-  function setCardTag(card, kind) {
-    card.querySelectorAll('[data-state-tag]').forEach(t => t.remove());
-    const holder = card.querySelector('[data-tags]');
-    if (!holder || !kind) return;
-    const el = document.createElement('span');
-    el.setAttribute('data-state-tag', kind);
-    el.className = TAG_BASE + (kind === 'returned' ? 'bg-orange-50 text-orange-700' : 'bg-violet-50 text-violet-700');
-    el.textContent = kind === 'returned' ? 'На доработке' : 'ждём клиента';
-    holder.prepend(el);
-    holder.classList.remove('hidden');
-  }
-
-  function moveCard(card, to) {
-    const from = card.dataset.status;
-    if (from === to) return;
-    const title = (card.querySelector('a') || card).textContent.trim();
-    if (from === 'done') return toast('Принятые задачи не перемещаются');
-    const who = card.dataset.acceptorName || 'руководитель SEO';
-    const acceptable = canAcceptItem(card);
-    if (to === 'done') {
-      if (!acceptable) return toast('Порученную задачу принимает постановщик');
-      if (from !== 'review') return toast('Сначала задачу нужно передать на проверку');
-    }
-    if (from === 'review' && to !== 'done' && !acceptable) {
-      return toast('Вернуть из проверки может постановщик');
-    }
-
-    const col = document.querySelector('[data-board-col="' + to + '"]');
-    if (!col) return;
-    col.appendChild(card);
-    card.dataset.status = to;
-
-    const dropped = to === 'done' ? ['review', 'waiting', 'returned', 'attention', 'overdue'] : ['review', 'waiting', 'returned', 'attention'];
-    const flags = (card.dataset.flags || '').split(' ').filter(f => f && !dropped.includes(f));
-    if (flags.includes('overdue')) flags.push('attention');
-    if (to === 'review') flags.push('review');
-    if (to === 'waiting') flags.push('waiting', 'attention');
-    const returned = from === 'review' && to === 'progress';
-    if (returned) flags.push('returned', 'attention');
-    card.dataset.flags = flags.join(' ');
-
-    setCardTag(card, to === 'waiting' ? 'waiting' : (returned ? 'returned' : null));
-    card.querySelectorAll('[data-acceptor-line]').forEach(l => l.classList.toggle('hidden', to !== 'review'));
-
-    /* то же задача в табличном виде: статус и признаки не расходятся с доской */
-    const c = CHIP_CLS[to];
-    document.querySelectorAll('tr[data-task][data-id="' + card.dataset.id + '"]').forEach(row => {
-      row.dataset.status = to;
-      row.dataset.flags = card.dataset.flags;
-      const cell = row.querySelector('td[data-label="Статус"]');
-      if (cell) {
-        cell.innerHTML = '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap ' + c[0] + ' ' + c[1] + '">' +
-          '<span class="w-1.5 h-1.5 rounded-full ' + c[2] + '"></span>' + STATUS_NAME[to] + '</span>';
-      }
-    });
-    applyFilters();
-
-    let msg = '«' + title + '» → ' + STATUS_NAME[to];
-    if (to === 'review') msg += ' · принимает ' + (card.dataset.acceptorName || 'руководитель SEO');
-    if (returned) msg += ' · исполнитель уведомлён';
-    toast(msg);
-  }
-
-  function initBoard() {
-    const cols = document.querySelectorAll('[data-board-col]');
-    if (!cols.length) return;
-    const hint = ['bg-accent/10', 'ring-2', 'ring-accent/30'];
-    let dragged = null;
-    document.addEventListener('dragstart', e => {
-      const card = e.target.closest ? e.target.closest('[data-task][draggable]') : null;
-      if (!card) return;
-      dragged = card;
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/plain', card.dataset.id || '');
-      setTimeout(() => card.classList.add('opacity-40'), 0);
-    });
-    document.addEventListener('dragend', () => {
-      if (dragged) dragged.classList.remove('opacity-40');
-      dragged = null;
-      cols.forEach(c => hint.forEach(k => c.classList.remove(k)));
-    });
-    cols.forEach(col => {
-      col.addEventListener('dragover', e => { if (dragged) { e.preventDefault(); hint.forEach(k => col.classList.add(k)); } });
-      col.addEventListener('dragleave', e => { if (!col.contains(e.relatedTarget)) hint.forEach(k => col.classList.remove(k)); });
-      col.addEventListener('drop', e => {
-        e.preventDefault();
-        hint.forEach(k => col.classList.remove(k));
-        if (dragged) moveCard(dragged, col.dataset.boardCol);
-      });
-    });
-  }
+  /* Для страниц со своей логикой задач (доска и список в tasks.html) */
+  Object.assign(window.SEOApp, {
+    me: ME.id, myProjects: ME.projects, isLead,
+    canAccept: creator => can('accept_work') && (isLead || creator === ME.id),
+    setTaskFilter(fn) { pageFilter = fn || null; applyFilters(); }
+  });
 
   /* ---------- Место руководителя SEO ----------
      Две роли остаются раздельными. Кто ведёт отдел, решает приглашение:
@@ -1484,7 +1483,6 @@ tailwind.config = {
     initMonthNav();
     renderMatrix();
     initScope();
-    initBoard();
     initSeat();
     initHomeTables();
     initSortTables();

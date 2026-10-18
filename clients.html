@@ -32,68 +32,13 @@
               <thead class="hidden md:table-header-group">
                 <tr class="border-b border-zinc-100">
                   <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-4 lg:px-6 py-3">Клиент</th>
+                  <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">Сотрудничество</th>
                   <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">Контакт</th>
                   <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">Бриф</th>
                   <th class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-4 lg:px-6 py-3">Проектов</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-zinc-100 block md:table-row-group">
-                <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <a href="client.html" class="text-base font-medium hover:underline">ООО «Холод Групп»</a>
-                  </td>
-                  <td data-label="Контакт" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <div class="text-sm">Сергей Волков</div>
-                    <div class="text-xs text-zinc-500 mt-0.5">s.volkov@holod.ru</div>
-                  </td>
-                  <td data-label="Бриф" data-brief-cell="holod" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Заполнен</span><button type="button" data-can="create_client" data-open-modal="brief-send" data-prefill-client="holod" class="text-xs font-medium text-accent hover:underline whitespace-nowrap">Ещё раз</button></div></td>
-                  <td data-label="Проектов" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">1</td>
-                </tr>
-                <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <a href="client.html" class="text-base font-medium hover:underline">ИП Смирнов А.</a>
-                  </td>
-                  <td data-label="Контакт" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <div class="text-sm">Андрей Смирнов</div>
-                    <div class="text-xs text-zinc-500 mt-0.5">a@remont-plus.ru</div>
-                  </td>
-                  <td data-label="Бриф" data-brief-cell="smirnov" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Отправлен</span><button type="button" data-can="create_client" data-open-modal="brief-send" data-prefill-client="smirnov" class="text-xs font-medium text-accent hover:underline whitespace-nowrap">Отправить</button></div></td>
-                  <td data-label="Проектов" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">1</td>
-                </tr>
-                <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <a href="client.html" class="text-base font-medium hover:underline">АО «Стройтех»</a>
-                  </td>
-                  <td data-label="Контакт" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <div class="text-sm">Михаил Орлов</div>
-                    <div class="text-xs text-zinc-500 mt-0.5">m.orlov@stroytech.ru</div>
-                  </td>
-                  <td data-label="Бриф" data-brief-cell="stroytech" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Заполнен</span><button type="button" data-can="create_client" data-open-modal="brief-send" data-prefill-client="stroytech" class="text-xs font-medium text-accent hover:underline whitespace-nowrap">Ещё раз</button></div></td>
-                  <td data-label="Проектов" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">1</td>
-                </tr>
-                <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <a href="client.html" class="text-base font-medium hover:underline">ООО «МедЛайф»</a>
-                  </td>
-                  <td data-label="Контакт" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <div class="text-sm">Елена Крылова</div>
-                    <div class="text-xs text-zinc-500 mt-0.5">e.krylova@medlife.ru</div>
-                  </td>
-                  <td data-label="Бриф" data-brief-cell="medlife" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-600 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>Не отправлен</span><button type="button" data-can="create_client" data-open-modal="brief-send" data-prefill-client="medlife" class="text-xs font-medium text-accent hover:underline whitespace-nowrap">Отправить</button></div></td>
-                  <td data-label="Проектов" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">1</td>
-                </tr>
-                <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <a href="client.html" class="text-base font-medium hover:underline">ООО «Альфа»</a>
-                  </td>
-                  <td data-label="Контакт" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                    <div class="text-sm">Дмитрий Лебедев</div>
-                    <div class="text-xs text-zinc-500 mt-0.5">d.lebedev@alfa-group.ru</div>
-                  </td>
-                  <td data-label="Бриф" data-brief-cell="alfa" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-600 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>Не отправлен</span><button type="button" data-can="create_client" data-open-modal="brief-send" data-prefill-client="alfa" class="text-xs font-medium text-accent hover:underline whitespace-nowrap">Отправить</button></div></td>
-                  <td data-label="Проектов" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">0</td>
-                </tr>
-              </tbody>
+              <tbody data-client-rows class="divide-y divide-zinc-100 block md:table-row-group"></tbody>
             </table>
           </div>
 
@@ -120,32 +65,102 @@
 
 <script>
 (function () {
-  const CHIP_SENT = '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Отправлен</span>';
+  const App = window.SEOApp;
+  const STATUS = {
+    active: ['bg-emerald-50 text-emerald-700', 'bg-emerald-500', 'Активный'],
+    paused: ['bg-zinc-100 text-zinc-600', 'bg-zinc-400', 'Приостановлен'],
+    lead:   ['bg-violet-50 text-violet-700', 'bg-violet-500', 'Лид']
+  };
+  const PSTATUS = { active: ['bg-emerald-500', 'Активен'], launch: ['bg-blue-500', 'Запуск'], paused: ['bg-zinc-400', 'На паузе'] };
+  /* brief: filled — заполнен, sent — отправлен (дата, напоминания), none — не отправлен */
+  const CLIENTS = [
+    { id: 'holod', name: 'ООО «Холод Групп»', status: 'active', since: 'с мая 2025', contact: 'Сергей Волков', email: 's.volkov@holod.ru',
+      brief: { state: 'filled', date: '03.05' },
+      projects: [{ name: 'Интернет-магазин «Холод»', site: 'holod-shop.ru', status: 'active' }, { name: 'Оптовый портал «Холод B2B»', site: 'b2b.holod-shop.ru', status: 'launch' }] },
+    { id: 'smirnov', name: 'ИП Смирнов А.', status: 'active', since: 'с марта 2025', contact: 'Андрей Смирнов', email: 'a@remont-plus.ru',
+      brief: { state: 'sent', date: '12.06' },
+      projects: [{ name: 'Сайт услуг «Ремонт+»', site: 'remont-plus.ru', status: 'active' }] },
+    { id: 'stroytech', name: 'АО «Стройтех»', status: 'paused', since: 'пауза с 01.06', contact: 'Михаил Орлов', email: 'm.orlov@stroytech.ru',
+      brief: { state: 'filled', date: '14.02' },
+      projects: [{ name: 'B2B портал «Стройтех»', site: 'stroytech.ru', status: 'paused' }] },
+    { id: 'medlife', name: 'ООО «МедЛайф»', status: 'active', since: 'с апреля 2025', contact: 'Елена Крылова', email: 'e.krylova@medlife.ru',
+      brief: { state: 'none' },
+      projects: [{ name: 'Клиника «МедЛайф»', site: 'medlife-clinic.ru', status: 'active' }] },
+    { id: 'alfa', name: 'ООО «Альфа»', status: 'lead', since: 'КП отправлено 10.06', contact: 'Дмитрий Лебедев', email: 'd.lebedev@alfa-group.ru',
+      brief: { state: 'sent', date: '16.06' },
+      projects: [] }
+  ];
+  const TD = 'md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden';
+  const chip = (cls, dot, text) => '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap ' + cls + '"><span class="w-1.5 h-1.5 rounded-full ' + dot + '"></span>' + text + '</span>';
+  const LINK = 'text-xs font-medium text-accent hover:underline whitespace-nowrap disabled:text-zinc-400 disabled:no-underline';
+
+  function brief(c) {
+    const b = c.brief;
+    if (b.state === 'filled') return '<div class="flex items-center gap-2">' + chip('bg-emerald-50 text-emerald-700', 'bg-emerald-500', 'Заполнен') + '<span class="text-xs text-zinc-500 tabular-nums">' + b.date + '</span></div>';
+    if (b.state === 'sent') return '<div class="flex flex-wrap items-center gap-x-2 gap-y-1">' + chip('bg-amber-50 text-amber-700', 'bg-amber-500', 'Отправлен ' + b.date) +
+      (b.reminded ? '<span class="text-xs text-zinc-500">напомнили ' + b.reminded + '</span>' : '') +
+      '<button type="button" data-remind="' + c.id + '" data-can="create_client" class="' + LINK + '">Напомнить</button></div>';
+    return '<div class="flex items-center gap-2">' + chip('bg-zinc-100 text-zinc-600', 'bg-zinc-400', 'Не отправлен') +
+      '<button type="button" data-can="create_client" data-open-modal="brief-send" data-prefill-client="' + c.id + '" class="' + LINK + '">Отправить</button></div>';
+  }
+  function row(c) {
+    const st = STATUS[c.status];
+    const n = c.projects.length;
+    return '<tr data-client="' + c.id + '" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top">' +
+      '<td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1"><a href="client.html" class="text-base md:text-sm font-medium hover:underline">' + c.name + '</a></td>' +
+      '<td data-label="Сотрудничество" class="' + TD + '">' + chip(st[0], st[1], st[2]) + '<div class="text-xs text-zinc-500 mt-1">' + c.since + '</div></td>' +
+      '<td data-label="Контакт" class="' + TD + '"><div class="text-sm">' + c.contact + '</div><div class="text-xs text-zinc-500 mt-0.5">' + c.email + '</div></td>' +
+      '<td data-label="Бриф" data-brief-cell="' + c.id + '" class="' + TD + '">' + brief(c) + '</td>' +
+      '<td data-label="Проектов" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">' +
+        (n ? '<button type="button" data-projects-toggle aria-expanded="false" class="inline-flex items-center gap-1 px-2 py-0.5 -mx-2 rounded-lg tabular-nums font-medium hover:bg-zinc-100 transition">' + n +
+               '<svg class="w-3.5 h-3.5 text-zinc-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>' +
+             '<ul data-projects-list class="hidden mt-2 space-y-1.5 md:min-w-[240px] text-left">' + c.projects.map(p =>
+               '<li><a href="project.html" class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-zinc-50 hover:bg-zinc-100 transition"><span title="' + PSTATUS[p.status][1] + '" class="w-1.5 h-1.5 rounded-full shrink-0 ' + PSTATUS[p.status][0] + '"></span>' +
+               '<span class="min-w-0"><span class="block text-xs font-medium truncate">' + p.name + '</span><span class="block text-[11px] text-zinc-500 truncate">' + p.site + ' · ' + PSTATUS[p.status][1].toLowerCase() + '</span></span></a></li>').join('') + '</ul>'
+           : '<span class="text-zinc-400 tabular-nums">0</span>') +
+      '</td>' +
+    '</tr>';
+  }
+  const tbody = document.querySelector('[data-client-rows]');
+  const paint = () => {
+    tbody.innerHTML = CLIENTS.map(row).join('');
+    document.querySelector('[data-clients-shown]').textContent = '1–' + CLIENTS.length;
+    document.querySelector('[data-clients-total]').textContent = CLIENTS.length;
+  };
+  paint();
+
+  tbody.addEventListener('click', e => {
+    const t = e.target.closest('[data-projects-toggle]');
+    if (t) {
+      const list = t.parentElement.querySelector('[data-projects-list]');
+      const open = list.classList.toggle('hidden') === false;
+      t.setAttribute('aria-expanded', open ? 'true' : 'false');
+      t.querySelector('svg').classList.toggle('rotate-180', open);
+      return;
+    }
+    const r = e.target.closest('[data-remind]');
+    if (r && !r.disabled) {
+      const c = CLIENTS.find(x => x.id === r.dataset.remind);
+      c.brief.reminded = '18.06';
+      r.closest('[data-brief-cell]').innerHTML = brief(c);
+      App.applyPermissions();
+      App.toast('Напоминание отправлено: ссылка на бриф повторно ушла на ' + c.email, 'success');
+    }
+  });
   document.addEventListener('client:created', e => {
     const c = e.detail;
-    const tbody = document.querySelector('table[data-sort-table] tbody');
-    const tr = tbody.querySelector('tr:last-child').cloneNode(true);
-    tr.querySelector('a').textContent = c.name;
-    tr.querySelector('[data-label="Контакт"] .text-sm').textContent = c.contact;
-    tr.querySelector('[data-label="Контакт"] .text-xs').textContent = c.email;
-    const cell = tr.querySelector('[data-brief-cell]');
-    cell.dataset.briefCell = c.id;
-    cell.querySelector('button').dataset.prefillClient = c.id;
-    tr.querySelector('[data-label="Проектов"]').textContent = '0';
-    tr.classList.add('bg-accent/5');
-    tbody.prepend(tr);
-    const n = tbody.children.length;
-    document.querySelector('[data-clients-shown]').textContent = '1–' + n;
-    document.querySelector('[data-clients-total]').textContent = n;
+    CLIENTS.unshift({ id: c.id, name: c.name, status: 'lead', since: 'добавлен 18.06', contact: c.contact, email: c.email, brief: { state: 'none' }, projects: [] });
+    paint();
+    tbody.firstElementChild.classList.add('bg-accent/5');
+    App.applyPermissions();
   });
   document.addEventListener('brief:sent', () => {
     const id = document.querySelector('#brief-send-modal [name="client"]').value;
-    const cell = document.querySelector('[data-brief-cell="' + id + '"]');
-    if (!cell) return;
-    const chip = cell.querySelector('span');
-    if (chip.textContent.trim() !== 'Заполнен') chip.outerHTML = CHIP_SENT;
-    const btn = cell.querySelector('button');
-    if (btn) btn.textContent = 'Ещё раз';
+    const c = CLIENTS.find(x => x.id === id);
+    if (!c || c.brief.state === 'filled') return;
+    c.brief = { state: 'sent', date: '18.06' };
+    document.querySelector('[data-brief-cell="' + id + '"]').innerHTML = brief(c);
+    App.applyPermissions();
   });
 })();
 </script>

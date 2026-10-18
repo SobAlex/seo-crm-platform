@@ -115,9 +115,9 @@
 
         <!-- ИНТЕГРАЦИИ -->
         <div data-tab-panel="integrations" data-can="int_seo,int_client" class="hidden">
-          <div class="mb-6">
-            <p class="text-sm text-zinc-500">Подключите аккаунты, чтобы автоматически получать метрики</p>
-            <p class="text-sm text-zinc-500 mt-2">Модель для ИИ-аудита подключается здесь позже. Сейчас аудит запускается по домену проекта, без отдельного поля адреса.</p>
+          <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <p class="text-sm text-zinc-500">Подключите аккаунты, чтобы метрики приходили в проекты и отчёты автоматически</p>
+            <button type="button" data-can="int_seo,int_client" data-open-modal="integration" class="shrink-0 self-start sm:self-auto px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">+ Подключить сервис</button>
           </div>
 
           <!-- SEO-инструменты -->
@@ -128,7 +128,7 @@
             </div>
             <div class="text-xs text-zinc-500 mb-4">Метрика и позиции. Подключают владелец и руководители</div>
 
-            <section class="bg-white rounded-2xl shadow-card overflow-hidden mb-3">
+            <section data-integration="yandex" class="bg-white rounded-2xl shadow-card overflow-hidden mb-3">
               <div class="px-4 lg:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div class="flex items-center gap-4 min-w-0">
                   <span class="w-11 h-11 rounded-xl bg-red-50 text-red-600 flex items-center justify-center shrink-0 font-bold">Я</span>
@@ -137,7 +137,7 @@
                     <div class="text-xs text-zinc-500 mt-0.5">Метрика и Вебмастер</div>
                   </div>
                 </div>
-                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shrink-0">
+                <span data-int-state class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shrink-0">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Подключён
                 </span>
               </div>
@@ -146,14 +146,14 @@
                   Аккаунт: <span class="text-zinc-900 font-medium">direct@romashka.ru</span> · подключён 12.05.2025
                 </div>
                 <div class="flex items-center gap-3 shrink-0">
-                  <button type="button" data-can="int_seo" data-open-modal="integration" data-prefill-service="yandex" data-reconnect="1" class="text-xs text-zinc-500 hover:text-zinc-900 transition">Переподключить</button>
+                  <button type="button" data-can="int_seo" data-open-modal="integration" data-prefill-service="yandex" data-reconnect="1" class="text-xs text-zinc-500 hover:text-zinc-900 transition">Переподключить через Яндекс ID</button>
                   <span class="text-zinc-300">·</span>
                   <button type="button" data-can="int_seo" data-confirm="Отключить Яндекс?" data-confirm-text="Метрики перестанут обновляться во всех проектах. Уже загруженные данные останутся в отчётах." data-confirm-ok="Отключить" data-confirm-toast="Яндекс отключён" class="text-xs text-zinc-500 hover:text-red-600 transition">Отключить</button>
                 </div>
               </div>
             </section>
 
-            <section class="bg-white rounded-2xl shadow-card overflow-hidden">
+            <section data-integration="google" class="bg-white rounded-2xl shadow-card overflow-hidden">
               <div class="px-4 lg:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div class="flex items-center gap-4 min-w-0">
                   <span class="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 font-bold">G</span>
@@ -162,13 +162,13 @@
                     <div class="text-xs text-zinc-500 mt-0.5">Search Console</div>
                   </div>
                 </div>
-                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 shrink-0">
+                <span data-int-state class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 shrink-0">
                   <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>Требует переподключения
                 </span>
               </div>
               <div class="px-4 lg:px-6 py-3 border-t border-zinc-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div class="text-xs text-zinc-500">
-                  Аккаунт: <span class="text-zinc-900 font-medium">marketing@romashka.ru</span> · истёк 20.06.2025
+                  Аккаунт: <span class="text-zinc-900 font-medium">marketing@romashka.ru</span> · токен истёк 15.06.2025
                 </div>
                 <div class="flex items-center gap-3 shrink-0">
                   <button type="button" data-can="int_seo" data-open-modal="integration" data-prefill-service="google" data-reconnect="1" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Переподключить</button>
@@ -187,7 +187,7 @@
             </div>
             <div class="text-xs text-zinc-500 mb-4">Коллтрекинг и CRM. Подключают владелец и руководители</div>
 
-            <section class="bg-white rounded-2xl shadow-card overflow-hidden mb-3">
+            <section data-integration="callibri" class="bg-white rounded-2xl shadow-card overflow-hidden mb-3">
               <div class="px-4 lg:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div class="flex items-center gap-4 min-w-0">
                   <span class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 font-bold">C</span>
@@ -196,7 +196,7 @@
                     <div class="text-xs text-zinc-500 mt-0.5">Коллтрекинг</div>
                   </div>
                 </div>
-                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shrink-0">
+                <span data-int-state class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shrink-0">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Подключён
                 </span>
               </div>
@@ -212,7 +212,7 @@
               </div>
             </section>
 
-            <section class="bg-white rounded-2xl shadow-card overflow-hidden">
+            <section data-integration="amocrm" class="bg-white rounded-2xl shadow-card overflow-hidden">
               <div class="px-4 lg:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div class="flex items-center gap-4 min-w-0">
                   <span class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0 font-bold">A</span>
@@ -221,7 +221,7 @@
                     <div class="text-xs text-zinc-500 mt-0.5">Лиды из CRM</div>
                   </div>
                 </div>
-                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700 shrink-0">
+                <span data-int-state class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700 shrink-0">
                   <span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>Не подключён
                 </span>
               </div>
@@ -470,40 +470,107 @@
 
         <!-- БИЛЛИНГ -->
         <div data-tab-panel="billing" data-can="billing" class="hidden">
-          <div class="mb-6"><p class="text-sm text-zinc-500">Тариф и оплата подписки</p></div>
 
-          <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6 mb-4">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div>
-                <div class="text-xs font-medium text-zinc-500 mb-1">Текущий тариф</div>
-                <div class="text-2xl font-semibold tracking-tight">Agency</div>
-                <div class="text-sm text-zinc-500 mt-1">База $49/мес + $15 за проект</div>
+          <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6 mb-6">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+              <div class="min-w-0">
+                <div class="text-xs font-medium text-zinc-500 mb-1">Подписка</div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="text-2xl font-semibold tracking-tight">Agency Pro</span>
+                  <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-accent/10 text-accent"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span>Пробный период · 14 дней</span>
+                </div>
+                <div class="text-sm text-zinc-500 mt-1">Бесплатно до 02.07.2025, затем <span class="tabular-nums text-zinc-900 font-medium">$139/мес</span> — база $79 + 5 проектов × $12</div>
               </div>
-              <button type="button" data-can="billing" data-open-modal="tariff" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Сменить тариф</button>
+              <div class="flex gap-2 shrink-0">
+                <button type="button" data-can="billing" data-open-modal="tariff" data-prefill-plan="agencypro" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Оформить подписку</button>
+              </div>
+            </div>
+            <div class="mt-5">
+              <div class="flex items-center justify-between text-xs text-zinc-500 mb-1.5"><span>Осталось 14 из 14 дней</span><span class="tabular-nums">18.06 — 02.07</span></div>
+              <div class="h-1.5 bg-zinc-100 rounded-full overflow-hidden"><div class="h-full bg-accent rounded-full w-full"></div></div>
+            </div>
+            <dl class="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
+              <div class="rounded-xl bg-zinc-50 px-3 py-2.5"><dt class="text-xs text-zinc-500">Активных проектов</dt><dd class="font-semibold tabular-nums mt-0.5">5</dd></div>
+              <div class="rounded-xl bg-zinc-50 px-3 py-2.5"><dt class="text-xs text-zinc-500">Пользователей</dt><dd class="font-semibold tabular-nums mt-0.5">9 · без лимита</dd></div>
+              <div class="rounded-xl bg-zinc-50 px-3 py-2.5"><dt class="text-xs text-zinc-500">Следующее списание</dt><dd class="font-semibold tabular-nums mt-0.5">02.07.2025</dd></div>
+              <div class="rounded-xl bg-zinc-50 px-3 py-2.5"><dt class="text-xs text-zinc-500">Карта</dt><dd class="font-semibold tabular-nums mt-0.5">Visa •• 4417</dd></div>
+            </dl>
+          </section>
+
+          <div class="mb-3 flex items-end justify-between gap-3">
+            <h3 class="text-sm font-semibold tracking-tight">Тарифы</h3>
+            <span class="text-xs text-zinc-500">При оплате за год — скидка 15%</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-6 pt-2">
+            <div class="relative bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col gap-4"><div><div class="text-sm font-semibold">Solo</div><div class="text-xs text-zinc-500 mt-0.5">До 3 проектов</div></div><div><span class="text-2xl font-semibold tracking-tight tabular-nums">$19</span><span class="text-xs text-zinc-500"> /мес</span></div><ul class="space-y-2 text-xs text-zinc-600 flex-1"><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>2 пользователя</span></li><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Отчёты и дорожные карты</span></li><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Интеграция с Яндексом</span></li></ul><button type="button" data-can="billing" data-open-modal="tariff" data-prefill-plan="solo" class="w-full px-3.5 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Выбрать</button></div>
+            <div class="relative bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col gap-4"><div><div class="text-sm font-semibold">Agency</div><div class="text-xs text-zinc-500 mt-0.5">Для растущих команд</div></div><div><span class="text-2xl font-semibold tracking-tight tabular-nums">$49</span><span class="text-xs text-zinc-500"> + $15 за проект</span></div><ul class="space-y-2 text-xs text-zinc-600 flex-1"><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Без лимита пользователей</span></li><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Портал клиента</span></li><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Все SEO-интеграции</span></li></ul><button type="button" data-can="billing" data-open-modal="tariff" data-prefill-plan="agency" class="w-full px-3.5 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Выбрать</button></div>
+            <div class="relative bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col gap-4 ring-2 ring-accent"><span class="absolute -top-2.5 left-4 px-2 py-0.5 rounded-full bg-accent text-white text-[11px] font-medium">Ваш тариф</span><div><div class="text-sm font-semibold">Agency Pro</div><div class="text-xs text-zinc-500 mt-0.5">Для агентств с отделом продаж</div></div><div><span class="text-2xl font-semibold tracking-tight tabular-nums">$79</span><span class="text-xs text-zinc-500"> + $12 за проект</span></div><ul class="space-y-2 text-xs text-zinc-600 flex-1"><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>ИИ-аудит сайтов</span></li><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>White-label портал и отчёты</span></li><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Коллтрекинг и CRM</span></li></ul><button type="button" disabled class="w-full px-3.5 py-2 rounded-full bg-accent/10 text-accent text-sm font-medium cursor-default">Текущий · триал</button></div>
+            <div class="relative bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col gap-4"><div><div class="text-sm font-semibold">Business</div><div class="text-xs text-zinc-500 mt-0.5">Для сетей агентств</div></div><div><span class="text-2xl font-semibold tracking-tight tabular-nums">$149</span><span class="text-xs text-zinc-500"> + $10 за проект</span></div><ul class="space-y-2 text-xs text-zinc-600 flex-1"><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>SSO и аудит действий</span></li><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Открытый API</span></li><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Выделенный менеджер</span></li></ul><button type="button" data-can="billing" data-open-modal="tariff" data-prefill-plan="business" class="w-full px-3.5 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Выбрать</button></div>
+          </div>
+
+          <section class="bg-white rounded-2xl shadow-card overflow-hidden">
+            <div class="px-4 lg:px-6 py-4 flex items-center justify-between gap-3">
+              <h3 class="text-sm font-semibold tracking-tight">История платежей</h3>
+              <button type="button" data-toast="Акт сверки за 2025 год скачивается" class="text-xs text-zinc-500 hover:text-zinc-900 transition">Акт сверки</button>
+            </div>
+            <div class="overflow-x-auto border-t border-zinc-100">
+              <table class="w-full text-sm min-w-[560px]">
+                <thead>
+                  <tr class="text-left text-xs text-zinc-500 border-b border-zinc-100">
+                    <th class="px-4 lg:px-6 py-2.5 font-medium">Дата</th>
+                    <th class="px-4 py-2.5 font-medium">Описание</th>
+                    <th class="px-4 py-2.5 font-medium text-right">Сумма</th>
+                    <th class="px-4 py-2.5 font-medium">Статус</th>
+                    <th class="px-4 lg:px-6 py-2.5 font-medium text-right">Счёт</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-zinc-50">
+                <tr class="hover:bg-zinc-50/50 transition">
+                  <td class="px-4 lg:px-6 py-3 tabular-nums text-zinc-500 whitespace-nowrap">18.06.2025</td>
+                  <td class="px-4 py-3">Agency Pro · пробный период 14 дней</td>
+                  <td class="px-4 py-3 text-right tabular-nums font-medium whitespace-nowrap">$0.00</td>
+                  <td class="px-4 py-3"><span class="inline-flex px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-accent/10 text-accent">Триал</span></td>
+                  <td class="px-4 lg:px-6 py-3 text-right"><span class="text-xs text-zinc-400">—</span></td>
+                </tr>
+                <tr class="hover:bg-zinc-50/50 transition">
+                  <td class="px-4 lg:px-6 py-3 tabular-nums text-zinc-500 whitespace-nowrap">01.06.2025</td>
+                  <td class="px-4 py-3">Agency · июнь, 5 проектов</td>
+                  <td class="px-4 py-3 text-right tabular-nums font-medium whitespace-nowrap">$124.00</td>
+                  <td class="px-4 py-3"><span class="inline-flex px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">Оплачено</span></td>
+                  <td class="px-4 lg:px-6 py-3 text-right"><button type="button" data-toast="Счёт № 0106-25 скачивается" class="text-xs text-accent hover:underline whitespace-nowrap">PDF</button></td>
+                </tr>
+                <tr class="hover:bg-zinc-50/50 transition">
+                  <td class="px-4 lg:px-6 py-3 tabular-nums text-zinc-500 whitespace-nowrap">01.05.2025</td>
+                  <td class="px-4 py-3">Agency · май, 5 проектов</td>
+                  <td class="px-4 py-3 text-right tabular-nums font-medium whitespace-nowrap">$124.00</td>
+                  <td class="px-4 py-3"><span class="inline-flex px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">Оплачено</span></td>
+                  <td class="px-4 lg:px-6 py-3 text-right"><button type="button" data-toast="Счёт № 0105-25 скачивается" class="text-xs text-accent hover:underline whitespace-nowrap">PDF</button></td>
+                </tr>
+                <tr class="hover:bg-zinc-50/50 transition">
+                  <td class="px-4 lg:px-6 py-3 tabular-nums text-zinc-500 whitespace-nowrap">03.04.2025</td>
+                  <td class="px-4 py-3">Agency · апрель, 4 проекта · повторное списание</td>
+                  <td class="px-4 py-3 text-right tabular-nums font-medium whitespace-nowrap">$109.00</td>
+                  <td class="px-4 py-3"><span class="inline-flex px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">Оплачено</span></td>
+                  <td class="px-4 lg:px-6 py-3 text-right"><button type="button" data-toast="Счёт № 0304-25 скачивается" class="text-xs text-accent hover:underline whitespace-nowrap">PDF</button></td>
+                </tr>
+                <tr class="hover:bg-zinc-50/50 transition">
+                  <td class="px-4 lg:px-6 py-3 tabular-nums text-zinc-500 whitespace-nowrap">01.04.2025</td>
+                  <td class="px-4 py-3">Agency · апрель, 4 проекта</td>
+                  <td class="px-4 py-3 text-right tabular-nums font-medium whitespace-nowrap">$109.00</td>
+                  <td class="px-4 py-3"><span class="inline-flex px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-red-50 text-red-700">Отклонено банком</span></td>
+                  <td class="px-4 lg:px-6 py-3 text-right"><span class="text-xs text-zinc-400">—</span></td>
+                </tr>
+                <tr class="hover:bg-zinc-50/50 transition">
+                  <td class="px-4 lg:px-6 py-3 tabular-nums text-zinc-500 whitespace-nowrap">01.03.2025</td>
+                  <td class="px-4 py-3">Agency · март, 4 проекта</td>
+                  <td class="px-4 py-3 text-right tabular-nums font-medium whitespace-nowrap">$109.00</td>
+                  <td class="px-4 py-3"><span class="inline-flex px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">Оплачено</span></td>
+                  <td class="px-4 lg:px-6 py-3 text-right"><button type="button" data-toast="Счёт № 0103-25 скачивается" class="text-xs text-accent hover:underline whitespace-nowrap">PDF</button></td>
+                </tr>
+                </tbody>
+              </table>
             </div>
           </section>
-
-          <section class="bg-white rounded-2xl shadow-card overflow-hidden mb-4">
-            <div class="px-4 lg:px-6 py-4"><h3 class="text-sm font-semibold tracking-tight">Текущий период</h3></div>
-            <ul class="divide-y divide-zinc-100 border-t border-zinc-100 text-sm">
-              <li class="px-4 lg:px-6 py-3 flex items-center justify-between gap-3">
-                <span>Списание за май 2025</span>
-                <span class="tabular-nums text-zinc-500">$124.00</span>
-              </li>
-              <li class="px-4 lg:px-6 py-3 flex items-center justify-between gap-3">
-                <span>Следующее списание</span>
-                <span class="tabular-nums text-zinc-500">01.06.2025</span>
-              </li>
-              <li class="px-4 lg:px-6 py-3 flex items-center justify-between gap-3">
-                <span>Проектов активно</span>
-                <span class="tabular-nums text-zinc-500">5</span>
-              </li>
-            </ul>
-          </section>
-
-          <div class="bg-white rounded-2xl border border-dashed border-zinc-300 p-4 lg:p-5">
-            <div class="text-xs text-zinc-500">Система платежей появится на этапе 5. Сейчас — заглушка для концепта.</div>
-          </div>
         </div>
 
       </div>
@@ -511,5 +578,16 @@
   </div>
 </div>
 
+<script>
+document.addEventListener('integration:connected', e => {
+  const sec = document.querySelector('[data-integration="' + e.detail.service + '"]');
+  if (!sec) return;
+  const st = sec.querySelector('[data-int-state]');
+  st.className = 'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shrink-0';
+  st.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Подключён';
+  const info = sec.querySelector('.border-t .text-xs');
+  if (info) info.innerHTML = 'Аккаунт: <span class="text-zinc-900 font-medium">' + e.detail.account + '</span> · подключён 18.06.2025 · ' + e.detail.projects + ' ' + window.SEOApp.plural(e.detail.projects, ['проект', 'проекта', 'проектов']);
+});
+</script>
 </body>
 </html>

@@ -20,14 +20,17 @@
       <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
         <header class="px-4 lg:px-8 h-14 flex items-center justify-between gap-4">
           <h1 class="text-base font-semibold tracking-tight">Мой проект</h1>
-          <a href="#reports" class="text-sm text-zinc-500 hover:text-zinc-900 transition">Отчёты</a>
+          <nav class="flex items-center gap-4 text-sm">
+            <a href="#approve" class="text-zinc-500 hover:text-zinc-900 transition">Согласование</a>
+            <a href="#reports" class="text-zinc-500 hover:text-zinc-900 transition">Отчёты</a>
+          </nav>
         </header>
       </div>
 
       <div class="px-4 lg:px-8 py-6 lg:py-8 max-w-4xl">
 
         <div data-deny="client" class="mb-6 rounded-2xl bg-blue-50 px-4 py-3 text-sm text-blue-800">
-          <strong class="font-medium">Предпросмотр.</strong> Так проект видит клиент Елена Крылова: результаты, дорожная карта и принятые отчёты. Внутренние задачи, часы, ставки и состав команды ему не показываются.
+          <strong class="font-medium">Предпросмотр.</strong> Так проект видит клиент Елена Крылова: результаты, задачи на согласовании и отправленные отчёты. Часы и ставки, внутренние комментарии и фамилии подрядчиков ему не показываются.
         </div>
 
         <div class="mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
@@ -46,10 +49,25 @@
         </div>
 
         <!-- Нужно от вас -->
-        <section class="mb-8">
-          <h3 class="text-sm font-semibold tracking-tight mb-3">Нужно от вас</h3>
-          <div class="flex flex-col gap-3">
+        <section id="approve" data-seg-scope class="mb-8 scroll-mt-20">
+          <div class="mb-3 flex flex-wrap items-center justify-between gap-3">
+            <h3 class="text-sm font-semibold tracking-tight">Нужно от вас</h3>
+            <div data-segmented role="group" aria-label="Что нужно от вас">
+              <button type="button" data-seg="approve" aria-pressed="true" class="shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap">Задачи на согласовании <span data-approve-count class="tabular-nums text-zinc-400">3</span></button>
+              <button type="button" data-seg="other" class="shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap">Бриф и доступы <span class="tabular-nums text-zinc-400">2</span></button>
+            </div>
+          </div>
 
+          <div data-seg-panel="approve">
+            <div data-approve-list class="flex flex-col gap-3"></div>
+            <div data-approve-empty class="hidden bg-white rounded-2xl shadow-card px-4 py-10 text-center">
+              <div class="w-10 h-10 mx-auto rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></div>
+              <div class="text-sm font-medium">Всё согласовано</div>
+              <div class="text-xs text-zinc-500 mt-1">Новые задачи на согласование появятся здесь</div>
+            </div>
+          </div>
+
+          <div data-seg-panel="other" class="hidden flex flex-col gap-3">
             <a href="brief.html" class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 hover:bg-zinc-50 transition">
               <div class="flex items-start gap-3 min-w-0">
                 <span class="w-2 h-2 rounded-full bg-blue-500 mt-2 shrink-0"></span>
@@ -60,7 +78,6 @@
               </div>
               <span class="text-sm font-medium text-accent shrink-0">Открыть</span>
             </a>
-
             <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div class="flex items-start gap-3 min-w-0">
                 <span class="w-2 h-2 rounded-full bg-violet-500 mt-2 shrink-0"></span>
@@ -71,24 +88,9 @@
               </div>
               <div class="flex gap-2 shrink-0">
                 <button data-toast="Спасибо! Менеджер получил уведомление" class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Доступ выдан</button>
-                <button data-toast="Сообщение менеджеру — в разработке" class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Вопрос</button>
+                <a href="mailto:n.morozov@romashka.ru?subject=Доступ к Search Console" class="flex-1 sm:flex-none text-center px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Написать менеджеру</a>
               </div>
             </div>
-
-            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div class="flex items-start gap-3 min-w-0">
-                <span class="w-2 h-2 rounded-full bg-amber-500 mt-2 shrink-0"></span>
-                <div class="min-w-0">
-                  <div class="text-sm font-medium">Согласовать тексты для категорий каталога</div>
-                  <div class="text-xs text-zinc-500 mt-1">12 текстов · после согласования опубликуем на сайте</div>
-                </div>
-              </div>
-              <div class="flex gap-2 shrink-0">
-                <button data-toast="Тексты согласованы" class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Согласовать</button>
-                <button data-toast="Комментарий отправлен" class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Есть замечания</button>
-              </div>
-            </div>
-
           </div>
         </section>
 
@@ -183,35 +185,13 @@
           <p class="text-xs text-zinc-500 mt-3">Показан общий прогресс по направлениям. В этом месяце в работе: индексация, сбор семантики, перелинковка.</p>
         </section>
 
-        <!-- Отчёты -->
-        <section id="reports" class="mb-8">
-          <h3 class="text-sm font-semibold tracking-tight mb-3">Отчёты</h3>
-          <div class="bg-white rounded-2xl shadow-card overflow-hidden">
-            <ul class="divide-y divide-zinc-100">
-              <li class="px-4 lg:px-6 py-4 flex items-center justify-between gap-3">
-                <div class="min-w-0">
-                  <div class="text-sm font-medium">Отчёт за май 2025</div>
-                  <div class="text-xs text-zinc-500 mt-0.5">Отправлен 03.06</div>
-                </div>
-                <div class="flex items-center gap-3 shrink-0 text-sm">
-                  <button data-toast="Открываем отчёт" class="text-accent hover:underline">Открыть</button>
-                  <span class="text-zinc-300">·</span>
-                  <button data-toast="PDF скачивается" class="text-zinc-500 hover:text-zinc-900 transition">PDF</button>
-                </div>
-              </li>
-              <li class="px-4 lg:px-6 py-4 flex items-center justify-between gap-3">
-                <div class="min-w-0">
-                  <div class="text-sm font-medium">Отчёт за апрель 2025</div>
-                  <div class="text-xs text-zinc-500 mt-0.5">Отправлен 02.05</div>
-                </div>
-                <div class="flex items-center gap-3 shrink-0 text-sm">
-                  <button data-toast="Открываем отчёт" class="text-accent hover:underline">Открыть</button>
-                  <span class="text-zinc-300">·</span>
-                  <button data-toast="PDF скачивается" class="text-zinc-500 hover:text-zinc-900 transition">PDF</button>
-                </div>
-              </li>
-            </ul>
+        <!-- Ежемесячные отчёты -->
+        <section id="reports" class="mb-8 scroll-mt-20">
+          <div class="mb-3 flex items-end justify-between gap-3">
+            <h3 class="text-sm font-semibold tracking-tight">Ежемесячные отчёты</h3>
+            <span class="hidden sm:inline text-xs text-zinc-500">Присылаем до 5 числа следующего месяца</span>
           </div>
+          <div data-portal-reports class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4"></div>
         </section>
 
         <p class="text-xs text-zinc-500 text-center">Остались вопросы? Напишите менеджеру — ответим в течение рабочего дня.</p>
@@ -220,5 +200,111 @@
     </main>
   </div>
 </div>
+<script>
+(function () {
+  const App = window.SEOApp;
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const DIR = { content: ['Контент', 'bg-pink-50 text-pink-700'], onpage: ['Внутренняя оптимизация', 'bg-teal-50 text-teal-700'], offpage: ['Внешняя оптимизация', 'bg-orange-50 text-orange-700'] };
+
+  /* Только статус WAITING_CLIENT и клиентские поля: без часов, ставок, внутренних комментариев и исполнителей */
+  const APPROVALS = [
+    { id: 't31', dir: 'content', title: 'Тексты для 12 категорий каталога', about: 'Описания категорий «Холодильники», «Морозильники», «Витрины» и ещё 9. После согласования опубликуем на сайте.', since: '14.06', due: '20.06', file: 'Тексты категорий.docx' },
+    { id: 't32', dir: 'onpage', title: 'Новые заголовки и описания для раздела «Холодильники»', about: '48 страниц: title и description под собранную семантику. Покажем в выдаче после переобхода.', since: '16.06', due: '21.06', file: 'Мета-теги — Холодильники.xlsx' },
+    { id: 't33', dir: 'offpage', title: 'Площадки для размещения статей в июне', about: '6 отраслевых изданий о бытовой технике. Бюджет согласован в договоре, нужен только выбор тематик.', since: '17.06', due: '24.06', file: 'Площадки — июнь.xlsx' }
+  ];
+  const list = document.querySelector('[data-approve-list]');
+  const empty = document.querySelector('[data-approve-empty]');
+  const count = document.querySelector('[data-approve-count]');
+
+  function card(t) {
+    const d = DIR[t.dir];
+    return '<article data-approval="' + t.id + '" class="bg-white rounded-2xl shadow-card p-4 lg:p-5 transition">' +
+      '<div class="flex flex-wrap items-center gap-2 mb-2">' +
+        '<span class="inline-flex px-2 py-0.5 rounded-md text-[11px] font-medium ' + d[1] + '">' + d[0] + '</span>' +
+        '<span data-approval-state class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-violet-50 text-violet-700"><span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>Ждёт вашего решения</span>' +
+        '<span class="ml-auto text-xs text-zinc-500 tabular-nums">с ' + t.since + ' · ответить до ' + t.due + '</span>' +
+      '</div>' +
+      '<h4 class="text-sm font-medium">' + esc(t.title) + '</h4>' +
+      '<p class="text-sm text-zinc-600 mt-1">' + esc(t.about) + '</p>' +
+      '<div class="mt-4 flex flex-col sm:flex-row sm:items-center gap-3">' +
+        '<button type="button" data-toast="Файл «' + esc(t.file) + '» скачивается" class="inline-flex items-center gap-1.5 text-xs text-zinc-600 hover:text-zinc-900 transition min-w-0"><svg class="w-4 h-4 shrink-0 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg><span class="truncate">' + esc(t.file) + '</span></button>' +
+        '<div data-approval-actions class="flex gap-2 sm:ml-auto">' +
+          '<button type="button" data-approve class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Утверждаю</button>' +
+          '<button type="button" data-remarks class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Есть замечания</button>' +
+        '</div>' +
+      '</div>' +
+    '</article>';
+  }
+  list.innerHTML = APPROVALS.map(card).join('');
+
+  function settle(el, tone, label) {
+    const st = el.querySelector('[data-approval-state]');
+    st.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium ' + (tone === 'ok' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700');
+    st.innerHTML = '<span class="w-1.5 h-1.5 rounded-full ' + (tone === 'ok' ? 'bg-emerald-500' : 'bg-amber-500') + '"></span>' + label;
+    el.querySelector('[data-approval-actions]').innerHTML = '<span class="text-xs text-zinc-500">' + (tone === 'ok' ? 'Утверждено 18.06 — команда продолжает работу' : 'Замечания отправлены 18.06 — менеджер ответит в течение дня') + '</span>';
+    el.classList.add('opacity-70');
+    setTimeout(() => {
+      el.style.opacity = '0';
+      setTimeout(() => { el.remove(); recount(); }, 220);
+    }, 1600);
+  }
+  function recount() {
+    const n = list.querySelectorAll('[data-approval]').length;
+    count.textContent = n;
+    empty.classList.toggle('hidden', n > 0);
+  }
+
+  list.addEventListener('click', e => {
+    const el = e.target.closest('[data-approval]');
+    if (!el || el.dataset.busy) return;
+    if (e.target.closest('[data-approve]')) {
+      el.dataset.busy = '1';
+      settle(el, 'ok', 'Утверждено');
+      App.toast('Задача утверждена · спасибо!', 'success');
+    } else if (e.target.closest('[data-remarks]')) {
+      App.askReason(e.target.closest('[data-remarks]'), {
+        title: 'Есть замечания',
+        sub: el.querySelector('h4').textContent,
+        placeholder: 'Что поправить — менеджер увидит это в задаче',
+        ok: 'Отправить'
+      }).then(text => {
+        if (!text) return;
+        el.dataset.busy = '1';
+        settle(el, 'warn', 'Замечания отправлены');
+        App.toast('Замечания отправлены менеджеру', 'warning');
+      });
+    }
+  });
+
+  /* Ежемесячные отчёты — только отправленные клиенту */
+  const REPORTS = [
+    { m: 'Май 2025', key: '2025-05', period: '01.05 — 31.05', sent: '03.06', kpi: [['Посетители', '23 120', '+6%'], ['Заявки', '287', '+9%'], ['В топ-10', '139', '+11']] },
+    { m: 'Апрель 2025', key: '2025-04', period: '01.04 — 30.04', sent: '02.05', kpi: [['Посетители', '21 840', '+12%'], ['Заявки', '263', '+4%'], ['В топ-10', '128', '+14']] },
+    { m: 'Март 2025', key: '2025-03', period: '01.03 — 31.03', sent: '03.04', kpi: [['Посетители', '19 500', '+8%'], ['Заявки', '253', '+7%'], ['В топ-10', '114', '+9']] }
+  ];
+  document.querySelector('[data-portal-reports]').innerHTML =
+    '<div class="rounded-2xl border border-dashed border-zinc-300 p-4 lg:p-5 flex flex-col justify-between gap-4">' +
+      '<div class="flex items-center justify-between gap-3"><div><div class="text-sm font-medium">Июнь 2025</div><div class="text-xs text-zinc-500 mt-0.5">Готовим — пришлём до 05.07</div></div>' +
+      '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-zinc-100 text-zinc-600"><span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>В работе</span></div>' +
+    '</div>' +
+    REPORTS.map(r =>
+      '<article class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col gap-4">' +
+        '<div class="flex items-start justify-between gap-3"><div><div class="text-sm font-semibold tracking-tight">' + r.m + '</div><div class="text-xs text-zinc-500 mt-0.5 tabular-nums">' + r.period + ' · отправлен ' + r.sent + '</div></div>' +
+        '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Получен</span></div>' +
+        '<div class="grid grid-cols-3 gap-2">' + r.kpi.map(k =>
+          '<div class="rounded-xl bg-zinc-50 px-2.5 py-2 min-w-0"><div class="text-[11px] text-zinc-500 truncate">' + k[0] + '</div><div class="text-sm font-semibold tabular-nums">' + k[1] + '</div><div class="text-[11px] font-medium text-emerald-700 tabular-nums">' + k[2] + '</div></div>'
+        ).join('') + '</div>' +
+        '<div class="flex gap-2 mt-auto">' +
+          '<a href="report.html?month=' + r.key + '" class="flex-1 text-center px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Открыть</a>' +
+          '<button type="button" data-pdf="' + r.m + '" class="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-zinc-900 text-white text-sm font-medium hover:bg-zinc-800 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"/></svg>Скачать PDF</button>' +
+        '</div>' +
+      '</article>'
+    ).join('');
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-pdf]');
+    if (b) App.toast('PDF «Отчёт за ' + b.dataset.pdf.toLowerCase() + '» скачивается', 'success');
+  });
+})();
+</script>
 </body>
 </html>

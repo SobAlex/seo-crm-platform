@@ -49,6 +49,7 @@
   ];
   const PROJECTS = [
     { id: 'holod',     name: 'Интернет-магазин «Холод»', client: 'holod',     site: 'holod-shop.ru' },
+    { id: 'holodb2b',  name: 'Оптовый портал «Холод B2B»', client: 'holod',   site: 'b2b.holod-shop.ru' },
     { id: 'remont',    name: 'Сайт услуг «Ремонт+»',     client: 'smirnov',   site: 'remont-plus.ru' },
     { id: 'stroytech', name: 'B2B портал «Стройтех»',    client: 'stroytech', site: 'stroytech.ru' },
     { id: 'medlife',   name: 'Клиника «МедЛайф»',        client: 'medlife',   site: 'medlife.ru' }
@@ -86,7 +87,7 @@
   const grid = (cols, html) => '<div class="grid grid-cols-1 sm:grid-cols-' + cols + ' gap-4">' + html + '</div>';
   const check = (name, label, o) => {
     o = o || {};
-    return '<label class="flex items-start gap-2.5 text-sm cursor-pointer"' + (o.attrs ? ' ' + o.attrs : '') + '><input type="checkbox" name="' + name + '"' + (o.checked ? ' checked' : '') + (o.value ? ' value="' + esc(o.value) + '"' : '') + ' class="mt-0.5 w-4 h-4 rounded border-zinc-300 accent-[#0071e3]"><span>' + label + (o.hint ? '<span class="block text-xs text-zinc-500 mt-0.5">' + o.hint + '</span>' : '') + '</span></label>';
+    return '<label class="flex items-start gap-2.5 text-sm cursor-pointer"' + (o.attrs ? ' ' + o.attrs : '') + '><input type="checkbox" name="' + name + '"' + (o.checked ? ' checked' : '') + (o.value ? ' value="' + esc(o.value) + '"' : '') + ' class="mt-0.5 w-4 h-4 rounded border-zinc-300 accent-accent"><span>' + label + (o.hint ? '<span class="block text-xs text-zinc-500 mt-0.5">' + o.hint + '</span>' : '') + '</span></label>';
   };
   const note = html => '<div class="rounded-2xl bg-zinc-50 px-4 py-3 text-xs text-zinc-600 leading-relaxed">' + html + '</div>';
   const box = html => '<div class="rounded-2xl border border-zinc-200 p-4 space-y-3">' + html + '</div>';
@@ -535,43 +536,148 @@
     }
   });
 
-  /* ---------- Интеграции компании ---------- */
-  const SERVICES = { yandex: 'Яндекс (Метрика и Вебмастер)', google: 'Google Search Console', callibri: 'Callibri', amocrm: 'amoCRM' };
+  /* ---------- Интеграции компании: мастер «Сервис → Авторизация → Проекты» ---------- */
+  const SERVICES = {
+    yandex:   { name: 'Яндекс (Метрика и Вебмастер)', short: 'Яндекс', logo: 'Я', tone: 'bg-red-50 text-red-600', auth: 'oauth', btn: 'Войти через Яндекс ID', account: 'direct@romashka.ru', bind: ['Метрика 48 213 907', 'Метрика 51 604 112', 'Метрика 39 877 450'] },
+    google:   { name: 'Google Search Console', short: 'Google', logo: 'G', tone: 'bg-blue-50 text-blue-600', auth: 'oauth', btn: 'Войти через Google', account: 'marketing@romashka.ru', bind: ['sc-domain:holod-shop.ru', 'sc-domain:remont-plus.ru', 'https://stroytech.ru/'] },
+    callibri: { name: 'Callibri — коллтрекинг', short: 'Callibri', logo: 'C', tone: 'bg-amber-50 text-amber-600', auth: 'key', host: 'romashka.callibri.ru', bind: ['Сайт #2231 · 6 номеров', 'Сайт #2240 · 2 номера', 'Сайт #2318 · 3 номера'] },
+    amocrm:   { name: 'amoCRM — лиды', short: 'amoCRM', logo: 'A', tone: 'bg-emerald-50 text-emerald-700', auth: 'key', host: 'romashka.amocrm.ru', bind: ['Воронка «SEO-заявки»', 'Воронка «Опт»', 'Воронка «Сервис»'] }
+  };
+  const WZ_PROJECTS = PROJECTS.filter(p => ['holod', 'remont', 'stroytech'].indexOf(p.id) !== -1).map(p => [p.id, p.name]);
+  const WZ_STEPS = ['Сервис', 'Авторизация', 'Проекты'];
   App.registerModal('integration', {
-    title: 'Подключить интеграцию', subtitle: 'Один аккаунт на компанию — счётчики привязываются в проектах', submit: 'Подключить', submitCan: 'int_seo',
+    title: 'Подключить интеграцию', subtitle: 'Один аккаунт на компанию — счётчики привязываются в проектах', submit: 'Далее', submitCan: 'int_seo,int_client',
     body: () =>
-      field('Сервис', select('service', Object.keys(SERVICES).map(k => option(k, SERVICES[k])).join(''), 'required data-dep-source="svc"'), { req: true }) +
-      '<div data-show-when="svc:yandex|google" class="space-y-4">' +
-        note('Откроется окно входа сервиса. SEO Control запросит доступ только на чтение статистики.') +
-        field('Аккаунт', input('account', 'type="email" required placeholder="seo@romashka.ru"'), { req: true }) + '</div>' +
-      '<div data-show-when="svc:callibri|amocrm" class="hidden space-y-4">' +
-        grid(2,
-          field('Адрес аккаунта', input('domain', 'type="text" required placeholder="romashka.amocrm.ru"'), { req: true }) +
-          field('API-ключ', input('token', 'type="password" required placeholder="••••••••••••"'), { req: true })) +
-        '<div data-show-when="svc:amocrm" class="hidden">' + field('Воронка с лидами', select('pipeline', option('seo', 'SEO-заявки') + option('all', 'Все воронки'))) + '</div>' +
-      '</div>',
-    onOpen(m, opener) {
-      const s = val(m, 'service');
-      m.querySelector('[data-modal-title]').textContent = opener && opener.dataset.reconnect ? 'Переподключить · ' + SERVICES[s] : 'Подключить интеграцию';
+      '<ol class="flex items-center gap-2 text-xs" aria-label="Шаги">' + WZ_STEPS.map((t, i) =>
+        '<li class="flex items-center gap-2 min-w-0' + (i ? ' flex-1' : '') + '">' + (i ? '<span class="flex-1 h-px bg-zinc-200"></span>' : '') +
+        '<span data-wz-dot="' + (i + 1) + '" class="w-6 h-6 rounded-full flex items-center justify-center font-semibold tabular-nums shrink-0 bg-zinc-100 text-zinc-500 transition">' + (i + 1) + '</span>' +
+        '<span data-wz-label="' + (i + 1) + '" class="font-medium text-zinc-500 whitespace-nowrap">' + t + '</span></li>').join('') + '</ol>' +
+
+      '<div data-wz-step="1" class="grid grid-cols-1 sm:grid-cols-2 gap-2">' + Object.keys(SERVICES).map(k => {
+        const v = SERVICES[k];
+        return '<label class="flex items-center gap-3 rounded-2xl border border-zinc-200 p-3 cursor-pointer hover:bg-zinc-50 has-[:checked]:border-accent has-[:checked]:ring-4 has-[:checked]:ring-accent/15 transition">' +
+          '<input type="radio" name="service" value="' + k + '"' + (k === 'yandex' ? ' checked' : '') + ' required data-dep-source="svc" class="sr-only">' +
+          '<span class="w-10 h-10 rounded-xl flex items-center justify-center font-bold shrink-0 ' + v.tone + '">' + v.logo + '</span>' +
+          '<span class="min-w-0"><span class="block text-sm font-medium truncate">' + v.short + '</span><span class="block text-xs text-zinc-500 truncate">' + (v.auth === 'oauth' ? 'Вход через OAuth' : 'По API-ключу') + '</span></span></label>';
+      }).join('') + '</div>' +
+
+      '<div data-wz-step="2" class="hidden space-y-4">' +
+        '<div data-show-when="svc:yandex|google" class="space-y-4">' +
+          '<button type="button" data-wz-oauth class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-2xl text-sm font-medium transition"></button>' +
+          '<div data-wz-oauth-state class="hidden rounded-2xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800"></div>' +
+          note('Откроется окно входа сервиса. SEO Control запрашивает доступ <b class="font-medium">только на чтение</b>: посещаемость, цели, поисковые запросы и индексацию. Пароль нам не передаётся.') +
+        '</div>' +
+        '<div data-show-when="svc:callibri|amocrm" class="hidden space-y-4">' +
+          field('Адрес аккаунта', input('domain', 'type="text" required placeholder="romashka.callibri.ru"'), { req: true }) +
+          field('API-ключ', '<div class="flex gap-2"><input name="token" type="password" required autocomplete="off" placeholder="Вставьте ключ из настроек сервиса" class="' + F + ' font-mono"><button type="button" data-wz-check class="shrink-0 px-3.5 rounded-xl border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Проверить</button></div>', { req: true, hint: 'Ключ хранится в зашифрованном виде, сотрудники видят только последние 4 символа' }) +
+          '<div data-wz-key-state class="hidden rounded-2xl px-4 py-3 text-sm"></div>' +
+        '</div>' +
+      '</div>' +
+
+      '<div data-wz-step="3" class="hidden space-y-3">' +
+        '<p class="text-xs text-zinc-500">Найдены источники данных. Отметьте, к каким проектам их привязать — потом это можно поменять в «Источниках» проекта.</p>' +
+        '<ul data-wz-bind class="rounded-2xl border border-zinc-200 divide-y divide-zinc-100"></ul>' +
+      '</div>' +
+      '<button type="button" data-wz-back class="hidden text-xs text-zinc-500 hover:text-zinc-900 transition">← Назад</button>',
+    init(m) {
+      let step = 1, authed = false, keyOk = false;
+      const svc = () => (m.querySelector('[name="service"]:checked') || {}).value || 'yandex';
       const sub = m.querySelector('[data-modal-submit]');
-      sub.textContent = opener && opener.dataset.reconnect ? 'Переподключить' : 'Подключить';
-    },
-    onSubmit(m, d) { d.toast = SERVICES[val(m, 'service')] + ' — подключено'; }
+      const paint = () => {
+        const s = SERVICES[svc()];
+        m.querySelectorAll('[data-wz-step]').forEach(el => el.classList.toggle('hidden', +el.dataset.wzStep !== step));
+        m.querySelectorAll('[data-wz-dot]').forEach(el => {
+          const n = +el.dataset.wzDot;
+          el.className = 'w-6 h-6 rounded-full flex items-center justify-center font-semibold tabular-nums shrink-0 transition ' + (n < step ? 'bg-emerald-500 text-white' : n === step ? 'bg-accent text-white' : 'bg-zinc-100 text-zinc-500');
+          el.textContent = n < step ? '✓' : n;
+          m.querySelector('[data-wz-label="' + n + '"]').className = 'font-medium whitespace-nowrap ' + (n === step ? 'text-zinc-900' : 'text-zinc-500');
+        });
+        m.querySelector('[data-wz-back]').classList.toggle('hidden', step === 1);
+        m.querySelector('[data-modal-subtitle]').textContent = step === 1 ? 'Шаг 1 из 3 · выберите сервис' : s.name + ' · шаг ' + step + ' из 3';
+        sub.textContent = step < 3 ? 'Далее' : 'Подключить';
+        const ob = m.querySelector('[data-wz-oauth]');
+        ob.className = 'w-full flex items-center justify-center gap-2 px-4 py-3 rounded-2xl text-sm font-medium transition ' + (svc() === 'yandex' ? 'bg-[#fc3f1d] text-white hover:brightness-95' : 'bg-white border border-zinc-200 text-zinc-900 hover:bg-zinc-50');
+        ob.innerHTML = '<span class="w-6 h-6 rounded-full flex items-center justify-center font-bold ' + (svc() === 'yandex' ? 'bg-white text-[#fc3f1d]' : 'bg-blue-50 text-blue-600') + '">' + s.logo + '</span>' + (authed ? 'Войти другим аккаунтом' : s.btn);
+        if (step === 3) m.querySelector('[data-wz-bind]').innerHTML = WZ_PROJECTS.map((p, i) =>
+          '<li class="px-3 py-2.5 flex items-center gap-3"><input type="checkbox" name="bind-' + p[0] + '"' + (i < 2 ? ' checked' : '') + ' class="w-4 h-4 rounded accent-accent shrink-0">' +
+          '<span class="min-w-0 flex-1"><span class="block text-sm font-medium truncate">' + p[1] + '</span><span class="block text-xs text-zinc-500 truncate">' + s.bind[i] + '</span></span></li>').join('');
+      };
+      m.addEventListener('modal:open', e => {
+        const op = e.detail.opener;
+        authed = false; keyOk = false;
+        step = op && op.dataset.prefillService ? 2 : 1;
+        m.querySelector('[data-wz-oauth-state]').classList.add('hidden');
+        m.querySelector('[data-wz-key-state]').classList.add('hidden');
+        m.querySelector('[data-modal-title]').textContent = op && op.dataset.reconnect ? 'Переподключить интеграцию' : 'Подключить интеграцию';
+        const s = SERVICES[svc()];
+        if (s.host) m.querySelector('[name="domain"]').value = s.host;
+        setTimeout(paint);
+      });
+      m.addEventListener('change', e => {
+        if (e.target.name !== 'service') return;
+        authed = false; keyOk = false;
+        const s = SERVICES[svc()];
+        m.querySelector('[name="domain"]').value = s.host || '';
+        m.querySelector('[data-wz-oauth-state]').classList.add('hidden');
+        m.querySelector('[data-wz-key-state]').classList.add('hidden');
+        paint();
+      });
+      m.querySelector('[name="token"]').addEventListener('input', () => { keyOk = false; m.querySelector('[data-wz-key-state]').classList.add('hidden'); });
+      m.addEventListener('click', e => {
+        if (e.target.closest('[data-wz-back]')) { step = Math.max(1, step - 1); paint(); return; }
+        const ob = e.target.closest('[data-wz-oauth]');
+        if (ob) {
+          const s = SERVICES[svc()];
+          ob.disabled = true;
+          ob.innerHTML = '<span class="w-4 h-4 rounded-full border-2 border-current border-r-transparent animate-spin"></span>Ждём подтверждения в окне ' + s.short + '…';
+          setTimeout(() => {
+            ob.disabled = false; authed = true; paint();
+            const st = m.querySelector('[data-wz-oauth-state]');
+            st.innerHTML = '✓ Доступ разрешён · <b class="font-medium">' + s.account + '</b><div class="text-xs text-emerald-700 mt-0.5">Найдено источников: ' + s.bind.length + '</div>';
+            st.classList.remove('hidden');
+          }, 900);
+          return;
+        }
+        if (e.target.closest('[data-wz-check]')) {
+          const key = val(m, 'token'), st = m.querySelector('[data-wz-key-state]');
+          keyOk = key.length >= 8;
+          st.className = 'rounded-2xl px-4 py-3 text-sm ' + (keyOk ? 'bg-emerald-50 text-emerald-800' : 'bg-red-50 text-red-700');
+          st.textContent = keyOk ? '✓ Ключ действителен · найдено источников: ' + SERVICES[svc()].bind.length : 'Ключ не подошёл — проверьте, что скопировали его целиком';
+          if (!keyOk) App.toast('Проверьте API-ключ');
+        }
+      });
+      m.addEventListener('modal:submit', e => {
+        const s = SERVICES[svc()];
+        if (step === 2 && s.auth === 'oauth' && !authed) { e.preventDefault(); return App.toast('Сначала войдите через ' + s.short); }
+        if (step === 2 && s.auth === 'key' && !keyOk) {
+          e.preventDefault();
+          if (val(m, 'token').length >= 8) { m.querySelector('[data-wz-check]').click(); if (keyOk) { step = 3; paint(); } }
+          else App.toast('Проверьте API-ключ');
+          return;
+        }
+        if (step < 3) { e.preventDefault(); step++; paint(); return; }
+        const n = m.querySelectorAll('[data-wz-bind] input:checked').length;
+        if (!n) { e.preventDefault(); return App.toast('Выберите хотя бы один проект'); }
+        e.detail.toast = s.short + ' подключён · ' + n + ' ' + App.plural(n, ['проект', 'проекта', 'проектов']);
+        emit('integration:connected', { service: svc(), account: s.account || s.host, projects: n });
+      });
+    }
   });
 
   /* ---------- Тариф ---------- */
   const PLANS = [
-    { id: 'solo',     name: 'Solo',     base: 19,  per: 0,  note: 'До 3 проектов, 2 пользователя' },
-    { id: 'agency',   name: 'Agency',   base: 49,  per: 15, note: 'Без лимита пользователей, портал клиента' },
-    { id: 'business', name: 'Business', base: 149, per: 10, note: 'SSO, API, выделенный менеджер' }
+    { id: 'solo',      name: 'Solo',       base: 19,  per: 0,  note: 'До 3 проектов, 2 пользователя' },
+    { id: 'agency',    name: 'Agency',     base: 49,  per: 15, note: 'Без лимита пользователей, портал клиента' },
+    { id: 'agencypro', name: 'Agency Pro', base: 79,  per: 12, note: 'ИИ-аудит, white-label портал, коллтрекинг' },
+    { id: 'business',  name: 'Business',   base: 149, per: 10, note: 'SSO, API, выделенный менеджер' }
   ];
   const ACTIVE = 5;
   App.registerModal('tariff', {
-    title: 'Сменить тариф', subtitle: 'Сейчас: Agency · ' + ACTIVE + ' активных проектов', submit: 'Перейти на тариф', submitCan: 'billing',
+    title: 'Сменить тариф', subtitle: 'Сейчас: Agency Pro (пробный период) · ' + ACTIVE + ' активных проектов', submit: 'Перейти на тариф', submitCan: 'billing',
     body: () =>
-      '<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">' + PLANS.map(p =>
+      '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">' + PLANS.map(p =>
         '<label class="relative rounded-2xl border border-zinc-200 p-4 cursor-pointer hover:bg-zinc-50 has-[:checked]:border-accent has-[:checked]:ring-4 has-[:checked]:ring-accent/15 transition">' +
-        '<input type="radio" name="plan" value="' + p.id + '"' + (p.id === 'agency' ? ' checked' : '') + ' class="sr-only">' +
+        '<input type="radio" name="plan" value="' + p.id + '"' + (p.id === 'agencypro' ? ' checked' : '') + ' class="sr-only">' +
         '<div class="text-sm font-semibold">' + p.name + '</div>' +
         '<div class="text-xl font-semibold tracking-tight mt-1 tabular-nums">$' + p.base + '<span class="text-xs font-normal text-zinc-500">/мес' + (p.per ? ' + $' + p.per + ' за проект' : '') + '</span></div>' +
         '<div class="text-xs text-zinc-500 mt-2">' + p.note + '</div></label>').join('') + '</div>' +
@@ -579,7 +685,7 @@
       '<div data-tariff-total class="rounded-2xl bg-zinc-50 px-4 py-3 text-sm"></div>',
     init(m) {
       const paint = () => {
-        const p = PLANS.find(x => x.id === (m.querySelector('[name="plan"]:checked') || {}).value) || PLANS[1];
+        const p = PLANS.find(x => x.id === (m.querySelector('[name="plan"]:checked') || {}).value) || PLANS[2];
         const year = val(m, 'period') === 'year';
         const sum = (p.base + p.per * ACTIVE) * (year ? 0.85 : 1);
         m.querySelector('[data-tariff-total]').innerHTML = 'Итого за ' + ACTIVE + ' проектов: <span class="font-semibold tabular-nums">$' + Math.round(sum) + '/мес</span>' + (year ? ' · $' + Math.round(sum * 12) + ' за год' : '') + (p.id === 'solo' ? '<div class="text-xs text-red-700 mt-1">На Solo доступно 3 проекта — два придётся архивировать</div>' : '');
@@ -589,7 +695,7 @@
     },
     onSubmit(m, d) {
       const p = PLANS.find(x => x.id === m.querySelector('[name="plan"]:checked').value);
-      d.toast = p.id === 'agency' ? 'Вы уже на тарифе Agency' : 'Тариф изменится на ' + p.name + ' с 1-го числа';
+      d.toast = p.id === 'agencypro' ? 'Подписка Agency Pro оформлена · первое списание 02.07' : 'Тариф изменится на ' + p.name + ' с 02.07 — после пробного периода';
     }
   });
 })();
