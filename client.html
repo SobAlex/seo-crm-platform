@@ -6,6 +6,7 @@
   <title>Клиент · Холод Групп — SEO Control</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/app.js"></script>
+  <script src="assets/modals.js"></script>
 </head>
 <body class="bg-canvas text-ink antialiased">
 <div class="min-h-screen">
@@ -19,7 +20,11 @@
       <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
         <header class="px-4 lg:px-8 h-14 flex items-center justify-between gap-3 overflow-x-auto">
         <a href="clients.html" class="text-sm text-zinc-500 hover:text-zinc-900 transition">← Клиенты</a>
-        <a href="client-form.html" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Редактировать</a>
+        <div class="flex items-center gap-2 shrink-0">
+          <button type="button" data-can="create_client" data-open-modal="brief-send" data-prefill-client="holod" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition whitespace-nowrap">Отправить бриф</button>
+          <button type="button" data-can="create_client" data-open-modal="client-edit" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition whitespace-nowrap">Редактировать</button>
+          <button type="button" data-can="create_project" data-open-modal="project-create" data-prefill-client="holod" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition whitespace-nowrap">+ Проект</button>
+        </div>
       </header>
       </div>
 
@@ -28,8 +33,8 @@
         <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5 mb-6">
           <span class="w-14 h-14 lg:w-16 lg:h-16 rounded-2xl bg-zinc-900 text-white text-lg lg:text-xl font-semibold flex items-center justify-center shrink-0">ХГ</span>
           <div>
-            <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight">ООО «Холод Групп»</h2>
-            <p class="text-sm text-zinc-500 mt-1">ИНН 7701234567 · Москва · в базе с 01.05.2025</p>
+            <h2 data-client-name class="text-2xl lg:text-3xl font-semibold tracking-tight">ООО «Холод Групп»</h2>
+            <p data-client-meta class="text-sm text-zinc-500 mt-1">ИНН 7701234567 · Москва · в базе с 01.05.2025</p>
           </div>
         </div>
 
@@ -38,9 +43,9 @@
             <div class="text-xs font-medium text-zinc-500 mb-2">Проектов</div>
             <div class="text-2xl font-semibold tracking-tight tabular-nums">1</div>
           </div>
-          <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+          <div data-can="see_finance" class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
             <div class="text-xs font-medium text-zinc-500 mb-2">Ставка</div>
-            <div class="text-2xl font-semibold tracking-tight tabular-nums">2 500 <span class="text-sm font-normal text-zinc-500">₽/ч</span></div>
+            <div class="text-2xl font-semibold tracking-tight tabular-nums"><span data-client-rate>2 500</span> <span class="text-sm font-normal text-zinc-500">₽/ч</span></div>
           </div>
         </section>
 
@@ -98,12 +103,12 @@
               </ul>
             </section>
 
-            <section class="bg-white rounded-2xl shadow-card overflow-hidden">
+            <section data-thread class="bg-white rounded-2xl shadow-card overflow-hidden">
               <div class="px-4 lg:px-6 py-4 flex items-center justify-between">
                 <h3 class="text-sm font-semibold tracking-tight">Комментарии</h3>
-                <span class="text-xs text-zinc-500">3 сообщения</span>
+                <span data-thread-count class="text-xs text-zinc-500">3 сообщения</span>
               </div>
-              <ul class="divide-y divide-zinc-100 border-t border-zinc-100">
+              <ul data-thread-list class="divide-y divide-zinc-100 border-t border-zinc-100">
                 <li class="p-4 lg:p-5">
                   <div class="flex gap-3">
                     <span class="w-8 h-8 shrink-0 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center">ИС</span>
@@ -143,13 +148,13 @@
               </ul>
 
               <div class="border-t border-zinc-100 p-4 lg:p-5 bg-zinc-50">
-                <textarea rows="3" placeholder="Написать комментарий..." class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></textarea>
+                <textarea data-thread-input rows="3" placeholder="Написать комментарий..." class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></textarea>
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-3">
-                  <button class="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-100 transition">
+                  <button type="button" data-attach class="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-100 transition">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
                     Прикрепить файл
                   </button>
-                  <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Отправить</button>
+                  <button type="button" data-thread-send class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Отправить</button>
                 </div>
               </div>
             </section>
@@ -162,7 +167,7 @@
               <div class="px-4 lg:px-6 py-4">
                 <h3 class="text-sm font-semibold tracking-tight">Контакты</h3>
               </div>
-              <ul class="divide-y divide-zinc-100 border-t border-zinc-100 text-sm">
+              <ul data-client-contacts class="divide-y divide-zinc-100 border-t border-zinc-100 text-sm">
                 <li class="p-4 lg:p-5">
                   <div class="font-medium">Сергей Волков</div>
                   <div class="text-xs text-zinc-500 mt-0.5">Директор по маркетингу</div>
@@ -178,8 +183,9 @@
             </section>
 
             <section class="bg-white rounded-2xl shadow-card overflow-hidden">
-              <div class="px-4 lg:px-6 py-4">
+              <div class="px-4 lg:px-6 py-4 flex items-center justify-between">
                 <h3 class="text-sm font-semibold tracking-tight">Документы</h3>
+                <button type="button" data-can="create_client" data-attach=".pdf,.doc,.docx,.xlsx" class="text-xs text-zinc-500 hover:text-zinc-900 transition">+ Загрузить</button>
               </div>
               <ul class="divide-y divide-zinc-100 border-t border-zinc-100 text-sm">
                 <li class="px-4 lg:px-6 py-3 flex items-center gap-3">
@@ -200,5 +206,28 @@
   </div>
 </div>
 
+<script>
+document.addEventListener('client:updated', e => {
+  const c = e.detail;
+  document.querySelector('[data-client-name]').textContent = c.name;
+  document.querySelector('[data-client-meta]').textContent = 'ИНН ' + c.inn + ' · ' + c.city + ' · в базе с 01.05.2025';
+  const rate = document.querySelector('[data-client-rate]');
+  if (rate && c.rate) rate.textContent = (+c.rate).toLocaleString('ru-RU');
+  const first = document.querySelector('[data-client-contacts] li');
+  if (first) {
+    first.children[0].textContent = c.contact;
+    first.children[1].textContent = c.post || '';
+    first.children[2].textContent = c.email;
+    if (first.children[3]) first.children[3].textContent = c.phone || '';
+  }
+});
+document.addEventListener('attach:file', e => {
+  if (!e.target.closest('section') || !e.target.closest('section').querySelector('h3') || e.target.closest('section').querySelector('h3').textContent !== 'Документы') return;
+  const list = e.target.closest('section').querySelector('ul');
+  const li = list.lastElementChild.cloneNode(true);
+  li.querySelector('span').textContent = e.detail.file.name;
+  list.appendChild(li);
+});
+</script>
 </body>
 </html>

@@ -6,6 +6,7 @@
   <title>Задача — SEO Control</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/app.js"></script>
+  <script src="assets/modals.js"></script>
 </head>
 <body class="bg-canvas text-ink antialiased">
 <div class="min-h-screen">
@@ -88,7 +89,7 @@
                 <div>
                   <h3 class="text-sm font-semibold tracking-tight">Подзадачи</h3>
                 </div>
-                <a href="task-form.html" class="text-xs text-zinc-500 hover:text-zinc-900 transition">+ Подзадача</a>
+                <a data-can="create_tasks" href="task-form.html" class="text-xs text-zinc-500 hover:text-zinc-900 transition">+ Подзадача</a>
               </div>
 
               <ul class="divide-y divide-zinc-100 border-t border-zinc-100">
@@ -118,8 +119,8 @@
             <section class="bg-white rounded-2xl shadow-card overflow-hidden">
               <div class="px-4 lg:px-6 py-4 flex items-center justify-between">
                 <div>
-                  <h3 class="text-sm font-semibold tracking-tight">Оперативный ход работ</h3>
-                  <p class="text-xs text-zinc-500 mt-0.5">Внутренние заметки · фиксируем время</p>
+                  <h3 class="text-sm font-semibold tracking-tight">Ход работ и время</h3>
+                  <p class="text-xs text-zinc-500 mt-0.5">Что сделано и сколько часов · только для команды</p>
                 </div>
                 <span class="text-xs text-zinc-500 shrink-0">4 записи · 2,5 ч</span>
               </div>
@@ -204,47 +205,143 @@
                   </div>
                   <input type="text" placeholder="Что сделано" class="flex-1 px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
                   <button data-can="track_time" data-toast="Таймер запущен" class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition shrink-0">▶ Таймер</button>
-                  <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition shrink-0">Добавить</button>
+                  <button data-can="track_time" data-toast="Запись добавлена в ход работ" class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition shrink-0">Добавить</button>
                 </div>
                 <label class="mt-3 inline-flex items-center gap-2 text-xs text-zinc-600 cursor-pointer">
-                  <input type="checkbox" checked class="w-4 h-4 rounded border-zinc-300">
+                  <input type="checkbox" checked data-can="edit_time" data-deny-tip="Лимит часов задаёт сотрудник компании" class="w-4 h-4 rounded border-zinc-300">
                   Входит в лимит часов проекта
                 </label>
-                <button class="mt-3 inline-flex items-center gap-2 text-xs text-zinc-500 hover:text-zinc-900 transition">
+                <button type="button" data-attach class="mt-3 inline-flex items-center gap-2 text-xs text-zinc-500 hover:text-zinc-900 transition">
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
                   Прикрепить файл
                 </button>
               </div>
             </section>
 
-            <section class="bg-white rounded-2xl shadow-card overflow-hidden">
-              <div class="px-4 lg:px-6 py-4 flex items-center justify-between">
+            <section id="comments" data-seg-scope class="bg-white rounded-2xl shadow-card overflow-hidden">
+              <div class="px-4 lg:px-6 py-4 flex flex-col xl:flex-row xl:items-center justify-between gap-3">
                 <div>
-                  <h3 class="text-sm font-semibold tracking-tight">Результаты для отчёта</h3>
-                  <p class="text-xs text-zinc-500 mt-0.5">Идут клиенту · без времени</p>
+                  <h3 class="text-sm font-semibold tracking-tight">Комментарии</h3>
+                  <p class="text-xs text-zinc-500 mt-0.5">Обсуждение видит только команда. Заметка для отчёта уходит клиенту.</p>
                 </div>
-                <span class="text-xs text-zinc-500 shrink-0">1 запись</span>
+                <div data-segmented class="shrink-0 self-start xl:self-auto" role="group" aria-label="Тип комментариев">
+                  <button type="button" data-seg="internal" aria-pressed="true" class="px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap">Внутреннее обсуждение<span data-chat-count class="ml-1.5 text-xs tabular-nums opacity-60">4</span></button>
+                  <button type="button" data-seg="report" class="px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap">Заметка для отчёта</button>
+                </div>
               </div>
 
-              <ul class="divide-y divide-zinc-100 border-t border-zinc-100">
-                <li class="p-4 lg:p-5">
-                  <div class="flex gap-3">
-                    <span class="w-8 h-8 shrink-0 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center">АП</span>
-                    <div class="flex-1 min-w-0">
-                      <div class="flex flex-wrap items-baseline gap-x-2 mb-1">
-                        <span class="text-sm font-medium">А. Петров</span>
-                        <span class="text-xs text-zinc-500">14.06, 15:00</span>
+              <!-- Внутреннее обсуждение -->
+              <div data-seg-panel="internal">
+                <ul data-chat-list class="divide-y divide-zinc-100 border-t border-zinc-100">
+                  <li class="p-4 lg:p-5">
+                    <div class="flex gap-3">
+                      <span class="w-8 h-8 shrink-0 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center">АП</span>
+                      <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-baseline gap-x-2 mb-1">
+                          <span class="text-sm font-medium">А. Петров</span>
+                          <span class="text-xs text-zinc-500">постановщик</span>
+                          <span class="text-xs text-zinc-500 tabular-nums ml-auto">12.06, 10:05</span>
+                        </div>
+                        <p class="text-sm text-zinc-600">Берём 40 приоритетных URL — список в gsc-export.csv. Выпавшие из индекса сразу отправляй на переобход.</p>
                       </div>
-                      <p class="text-sm text-zinc-600">Проверка индексации: 92% страниц в индексе Google. Найдено 3 URL, выпавших после последнего релиза — направлены на переобход. Служебные страницы закрыты корректно.</p>
+                    </div>
+                  </li>
+                  <li class="p-4 lg:p-5">
+                    <div class="flex gap-3">
+                      <span class="w-8 h-8 shrink-0 rounded-full bg-zinc-200 text-zinc-700 text-[10px] font-semibold flex items-center justify-center">МК</span>
+                      <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-baseline gap-x-2 mb-1">
+                          <span class="text-sm font-medium">М. Ким</span>
+                          <span class="text-xs text-zinc-500">исполнитель</span>
+                          <span class="text-xs text-zinc-500 tabular-nums ml-auto">14.06, 12:20</span>
+                        </div>
+                        <p class="text-sm text-zinc-600">Основной массив в порядке, 3 URL выпали после релиза. Причины выясняю, отпишусь здесь.</p>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="px-4 lg:px-5 py-3 flex items-center justify-center gap-2 text-xs text-zinc-500">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                    <span>М. Ким передал задачу на проверку · <span class="tabular-nums">14.06, 17:05</span></span>
+                  </li>
+                  <li class="p-4 lg:p-5 bg-amber-50/40">
+                    <div class="flex gap-3">
+                      <span class="w-8 h-8 shrink-0 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center">АП</span>
+                      <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center gap-x-2 gap-y-1 mb-1">
+                          <span class="text-sm font-medium">А. Петров</span>
+                          <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-amber-50 text-amber-700 ring-1 ring-amber-200">Замечание к приёмке</span>
+                          <span class="text-xs text-zinc-500 tabular-nums ml-auto">15.06, 09:40</span>
+                        </div>
+                        <p class="text-sm text-zinc-600">Добавь таблицу выпавших URL с причинами — без неё не приму. И перепиши заметку для отчёта проще, клиенту не нужно слово «canonical».</p>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="p-4 lg:p-5">
+                    <div class="flex gap-3">
+                      <span class="w-8 h-8 shrink-0 rounded-full bg-zinc-200 text-zinc-700 text-[10px] font-semibold flex items-center justify-center">МК</span>
+                      <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-baseline gap-x-2 mb-1">
+                          <span class="text-sm font-medium">М. Ким</span>
+                          <span class="text-xs text-zinc-500">исполнитель</span>
+                          <span class="text-xs text-zinc-500 tabular-nums ml-auto">15.06, 11:02</span>
+                        </div>
+                        <p class="text-sm text-zinc-600">Принято, таблицу приложу до конца дня.</p>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+
+                <div class="border-t border-zinc-100 p-4 lg:p-5 bg-zinc-50">
+                  <textarea data-chat-input rows="2" placeholder="Написать команде… Клиент это не увидит" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></textarea>
+                  <div class="mt-3 flex flex-col sm:flex-row sm:items-center gap-2">
+                    <div data-segmented data-chat-kind class="shrink-0 self-start sm:self-auto" role="group" aria-label="Тип сообщения">
+                      <button type="button" data-seg="comment" aria-pressed="true" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Комментарий</button>
+                      <button type="button" data-seg="remark" data-accept-item data-creator="petrov" data-acceptor="petrov" data-deny-tip="Замечание к приёмке оставляет постановщик (А. Петров) или руководитель" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Замечание к приёмке</button>
+                    </div>
+                    <div class="flex items-center gap-2 sm:ml-auto">
+                      <button type="button" data-attach class="inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs text-zinc-500 hover:text-zinc-900 hover:bg-black/5 transition">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+                        Файл
+                      </button>
+                      <button type="button" data-chat-send data-can="own_tasks" class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Отправить</button>
                     </div>
                   </div>
-                </li>
-              </ul>
+                </div>
+              </div>
 
-              <div class="border-t border-zinc-100 p-4 lg:p-5 bg-zinc-50">
-                <textarea rows="3" placeholder="Написать результат для отчёта клиенту..." class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></textarea>
-                <div class="flex justify-end mt-3">
-                  <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Опубликовать</button>
+              <!-- Заметка для отчёта -->
+              <div data-seg-panel="report" class="hidden border-t border-zinc-100">
+                <div class="p-4 lg:p-5 space-y-4">
+                  <div class="rounded-xl bg-zinc-50 p-3 flex gap-3">
+                    <svg class="w-4 h-4 text-zinc-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <p class="text-xs text-zinc-600">Этот текст увидит клиент в отчёте <span class="font-medium text-zinc-900">«Холод · Июнь 2025»</span>, раздел «Аудит». Пишите простым языком: что сделано и что это даёт. Время и внутренние детали сюда не попадают.</p>
+                  </div>
+
+                  <div>
+                    <label for="report-note" class="block text-xs font-medium text-zinc-500 mb-2">Текст для клиента</label>
+                    <textarea id="report-note" data-note-input rows="4" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">Проверили индексацию сайта: 92% страниц находятся в поиске Google. Три страницы выпали после последнего обновления сайта — мы отправили их на повторную проверку. Служебные страницы скрыты от поиска правильно.</textarea>
+                    <div class="mt-1.5 flex justify-between text-xs text-zinc-500">
+                      <span>Изменено: А. Петров, <span class="tabular-nums">14.06, 15:00</span></span>
+                      <span class="tabular-nums"><span data-note-len>0</span> / 600</span>
+                    </div>
+                  </div>
+
+                  <label class="flex items-start gap-3 p-3 rounded-xl border border-zinc-200 cursor-pointer has-[:checked]:border-emerald-300 has-[:checked]:bg-emerald-50/40 transition">
+                    <input type="checkbox" data-note-include checked data-can="compose_reports" data-deny-tip="Включить заметку в отчёт может сотрудник компании. Подрядчик готовит текст — его включит менеджер проекта." class="mt-0.5 w-4 h-4 rounded border-zinc-300 accent-emerald-600">
+                    <span class="min-w-0">
+                      <span class="block text-sm font-medium">Включить в отчёт</span>
+                      <span data-note-state class="block text-xs text-zinc-500 mt-0.5">Заметка попадёт в клиентский отчёт после приёмки задачи</span>
+                    </span>
+                  </label>
+
+                  <div data-note-preview class="rounded-xl border border-dashed border-zinc-300 p-4 transition">
+                    <div class="text-[11px] font-medium text-zinc-500 mb-2">Так увидит клиент</div>
+                    <div class="text-sm font-medium mb-1">Проверка индексации в Google</div>
+                    <p data-note-text class="text-sm text-zinc-600 leading-relaxed"></p>
+                  </div>
+                </div>
+                <div class="px-4 lg:px-5 py-3 border-t border-zinc-100 bg-zinc-50 flex justify-end">
+                  <button type="button" data-can="own_tasks" data-toast="Заметка для отчёта сохранена" class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить заметку</button>
                 </div>
               </div>
             </section>
@@ -330,7 +427,7 @@
                   <span class="w-1.5 h-1.5 rounded-full bg-zinc-300 mt-2 shrink-0"></span>
                   <div>
                     <div class="text-zinc-500 text-xs tabular-nums">14.06 15:00</div>
-                    <div class="text-zinc-700">Опубликован результат для клиента</div>
+                    <div class="text-zinc-700">Обновлена заметка для отчёта · включена в отчёт</div>
                   </div>
                 </li>
                 <li class="flex gap-3">
@@ -391,5 +488,56 @@
   </div>
 </div>
 
+<script>
+  (function () {
+    const app = window.SEOApp;
+    const me = app.ROLES.find(r => r.id === app.role);
+
+    const list = document.querySelector('[data-chat-list]');
+    const input = document.querySelector('[data-chat-input]');
+    const count = document.querySelector('[data-chat-count]');
+    const kindBox = document.querySelector('[data-chat-kind]');
+    document.querySelector('[data-chat-send]').addEventListener('click', () => {
+      const text = input.value.trim();
+      if (!text) return app.toast('Напишите сообщение');
+      const pressed = kindBox.querySelector('[aria-pressed="true"]');
+      const remark = pressed && pressed.dataset.seg === 'remark';
+      const now = new Date();
+      const pad = n => String(n).padStart(2, '0');
+      const li = document.createElement('li');
+      li.className = 'p-4 lg:p-5' + (remark ? ' bg-amber-50/40' : '');
+      li.innerHTML = '<div class="flex gap-3">' +
+        '<span class="w-8 h-8 shrink-0 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center"></span>' +
+        '<div class="flex-1 min-w-0"><div class="flex flex-wrap items-center gap-x-2 gap-y-1 mb-1">' +
+        '<span class="text-sm font-medium" data-author></span>' +
+        (remark ? '<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap bg-amber-50 text-amber-700 ring-1 ring-amber-200">Замечание к приёмке</span>' : '') +
+        '<span class="text-xs text-zinc-500 tabular-nums ml-auto">' + pad(now.getDate()) + '.' + pad(now.getMonth() + 1) + ', ' + pad(now.getHours()) + ':' + pad(now.getMinutes()) + '</span></div>' +
+        '<p class="text-sm text-zinc-600" data-body></p></div></div>';
+      li.querySelector('span').textContent = me.initials;
+      li.querySelector('[data-author]').textContent = me.user;
+      li.querySelector('[data-body]').textContent = text;
+      list.appendChild(li);
+      count.textContent = list.querySelectorAll('li.p-4').length;
+      input.value = '';
+      app.toast(remark ? 'Замечание отправлено исполнителю' : 'Сообщение отправлено команде');
+    });
+
+    const note = document.querySelector('[data-note-input]');
+    const include = document.querySelector('[data-note-include]');
+    const preview = document.querySelector('[data-note-preview]');
+    const state = document.querySelector('[data-note-state]');
+    function paintNote() {
+      document.querySelector('[data-note-text]').textContent = note.value.trim() || 'Текст ещё не написан';
+      document.querySelector('[data-note-len]').textContent = note.value.length;
+      preview.classList.toggle('opacity-40', !include.checked);
+      state.textContent = include.checked
+        ? 'Заметка попадёт в клиентский отчёт после приёмки задачи'
+        : 'Заметка останется внутри задачи и в отчёт не попадёт';
+    }
+    note.addEventListener('input', paintNote);
+    include.addEventListener('change', paintNote);
+    paintNote();
+  })();
+</script>
 </body>
 </html>

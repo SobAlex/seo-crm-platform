@@ -6,6 +6,7 @@
   <title>Проект · Холод — SEO Control</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/app.js"></script>
+  <script src="assets/modals.js"></script>
 </head>
 <body class="bg-canvas text-ink antialiased">
 <div class="min-h-screen">
@@ -41,10 +42,10 @@
         </header>
         <div class="px-4 lg:px-8 py-2 border-t border-black/5 overflow-x-auto">
           <div class="inline-flex bg-zinc-100 rounded-full p-1">
-            <button data-tab="roadmap" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium transition bg-white text-zinc-900 shadow-sm whitespace-nowrap">Дорожная карта</button>
-            <button data-tab="month" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">План месяца</button>
-            <button data-can="view_reports" data-tab="reports" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Отчёты</button>
-            <button data-deny="contractor" data-tab="sources" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Источники</button>
+            <button data-tab="roadmap" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Дорожная карта</button>
+            <button data-tab="month" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">План месяца</button>
+            <button data-can="view_reports" data-tab="reports" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Отчёты</button>
+            <button data-deny="contractor" data-tab="sources" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Источники</button>
           </div>
         </div>
       </div>
@@ -58,36 +59,36 @@
             <a href="audit.html" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">ИИ-аудит</a>
             <a data-roles="owner,seo_head,mgr_head" href="templates.html#brief" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Вопросы брифа</a>
             <a data-roles="pm,employee" href="brief-form.html" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Бриф</a>
-            <button data-can="transfer_project" data-open-modal="transfer" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Передать специалисту</button>
-            <button data-can="archive_project" data-toast="Проект отправлен в архив" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">В архив</button>
-            <button data-can="delete_project" data-toast="Проект будет удалён" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium text-red-600 hover:bg-red-50 transition">Удалить</button>
+            <button data-can="transfer_project" data-open-modal="transfer" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Передать проект</button>
+            <button data-can="archive_project" data-confirm="Отправить проект в архив?" data-confirm-text="Проект уйдёт из активных. Задачи, отчёты и часы сохранятся — вернуть можно из архива." data-confirm-ok="В архив" data-confirm-toast="Проект отправлен в архив" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">В архив</button>
+            <button data-can="delete_project" data-confirm="Удалить проект «Холод»?" data-confirm-text="Удалятся дорожная карта, планы месяцев, задачи и отчёты проекта. Действие нельзя отменить." data-confirm-toast="Проект удалён" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium text-red-600 hover:bg-red-50 transition">Удалить</button>
           </div>
         </div>
 
           <section class="grid grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4 mb-6">
-            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+            <div data-metric-card="traffic" class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
               <div class="text-xs font-medium text-zinc-500 mb-2">Трафик</div>
               <div class="flex items-baseline gap-1.5">
-                <span class="text-2xl font-semibold tracking-tight tabular-nums">24 380</span>
+                <span data-kpi-value="traffic" class="text-2xl font-semibold tracking-tight tabular-nums">24 380</span>
                 <span class="text-xs text-zinc-500 tabular-nums">из 26 000</span>
               </div>
               <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
                 <div class="h-full bg-amber-500 rounded-full w-[94%]"></div>
               </div>
-              <div class="text-xs font-medium tabular-nums text-amber-700 mt-1.5">94% плана</div>
+              <div data-kpi-pct="traffic" class="text-xs font-medium tabular-nums text-amber-700 mt-1.5">94% плана</div>
             </div>
-            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+            <div data-metric-card="leads" class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
               <div class="text-xs font-medium text-zinc-500 mb-2">Лиды</div>
               <div class="flex items-baseline gap-1.5">
-                <span class="text-2xl font-semibold tracking-tight tabular-nums">312</span>
+                <span data-kpi-value="leads" class="text-2xl font-semibold tracking-tight tabular-nums">312</span>
                 <span class="text-xs text-zinc-500 tabular-nums">из 290</span>
               </div>
               <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
                 <div class="h-full bg-emerald-500 rounded-full w-full"></div>
               </div>
-              <div class="text-xs font-medium tabular-nums text-emerald-700 mt-1.5">108% плана</div>
+              <div data-kpi-pct="leads" class="text-xs font-medium tabular-nums text-emerald-700 mt-1.5">108% плана</div>
             </div>
-            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+            <div data-metric-card="top10" class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
               <div class="text-xs font-medium text-zinc-500 mb-2">Запросы в топ-10</div>
               <div class="flex items-baseline gap-1.5">
                 <span class="text-2xl font-semibold tracking-tight tabular-nums">148</span>
@@ -119,6 +120,28 @@
                 <div class="h-full bg-zinc-400 rounded-full w-[85%]"></div>
               </div>
               <div class="text-xs font-medium tabular-nums text-zinc-500 mt-1.5">85% лимита</div>
+            </div>
+          </section>
+
+          <section data-metric-chart class="bg-white rounded-2xl shadow-card p-4 lg:p-6 mb-6">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+              <div>
+                <h3 class="text-sm font-semibold tracking-tight">Динамика проекта</h3>
+                <p class="text-xs text-zinc-500 mt-0.5">Январь–июнь 2025 · пунктир — план из дорожной карты</p>
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <div data-segmented role="group" aria-label="Показатель">
+                  <button type="button" data-seg="traffic" aria-pressed="true" class="px-3 lg:px-4 py-1.5 rounded-full text-xs lg:text-sm font-medium text-zinc-500 hover:text-zinc-900 transition">Трафик</button>
+                  <button type="button" data-seg="leads" class="px-3 lg:px-4 py-1.5 rounded-full text-xs lg:text-sm font-medium text-zinc-500 hover:text-zinc-900 transition">Лиды</button>
+                  <button type="button" data-seg="top10" class="px-3 lg:px-4 py-1.5 rounded-full text-xs lg:text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">% в ТОП-10</button>
+                </div>
+                <button type="button" data-can="edit_project" data-open-modal="fact" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition whitespace-nowrap">Внести факт за месяц</button>
+              </div>
+            </div>
+            <div data-chart-stats class="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-3 mb-4"></div>
+            <div class="w-full overflow-x-auto">
+              <div data-chart-svg></div>
+              <div data-chart-months class="flex justify-between px-[3%] mt-1 text-xs text-zinc-500 min-w-[500px]"></div>
             </div>
           </section>
 
@@ -334,20 +357,21 @@
           <section class="bg-white rounded-2xl shadow-card overflow-hidden mb-6">
             <div class="px-4 lg:px-6 py-4 flex items-center justify-between gap-3">
               <div class="min-w-0">
-                <h3 class="text-sm font-semibold tracking-tight">Задачи на июнь</h3>
-                <p class="text-xs text-zinc-500 mt-0.5">10 задач · 2 на проверке · 2 ждут клиента</p>
+                <h3 data-month-title class="text-sm font-semibold tracking-tight">Задачи на июнь</h3>
+                <p data-month-sub class="text-xs text-zinc-500 mt-0.5">10 задач · 2 на проверке · 2 ждут клиента</p>
               </div>
-              <div class="flex items-center gap-2 shrink-0">
-                <button aria-label="Предыдущий месяц" class="w-8 h-8 rounded-full bg-white border border-zinc-200 text-zinc-500 hover:bg-zinc-50 flex items-center justify-center shrink-0">
+              <div data-month-nav data-month-min="2025-05" data-month-max="2025-08" class="flex items-center gap-2 shrink-0">
+                <button type="button" data-month-step="-1" aria-label="Предыдущий месяц" class="w-8 h-8 rounded-full bg-white border border-zinc-200 text-zinc-500 hover:bg-zinc-50 flex items-center justify-center shrink-0">
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                 </button>
-                <div class="px-3 lg:px-4 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium tabular-nums whitespace-nowrap">Июнь 2025</div>
-                <button aria-label="Следующий месяц" class="w-8 h-8 rounded-full bg-white border border-zinc-200 text-zinc-500 hover:bg-zinc-50 flex items-center justify-center shrink-0">
+                <div data-month-label class="px-3 lg:px-4 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium tabular-nums whitespace-nowrap">Июнь 2025</div>
+                <button type="button" data-month-step="1" aria-label="Следующий месяц" class="w-8 h-8 rounded-full bg-white border border-zinc-200 text-zinc-500 hover:bg-zinc-50 flex items-center justify-center shrink-0">
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                 </button>
               </div>
             </div>
-            <div class="overflow-x-auto border-t border-zinc-100">
+            <div data-month-empty class="hidden border-t border-zinc-100 px-4 lg:px-6 py-10 text-center"></div>
+            <div data-month-table class="overflow-x-auto border-t border-zinc-100">
               <table class="w-full block md:table">
                 <thead class="hidden md:table-header-group">
                   <tr class="border-b border-zinc-100">
@@ -656,7 +680,7 @@
                     <th class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-4 lg:px-6 py-3">Обновлено</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-zinc-100 block md:table-row-group">
+                <tbody data-source-rows="seo" class="divide-y divide-zinc-100 block md:table-row-group">
                   <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
                     <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm font-medium col-span-2 md:col-span-1">Трафик</td>
                     <td data-label="Источник" class="md:px-3 md:py-3 lg:py-4 text-sm text-zinc-500 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">Метрика · счётчик 12345678</td>
@@ -699,7 +723,7 @@
                     <th class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-4 lg:px-6 py-3">Обновлено</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-zinc-100 block md:table-row-group">
+                <tbody data-source-rows="client" class="divide-y divide-zinc-100 block md:table-row-group">
                   <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
                     <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm font-medium col-span-2 md:col-span-1">Лиды из звонков</td>
                     <td data-label="Источник" class="md:px-3 md:py-3 lg:py-4 text-sm text-zinc-500 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">Callibri · holod-shop</td>
@@ -712,7 +736,7 @@
           </section>
 
           <div class="flex justify-end">
-            <button data-can="link_counter" data-toast="Счётчик привязан к проекту" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition shrink-0">Привязать счётчик</button>
+            <button data-can="link_counter" data-open-modal="source" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition shrink-0">Привязать счётчик</button>
           </div>
 
         </div>
@@ -726,9 +750,9 @@
                 <div>
                   <h3 class="text-sm font-semibold tracking-tight">Команда проекта</h3>
                 </div>
-                <button data-can="edit_project" data-toast="Добавление в команду — в разработке" class="text-xs text-zinc-500 hover:text-zinc-900 transition">+ Добавить</button>
+                <button data-can="edit_project" data-open-modal="team-add" class="text-xs text-zinc-500 hover:text-zinc-900 transition">+ Добавить</button>
               </div>
-              <ul class="divide-y divide-zinc-100 border-t border-zinc-100">
+              <ul data-team-list class="divide-y divide-zinc-100 border-t border-zinc-100">
                 <li class="px-4 lg:px-6 py-3 flex items-center gap-3">
                   <span class="w-8 h-8 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0">ИС</span>
                   <div class="min-w-0 flex-1"><div class="text-sm font-medium">Иван Сидоров</div><div class="text-xs text-zinc-500">Методология и приёмка</div></div>
@@ -775,22 +799,6 @@
 </div>
 
 
-<div id="transfer-modal" class="fixed inset-0 z-50 hidden">
-  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
-  <div class="absolute inset-x-0 bottom-0 sm:inset-0 sm:flex sm:items-center sm:justify-center sm:p-6">
-    <div class="bg-white w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl shadow-pop max-h-[85vh] overflow-y-auto">
-      <div class="px-5 py-4 border-b border-zinc-100 flex items-center justify-between">
-        <h3 class="text-sm font-semibold tracking-tight">Передать специалисту</h3>
-        <button data-close-modal class="text-sm text-zinc-500">Закрыть</button>
-      </div>
-      <ul class="divide-y divide-zinc-100">
-        <li class="px-5 py-3 flex items-center justify-between gap-3"><span class="text-sm">Алексей Петров · SEO-специалист</span><button data-toast="Проект передан А. Петрову" data-close-modal class="px-3 py-1.5 rounded-full bg-accent text-white text-sm font-medium">Передать</button></li>
-        <li class="px-5 py-3 flex items-center justify-between gap-3"><span class="text-sm">Иван Сидоров · руководитель SEO</span><button data-toast="Проект передан И. Сидорову" data-close-modal class="px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium">Передать</button></li>
-      </ul>
-    </div>
-  </div>
-</div>
-
 <!-- МОДАЛКА: + Работа -->
 <div id="work-modal" class="fixed inset-0 z-50 hidden">
   <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
@@ -808,7 +816,7 @@
       <div class="p-5 sm:p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="md:col-span-2">
           <label class="block text-xs font-medium text-zinc-500 mb-2">Название задачи</label>
-          <input type="text" value="Аудит технический" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+          <input type="text" name="title" required value="Аудит технический" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
         </div>
         <div>
           <label class="block text-xs font-medium text-zinc-500 mb-2">Месяц</label>
@@ -823,7 +831,7 @@
         <div>
           <label class="block text-xs font-medium text-zinc-500 mb-2">Исполнитель</label>
           <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-            <option>Алексей Петров</option><option>Дмитрий Ковалёв</option>
+            <option>Алексей Петров</option><option>Иван Сидоров</option><option>Иван Дронов</option><option>Мария Ким (подрядчик)</option>
           </select>
         </div>
         <div>
@@ -833,7 +841,7 @@
       </div>
       <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row gap-2 sm:justify-end sticky bottom-0 bg-white rounded-b-3xl">
         <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать задачу</button>
+        <button type="button" data-modal-submit data-submit-toast="Задача создана в плане месяца" class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать задачу</button>
       </div>
     </div>
   </div>
@@ -857,7 +865,7 @@
         </div>
         <div class="mb-4">
           <label class="block text-xs font-medium text-zinc-500 mb-2">Название карты</label>
-          <input type="text" value="Дорожная карта · Интернет-магазин" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+          <input type="text" required value="Дорожная карта · Интернет-магазин" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
         </div>
         <div class="mb-4">
           <label class="block text-xs font-medium text-zinc-500 mb-2">Описание</label>
@@ -869,7 +877,7 @@
       </div>
       <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
         <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
+        <button type="button" data-modal-submit data-submit-toast="Дорожная карта сохранена" class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
       </div>
     </div>
   </div>
@@ -901,7 +909,7 @@
           </div>
           <div>
             <label class="block text-xs font-medium text-zinc-500 mb-2">На какой месяц</label>
-            <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <select id="tpl-month" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
               <option>Июнь 2025</option><option>Июль 2025</option><option>Август 2025</option>
             </select>
           </div>
@@ -917,92 +925,9 @@
           <a data-can="roadmap_template" href="templates.html" class="text-xs text-zinc-500 hover:text-zinc-900 transition text-center sm:text-left">Управлять шаблонами →</a>
           <div class="flex gap-2">
             <button data-close-modal class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-            <button class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Загрузить</button>
+            <button type="button" data-modal-submit class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Загрузить</button>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- МОДАЛКА: Подключить источник -->
-<div id="source-modal" class="fixed inset-0 z-50 hidden">
-  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
-  <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
-    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-y-auto">
-      <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
-        <h3 class="text-sm font-semibold tracking-tight">Подключить источник</h3>
-        <button data-close-modal class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
-          <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
-      </div>
-
-      <div class="p-5 sm:p-6 space-y-4">
-
-        <div>
-          <label class="block text-xs font-medium text-zinc-500 mb-2">Тип источника</label>
-          <div class="grid grid-cols-2 gap-2">
-            <label class="flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-900 bg-zinc-50 cursor-pointer">
-              <input type="radio" name="source-type" checked class="sr-only">
-              <span class="w-2.5 h-2.5 rounded-full bg-red-600 shrink-0"></span>
-              <span class="text-sm font-medium">Метрика</span>
-            </label>
-            <label class="flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-200 hover:bg-zinc-50 cursor-pointer">
-              <input type="radio" name="source-type" class="sr-only">
-              <span class="w-2.5 h-2.5 rounded-full bg-red-600 shrink-0"></span>
-              <span class="text-sm font-medium">Вебмастер</span>
-            </label>
-            <label class="flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-200 hover:bg-zinc-50 cursor-pointer">
-              <input type="radio" name="source-type" class="sr-only">
-              <span class="w-2.5 h-2.5 rounded-full bg-blue-600 shrink-0"></span>
-              <span class="text-sm font-medium">GSC</span>
-            </label>
-            <label class="flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-200 hover:bg-zinc-50 cursor-pointer">
-              <input type="radio" name="source-type" class="sr-only">
-              <span class="w-2.5 h-2.5 rounded-full bg-amber-600 shrink-0"></span>
-              <span class="text-sm font-medium">Callibri</span>
-            </label>
-            <label class="flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-200 hover:bg-zinc-50 cursor-pointer col-span-2">
-              <input type="radio" name="source-type" class="sr-only">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-600 shrink-0"></span>
-              <span class="text-sm font-medium">CRM (amoCRM, Битрикс24)</span>
-            </label>
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-xs font-medium text-zinc-500 mb-2">Аккаунт</label>
-          <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-            <option>direct@romashka.ru (подключён 12.05.2025)</option>
-            <option>+ Подключить другой аккаунт</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-xs font-medium text-zinc-500 mb-2">Счётчик / проект</label>
-          <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-            <option>12345678 · holod-shop.ru</option>
-            <option>87654321 · holod-blog.ru</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-xs font-medium text-zinc-500 mb-2">Какую метрику тянем</label>
-          <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-            <option>Трафик (визиты)</option>
-            <option>Лиды (цель «Заявка»)</option>
-            <option>Топ-10 запросов</option>
-            <option>Показы</option>
-            <option>Звонки (Callibri)</option>
-          </select>
-          <div class="text-xs text-zinc-500 mt-1.5">Можно подключить несколько источников для разных метрик</div>
-        </div>
-
-      </div>
-
-      <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row gap-2 sm:justify-end sticky bottom-0 bg-white rounded-b-3xl">
-        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Подключить</button>
       </div>
     </div>
   </div>
@@ -1054,6 +979,111 @@
   }
   tplSel.addEventListener('change', renderTpl);
   renderTpl();
+  document.getElementById('template-modal').addEventListener('modal:submit', e => {
+    const month = document.getElementById('tpl-month');
+    e.detail.toast = 'Шаблон «' + tplSel.options[tplSel.selectedIndex].text + '» развёрнут на ' + month.value.toLowerCase() + ' · ' + tplSum.textContent;
+  });
+
+  /* Динамика проекта: факт и план по месяцам */
+  const metrics = {
+    months: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн'],
+    series: {
+      traffic: { label: 'Трафик', color: '#0071e3', fact: [14200, 16100, 18300, 20500, 22600, 24380], plan: [15000, 17000, 19000, 21500, 24000, 26000] },
+      leads:   { label: 'Лиды', color: '#059669', fact: [168, 196, 228, 256, 287, 312], plan: [180, 200, 220, 245, 270, 290] },
+      top10:   { label: '% в ТОП-10', color: '#7c3aed', suffix: '%', fact: [18.5, 22.1, 25.7, 28.6, 32.4, 35.2], plan: [20, 22, 25, 27, 29, 31] }
+    }
+  };
+  SEOApp.metrics = metrics;
+  let chart = null;
+  document.addEventListener('seo:ready', () => {
+    const root = document.querySelector('[data-metric-chart]');
+    if (root) chart = SEOApp.metricChart(root, metrics);
+  });
+
+  /* Факт за месяц обновляет график и, если это текущий месяц, карточки сверху */
+  const tone = pct => pct >= 100 ? ['text-emerald-700', 'bg-emerald-500'] : (pct >= 90 ? ['text-amber-700', 'bg-amber-500'] : ['text-red-700', 'bg-red-500']);
+  document.addEventListener('fact:saved', e => {
+    const { index, values } = e.detail;
+    Object.keys(values).forEach(k => { metrics.series[k].fact[index] = values[k]; });
+    if (chart) chart.show(document.querySelector('[data-metric-chart] [data-seg][aria-pressed="true"]').dataset.seg);
+    if (index !== metrics.months.length - 1) return;
+    ['traffic', 'leads'].forEach(k => {
+      const v = document.querySelector('[data-kpi-value="' + k + '"]');
+      const p = document.querySelector('[data-kpi-pct="' + k + '"]');
+      if (!v || !p) return;
+      const pct = Math.round(values[k] / metrics.series[k].plan[index] * 100);
+      const [text, bar] = tone(pct);
+      v.textContent = values[k].toLocaleString('ru-RU');
+      p.textContent = pct + '% плана';
+      p.className = 'text-xs font-medium tabular-nums mt-1.5 ' + text;
+      const fill = p.previousElementSibling.firstElementChild;
+      fill.className = 'h-full rounded-full ' + bar;
+      fill.style.width = Math.min(pct, 100) + '%';
+    });
+  });
+
+  /* План месяца: стрелки переключают месяц */
+  const monthTable = document.querySelector('[data-month-table]');
+  const monthEmpty = document.querySelector('[data-month-empty]');
+  const monthTitle = document.querySelector('[data-month-title]');
+  const monthSub = document.querySelector('[data-month-sub]');
+  const MONTH_IN = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
+  const monthState = {
+    4: { sub: '12 задач · все приняты · месяц закрыт', html: '<div class="text-sm font-medium">Май закрыт</div><div class="text-xs text-zinc-500 mt-1">12 задач принято · 94 ч из 96 · отчёт отправлен клиенту 03.06</div><a href="report.html" class="inline-flex mt-4 px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Открыть отчёт за май</a>' },
+    6: { sub: 'План ещё не собран', html: '<div class="text-sm font-medium">План на июль ещё не собран</div><div class="text-xs text-zinc-500 mt-1">По дорожной карте на месяц 3 — 7 работ, ≈ 64 ч</div><button type="button" data-can="edit_project" data-open-modal="template" class="mt-4 px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Собрать из шаблона</button>' },
+    7: { sub: 'План ещё не собран', html: '<div class="text-sm font-medium">Август — после плана июля</div><div class="text-xs text-zinc-500 mt-1">Соберите сначала план на июль, затем на август</div>' }
+  };
+  const monthDefaultSub = monthSub.textContent;
+  document.addEventListener('month:change', e => {
+    if (!e.target.closest || !e.target.closest('[data-month-nav]') || !monthTable) return;
+    const { month } = e.detail;
+    monthTitle.textContent = 'Задачи на ' + MONTH_IN[month];
+    const st = monthState[month];
+    monthTable.classList.toggle('hidden', !!st);
+    monthEmpty.classList.toggle('hidden', !st);
+    monthSub.textContent = st ? st.sub : monthDefaultSub;
+    if (st) monthEmpty.innerHTML = st.html;
+    if (!SEOApp.can('edit_project')) monthEmpty.querySelectorAll('[data-can]').forEach(b => b.remove());
+  });
+
+  /* Команда, передача проекта, источники */
+  const ROLE_BADGE = { seo_head: ['Рук. SEO', 'bg-blue-50 text-blue-700'], mgr_head: ['Рук. менеджеров', 'bg-violet-50 text-violet-700'], pm: ['Менеджер', 'bg-amber-50 text-amber-700'], employee: ['SEO-специалист', 'bg-emerald-50 text-emerald-700'], contractor: ['Подрядчик', 'bg-zinc-100 text-zinc-700'] };
+  const initials = name => name.split(' ').map(s => s[0]).join('');
+  function teamRow(person, note) {
+    const b = ROLE_BADGE[person.role] || ['Сотрудник', 'bg-zinc-100 text-zinc-700'];
+    const li = document.createElement('li');
+    li.className = 'px-4 lg:px-6 py-3 flex items-center gap-3 bg-accent/5';
+    li.innerHTML = '<span class="w-8 h-8 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"></span><div class="min-w-0 flex-1"><div class="text-sm font-medium"></div><div class="text-xs text-zinc-500"></div></div><span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium shrink-0 ' + b[1] + '"></span>';
+    li.children[0].textContent = initials(person.name);
+    li.querySelector('.text-sm').textContent = person.name;
+    li.querySelector('.text-xs').textContent = note;
+    li.lastElementChild.textContent = b[0];
+    return li;
+  }
+  document.addEventListener('team:added', e => {
+    const list = document.querySelector('[data-team-list]');
+    if (list) list.appendChild(teamRow(e.detail.person, e.detail.as));
+  });
+  document.addEventListener('project:transferred', e => {
+    const list = document.querySelector('[data-team-list]');
+    if (!list) return;
+    const old = Array.from(list.children).find(li => li.textContent.indexOf('Алексей Петров') !== -1);
+    const row = teamRow(e.detail.person, 'Ответственный SEO · принял проект');
+    if (old) old.replaceWith(row); else list.prepend(row);
+  });
+  document.addEventListener('source:connected', e => {
+    const rows = document.querySelector('[data-source-rows="' + (e.detail.type === 'callibri' ? 'client' : 'seo') + '"]');
+    const tpl = rows && rows.querySelector('tr');
+    if (!tpl) return;
+    const tr = tpl.cloneNode(true);
+    const metric = { metrika: 'Трафик и цели', webmaster: 'Позиции и индексация', gsc: 'Показы и клики', callibri: 'Звонки и заявки' }[e.detail.type];
+    tr.children[0].textContent = metric;
+    tr.children[1].textContent = e.detail.name + ' · ' + e.detail.id;
+    tr.children[2].innerHTML = '<span class="text-xs font-medium text-blue-700">загружается</span>';
+    tr.children[3].textContent = 'только что';
+    tr.classList.add('bg-accent/5');
+    rows.appendChild(tr);
+  });
 </script>
 </body>
 </html>

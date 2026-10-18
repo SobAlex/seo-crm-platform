@@ -6,6 +6,7 @@
   <title>Создать задачу — SEO Control</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/app.js"></script>
+  <script src="assets/modals.js"></script>
 </head>
 <body class="bg-canvas text-ink antialiased">
 <div class="min-h-screen">
@@ -29,7 +30,7 @@
           <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight">Создать задачу</h2>
         </div>
 
-        <form id="task-form" class="flex flex-col gap-4 lg:gap-6">
+        <form id="task-form" data-demo-form data-toast-ok="Задача создана и назначена исполнителю" data-redirect="task.html" class="flex flex-col gap-4 lg:gap-6">
 
           <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
             <h3 class="text-sm font-semibold tracking-tight mb-5">Основное</h3>
@@ -91,7 +92,7 @@
 
               <div class="md:col-span-2">
                 <label class="block text-xs font-medium text-zinc-500 mb-2">Название задачи</label>
-                <input type="text" placeholder="Кратко и по делу" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                <input type="text" name="title" required placeholder="Кратко и по делу" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
               </div>
 
               <div class="md:col-span-2">

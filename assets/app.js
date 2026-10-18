@@ -305,10 +305,14 @@ tailwind.config = {
     return tag === 'BUTTON' || tag === 'A' || tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA';
   }
 
-  function denyControl(el) {
+  /* Подсказка у неактивного элемента: data-deny-tip="свой текст", иначе — из права или списка ролей. */
+  function denyControl(el, reason) {
     if (el.getAttribute('aria-disabled') === 'true') return;
     el.setAttribute('aria-disabled', 'true');
     el.classList.add('opacity-40', 'cursor-not-allowed');
+    const tip = el.dataset.denyTip || ('Недоступно для роли «' + roleLabel() + '»' + (reason ? '. ' + reason : ''));
+    el.dataset.tip = tip;
+    el.setAttribute('title', tip);
     if (el.tagName === 'A') {
       el.addEventListener('click', e => e.preventDefault());
       el.removeAttribute('href');
@@ -317,27 +321,35 @@ tailwind.config = {
     }
   }
 
-  function gate(el, allowed) {
+  function gate(el, allowed, reason) {
     if (allowed) return;
-    if (isActionControl(el)) denyControl(el);
+    if (isActionControl(el)) denyControl(el, reason);
     else el.remove();
   }
 
+  const permLabel = key => {
+    for (const g of GROUPS) for (const i of g.items) if (i.key === key) return i.label;
+    return key;
+  };
+  const roleList = ids => ids.map(id => (roleInfo(id) || {}).label).filter(Boolean).join(', ');
+  const ids = v => v.split(',').map(s => s.trim());
+
   function applyPermissions() {
     document.querySelectorAll('[data-can]').forEach(el => {
-      const keys = el.dataset.can.split(',').map(s => s.trim());
-      gate(el, keys.some(can));
+      const keys = ids(el.dataset.can);
+      gate(el, keys.some(can), 'Нужно право «' + permLabel(keys[0]) + '»');
     });
     document.querySelectorAll('[data-roles]').forEach(el => {
       if (el.hasAttribute('data-app-chrome')) return;
-      gate(el, covers(role, el.dataset.roles.split(',').map(s => s.trim())));
+      const list = ids(el.dataset.roles);
+      gate(el, covers(role, list), 'Доступно: ' + roleList(list));
     });
     document.querySelectorAll('[data-deny]').forEach(el => {
-      gate(el, !covers(role, el.dataset.deny.split(',').map(s => s.trim())));
+      gate(el, !covers(role, ids(el.dataset.deny)));
     });
     /* data-accept-item data-acceptor="id" — только тем, кто вправе принять эту задачу;
        data-accept-deny — наоборот, тем, кто принять не может (показываем, кто принимает) */
-    document.querySelectorAll('[data-accept-item]').forEach(el => { gate(el, canAcceptItem(el)); });
+    document.querySelectorAll('[data-accept-item]').forEach(el => { gate(el, canAcceptItem(el), 'Принимает постановщик или руководитель'); });
     document.querySelectorAll('[data-accept-deny]').forEach(el => { if (canAcceptItem(el)) el.remove(); });
     const r = roleInfo(role);
     document.querySelectorAll('[data-role-name]').forEach(el => { el.textContent = roleLabel(); });
@@ -389,20 +401,570 @@ tailwind.config = {
     });
   }
 
-  /* ---------- Модалки: id = <name>-modal ---------- */
+  /* ---------- Сегменты: тот же вид, что у табов, но без привязки к адресу ----------
+     [data-segmented] > button[data-seg="x"]   — переключатель (контейнер bg-zinc-100 rounded-full p-1)
+     [data-seg-panel="x"]                      — панель; ищется внутри ближайшего [data-seg-scope], иначе по странице
+     Событие seg:change (detail.value) — на контейнере, для страничных скриптов. */
+  function paintSegment(box, value) {
+    const btns = Array.from(box.querySelectorAll(':scope > [data-seg]'));
+    btns.forEach(b => {
+      const on = b.dataset.seg === value;
+      TAB_ON.forEach(c => b.classList.toggle(c, on));
+      TAB_OFF.forEach(c => b.classList.toggle(c, !on));
+      b.classList.add('font-medium');
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    const values = btns.map(b => b.dataset.seg);
+    const scopeEl = box.closest('[data-seg-scope]') || document;
+    scopeEl.querySelectorAll('[data-seg-panel]').forEach(p => {
+      if (values.indexOf(p.dataset.segPanel) === -1) return;
+      if ((p.closest('[data-seg-scope]') || document) !== scopeEl) return;
+      p.classList.toggle('hidden', p.dataset.segPanel !== value);
+    });
+  }
+
+  function prepareSegments(root) {
+    root.querySelectorAll('[data-segmented]').forEach(box => {
+      box.classList.add('inline-flex', 'bg-zinc-100', 'rounded-full', 'p-1', 'max-w-full');
+      const first = box.querySelector(':scope > [data-seg][aria-pressed="true"]') ||
+        Array.from(box.querySelectorAll(':scope > [data-seg]')).find(b => !b.disabled);
+      if (first) paintSegment(box, first.dataset.seg);
+    });
+  }
+
+  function initSegments() {
+    prepareSegments(document);
+    document.addEventListener('click', e => {
+      const b = e.target.closest('[data-segmented] > [data-seg]');
+      if (!b || b.disabled) return;
+      const box = b.parentElement;
+      paintSegment(box, b.dataset.seg);
+      box.dispatchEvent(new CustomEvent('seg:change', { detail: { value: b.dataset.seg }, bubbles: true }));
+    });
+  }
+
+  /* ---------- Подсказки у неактивных элементов: [data-tip] ---------- */
+  function initTooltips() {
+    const tip = document.createElement('div');
+    tip.setAttribute('role', 'tooltip');
+    tip.className = 'hidden fixed z-[70] max-w-[260px] px-2.5 py-1.5 rounded-lg bg-zinc-900/95 text-white text-xs leading-snug shadow-pop pointer-events-none';
+    document.body.appendChild(tip);
+    let current = null;
+    const show = el => {
+      current = el;
+      tip.textContent = el.dataset.tip;
+      el.removeAttribute('title');
+      tip.classList.remove('hidden');
+      const r = el.getBoundingClientRect();
+      const t = tip.getBoundingClientRect();
+      const left = Math.min(Math.max(8, r.left + r.width / 2 - t.width / 2), window.innerWidth - t.width - 8);
+      const top = r.top - t.height - 8 < 8 ? r.bottom + 8 : r.top - t.height - 8;
+      tip.style.left = left + 'px';
+      tip.style.top = top + 'px';
+    };
+    const hide = () => {
+      if (current) current.setAttribute('title', current.dataset.tip);
+      current = null;
+      tip.classList.add('hidden');
+    };
+    document.addEventListener('mouseover', e => {
+      const el = e.target.closest && e.target.closest('[data-tip]');
+      if (el && el !== current) show(el);
+      else if (!el && current) hide();
+    });
+    document.addEventListener('scroll', hide, true);
+  }
+
+  /* ---------- Модалки: id = <name>-modal ----------
+     data-open-modal="name"            — открыть окно; data-prefill-<field>="v" — подставить значение в [name=field]
+     data-close-modal                  — закрыть (оверлей, крестик, «Отмена»), Escape — тоже
+     [data-modal-submit]               — проверяет [required] в окне, закрывает и показывает data-submit-toast
+     События на окне: modal:open (detail.opener), modal:submit (detail.toast можно переписать,
+     preventDefault — окно остаётся открытым). Общие окна регистрирует assets/modals.js. */
+  const MODALS = {};
+  const MODAL_WIDTH = { sm: 'max-w-md', md: 'max-w-lg', lg: 'max-w-2xl', xl: 'max-w-3xl' };
+  const FIELD = 'w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40';
+  const INVALID = ['!border-red-400', 'ring-4', 'ring-red-100'];
+  const ICON_CLOSE = '<svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>';
+
+  function registerModal(name, def) { MODALS[name] = def; }
+
+  function buildModal(name, o) {
+    const el = document.createElement('div');
+    el.id = name + '-modal';
+    el.className = 'fixed inset-0 z-50 hidden';
+    el.setAttribute('role', 'dialog');
+    el.setAttribute('aria-modal', 'true');
+    el.setAttribute('aria-labelledby', name + '-title');
+    el.dataset.modalReset = o.reset === false ? '0' : '1';
+    const body = typeof o.body === 'function' ? o.body() : (o.body || '');
+    const submit = o.submit === false ? '' :
+      '<button type="button" data-modal-submit' +
+      (o.submitCan ? ' data-can="' + o.submitCan + '"' : '') +
+      (o.submitToast ? ' data-submit-toast="' + o.submitToast + '"' : '') +
+      ' class="px-4 py-2 rounded-full ' + (o.danger ? 'bg-red-600 hover:bg-red-700' : 'bg-accent hover:bg-accent-hover') +
+      ' text-white text-sm font-medium transition">' + (o.submit || 'Сохранить') + '</button>';
+    el.innerHTML =
+      '<div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>' +
+      '<div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">' +
+        '<div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full ' + (MODAL_WIDTH[o.size] || MODAL_WIDTH.md) + ' pointer-events-auto max-h-[90vh] overflow-y-auto">' +
+          '<div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between gap-3 sticky top-0 bg-white/95 backdrop-blur z-10 rounded-t-3xl">' +
+            '<div class="min-w-0"><h3 id="' + name + '-title" class="text-sm font-semibold tracking-tight truncate" data-modal-title>' + o.title + '</h3>' +
+            (o.subtitle ? '<p class="text-xs text-zinc-500 mt-0.5 truncate" data-modal-subtitle>' + o.subtitle + '</p>' : '') + '</div>' +
+            '<button type="button" data-close-modal aria-label="Закрыть" class="w-8 h-8 shrink-0 rounded-full hover:bg-zinc-100 flex items-center justify-center">' + ICON_CLOSE + '</button>' +
+          '</div>' +
+          '<div class="p-5 sm:p-6 space-y-4" data-modal-body>' + body + '</div>' +
+          '<div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col-reverse sm:flex-row gap-2 sm:items-center sm:justify-end sticky bottom-0 bg-white/95 backdrop-blur rounded-b-3xl">' +
+            (o.footerNote ? '<div class="text-xs text-zinc-500 sm:mr-auto" data-modal-note>' + o.footerNote + '</div>' : '') +
+            '<button type="button" data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">' + (o.cancel || 'Отмена') + '</button>' +
+            submit +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(el);
+    if (o.onOpen) el.addEventListener('modal:open', e => o.onOpen(el, e.detail.opener));
+    if (o.onSubmit) el.addEventListener('modal:submit', e => o.onSubmit(el, e.detail, e));
+    if (o.init) o.init(el);
+    return el;
+  }
+
+  /* Общие окна строятся заранее, если на странице есть кнопка, которая их открывает. */
+  function buildSharedModals() {
+    const wanted = new Set();
+    document.querySelectorAll('[data-open-modal]').forEach(b => wanted.add(b.dataset.openModal));
+    (document.body.dataset.modals || '').split(',').forEach(n => n.trim() && wanted.add(n.trim()));
+    if (document.querySelector('[data-confirm]')) wanted.add('confirm');
+    wanted.forEach(name => ensureModal(name, true));
+  }
+  function ensureModal(name, early) {
+    let el = document.getElementById(name + '-modal');
+    if (el || !MODALS[name]) return el;
+    el = buildModal(name, MODALS[name]);
+    if (!early) { applyPermissions(); prepareSegments(el); }
+    return el;
+  }
+
+  function resetFields(modal) {
+    modal.querySelectorAll('input, select, textarea').forEach(f => {
+      clearInvalid(f);
+      if (f.type === 'checkbox' || f.type === 'radio') f.checked = f.defaultChecked;
+      else if (f.tagName === 'SELECT') {
+        const def = Array.from(f.options).find(o => o.defaultSelected);
+        f.value = def ? def.value : (f.options[0] ? f.options[0].value : '');
+      } else if (f.type !== 'file') f.value = f.defaultValue;
+    });
+  }
+  function prefill(modal, opener) {
+    Object.keys(opener.dataset).forEach(k => {
+      if (k.indexOf('prefill') !== 0 || k === 'prefill') return;
+      const name = k.slice(7).replace(/^[A-Z]/, c => c.toLowerCase()).replace(/[A-Z]/g, c => '-' + c.toLowerCase());
+      const v = opener.dataset[k];
+      modal.querySelectorAll('[name="' + name + '"]').forEach(f => {
+        if (f.type === 'checkbox') f.checked = v === '1' || v === 'true';
+        else if (f.type === 'radio') f.checked = f.value === v;
+        else f.value = v;
+      });
+    });
+  }
+  function clearInvalid(f) {
+    if (!f.hasAttribute('aria-invalid')) return;
+    f.removeAttribute('aria-invalid');
+    INVALID.forEach(c => f.classList.remove(c));
+  }
+  const fieldVisible = f => !f.disabled && !f.closest('.hidden');
+  function invalidFields(modal) {
+    return Array.from(modal.querySelectorAll('[required]')).filter(f => {
+      if (!fieldVisible(f)) return false;
+      if (f.type === 'checkbox') return !f.checked;
+      if (f.type === 'radio') return !modal.querySelector('[name="' + f.name + '"]:checked');
+      const v = String(f.value || '').trim();
+      if (!v) return true;
+      if (f.type === 'email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) return true;
+      if (f.dataset.digits && !new RegExp('^(\\d{' + f.dataset.digits.split(',').join('}|\\d{') + '})$').test(v)) return true;
+      if (f.type === 'number' && ((f.min !== '' && +v < +f.min) || (f.max !== '' && +v > +f.max))) return true;
+      if (f.dataset.after) {
+        const other = modal.querySelector('[name="' + f.dataset.after + '"]');
+        if (other && other.value && v < other.value) return true;
+      }
+      return false;
+    });
+  }
+
+  /* Зависимые поля:
+     select[data-dep="key"] > option[data-when="a b"] — опции, доступные при значении источника
+     [data-show-when="key:a|b"]                        — блок виден при значении источника
+     Источник — [data-dep-source="key"] в том же окне (или на странице). */
+  function sourceValue(root, key) {
+    const src = root.querySelector('[data-dep-source="' + key + '"]');
+    if (!src) return null;
+    if (src.type === 'radio' || src.type === 'checkbox') {
+      const on = root.querySelector('[data-dep-source="' + key + '"]:checked');
+      return on ? on.value : '';
+    }
+    return src.value;
+  }
+  function syncDeps(root) {
+    root = root || document;
+    root.querySelectorAll('select[data-dep]').forEach(sel => {
+      const v = sourceValue(root, sel.dataset.dep);
+      if (v == null) return;
+      let firstOk = null;
+      Array.from(sel.options).forEach(o => {
+        if (!o.dataset.when) { if (!firstOk && o.value) firstOk = o; return; }
+        const ok = o.dataset.when.split(' ').indexOf(v) !== -1;
+        o.hidden = !ok;
+        o.disabled = !ok;
+        if (ok && !firstOk) firstOk = o;
+      });
+      const cur = sel.options[sel.selectedIndex];
+      if (!cur || cur.disabled || (!cur.value && firstOk && firstOk.dataset.when)) sel.value = firstOk ? firstOk.value : '';
+    });
+    root.querySelectorAll('[data-show-when]').forEach(el => {
+      const [key, vals] = el.dataset.showWhen.split(':');
+      const v = sourceValue(root, key);
+      if (v == null) return;
+      el.classList.toggle('hidden', vals.split('|').indexOf(v) === -1);
+    });
+  }
+
+  const allModals = () => document.querySelectorAll('[id$="-modal"]');
+  function closeModals() {
+    allModals().forEach(m => m.classList.add('hidden'));
+    document.body.classList.remove('overflow-hidden');
+  }
+  function openModal(name, opener) {
+    const modal = ensureModal(name);
+    if (!modal) return null;
+    allModals().forEach(m => m.classList.add('hidden'));
+    if (modal.dataset.modalReset === '1') resetFields(modal);
+    if (opener) prefill(modal, opener);
+    syncDeps(modal);
+    modal.dispatchEvent(new CustomEvent('modal:open', { detail: { opener: opener || null } }));
+    syncDeps(modal);
+    modal.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+    const scroller = modal.querySelector('.overflow-y-auto');
+    if (scroller) scroller.scrollTop = 0;
+    return modal;
+  }
+
+  function submitModal(btn) {
+    const modal = btn.closest('[id$="-modal"]');
+    if (!modal) return;
+    modal.querySelectorAll('[aria-invalid]').forEach(clearInvalid);
+    const bad = invalidFields(modal);
+    if (bad.length) {
+      bad.forEach(f => { f.setAttribute('aria-invalid', 'true'); INVALID.forEach(c => f.classList.add(c)); });
+      bad[0].focus();
+      toast(bad.some(f => String(f.value || '').trim()) ? 'Проверьте выделенные поля' : 'Заполните обязательные поля');
+      return;
+    }
+    const detail = { button: btn, toast: btn.dataset.submitToast || 'Сохранено' };
+    const ev = new CustomEvent('modal:submit', { detail, cancelable: true });
+    if (!modal.dispatchEvent(ev)) return;
+    closeModals();
+    if (detail.toast) toast(detail.toast);
+    if (detail.href) setTimeout(() => { location.href = detail.href; }, 700);
+  }
+
   function initModals() {
-    const all = () => document.querySelectorAll('[id$="-modal"]');
-    const close = () => { all().forEach(m => m.classList.add('hidden')); document.body.classList.remove('overflow-hidden'); };
     document.addEventListener('click', e => {
       const opener = e.target.closest('[data-open-modal]');
       if (opener) {
-        const modal = document.getElementById(opener.dataset.openModal + '-modal');
-        if (modal) { all().forEach(m => m.classList.add('hidden')); modal.classList.remove('hidden'); document.body.classList.add('overflow-hidden'); }
+        if (opener.disabled || opener.getAttribute('aria-disabled') === 'true') return;
+        e.preventDefault();
+        openModal(opener.dataset.openModal, opener);
         return;
       }
-      if (e.target.closest('[data-close-modal]')) close();
+      const sub = e.target.closest('[data-modal-submit]');
+      if (sub) {
+        if (!sub.disabled) submitModal(sub);
+        return;
+      }
+      if (e.target.closest('[data-close-modal]')) closeModals();
     });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModals(); });
+    document.addEventListener('input', e => { if (e.target.hasAttribute && e.target.hasAttribute('aria-invalid')) clearInvalid(e.target); });
+    document.addEventListener('change', e => {
+      const t = e.target;
+      if (t.hasAttribute && t.hasAttribute('aria-invalid')) clearInvalid(t);
+      if (t.matches && t.matches('[data-dep-source]')) syncDeps(t.closest('[id$="-modal"]') || document);
+    });
+    syncDeps(document);
+  }
+
+  /* Подтверждение: data-confirm="Удалить работу?" data-confirm-text="пояснение"
+     data-confirm-remove="li" — после подтверждения удалить ближайший предок; data-confirm-toast — текст тоста.
+     На кнопке — событие confirm:ok для страничных скриптов. */
+  let pendingConfirm = null;
+  registerModal('confirm', {
+    title: 'Подтвердите действие', size: 'sm', submit: 'Удалить', danger: true, reset: false,
+    body: '<p class="text-sm text-zinc-600" data-confirm-message></p>',
+    onSubmit(modal, detail) {
+      const btn = pendingConfirm;
+      pendingConfirm = null;
+      if (!btn) return;
+      detail.toast = btn.dataset.confirmToast || 'Удалено';
+      btn.dispatchEvent(new CustomEvent('confirm:ok', { bubbles: true }));
+      const target = btn.dataset.confirmRemove && btn.closest(btn.dataset.confirmRemove);
+      if (target) {
+        target.style.transition = 'opacity .2s';
+        target.style.opacity = '0';
+        setTimeout(() => target.remove(), 200);
+      }
+    }
+  });
+  function initConfirm() {
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('[data-confirm]');
+      if (!btn || btn.disabled || btn.getAttribute('aria-disabled') === 'true') return;
+      e.preventDefault();
+      const modal = openModal('confirm');
+      if (!modal) return;
+      pendingConfirm = btn;
+      modal.querySelector('[data-modal-title]').textContent = btn.dataset.confirm;
+      modal.querySelector('[data-confirm-message]').textContent = btn.dataset.confirmText || 'Действие нельзя отменить.';
+      modal.querySelector('[data-modal-submit]').textContent = btn.dataset.confirmOk || 'Удалить';
+    });
+  }
+
+  /* Мелкие демо-действия:
+     [data-attach]              — выбрать файл, тост с именем
+     [data-copy="текст"]        — скопировать; data-copy-from="селектор" — значение поля
+     form[data-demo-form]       — не отправлять, проверить [required], тост data-toast-ok и переход data-redirect
+     [data-thread]              — лента комментариев: [data-thread-list], [data-thread-input], [data-thread-send] */
+  function initDemoActions() {
+    const picker = document.createElement('input');
+    picker.type = 'file';
+    picker.className = 'hidden';
+    document.body.appendChild(picker);
+    let attachBtn = null;
+    picker.addEventListener('change', () => {
+      const f = picker.files && picker.files[0];
+      if (!f) return;
+      toast('Файл «' + f.name + '» прикреплён');
+      if (attachBtn) attachBtn.dispatchEvent(new CustomEvent('attach:file', { detail: { file: f }, bubbles: true }));
+      picker.value = '';
+    });
+    document.addEventListener('click', e => {
+      const a = e.target.closest('[data-attach]');
+      if (a && !a.disabled) {
+        attachBtn = a;
+        picker.accept = a.dataset.attach || '';
+        picker.click();
+        return;
+      }
+      const c = e.target.closest('[data-copy]');
+      if (c && !c.disabled) {
+        const src = c.dataset.copyFrom && (c.closest('[id$="-modal"]') || document).querySelector(c.dataset.copyFrom);
+        const text = src ? src.value : c.dataset.copy;
+        const done = () => toast(c.dataset.copyToast || 'Скопировано в буфер обмена');
+        if (src && src.select) src.select();
+        if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, done);
+        else { try { document.execCommand('copy'); } catch (err) { /* ignore */ } done(); }
+      }
+    });
+    document.querySelectorAll('form[data-demo-form]').forEach(form => {
+      form.setAttribute('novalidate', '');
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        form.querySelectorAll('[aria-invalid]').forEach(clearInvalid);
+        const bad = invalidFields(form);
+        if (bad.length) {
+          bad.forEach(f => { f.setAttribute('aria-invalid', 'true'); INVALID.forEach(c => f.classList.add(c)); });
+          bad[0].focus();
+          toast('Заполните обязательные поля');
+          return;
+        }
+        toast(form.dataset.toastOk || 'Сохранено');
+        if (form.dataset.redirect) setTimeout(() => { location.href = form.dataset.redirect; }, 700);
+      });
+    });
+    document.querySelectorAll('[data-thread]').forEach(box => {
+      const list = box.querySelector('[data-thread-list]');
+      const input = box.querySelector('[data-thread-input]');
+      const send = box.querySelector('[data-thread-send]');
+      const count = box.querySelector('[data-thread-count]');
+      if (!list || !input || !send) return;
+      send.addEventListener('click', () => {
+        const text = input.value.trim();
+        if (!text) { input.focus(); toast('Напишите комментарий'); return; }
+        const me = roleInfo(role);
+        const now = new Date();
+        const li = document.createElement('li');
+        li.className = 'p-4 lg:p-5';
+        li.innerHTML = '<div class="flex gap-3"><span class="w-8 h-8 shrink-0 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center"></span>' +
+          '<div class="flex-1 min-w-0"><div class="flex flex-wrap items-baseline gap-x-2 mb-1"><span class="text-sm font-medium"></span><span class="text-xs text-zinc-500">сейчас</span></div><p class="text-sm text-zinc-600 whitespace-pre-line"></p></div></div>';
+        li.querySelector('span').textContent = me.initials;
+        li.querySelector('.text-sm.font-medium').textContent = me.user.split(' ')[1] ? me.user.split(' ')[0][0] + '. ' + me.user.split(' ')[1] : me.user;
+        li.querySelector('p').textContent = text;
+        li.querySelector('.text-xs').textContent = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+        list.prepend(li);
+        input.value = '';
+        if (count) count.textContent = list.children.length + ' ' + plural(list.children.length, ['сообщение', 'сообщения', 'сообщений']);
+        toast('Комментарий добавлен');
+      });
+    });
+  }
+  function plural(n, f) {
+    const m10 = n % 10, m100 = n % 100;
+    return f[m10 === 1 && m100 !== 11 ? 0 : (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20) ? 1 : 2)];
+  }
+
+  /* Переключатель месяца: [data-month-nav] > [data-month-step="-1|1"], [data-month-label]
+     data-month-min / data-month-max = "2025-01"; событие month:change (detail.year, detail.month 0–11). */
+  const MONTHS = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+  function initMonthNav() {
+    document.querySelectorAll('[data-month-nav]').forEach(nav => {
+      const label = nav.querySelector('[data-month-label]');
+      if (!label) return;
+      const parts = label.textContent.trim().split(/\s+/);
+      let m = MONTHS.indexOf(parts[0]);
+      let y = +parts[1];
+      if (m < 0 || !y) return;
+      const key = (yy, mm) => yy * 12 + mm;
+      const bound = s => { if (!s) return null; const [yy, mm] = s.split('-').map(Number); return key(yy, mm - 1); };
+      const min = bound(nav.dataset.monthMin);
+      const max = bound(nav.dataset.monthMax);
+      const paint = () => {
+        nav.querySelectorAll('[data-month-step]').forEach(b => {
+          const k = key(y, m) + +b.dataset.monthStep;
+          const off = (min != null && k < min) || (max != null && k > max);
+          b.disabled = off;
+          b.classList.toggle('opacity-40', off);
+          b.classList.toggle('cursor-not-allowed', off);
+        });
+      };
+      nav.addEventListener('click', e => {
+        const b = e.target.closest('[data-month-step]');
+        if (!b || b.disabled) return;
+        const k = key(y, m) + +b.dataset.monthStep;
+        y = Math.floor(k / 12);
+        m = k % 12;
+        label.textContent = MONTHS[m] + ' ' + y;
+        paint();
+        nav.dispatchEvent(new CustomEvent('month:change', { detail: { year: y, month: m }, bubbles: true }));
+      });
+      paint();
+    });
+  }
+
+  /* График метрик: SEOApp.metricChart(root, { months, series: { key: { label, color, fact, plan, suffix } } })
+     В root: [data-segmented] с data-seg=key, [data-chart-svg], [data-chart-months], [data-chart-stats].
+     [data-metric-card="key"] на странице подсвечивается вместе с выбранным показателем. */
+  function fmtNum(v, suffix) {
+    return (Math.round(v * 10) / 10).toLocaleString('ru-RU') + (suffix || '');
+  }
+  function metricChart(root, data) {
+    const svgBox = root.querySelector('[data-chart-svg]');
+    const stats = root.querySelector('[data-chart-stats]');
+    const monthsBox = root.querySelector('[data-chart-months]');
+    const seg = root.querySelector('[data-segmented]');
+    let current = (seg && seg.querySelector('[aria-pressed="true"]') || {}).dataset;
+    current = current ? current.seg : Object.keys(data.series)[0];
+    const uid = 'mc' + Math.random().toString(36).slice(2, 7);
+    if (monthsBox) monthsBox.remove();
+
+    function render() {
+      const s = data.series[current];
+      const n = data.months.length;
+      const W = Math.max(500, Math.round(svgBox.clientWidth || 660));
+      const vals = s.fact.filter(v => v != null).concat(s.plan || []);
+      const hi0 = Math.max.apply(null, vals);
+      const lo0 = Math.min.apply(null, vals);
+      const pad = (hi0 - lo0) * 0.15 || hi0 * 0.1 || 1;
+      const hi = hi0 + pad, lo = Math.max(0, lo0 - pad);
+      const x = i => 30 + ((W - 60) / (n - 1)) * i;
+      const y = v => 170 - ((v - lo) / (hi - lo)) * 140;
+      const pts = s.fact.map((v, i) => v == null ? null : [x(i), y(v), v, i]).filter(Boolean);
+      const line = pts.map((p, i) => (i ? 'L ' : 'M ') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+      const last = pts[pts.length - 1];
+      const plan = s.plan ? s.plan.map((v, i) => (i ? 'L ' : 'M ') + x(i).toFixed(1) + ',' + y(v).toFixed(1)).join(' ') : '';
+      const grid = [30, 65, 100, 135].map(gy => '<line x1="30" y1="' + gy + '" x2="' + (W - 30) + '" y2="' + gy + '" stroke="#f4f4f5"/>').join('') +
+        '<line x1="30" y1="170" x2="' + (W - 30) + '" y2="170" stroke="#e4e4e7"/>' +
+        '<text x="30" y="22" font-size="10" fill="#a1a1aa">' + fmtNum(hi0, s.suffix) + '</text>' +
+        data.months.map((m, i) => '<text x="' + x(i).toFixed(1) + '" y="192" text-anchor="middle" font-size="11" fill="#71717a">' + m + '</text>').join('');
+      svgBox.innerHTML =
+        '<svg viewBox="0 0 ' + W + ' 200" width="' + W + '" height="200" class="block" role="img" aria-label="' + s.label + '">' +
+        '<defs><linearGradient id="' + uid + current + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="' + s.color + '" stop-opacity="0.16"/><stop offset="100%" stop-color="' + s.color + '" stop-opacity="0"/></linearGradient></defs>' +
+        grid +
+        (plan ? '<path d="' + plan + '" fill="none" stroke="#a1a1aa" stroke-width="1.5" stroke-dasharray="4 4"/>' : '') +
+        '<path d="' + line + ' L ' + last[0].toFixed(1) + ',170 L ' + pts[0][0].toFixed(1) + ',170 Z" fill="url(#' + uid + current + ')"/>' +
+        '<path d="' + line + '" fill="none" stroke="' + s.color + '" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>' +
+        pts.map((p, i) => '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="' + (i === pts.length - 1 ? 4.5 : 3.5) + '" fill="' + (i === pts.length - 1 ? s.color : '#fff') + '" stroke="' + s.color + '" stroke-width="2"><title>' +
+          data.months[p[3]] + ': ' + fmtNum(p[2], s.suffix) + (s.plan ? ' · план ' + fmtNum(s.plan[p[3]], s.suffix) : '') + '</title></circle>').join('') +
+        '<text x="' + Math.min(last[0], W - 40).toFixed(1) + '" y="' + Math.max(last[1] - 12, 12).toFixed(1) + '" text-anchor="middle" font-size="11" font-weight="600" fill="' + s.color + '">' + fmtNum(last[2], s.suffix) + '</text>' +
+        '</svg>';
+      if (stats) {
+        const idx = last[3];
+        const prev = s.fact[idx - 1];
+        const planV = s.plan ? s.plan[idx] : null;
+        const pct = planV ? Math.round(last[2] / planV * 100) : null;
+        const diff = prev != null ? last[2] - prev : null;
+        const tile = (label, value, tone) => '<div class="rounded-2xl bg-zinc-50 px-4 py-3 min-w-0"><div class="text-xs text-zinc-500 truncate">' + label + '</div><div class="text-lg font-semibold tracking-tight tabular-nums mt-0.5 ' + (tone || '') + '">' + value + '</div></div>';
+        stats.innerHTML =
+          tile(s.label + ' · ' + data.months[idx], fmtNum(last[2], s.suffix)) +
+          tile('План на ' + data.months[idx], planV != null ? fmtNum(planV, s.suffix) : '—') +
+          tile('Выполнение плана', pct != null ? pct + '%' : '—', pct == null ? '' : (pct >= 100 ? 'text-emerald-700' : (pct >= 90 ? 'text-amber-700' : 'text-red-700'))) +
+          tile('К прошлому месяцу', diff == null ? '—' : (diff >= 0 ? '+' : '−') + fmtNum(Math.abs(diff), s.suffix), diff == null ? '' : (diff >= 0 ? 'text-emerald-700' : 'text-red-700'));
+      }
+      document.querySelectorAll('[data-metric-card]').forEach(c => {
+        const on = c.dataset.metricCard === current;
+        c.classList.toggle('ring-2', on);
+        c.classList.toggle('ring-accent/30', on);
+      });
+    }
+    if (seg) seg.addEventListener('seg:change', e => { current = e.detail.value; render(); });
+    let resizeTimer;
+    window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(render, 120); });
+    document.querySelectorAll('[data-metric-card]').forEach(c => {
+      c.classList.add('cursor-pointer', 'transition');
+      c.addEventListener('click', () => {
+        if (!data.series[c.dataset.metricCard]) return;
+        current = c.dataset.metricCard;
+        if (seg) paintSegment(seg, current);
+        render();
+      });
+    });
+    render();
+    return {
+      set(key, index, value) { if (data.series[key]) data.series[key].fact[index] = value; render(); },
+      show(key) { current = key; if (seg) paintSegment(seg, key); render(); },
+      data
+    };
+  }
+
+  /* Сортировка по клику на заголовок: table[data-sort-table] > thead button — по номеру колонки.
+     Числа вида «24 380 /26 000» сравниваются по первому числу. */
+  function sortValue(td) {
+    const t = (td ? td.innerText : '').trim();
+    const m = t.replace(/\u00a0/g, ' ').match(/^[−-]?\d[\d ]*(?:[.,]\d+)?/);
+    return m ? parseFloat(m[0].replace(/ /g, '').replace(',', '.').replace('−', '-')) : t.toLowerCase();
+  }
+  function initSortTables() {
+    document.querySelectorAll('table[data-sort-table]').forEach(table => {
+      const ths = Array.from(table.querySelectorAll('thead th'));
+      ths.forEach(th => {
+        const btn = th.querySelector('button');
+        if (!btn) return;
+        btn.type = 'button';
+        btn.addEventListener('click', () => {
+          const tbody = table.querySelector('tbody');
+          const dir = btn.dataset.dir === 'desc' ? 'asc' : 'desc';
+          ths.forEach(t => { const b = t.querySelector('button'); if (b && b !== btn) { delete b.dataset.dir; b.classList.remove('text-zinc-900'); } });
+          btn.dataset.dir = dir;
+          btn.classList.add('text-zinc-900');
+          const idx = Array.from(th.parentElement.children).indexOf(th);
+          const rows = Array.from(tbody.querySelectorAll(':scope > tr'));
+          rows.sort((a, b) => {
+            const av = sortValue(a.children[idx]), bv = sortValue(b.children[idx]);
+            const cmp = typeof av === 'number' && typeof bv === 'number' ? av - bv : String(av).localeCompare(String(bv), 'ru', { numeric: true });
+            return dir === 'asc' ? cmp : -cmp;
+          });
+          rows.forEach(r => tbody.appendChild(r));
+        });
+      });
+    });
   }
 
   /* ---------- Тосты для демо-действий: data-toast="Текст" ---------- */
@@ -424,7 +986,10 @@ tailwind.config = {
       if (t) toast(t.dataset.toast);
     });
   }
-  window.SEOApp.toast = toast;
+  Object.assign(window.SEOApp, {
+    toast, segment: paintSegment, registerModal, openModal, closeModals, syncDeps,
+    metricChart, plural, fmtNum, MONTHS, FIELD, roleInfo
+  });
 
   /* ---------- Матрица разрешений (страница «Настройки → Роли») ---------- */
   const mark = v => {
@@ -808,15 +1373,14 @@ tailwind.config = {
       if (openInvite) localStorage.removeItem('seo_control_open_invite');
     } catch (e) { /* ignore */ }
     if (!openInvite) return;
-    const modal = document.getElementById('invite-modal');
+    const modal = openModal('invite');
     if (!modal) return;
-    const sel = modal.querySelector('select');
+    const sel = modal.querySelector('[name="role"]');
     if (sel) {
-      const opt = Array.from(sel.options).find(o => o.textContent.trim() === 'Руководитель SEO');
-      if (opt) sel.value = opt.value;
+      sel.value = 'seo_head';
+      syncDeps(modal);
+      sel.dispatchEvent(new Event('change', { bubbles: true }));
     }
-    modal.classList.remove('hidden');
-    document.body.classList.add('overflow-hidden');
   }
 
   /* Список проектов: уровень «сотрудник» видит все проекты компании. */
@@ -907,17 +1471,25 @@ tailwind.config = {
   /* ---------- Старт ---------- */
   function start() {
     initChrome();
+    buildSharedModals();
     applyPermissions();
     applyProjectList();
     initTabs();
+    initSegments();
     initModals();
+    initConfirm();
     initToasts();
+    initTooltips();
+    initDemoActions();
+    initMonthNav();
     renderMatrix();
     initScope();
     initBoard();
     initSeat();
     initHomeTables();
+    initSortTables();
     initHscroll();
+    document.dispatchEvent(new CustomEvent('seo:ready'));
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
   else start();

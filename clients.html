@@ -6,6 +6,7 @@
   <title>Клиенты — SEO Control</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/app.js"></script>
+  <script src="assets/modals.js"></script>
 </head>
 <body class="bg-canvas text-ink antialiased">
 <div class="min-h-screen">
@@ -19,7 +20,7 @@
       <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
         <header class="px-4 lg:px-8 h-14 flex items-center justify-between gap-4">
           <h1 class="text-base font-semibold tracking-tight">Клиенты</h1>
-          <a href="client-form.html" class="shrink-0 px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Новый клиент</a>
+          <button type="button" data-can="create_client" data-open-modal="client-create" class="shrink-0 px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Новый клиент</button>
         </header>
       </div>
 
@@ -27,11 +28,12 @@
 
         <section class="bg-white rounded-2xl shadow-card overflow-hidden">
           <div class="overflow-x-auto">
-            <table class="w-full block md:table">
+            <table data-sort-table class="w-full block md:table">
               <thead class="hidden md:table-header-group">
                 <tr class="border-b border-zinc-100">
                   <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-4 lg:px-6 py-3">Клиент</th>
                   <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">Контакт</th>
+                  <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">Бриф</th>
                   <th class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-4 lg:px-6 py-3">Проектов</th>
                 </tr>
               </thead>
@@ -44,6 +46,7 @@
                     <div class="text-sm">Сергей Волков</div>
                     <div class="text-xs text-zinc-500 mt-0.5">s.volkov@holod.ru</div>
                   </td>
+                  <td data-label="Бриф" data-brief-cell="holod" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Заполнен</span><button type="button" data-can="create_client" data-open-modal="brief-send" data-prefill-client="holod" class="text-xs font-medium text-accent hover:underline whitespace-nowrap">Ещё раз</button></div></td>
                   <td data-label="Проектов" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">1</td>
                 </tr>
                 <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
@@ -54,6 +57,7 @@
                     <div class="text-sm">Андрей Смирнов</div>
                     <div class="text-xs text-zinc-500 mt-0.5">a@remont-plus.ru</div>
                   </td>
+                  <td data-label="Бриф" data-brief-cell="smirnov" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Отправлен</span><button type="button" data-can="create_client" data-open-modal="brief-send" data-prefill-client="smirnov" class="text-xs font-medium text-accent hover:underline whitespace-nowrap">Отправить</button></div></td>
                   <td data-label="Проектов" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">1</td>
                 </tr>
                 <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
@@ -64,6 +68,7 @@
                     <div class="text-sm">Михаил Орлов</div>
                     <div class="text-xs text-zinc-500 mt-0.5">m.orlov@stroytech.ru</div>
                   </td>
+                  <td data-label="Бриф" data-brief-cell="stroytech" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Заполнен</span><button type="button" data-can="create_client" data-open-modal="brief-send" data-prefill-client="stroytech" class="text-xs font-medium text-accent hover:underline whitespace-nowrap">Ещё раз</button></div></td>
                   <td data-label="Проектов" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">1</td>
                 </tr>
                 <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
@@ -74,7 +79,19 @@
                     <div class="text-sm">Елена Крылова</div>
                     <div class="text-xs text-zinc-500 mt-0.5">e.krylova@medlife.ru</div>
                   </td>
+                  <td data-label="Бриф" data-brief-cell="medlife" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-600 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>Не отправлен</span><button type="button" data-can="create_client" data-open-modal="brief-send" data-prefill-client="medlife" class="text-xs font-medium text-accent hover:underline whitespace-nowrap">Отправить</button></div></td>
                   <td data-label="Проектов" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">1</td>
+                </tr>
+                <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                  <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
+                    <a href="client.html" class="text-base font-medium hover:underline">ООО «Альфа»</a>
+                  </td>
+                  <td data-label="Контакт" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
+                    <div class="text-sm">Дмитрий Лебедев</div>
+                    <div class="text-xs text-zinc-500 mt-0.5">d.lebedev@alfa-group.ru</div>
+                  </td>
+                  <td data-label="Бриф" data-brief-cell="alfa" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-600 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>Не отправлен</span><button type="button" data-can="create_client" data-open-modal="brief-send" data-prefill-client="alfa" class="text-xs font-medium text-accent hover:underline whitespace-nowrap">Отправить</button></div></td>
+                  <td data-label="Проектов" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">0</td>
                 </tr>
               </tbody>
             </table>
@@ -82,7 +99,7 @@
 
           <div class="px-4 lg:px-6 py-4 border-t border-zinc-100 flex flex-wrap items-center justify-between gap-3">
             <div class="text-sm text-zinc-500">
-              Показано <span class="tabular-nums text-zinc-900 font-medium">1–4</span> из <span class="tabular-nums text-zinc-900 font-medium">4</span>
+              Показано <span data-clients-shown class="tabular-nums text-zinc-900 font-medium">1–5</span> из <span data-clients-total class="tabular-nums text-zinc-900 font-medium">5</span>
             </div>
             <div class="flex items-center gap-2 text-sm text-zinc-500">
               <span>На странице</span>
@@ -101,5 +118,36 @@
   </div>
 </div>
 
+<script>
+(function () {
+  const CHIP_SENT = '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Отправлен</span>';
+  document.addEventListener('client:created', e => {
+    const c = e.detail;
+    const tbody = document.querySelector('table[data-sort-table] tbody');
+    const tr = tbody.querySelector('tr:last-child').cloneNode(true);
+    tr.querySelector('a').textContent = c.name;
+    tr.querySelector('[data-label="Контакт"] .text-sm').textContent = c.contact;
+    tr.querySelector('[data-label="Контакт"] .text-xs').textContent = c.email;
+    const cell = tr.querySelector('[data-brief-cell]');
+    cell.dataset.briefCell = c.id;
+    cell.querySelector('button').dataset.prefillClient = c.id;
+    tr.querySelector('[data-label="Проектов"]').textContent = '0';
+    tr.classList.add('bg-accent/5');
+    tbody.prepend(tr);
+    const n = tbody.children.length;
+    document.querySelector('[data-clients-shown]').textContent = '1–' + n;
+    document.querySelector('[data-clients-total]').textContent = n;
+  });
+  document.addEventListener('brief:sent', () => {
+    const id = document.querySelector('#brief-send-modal [name="client"]').value;
+    const cell = document.querySelector('[data-brief-cell="' + id + '"]');
+    if (!cell) return;
+    const chip = cell.querySelector('span');
+    if (chip.textContent.trim() !== 'Заполнен') chip.outerHTML = CHIP_SENT;
+    const btn = cell.querySelector('button');
+    if (btn) btn.textContent = 'Ещё раз';
+  });
+})();
+</script>
 </body>
 </html>

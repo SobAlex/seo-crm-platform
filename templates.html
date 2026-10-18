@@ -6,6 +6,7 @@
   <title>Шаблоны — SEO Control</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/app.js"></script>
+  <script src="assets/modals.js"></script>
 </head>
 <body class="bg-canvas text-ink antialiased">
 <div class="min-h-screen">
@@ -22,11 +23,11 @@
         </header>
         <div class="px-4 lg:px-8 py-2 border-t border-black/5 overflow-x-auto">
           <div class="inline-flex bg-zinc-100 rounded-full p-1">
-            <button data-tab="types" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium transition bg-white text-zinc-900 shadow-sm whitespace-nowrap">Типы проектов</button>
-            <button data-tab="roadmap" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Дорожные карты</button>
-            <button data-tab="month" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Месячные планы</button>
-            <button data-tab="workflows" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Бизнес-процессы</button>
-            <button data-tab="brief" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Бриф</button>
+            <button data-tab="types" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Типы проектов</button>
+            <button data-tab="roadmap" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Дорожные карты</button>
+            <button data-tab="month" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Месячные планы</button>
+            <button data-tab="workflows" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Бизнес-процессы</button>
+            <button data-tab="brief" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Бриф</button>
           </div>
         </div>
       </div>
@@ -709,21 +710,23 @@
         </div>
 
         <!-- ============ МЕСЯЧНЫЕ ПЛАНЫ ============ -->
-        <div data-tab-panel="month" class="hidden">
+        <div data-tab-panel="month" data-seg-scope class="hidden">
 
           <div class="mb-6">
             <div class="text-xs font-medium text-zinc-500 mb-3">Тип проекта</div>
-            <div class="flex flex-wrap gap-2">
-              <button data-month-type="ecommerce" class="month-type-btn px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium transition">Интернет-магазин</button>
-              <button data-month-type="info" class="month-type-btn px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-zinc-600 text-sm font-medium transition">Информационный сайт</button>
-              <button data-month-type="landing" class="month-type-btn px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-zinc-600 text-sm font-medium transition">Лендинг</button>
-              <button data-month-type="b2b" class="month-type-btn px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-zinc-600 text-sm font-medium transition">B2B портал</button>
-              <button data-month-type="services" class="month-type-btn px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-zinc-600 text-sm font-medium transition">Сайт услуг</button>
+            <div class="overflow-x-auto">
+              <div data-segmented data-month-types role="group" aria-label="Тип проекта">
+                <button type="button" data-seg="ecommerce" aria-pressed="true" class="shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap">Интернет-магазин</button>
+                <button type="button" data-seg="info" class="shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap">Информационный сайт</button>
+                <button type="button" data-seg="landing" class="shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap">Лендинг</button>
+                <button type="button" data-seg="b2b" class="shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap">B2B портал</button>
+                <button type="button" data-seg="services" class="shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap">Сайт услуг</button>
+              </div>
             </div>
             <div class="text-xs text-zinc-500 mt-3">План собирается из работ карты. У задачи указан участник, который её выполняет.</div>
           </div>
 
-          <div data-month-panel="ecommerce">
+          <div data-seg-panel="ecommerce">
             <div class="flex flex-col gap-4">
               <details open class="bg-white rounded-2xl shadow-card overflow-hidden group">
                 <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
@@ -938,7 +941,7 @@
             </div>
           </div>
 
-          <div data-month-panel="info" class="hidden">
+          <div data-seg-panel="info" class="hidden">
             <div class="flex flex-col gap-4">
               <details open class="bg-white rounded-2xl shadow-card overflow-hidden group">
                 <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
@@ -1047,7 +1050,7 @@
             </div>
           </div>
 
-          <div data-month-panel="landing" class="hidden">
+          <div data-seg-panel="landing" class="hidden">
             <div class="flex flex-col gap-4">
               <details open class="bg-white rounded-2xl shadow-card overflow-hidden group">
                 <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
@@ -1156,7 +1159,7 @@
             </div>
           </div>
 
-          <div data-month-panel="b2b" class="hidden">
+          <div data-seg-panel="b2b" class="hidden">
             <div class="flex flex-col gap-4">
               <details class="bg-white rounded-2xl shadow-card overflow-hidden group">
                 <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
@@ -1207,7 +1210,7 @@
               </details>
             </div>
           </div>
-          <div data-month-panel="services" class="hidden">
+          <div data-seg-panel="services" class="hidden">
             <div class="flex flex-col gap-4">
               <details class="bg-white rounded-2xl shadow-card overflow-hidden group">
                 <summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">
@@ -1384,7 +1387,7 @@
       <div class="p-5 sm:p-6">
         <div class="mb-4">
           <label class="block text-xs font-medium text-zinc-500 mb-2">Название</label>
-          <input type="text" placeholder="Например: Маркетплейс" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+          <input type="text" required placeholder="Например: Маркетплейс" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
         </div>
         <div class="mb-4">
           <label class="block text-xs font-medium text-zinc-500 mb-2">Описание <span class="text-zinc-500 font-normal">— опционально</span></label>
@@ -1393,12 +1396,12 @@
         <div class="mb-4">
           <label class="block text-xs font-medium text-zinc-500 mb-2">Цвет маркера</label>
           <div class="flex items-center gap-2">
-            <button class="w-7 h-7 rounded-full bg-violet-600 ring-2 ring-zinc-900 ring-offset-2"></button>
-            <button class="w-7 h-7 rounded-full bg-emerald-600"></button>
-            <button class="w-7 h-7 rounded-full bg-blue-600"></button>
-            <button class="w-7 h-7 rounded-full bg-amber-600"></button>
-            <button class="w-7 h-7 rounded-full bg-cyan-600"></button>
-            <button class="w-7 h-7 rounded-full bg-rose-600"></button>
+            <button type="button" data-color aria-label="Цвет" class="w-7 h-7 rounded-full bg-violet-600 ring-2 ring-zinc-900 ring-offset-2"></button>
+            <button type="button" data-color aria-label="Цвет" class="w-7 h-7 rounded-full bg-emerald-600"></button>
+            <button type="button" data-color aria-label="Цвет" class="w-7 h-7 rounded-full bg-blue-600"></button>
+            <button type="button" data-color aria-label="Цвет" class="w-7 h-7 rounded-full bg-amber-600"></button>
+            <button type="button" data-color aria-label="Цвет" class="w-7 h-7 rounded-full bg-cyan-600"></button>
+            <button type="button" data-color aria-label="Цвет" class="w-7 h-7 rounded-full bg-rose-600"></button>
           </div>
         </div>
         <div class="rounded-xl border border-black/5 p-3 bg-zinc-50">
@@ -1407,7 +1410,7 @@
       </div>
       <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
         <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать тип</button>
+        <button type="button" data-modal-submit class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать тип</button>
       </div>
     </div>
   </div>
@@ -1426,7 +1429,7 @@
       <div class="p-5 sm:p-6">
         <div class="mb-4">
           <label class="block text-xs font-medium text-zinc-500 mb-2">Название</label>
-          <input type="text" value="Интернет-магазин" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+          <input type="text" required value="Интернет-магазин" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
         </div>
         <div class="mb-4">
           <label class="block text-xs font-medium text-zinc-500 mb-2">Описание</label>
@@ -1435,12 +1438,12 @@
         <div class="mb-4">
           <label class="block text-xs font-medium text-zinc-500 mb-2">Цвет маркера</label>
           <div class="flex items-center gap-2">
-            <button class="w-7 h-7 rounded-full bg-violet-600 ring-2 ring-zinc-900 ring-offset-2"></button>
-            <button class="w-7 h-7 rounded-full bg-emerald-600"></button>
-            <button class="w-7 h-7 rounded-full bg-blue-600"></button>
-            <button class="w-7 h-7 rounded-full bg-amber-600"></button>
-            <button class="w-7 h-7 rounded-full bg-cyan-600"></button>
-            <button class="w-7 h-7 rounded-full bg-rose-600"></button>
+            <button type="button" data-color aria-label="Цвет" class="w-7 h-7 rounded-full bg-violet-600 ring-2 ring-zinc-900 ring-offset-2"></button>
+            <button type="button" data-color aria-label="Цвет" class="w-7 h-7 rounded-full bg-emerald-600"></button>
+            <button type="button" data-color aria-label="Цвет" class="w-7 h-7 rounded-full bg-blue-600"></button>
+            <button type="button" data-color aria-label="Цвет" class="w-7 h-7 rounded-full bg-amber-600"></button>
+            <button type="button" data-color aria-label="Цвет" class="w-7 h-7 rounded-full bg-cyan-600"></button>
+            <button type="button" data-color aria-label="Цвет" class="w-7 h-7 rounded-full bg-rose-600"></button>
           </div>
         </div>
         <div class="rounded-xl border border-black/5 p-3 bg-zinc-50">
@@ -1449,7 +1452,7 @@
       </div>
       <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
         <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
+        <button type="button" data-modal-submit class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
       </div>
     </div>
   </div>
@@ -1458,39 +1461,50 @@
 <div id="roadmap-modal" class="fixed inset-0 z-50 hidden">
   <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
   <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
-    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-y-auto">
-      <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
-        <h3 class="text-sm font-semibold tracking-tight">Создать дорожную карту</h3>
-        <button data-close-modal class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-2xl pointer-events-auto max-h-[90vh] overflow-y-auto">
+      <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between gap-3 sticky top-0 bg-white/95 backdrop-blur z-10 rounded-t-3xl">
+        <div class="min-w-0">
+          <h3 class="text-sm font-semibold tracking-tight">Создать дорожную карту</h3>
+          <p class="text-xs text-zinc-500 mt-0.5">Направления и работы нумеруются автоматически: 1.1, 1.2, 2.1…</p>
+        </div>
+        <button type="button" data-close-modal aria-label="Закрыть" class="w-8 h-8 shrink-0 rounded-full hover:bg-zinc-100 flex items-center justify-center">
           <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
-      <div class="p-5 sm:p-6">
-        <div class="mb-4">
-          <label class="block text-xs font-medium text-zinc-500 mb-2">Тип проекта</label>
-          <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-            <option>Интернет-магазин</option>
-            <option>Информационный сайт</option>
-            <option>Лендинг</option>
-            <option>B2B портал</option>
-            <option>Сайт услуг</option>
-          </select>
+      <div class="p-5 sm:p-6 space-y-4" data-rm-builder>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-medium text-zinc-500 mb-2">Тип проекта <span class="text-red-500">*</span></label>
+            <select data-rm-type required class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              <option value="ecommerce" selected>Интернет-магазин</option>
+              <option value="info">Информационный сайт</option>
+              <option value="landing">Лендинг</option>
+              <option value="b2b">B2B портал</option>
+              <option value="services">Сайт услуг</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-zinc-500 mb-2">Название <span class="text-red-500">*</span></label>
+            <input type="text" data-rm-name required placeholder="Например: Интернет-магазин · 6 месяцев" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+          </div>
         </div>
-        <div class="mb-4">
-          <label class="block text-xs font-medium text-zinc-500 mb-2">Название</label>
-          <input type="text" placeholder="Например: Базовая дорожная карта" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+        <div>
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Описание <span class="font-normal">— опционально</span></label>
+          <textarea rows="2" data-rm-desc placeholder="Для каких проектов эта карта" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40 resize-y"></textarea>
         </div>
-        <div class="mb-4">
-          <label class="block text-xs font-medium text-zinc-500 mb-2">Описание <span class="text-zinc-500 font-normal">— опционально</span></label>
-          <textarea rows="2" placeholder="Короткое описание" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></textarea>
+        <div class="flex flex-wrap items-baseline justify-between gap-2">
+          <span class="text-xs font-medium text-zinc-500">Направления и работы</span>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <span data-rm-total class="text-xs text-zinc-500 tabular-nums whitespace-nowrap"></span>
+            <button type="button" data-rm-fill class="text-xs font-medium text-accent hover:underline whitespace-nowrap">Заполнить из типового шаблона</button>
+          </div>
         </div>
-        <div class="rounded-xl border border-black/5 p-3 bg-zinc-50">
-          <p class="text-xs text-zinc-500">После создания откроется редактор, где можно добавить направления и работы.</p>
-        </div>
+        <div data-rm-list class="space-y-3"></div>
+        <button type="button" data-rm-add-dir class="w-full px-4 py-2.5 rounded-2xl border border-dashed border-zinc-300 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 transition">+ Направление</button>
       </div>
-      <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
-        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать и открыть</button>
+      <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white/95 backdrop-blur rounded-b-3xl">
+        <button type="button" data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
+        <button type="button" data-modal-submit class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать карту</button>
       </div>
     </div>
   </div>
@@ -1519,7 +1533,7 @@
         </div>
         <div class="mb-4">
           <label class="block text-xs font-medium text-zinc-500 mb-2">Название</label>
-          <input type="text" value="Дорожная карта · Интернет-магазин" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+          <input type="text" required value="Дорожная карта · Интернет-магазин" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
         </div>
         <div class="mb-4">
           <label class="block text-xs font-medium text-zinc-500 mb-2">Описание</label>
@@ -1531,7 +1545,7 @@
       </div>
       <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
         <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
+        <button type="button" data-modal-submit data-submit-toast="Дорожная карта сохранена" class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
       </div>
     </div>
   </div>
@@ -1554,7 +1568,7 @@
         </div>
         <div class="mb-4">
           <label class="block text-xs font-medium text-zinc-500 mb-2">Название направления</label>
-          <input type="text" placeholder="Например: Аналитика" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+          <input type="text" data-dir-name required placeholder="Например: Аналитика" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
         </div>
         <div class="rounded-xl border border-black/5 p-3 bg-zinc-50">
           <p class="text-xs text-zinc-500">Направление появится в конце списка. Внутри можно будет добавить работы.</p>
@@ -1562,7 +1576,7 @@
       </div>
       <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
         <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Добавить</button>
+        <button type="button" data-modal-submit data-submit-toast="Направление добавлено в карту" class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Добавить</button>
       </div>
     </div>
   </div>
@@ -1594,7 +1608,7 @@
         </div>
         <div class="mb-4">
           <label class="block text-xs font-medium text-zinc-500 mb-2">Название работы</label>
-          <input type="text" placeholder="Например: Проверка хлебных крошек" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+          <input type="text" required placeholder="Например: Проверка хлебных крошек" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
         </div>
         <div class="rounded-xl border border-black/5 p-3 bg-zinc-50">
           <p class="text-xs text-zinc-500">Работа появится в выбранном направлении и станет доступна для задач в планах месяца.</p>
@@ -1602,7 +1616,7 @@
       </div>
       <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
         <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Добавить</button>
+        <button type="button" data-modal-submit data-submit-toast="Работа добавлена в направление" class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Добавить</button>
       </div>
     </div>
   </div>
@@ -1611,40 +1625,83 @@
 <div id="month-modal" class="fixed inset-0 z-50 hidden">
   <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
   <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
-    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-y-auto">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-2xl pointer-events-auto max-h-[90vh] overflow-y-auto">
       <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
         <h3 class="text-sm font-semibold tracking-tight">Создать месячный план</h3>
-        <button data-close-modal class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
+        <button data-close-modal aria-label="Закрыть" class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
           <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
-      <div class="p-5 sm:p-6">
-        <div class="mb-4">
-          <label class="block text-xs font-medium text-zinc-500 mb-2">Тип проекта</label>
-          <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-            <option>Интернет-магазин</option>
-            <option>Информационный сайт</option>
-            <option>Лендинг</option>
-            <option disabled class="text-zinc-500">B2B портал — нет дорожной карты</option>
-            <option disabled class="text-zinc-500">Сайт услуг — нет дорожной карты</option>
-          </select>
-          <p class="text-xs text-zinc-500 mt-2">План собирается из работ карты выбранного типа.</p>
+      <div class="p-5 sm:p-6" data-plan-editor>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+          <div>
+            <label class="block text-xs font-medium text-zinc-500 mb-2">Тип проекта</label>
+            <select data-plan-type class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <option value="ecommerce" selected>Интернет-магазин</option>
+            <option value="info">Информационный сайт</option>
+            <option value="landing">Лендинг</option>
+            <option value="b2b">B2B портал</option>
+            <option value="services">Сайт услуг</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-zinc-500 mb-2">Название <span class="text-red-500">*</span></label>
+            <input type="text" data-plan-name required placeholder="Например: Месяц 5 · Рост" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-zinc-500 mb-2">Месяц проекта <span class="text-red-500">*</span></label>
+            <select data-plan-month required class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"><option value="1">Месяц 1 · старт</option><option value="2">Месяц 2</option><option value="3">Месяц 3</option><option value="4">Месяц 4</option><option value="5" selected>Месяц 5</option><option value="6">Месяц 6</option><option value="7">Месяц 7</option><option value="8">Месяц 8</option><option value="9">Месяц 9</option><option value="10">Месяц 10</option><option value="11">Месяц 11</option><option value="12">Месяц 12</option></select>
+          </div>
         </div>
-        <div class="mb-4">
-          <label class="block text-xs font-medium text-zinc-500 mb-2">Название</label>
-          <input type="text" placeholder="Например: Месяц 1 · Запуск магазина" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+        <div class="mb-5">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Описание <span class="font-normal">— опционально</span></label>
+          <textarea rows="2" placeholder="Короткое описание" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40 resize-y"></textarea>
         </div>
-        <div class="mb-4">
-          <label class="block text-xs font-medium text-zinc-500 mb-2">Описание <span class="text-zinc-500 font-normal">— опционально</span></label>
-          <textarea rows="2" placeholder="Короткое описание" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></textarea>
+
+        <div class="flex items-baseline justify-between gap-3 mb-2">
+          <span class="text-xs font-medium text-zinc-500">Задачи плана</span>
+          <span data-plan-total class="text-xs text-zinc-500 tabular-nums"></span>
         </div>
-        <div class="rounded-xl border border-black/5 p-3 bg-zinc-50">
-          <p class="text-xs text-zinc-500">После создания откроется редактор, где можно добавить задачи из дорожной карты или свободные задачи.</p>
+        <ul data-plan-list class="rounded-xl border border-zinc-200 divide-y divide-zinc-100 empty:hidden"></ul>
+        <div data-plan-empty class="rounded-xl border border-dashed border-zinc-300 px-4 py-6 text-center text-sm text-zinc-500">Пока пусто. Добавьте работы из дорожной карты или свободную задачу.</div>
+
+        <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <button type="button" data-plan-toggle="picker" class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">+ Из дорожной карты</button>
+          <button type="button" data-plan-toggle="free" class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">+ Свободная задача</button>
+        </div>
+
+        <div data-plan-picker class="hidden mt-3 rounded-xl border border-zinc-200 overflow-hidden">
+          <div class="p-2 border-b border-zinc-100 bg-zinc-50 flex items-center gap-2">
+            <input type="search" data-plan-search placeholder="Найти работу или номер, например 2.1" class="flex-1 min-w-0 px-3 py-1.5 rounded-lg border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <span data-plan-map class="hidden sm:inline text-xs text-zinc-500 whitespace-nowrap"></span>
+          </div>
+          <div data-plan-tree class="max-h-72 overflow-y-auto divide-y divide-zinc-100"></div>
+          <div class="px-3 py-2 border-t border-zinc-100 bg-zinc-50 flex items-center justify-between gap-2">
+            <span data-plan-picked class="text-xs text-zinc-500 tabular-nums">Выбрано: 0</span>
+            <div class="flex items-center gap-2">
+              <button type="button" data-plan-toggle="picker" class="px-3 py-1.5 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 hover:bg-black/5 transition">Отмена</button>
+              <button type="button" data-plan-add-picked class="px-3.5 py-1.5 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition disabled:opacity-40 disabled:cursor-not-allowed">Добавить выбранные</button>
+            </div>
+          </div>
+        </div>
+
+        <div data-plan-free class="hidden mt-3 rounded-xl border border-zinc-200 p-3 space-y-2">
+          <input type="text" data-free-title placeholder="Название свободной задачи" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+          <div class="flex flex-col sm:flex-row gap-2">
+            <select data-free-role class="flex-1 px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              <option value="seo">SEO-специалист</option>
+              <option value="pm">Менеджер проекта</option>
+              <option value="contractor">Подрядчик</option>
+            </select>
+            <input type="number" data-free-hours step="0.5" min="0" value="2" aria-label="Часы" class="sm:w-24 px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm tabular-nums focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <button type="button" data-free-add class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition shrink-0">Добавить</button>
+          </div>
+          <p class="text-xs text-zinc-500">Свободная задача не привязана к дорожной карте. В отчёте она попадёт в раздел «Прочие работы».</p>
         </div>
       </div>
       <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
         <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать и открыть</button>
+        <button type="button" data-modal-submit class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать план</button>
       </div>
     </div>
   </div>
@@ -1653,40 +1710,83 @@
 <div id="month-edit-modal" class="fixed inset-0 z-50 hidden">
   <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
   <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
-    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-y-auto">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-2xl pointer-events-auto max-h-[90vh] overflow-y-auto">
       <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
         <h3 class="text-sm font-semibold tracking-tight">Редактировать месячный план</h3>
-        <button data-close-modal class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
+        <button data-close-modal aria-label="Закрыть" class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
           <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
-      <div class="p-5 sm:p-6">
-        <div class="mb-4">
-          <label class="block text-xs font-medium text-zinc-500 mb-2">Тип проекта</label>
-          <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-            <option selected>Интернет-магазин</option>
-            <option>Информационный сайт</option>
-            <option>Лендинг</option>
-            <option disabled class="text-zinc-500">B2B портал — нет дорожной карты</option>
-            <option disabled class="text-zinc-500">Сайт услуг — нет дорожной карты</option>
-          </select>
-          <p class="text-xs text-zinc-500 mt-2">План собирается из работ карты выбранного типа.</p>
+      <div class="p-5 sm:p-6" data-plan-editor data-plan-preset="ecommerce-m1">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+          <div>
+            <label class="block text-xs font-medium text-zinc-500 mb-2">Тип проекта</label>
+            <select data-plan-type class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <option value="ecommerce" selected>Интернет-магазин</option>
+            <option value="info">Информационный сайт</option>
+            <option value="landing">Лендинг</option>
+            <option value="b2b">B2B портал</option>
+            <option value="services">Сайт услуг</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-zinc-500 mb-2">Название <span class="text-red-500">*</span></label>
+            <input type="text" data-plan-name required value="Месяц 1 · Запуск магазина" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-zinc-500 mb-2">Месяц проекта <span class="text-red-500">*</span></label>
+            <select data-plan-month required class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"><option value="1" selected>Месяц 1 · старт</option><option value="2">Месяц 2</option><option value="3">Месяц 3</option><option value="4">Месяц 4</option><option value="5">Месяц 5</option><option value="6">Месяц 6</option><option value="7">Месяц 7</option><option value="8">Месяц 8</option><option value="9">Месяц 9</option><option value="10">Месяц 10</option><option value="11">Месяц 11</option><option value="12">Месяц 12</option></select>
+          </div>
         </div>
-        <div class="mb-4">
-          <label class="block text-xs font-medium text-zinc-500 mb-2">Название</label>
-          <input type="text" value="Месяц 1 · Запуск магазина" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+        <div class="mb-5">
+          <label class="block text-xs font-medium text-zinc-500 mb-2">Описание <span class="font-normal">— опционально</span></label>
+          <textarea rows="2"  class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40 resize-y">Аудит, семантика, первые правки.</textarea>
         </div>
-        <div class="mb-4">
-          <label class="block text-xs font-medium text-zinc-500 mb-2">Описание</label>
-          <textarea rows="2" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">Аудит, семантика, первые правки.</textarea>
+
+        <div class="flex items-baseline justify-between gap-3 mb-2">
+          <span class="text-xs font-medium text-zinc-500">Задачи плана</span>
+          <span data-plan-total class="text-xs text-zinc-500 tabular-nums"></span>
         </div>
-        <div class="rounded-xl border border-black/5 p-3 bg-zinc-50">
-          <p class="text-xs text-zinc-500">Список задач редактируется прямо в карточке плана.</p>
+        <ul data-plan-list class="rounded-xl border border-zinc-200 divide-y divide-zinc-100 empty:hidden"></ul>
+        <div data-plan-empty class="rounded-xl border border-dashed border-zinc-300 px-4 py-6 text-center text-sm text-zinc-500">Пока пусто. Добавьте работы из дорожной карты или свободную задачу.</div>
+
+        <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <button type="button" data-plan-toggle="picker" class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">+ Из дорожной карты</button>
+          <button type="button" data-plan-toggle="free" class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">+ Свободная задача</button>
+        </div>
+
+        <div data-plan-picker class="hidden mt-3 rounded-xl border border-zinc-200 overflow-hidden">
+          <div class="p-2 border-b border-zinc-100 bg-zinc-50 flex items-center gap-2">
+            <input type="search" data-plan-search placeholder="Найти работу или номер, например 2.1" class="flex-1 min-w-0 px-3 py-1.5 rounded-lg border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <span data-plan-map class="hidden sm:inline text-xs text-zinc-500 whitespace-nowrap"></span>
+          </div>
+          <div data-plan-tree class="max-h-72 overflow-y-auto divide-y divide-zinc-100"></div>
+          <div class="px-3 py-2 border-t border-zinc-100 bg-zinc-50 flex items-center justify-between gap-2">
+            <span data-plan-picked class="text-xs text-zinc-500 tabular-nums">Выбрано: 0</span>
+            <div class="flex items-center gap-2">
+              <button type="button" data-plan-toggle="picker" class="px-3 py-1.5 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 hover:bg-black/5 transition">Отмена</button>
+              <button type="button" data-plan-add-picked class="px-3.5 py-1.5 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition disabled:opacity-40 disabled:cursor-not-allowed">Добавить выбранные</button>
+            </div>
+          </div>
+        </div>
+
+        <div data-plan-free class="hidden mt-3 rounded-xl border border-zinc-200 p-3 space-y-2">
+          <input type="text" data-free-title placeholder="Название свободной задачи" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+          <div class="flex flex-col sm:flex-row gap-2">
+            <select data-free-role class="flex-1 px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              <option value="seo">SEO-специалист</option>
+              <option value="pm">Менеджер проекта</option>
+              <option value="contractor">Подрядчик</option>
+            </select>
+            <input type="number" data-free-hours step="0.5" min="0" value="2" aria-label="Часы" class="sm:w-24 px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm tabular-nums focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <button type="button" data-free-add class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition shrink-0">Добавить</button>
+          </div>
+          <p class="text-xs text-zinc-500">Свободная задача не привязана к дорожной карте. В отчёте она попадёт в раздел «Прочие работы».</p>
         </div>
       </div>
       <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
         <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
+        <button type="button" data-modal-submit class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
       </div>
     </div>
   </div>
@@ -1712,7 +1812,7 @@
       </div>
       <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
         <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-        <button data-close-modal data-toast="Бизнес-процесс сохранён" class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
+        <button type="button" data-modal-submit class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
       </div>
     </div>
   </div>
@@ -1720,54 +1820,241 @@
 
 <script>
 
-  const monthTypeBtns = document.querySelectorAll('.month-type-btn');
-  const monthPanels = document.querySelectorAll('[data-month-panel]');
-  monthTypeBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (btn.disabled) return;
-      const type = btn.dataset.monthType;
-      monthTypeBtns.forEach(b => {
-        if (b.disabled) return;
-        const active = b.dataset.monthType === type;
-        b.classList.toggle('bg-accent', active);
-        b.classList.toggle('text-white', active);
-        b.classList.toggle('bg-white', !active);
-        b.classList.toggle('border', !active);
-        b.classList.toggle('border-zinc-200', !active);
-        b.classList.toggle('text-zinc-600', !active);
-      });
-      monthPanels.forEach(p => p.classList.toggle('hidden', p.dataset.monthPanel !== type));
-    });
-  });
-
-
-  const worksByDirection = {
-    audit:          ['Аудит технический', 'Аудит коммерческих факторов', 'Аудит ассортимента', 'Конкурентный анализ'],
-    semantics:      ['Сбор маркеров', 'Сбор семантики', 'Кластеризация', 'Распределение по страницам'],
-    internal:       ['Оптимизация метаданных', 'Оптимизация текстов', 'Перелинковка'],
-    external:       ['Поиск подходящих конкурентов', 'Сбор ссылочного профиля конкурентов', 'Стратегия по наращиванию ссылок'],
-    promotion:      ['Оптимизация метаданных', 'Написание и публикация статей', 'Перелинковка статей', 'Внешние ссылки'],
-    optimization:   ['Оптимизация метаданных', 'Оптимизация текстов и заголовков', 'Микроразметка']
+  /* Дорожные карты по типам проекта: направление N, работа N.M. Из них собираются месячные планы. */
+  const ROADMAPS = {
+    ecommerce: [
+      ['Аудит', [['Аудит технический', 'seo', 8], ['Аудит коммерческих факторов', 'seo', 6], ['Аудит ассортимента', 'seo', 4], ['Конкурентный анализ', 'seo', 4]]],
+      ['Семантика', [['Сбор маркеров', 'seo', 4], ['Сбор семантики', 'seo', 10], ['Кластеризация', 'seo', 6], ['Распределение по страницам', 'seo', 4]]],
+      ['Внутренняя оптимизация', [['Оптимизация метаданных', 'seo', 4], ['Оптимизация текстов', 'contractor', 4], ['Перелинковка', 'seo', 4]]],
+      ['Внешняя оптимизация', [['Поиск подходящих конкурентов', 'seo', 4], ['Сбор ссылочного профиля конкурентов', 'contractor', 4], ['Стратегия по наращиванию ссылок', 'contractor', 4]]]
+    ],
+    info: [
+      ['Аудит', [['Аудит технический', 'seo', 6], ['Аудит контента', 'seo', 6], ['Аудит поведенческих факторов', 'seo', 4]]],
+      ['Семантика', [['Сбор маркеров', 'seo', 4], ['Сбор семантики', 'seo', 8], ['Кластеризация', 'seo', 6], ['Контент-план', 'contractor', 6]]],
+      ['Продвижение', [['Внутренняя перелинковка', 'seo', 4], ['Внешние упоминания', 'seo', 4], ['Отчёт по видимости', 'seo', 2]]]
+    ],
+    landing: [
+      ['Аудит', [['Аудит технический', 'seo', 4], ['Аудит конверсии', 'seo', 4], ['Проверка скорости загрузки', 'seo', 2]]],
+      ['Оптимизация', [['Микроразметка', 'seo', 3], ['Скорость посадочной', 'seo', 4], ['Тексты оффера', 'contractor', 4]]]
+    ],
+    b2b: [
+      ['Аудит', [['Аудит технический', 'seo', 8], ['Аудит коммерческих факторов', 'seo', 6]]],
+      ['Семантика', [['Сбор семантики', 'seo', 10], ['Кластеризация', 'seo', 6]]],
+      ['Запуск', [['Доступы к GSC и Метрике', 'pm', 2], ['Тексты отраслевых страниц', 'contractor', 8]]]
+    ],
+    services: [
+      ['Аудит', [['Аудит технический', 'seo', 6], ['Аудит конверсии', 'seo', 4]]],
+      ['Семантика', [['Сбор семантики', 'seo', 8], ['Распределение по страницам', 'seo', 4]]],
+      ['Страницы', [['Тексты услуг', 'contractor', 8], ['Перелинковка', 'seo', 4]]]
+    ]
+  };
+  const TYPE_NAME = { ecommerce: 'Интернет-магазин', info: 'Информационный сайт', landing: 'Лендинг', b2b: 'B2B портал', services: 'Сайт услуг' };
+  const ROLE_TAG = {
+    seo:        ['SEO-специалист', 'bg-emerald-50 text-emerald-700'],
+    pm:         ['Менеджер проекта', 'bg-amber-50 text-amber-700'],
+    contractor: ['Подрядчик', 'bg-zinc-100 text-zinc-700']
+  };
+  const PLAN_PRESETS = {
+    'ecommerce-m1': [
+      { code: '1.1', hours: 8 }, { code: '2.2', hours: 10 }, { code: '3.3', hours: 4 },
+      { free: 'Настроить доступы к GSC и Метрике', role: 'pm', hours: 4 }
+    ]
   };
 
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const hoursText = h => String(Math.round(h * 100) / 100).replace('.', ',');
+  const roleTag = r => '<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap shrink-0 ' + ROLE_TAG[r][1] + '">' + ROLE_TAG[r][0] + '</span>';
+  const plural = (n, one, few, many) => {
+    const m10 = n % 10, m100 = n % 100;
+    return n + ' ' + (m10 === 1 && m100 !== 11 ? one : (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? few : many));
+  };
+
+  function roadmapWorks(type) {
+    const out = [];
+    (ROADMAPS[type] || []).forEach(([dir, works], d) => works.forEach(([title, role, hours], w) => {
+      out.push({ code: (d + 1) + '.' + (w + 1), dir, dirCode: d + 1, title, role, hours });
+    }));
+    return out;
+  }
+  const findWork = (type, code) => roadmapWorks(type).find(w => w.code === code);
+
+  /* ---------- Редактор задач месячного плана (модалки создания и редактирования) ---------- */
+  document.querySelectorAll('[data-plan-editor]').forEach(editor => {
+    const typeSel = editor.querySelector('[data-plan-type]');
+    const list = editor.querySelector('[data-plan-list]');
+    const empty = editor.querySelector('[data-plan-empty]');
+    const total = editor.querySelector('[data-plan-total]');
+    const picker = editor.querySelector('[data-plan-picker]');
+    const tree = editor.querySelector('[data-plan-tree]');
+    const search = editor.querySelector('[data-plan-search]');
+    const picked = editor.querySelector('[data-plan-picked]');
+    const addPicked = editor.querySelector('[data-plan-add-picked]');
+    const freeBox = editor.querySelector('[data-plan-free]');
+    let items = [];
+
+    function renderList() {
+      items.sort((a, b) => (a.code ? 0 : 1) - (b.code ? 0 : 1) || (a.code || '').localeCompare(b.code || '', 'ru', { numeric: true }));
+      list.innerHTML = items.map((it, i) => '<li class="px-3 py-2.5 flex items-center gap-3 text-sm">' +
+        (it.code
+          ? '<span class="w-9 shrink-0 text-xs font-medium tabular-nums text-zinc-500">' + it.code + '</span>'
+          : '<span class="w-9 shrink-0 text-[10px] font-medium text-zinc-400">своб.</span>') +
+        '<div class="flex-1 min-w-0"><div class="truncate">' + esc(it.title) + '</div>' +
+        '<div class="text-xs text-zinc-500 truncate">' + (it.code ? esc(it.dir) : 'Не привязана к карте') + '</div></div>' +
+        '<span class="hidden sm:inline-flex">' + roleTag(it.role) + '</span>' +
+        '<label class="flex items-center gap-1 shrink-0"><input type="number" step="0.5" min="0" value="' + it.hours + '" data-plan-hours="' + i + '" aria-label="Часы" class="w-16 px-2 py-1 rounded-lg border border-zinc-200 text-xs tabular-nums text-right focus:outline-none focus:ring-4 focus:ring-accent/15"><span class="text-xs text-zinc-500">ч</span></label>' +
+        '<button type="button" data-plan-remove="' + i + '" aria-label="Убрать из плана" class="w-7 h-7 rounded-full text-zinc-400 hover:text-red-600 hover:bg-red-50 flex items-center justify-center shrink-0 transition">' +
+        '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></li>').join('');
+      empty.classList.toggle('hidden', items.length > 0);
+      const h = items.reduce((s, it) => s + (parseFloat(it.hours) || 0), 0);
+      total.textContent = plural(items.length, 'задача', 'задачи', 'задач') + ' · ' + hoursText(h) + ' ч';
+      if (!picker.classList.contains('hidden')) renderTree();
+    }
+
+    function renderTree() {
+      const q = search.value.trim().toLowerCase();
+      const inPlan = new Set(items.filter(i => i.code).map(i => i.code));
+      const type = typeSel.value;
+      editor.querySelector('[data-plan-map]').textContent = 'Карта · ' + TYPE_NAME[type];
+      const html = (ROADMAPS[type] || []).map(([dir, works], d) => {
+        const rows = works.map(([title, role], w) => {
+          const code = (d + 1) + '.' + (w + 1);
+          if (q && (code + ' ' + title + ' ' + dir).toLowerCase().indexOf(q) === -1) return '';
+          const has = inPlan.has(code);
+          return '<label class="flex items-center gap-3 px-3 py-2 text-sm ' + (has ? 'text-zinc-400 cursor-default' : 'cursor-pointer hover:bg-zinc-50') + '">' +
+            '<input type="checkbox" data-pick="' + code + '"' + (has ? ' checked disabled' : '') + ' class="w-4 h-4 rounded border-zinc-300">' +
+            '<span class="w-8 shrink-0 text-xs font-medium tabular-nums ' + (has ? '' : 'text-zinc-500') + '">' + code + '</span>' +
+            '<span class="flex-1 min-w-0 truncate">' + esc(title) + '</span>' +
+            (has ? '<span class="text-[11px] shrink-0">в плане</span>' : roleTag(role)) + '</label>';
+        }).join('');
+        if (!rows) return '';
+        return '<div><div class="px-3 py-2 bg-zinc-50/70 flex items-center justify-between">' +
+          '<span class="text-xs font-semibold text-zinc-700">' + (d + 1) + ' · ' + esc(dir) + '</span>' +
+          '<button type="button" data-pick-all="' + (d + 1) + '" class="text-[11px] text-zinc-500 hover:text-zinc-900 transition">Выбрать все</button></div>' + rows + '</div>';
+      }).join('');
+      tree.innerHTML = html || '<div class="px-3 py-6 text-center text-sm text-zinc-500">Ничего не найдено. Можно добавить свободную задачу.</div>';
+      countPicked();
+    }
+
+    function countPicked() {
+      const n = tree.querySelectorAll('[data-pick]:checked:not(:disabled)').length;
+      picked.textContent = 'Выбрано: ' + n;
+      addPicked.disabled = n === 0;
+      addPicked.textContent = n ? 'Добавить ' + plural(n, 'работу', 'работы', 'работ') : 'Добавить выбранные';
+    }
+
+    function toggle(which) {
+      const open = which === 'picker' ? picker : freeBox;
+      const other = which === 'picker' ? freeBox : picker;
+      const show = open.classList.contains('hidden');
+      other.classList.add('hidden');
+      open.classList.toggle('hidden', !show);
+      if (show && which === 'picker') { search.value = ''; renderTree(); search.focus(); }
+      if (show && which === 'free') freeBox.querySelector('[data-free-title]').focus();
+    }
+
+    editor.addEventListener('click', e => {
+      const t = e.target.closest('[data-plan-toggle]');
+      if (t) return toggle(t.dataset.planToggle);
+      const all = e.target.closest('[data-pick-all]');
+      if (all) {
+        tree.querySelectorAll('[data-pick^="' + all.dataset.pickAll + '."]:not(:disabled)').forEach(c => { c.checked = true; });
+        return countPicked();
+      }
+      const rm = e.target.closest('[data-plan-remove]');
+      if (rm) { items.splice(+rm.dataset.planRemove, 1); return renderList(); }
+      if (e.target.closest('[data-plan-add-picked]')) {
+        const type = typeSel.value;
+        const codes = Array.from(tree.querySelectorAll('[data-pick]:checked:not(:disabled)')).map(c => c.dataset.pick);
+        codes.forEach(code => { const w = findWork(type, code); items.push({ code, dir: w.dir, title: w.title, role: w.role, hours: w.hours }); });
+        picker.classList.add('hidden');
+        renderList();
+        window.SEOApp.toast('В план добавлено: ' + plural(codes.length, 'работа', 'работы', 'работ'));
+        return;
+      }
+      if (e.target.closest('[data-free-add]')) {
+        const title = freeBox.querySelector('[data-free-title]');
+        if (!title.value.trim()) { title.focus(); return window.SEOApp.toast('Укажите название задачи'); }
+        items.push({ title: title.value.trim(), role: freeBox.querySelector('[data-free-role]').value, hours: parseFloat(freeBox.querySelector('[data-free-hours]').value) || 0 });
+        title.value = '';
+        renderList();
+      }
+    });
+    tree.addEventListener('change', countPicked);
+    search.addEventListener('input', renderTree);
+    list.addEventListener('input', e => {
+      const h = e.target.closest('[data-plan-hours]');
+      if (!h) return;
+      items[+h.dataset.planHours].hours = parseFloat(h.value) || 0;
+      const sum = items.reduce((s, it) => s + (parseFloat(it.hours) || 0), 0);
+      total.textContent = plural(items.length, 'задача', 'задачи', 'задач') + ' · ' + hoursText(sum) + ' ч';
+    });
+    typeSel.addEventListener('change', () => {
+      const dropped = items.filter(i => i.code).length;
+      items = items.filter(i => !i.code);
+      renderList();
+      if (!picker.classList.contains('hidden')) renderTree();
+      if (dropped) window.SEOApp.toast('Другая дорожная карта: работы прежней карты убраны из плана');
+    });
+
+    const preset = PLAN_PRESETS[editor.dataset.planPreset] || [];
+    items = preset.map(p => {
+      if (p.free) return { title: p.free, role: p.role, hours: p.hours };
+      const w = findWork(typeSel.value, p.code);
+      return { code: p.code, dir: w.dir, title: w.title, role: w.role, hours: p.hours };
+    });
+    renderList();
+  });
+
+  document.querySelectorAll('[data-tab-panel="month"] [data-seg-panel] li > div > span.w-32').forEach(label => {
+    const type = label.closest('[data-seg-panel]').dataset.segPanel;
+    const title = label.nextElementSibling ? label.nextElementSibling.textContent.trim() : '';
+    const w = roadmapWorks(type).find(x => x.title === title);
+    if (w) label.textContent = w.code + ' · ' + label.textContent.trim();
+  });
+
+  /* ---------- Быстрое добавление задачи прямо в карточке плана ---------- */
   document.querySelectorAll('[data-direction]').forEach(dirSel => {
     const form = dirSel.closest('li');
+    const ul = form.parentElement;
+    const type = dirSel.closest('[data-seg-panel]').dataset.segPanel;
     const workSel = form.querySelector('[data-works]');
     const freeInput = form.querySelector('[data-free]');
+    const hoursInput = form.querySelector('input[type="number"]');
+    dirSel.innerHTML = (ROADMAPS[type] || []).map(([dir], d) => '<option value="' + (d + 1) + '">' + (d + 1) + ' · ' + esc(dir) + '</option>').join('') +
+      '<option value="free">— Свободная задача —</option>';
     function update() {
-      const dir = dirSel.value;
-      if (dir === 'free') {
-        workSel.classList.add('hidden');
-        freeInput.classList.remove('hidden');
-      } else {
-        freeInput.classList.add('hidden');
-        workSel.classList.remove('hidden');
-        const works = worksByDirection[dir] || [];
-        workSel.innerHTML = works.map(w => `<option>${w}</option>`).join('');
+      const free = dirSel.value === 'free';
+      workSel.classList.toggle('hidden', free);
+      freeInput.classList.toggle('hidden', !free);
+      if (!free) {
+        workSel.innerHTML = roadmapWorks(type).filter(w => String(w.dirCode) === dirSel.value)
+          .map(w => '<option value="' + w.code + '">' + w.code + ' ' + esc(w.title) + '</option>').join('');
       }
     }
     dirSel.addEventListener('change', update);
     update();
+    form.querySelector('button').addEventListener('click', () => {
+      const free = dirSel.value === 'free';
+      const w = free ? null : findWork(type, workSel.value);
+      const title = free ? freeInput.value.trim() : w.title;
+      if (!title) { freeInput.focus(); return window.SEOApp.toast('Укажите название задачи'); }
+      const hours = parseFloat(hoursInput.value) || (w ? w.hours : 0);
+      const li = document.createElement('li');
+      li.className = 'px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3 text-sm';
+      li.innerHTML = '<div class="flex items-center gap-3 min-w-0">' +
+        '<span class="hidden sm:inline text-xs text-zinc-500 w-32 shrink-0">' + (free ? '— Не привязано —' : w.code + ' · ' + esc(w.dir)) + '</span>' +
+        '<span class="truncate">' + esc(title) + '</span>' + roleTag(free ? 'seo' : w.role) + '</div>' +
+        '<div class="flex items-center gap-3 shrink-0"><span class="text-xs text-zinc-500 tabular-nums">' + hoursText(hours) + ' ч</span>' +
+        '<button class="text-xs text-zinc-500 hover:text-red-600 transition" data-row-remove>Удалить</button></div>';
+      ul.insertBefore(li, form);
+      freeInput.value = '';
+      hoursInput.value = '';
+      window.SEOApp.toast('Задача добавлена в план');
+    });
+  });
+  document.addEventListener('click', e => {
+    const rm = e.target.closest('[data-row-remove]');
+    if (rm) rm.closest('li').remove();
   });
 
   const workflowProcesses = {
@@ -1841,6 +2128,224 @@
   });
 
   fillWorkflow('Семантика');
+
+  /* Сохранение процесса обновляет статусы в карточке направления */
+  document.getElementById('workflow-modal').addEventListener('modal:submit', e => {
+    const name = workflowName.textContent.trim();
+    const statuses = Array.from(workflowList.querySelectorAll('[data-status-label]')).map(s => s.textContent.trim());
+    if (statuses.length < 2) {
+      e.preventDefault();
+      return window.SEOApp.toast('В процессе нужно минимум два статуса');
+    }
+    workflowProcesses[name] = statuses;
+    document.querySelectorAll('[data-tab-panel="workflows"] section').forEach(sec => {
+      const h = sec.querySelector('h3');
+      if (!h || h.textContent.trim() !== name) return;
+      sec.querySelector('.flex-wrap').innerHTML = statuses.map(st => '<span class="px-2 py-0.5 rounded-full bg-zinc-100 text-xs text-zinc-600">' + esc(st) + '</span>').join('');
+    });
+    e.detail.toast = 'Бизнес-процесс «' + name + '» сохранён · ' + plural(statuses.length, 'статус', 'статуса', 'статусов');
+  });
+  workflowNew.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); document.querySelector('[data-workflow-add]').click(); }
+  });
+
+  /* Месячные планы: без задач план не сохраняется */
+  ['month-modal', 'month-edit-modal'].forEach(id => {
+    const modal = document.getElementById(id);
+    modal.addEventListener('modal:submit', e => {
+      const n = modal.querySelectorAll('[data-plan-list] > li').length;
+      if (!n) {
+        e.preventDefault();
+        return window.SEOApp.toast('Добавьте в план хотя бы одну задачу');
+      }
+      const month = modal.querySelector('[data-plan-month]');
+      const type = modal.querySelector('[data-plan-type]');
+      e.detail.toast = (id === 'month-modal' ? 'План создан: ' : 'План сохранён: ') + month.options[month.selectedIndex].text.replace(' · старт', '') + ' · ' + TYPE_NAME[type.value] + ' · ' + plural(n, 'задача', 'задачи', 'задач');
+    });
+  });
+
+  /* ---------- Конструктор дорожной карты: направления N, работы N.M ---------- */
+  (function () {
+    const modal = document.getElementById('roadmap-modal');
+    const list = modal.querySelector('[data-rm-list]');
+    const typeSel = modal.querySelector('[data-rm-type]');
+    const total = modal.querySelector('[data-rm-total]');
+    const FIELD_SM = 'px-3 py-1.5 rounded-lg border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40';
+    const ROLE_OPTS = Object.keys(ROLE_TAG).map(r => '<option value="' + r + '">' + ROLE_TAG[r][0] + '</option>').join('');
+
+    function workRow(w) {
+      const li = document.createElement('li');
+      li.className = 'flex flex-wrap sm:flex-nowrap items-center gap-2 px-3 py-2';
+      li.innerHTML = '<span data-rm-code class="w-9 shrink-0 text-xs font-medium tabular-nums text-zinc-500"></span>' +
+        '<input type="text" data-rm-work placeholder="Название работы" class="flex-1 min-w-[10rem] ' + FIELD_SM + '">' +
+        '<select data-rm-role class="w-40 ' + FIELD_SM + '">' + ROLE_OPTS + '</select>' +
+        '<input type="number" data-rm-hours min="0" step="0.5" placeholder="ч" aria-label="Часы" class="w-16 tabular-nums ' + FIELD_SM + '">' +
+        '<button type="button" data-rm-del-work aria-label="Удалить работу" class="w-7 h-7 shrink-0 rounded-full text-zinc-400 hover:text-red-600 hover:bg-red-50 transition">×</button>';
+      if (w) {
+        li.querySelector('[data-rm-work]').value = w[0];
+        li.querySelector('[data-rm-role]').value = w[1];
+        li.querySelector('[data-rm-hours]').value = w[2];
+      }
+      return li;
+    }
+    function dirBlock(d) {
+      const box = document.createElement('div');
+      box.dataset.rmDir = '';
+      box.className = 'rounded-2xl border border-zinc-200 overflow-hidden';
+      box.innerHTML = '<div class="px-3 py-2 bg-zinc-50 flex items-center gap-2">' +
+        '<span data-rm-num class="w-9 shrink-0 text-sm font-semibold tabular-nums"></span>' +
+        '<input type="text" data-rm-dir-name placeholder="Направление, например «Аудит»" class="flex-1 min-w-0 font-medium ' + FIELD_SM + '">' +
+        '<button type="button" data-rm-move="-1" aria-label="Выше" class="w-7 h-7 shrink-0 rounded-full text-zinc-500 hover:bg-white transition">↑</button>' +
+        '<button type="button" data-rm-move="1" aria-label="Ниже" class="w-7 h-7 shrink-0 rounded-full text-zinc-500 hover:bg-white transition">↓</button>' +
+        '<button type="button" data-rm-del-dir class="px-2 text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button></div>' +
+        '<ul data-rm-works class="divide-y divide-zinc-100"></ul>' +
+        '<div class="px-3 py-2 border-t border-zinc-100"><button type="button" data-rm-add-work class="text-xs font-medium text-accent hover:underline">+ Работа</button></div>';
+      const ul = box.querySelector('[data-rm-works]');
+      if (d) {
+        box.querySelector('[data-rm-dir-name]').value = d[0];
+        d[1].forEach(w => ul.appendChild(workRow(w)));
+      } else ul.appendChild(workRow());
+      return box;
+    }
+    function renumber() {
+      let works = 0, hours = 0;
+      const dirs = Array.from(list.children);
+      dirs.forEach((box, d) => {
+        box.querySelector('[data-rm-num]').textContent = (d + 1) + '.';
+        box.querySelector('[data-rm-move="-1"]').disabled = d === 0;
+        box.querySelector('[data-rm-move="1"]').disabled = d === dirs.length - 1;
+        box.querySelectorAll('[data-rm-move]').forEach(b => b.classList.toggle('opacity-30', b.disabled));
+        box.querySelectorAll('[data-rm-works] > li').forEach((li, w) => {
+          li.querySelector('[data-rm-code]').textContent = (d + 1) + '.' + (w + 1);
+          works++;
+          hours += parseFloat(li.querySelector('[data-rm-hours]').value) || 0;
+        });
+      });
+      total.textContent = plural(dirs.length, 'направление', 'направления', 'направлений') + ' · ' + plural(works, 'работа', 'работы', 'работ') + ' · ' + hoursText(hours) + ' ч';
+    }
+    function load(type) {
+      list.replaceChildren.apply(list, (ROADMAPS[type] || []).map(dirBlock));
+      renumber();
+    }
+    function reset() {
+      list.replaceChildren(dirBlock());
+      modal.querySelector('[data-rm-name]').value = '';
+      modal.querySelector('[data-rm-desc]').value = '';
+      renumber();
+    }
+    reset();
+
+    modal.addEventListener('click', e => {
+      const t = e.target;
+      if (t.closest('[data-rm-add-dir]')) { const b = dirBlock(); list.appendChild(b); renumber(); b.querySelector('input').focus(); return; }
+      if (t.closest('[data-rm-fill]')) { load(typeSel.value); return window.SEOApp.toast('Загружен шаблон «' + TYPE_NAME[typeSel.value] + '» — поправьте под проект'); }
+      const box = t.closest('[data-rm-dir]');
+      if (!box) return;
+      if (t.closest('[data-rm-add-work]')) { const li = workRow(); box.querySelector('[data-rm-works]').appendChild(li); renumber(); li.querySelector('input').focus(); }
+      else if (t.closest('[data-rm-del-work]')) { t.closest('li').remove(); renumber(); }
+      else if (t.closest('[data-rm-del-dir]')) { box.remove(); renumber(); }
+      else if (t.closest('[data-rm-move]')) {
+        const dir = +t.closest('[data-rm-move]').dataset.rmMove;
+        if (dir < 0 && box.previousElementSibling) list.insertBefore(box, box.previousElementSibling);
+        if (dir > 0 && box.nextElementSibling) list.insertBefore(box.nextElementSibling, box);
+        renumber();
+      }
+    });
+    modal.addEventListener('input', e => { if (e.target.matches('[data-rm-hours]')) renumber(); });
+    typeSel.addEventListener('change', () => {
+      const name = modal.querySelector('[data-rm-name]');
+      if (!name.value) name.placeholder = TYPE_NAME[typeSel.value] + ' · 6 месяцев';
+    });
+
+    modal.addEventListener('modal:submit', e => {
+      const dirs = Array.from(list.children).map(box => ({
+        name: box.querySelector('[data-rm-dir-name]').value.trim(),
+        works: Array.from(box.querySelectorAll('[data-rm-works] > li')).map(li => ({
+          title: li.querySelector('[data-rm-work]').value.trim(),
+          role: li.querySelector('[data-rm-role]').value,
+          hours: parseFloat(li.querySelector('[data-rm-hours]').value) || 0
+        })).filter(w => w.title)
+      }));
+      const bad = dirs.findIndex(d => !d.name || !d.works.length);
+      if (!dirs.length || bad !== -1) {
+        e.preventDefault();
+        const box = list.children[bad === -1 ? 0 : bad];
+        if (box) box.classList.add('ring-4', 'ring-red-100', '!border-red-300');
+        setTimeout(() => box && box.classList.remove('ring-4', 'ring-red-100', '!border-red-300'), 1600);
+        return window.SEOApp.toast(!dirs.length ? 'Добавьте хотя бы одно направление' : 'У направления ' + (bad + 1) + ' нужно название и хотя бы одна работа');
+      }
+      const name = modal.querySelector('[data-rm-name]').value.trim();
+      const works = dirs.reduce((n, d) => n + d.works.length, 0);
+      const details = document.createElement('details');
+      details.open = true;
+      details.className = 'bg-white rounded-2xl shadow-card overflow-hidden group ring-2 ring-accent/20';
+      details.innerHTML = '<summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">' +
+        '<div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 min-w-0"><span class="text-sm font-medium truncate">' + esc(name) + '</span>' +
+        '<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 w-fit shrink-0">Новая · ' + TYPE_NAME[typeSel.value] + '</span></div>' +
+        '<div class="text-xs text-zinc-500 tabular-nums shrink-0">' + plural(dirs.length, 'направление', 'направления', 'направлений') + ' · ' + plural(works, 'работа', 'работы', 'работ') + '</div></summary>' +
+        '<div class="px-4 lg:px-6 pb-4 space-y-3 border-t border-zinc-100 pt-4">' + dirs.map((d, i) =>
+          '<div class="rounded-xl border border-black/5 overflow-hidden"><div class="px-3 lg:px-4 py-2.5 bg-zinc-50 text-sm font-medium">' + (i + 1) + '. ' + esc(d.name) + '</div>' +
+          '<ul class="divide-y divide-zinc-50 text-sm">' + d.works.map((w, j) =>
+            '<li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3"><span class="truncate"><span class="text-xs text-zinc-500 tabular-nums mr-2">' + (i + 1) + '.' + (j + 1) + '</span>' + esc(w.title) + '</span>' + roleTag(w.role) + '</li>').join('') +
+          '</ul></div>').join('') + '</div>';
+      const panel = document.querySelector('[data-tab-panel="roadmap"] .flex.flex-col');
+      if (panel) panel.prepend(details);
+      e.detail.toast = 'Дорожная карта «' + name + '» создана · ' + plural(works, 'работа', 'работы', 'работ');
+      setTimeout(reset, 300);
+    });
+  })();
+
+  /* ---------- Цвет маркера типа проекта ---------- */
+  document.addEventListener('click', e => {
+    const dot = e.target.closest('[data-color]');
+    if (!dot) return;
+    dot.parentElement.querySelectorAll('[data-color]').forEach(b => b.classList.remove('ring-2', 'ring-zinc-900', 'ring-offset-2'));
+    dot.classList.add('ring-2', 'ring-zinc-900', 'ring-offset-2');
+  });
+  ['type-modal', 'type-edit-modal'].forEach(id => {
+    const m = document.getElementById(id);
+    if (!m) return;
+    m.addEventListener('modal:submit', e => {
+      const name = m.querySelector('input[type="text"]').value.trim();
+      e.detail.toast = id === 'type-modal' ? 'Тип проекта «' + name + '» создан' : 'Тип проекта «' + name + '» сохранён';
+    });
+  });
+
+  /* ---------- Удалить и Дублировать в карточках шаблонов ---------- */
+  document.querySelectorAll('button').forEach(btn => {
+    const label = btn.textContent.trim();
+    if (btn.closest('[id$="-modal"]') || Object.keys(btn.dataset).length) return;
+    if (label === 'Удалить') {
+      const li = btn.closest('li');
+      const dirBox = !li && btn.closest('.rounded-xl.border');
+      const card = btn.closest('details, section');
+      const target = li || dirBox || card;
+      if (!target) return;
+      const title = (target.querySelector('.text-sm.font-medium, .truncate, span') || {}).textContent || '';
+      const kind = li ? (btn.closest('[data-tab-panel="types"]') ? 'тип проекта' : 'работу') : (dirBox ? 'направление' : 'шаблон');
+      btn.dataset.confirm = 'Удалить ' + kind + (title.trim() ? ' «' + title.trim().replace(/^\d+(\.\d+)? · /, '') + '»' : '') + '?';
+      btn.dataset.confirmText = dirBox ? 'Вместе с направлением удалятся его работы. Задачи в действующих проектах останутся.' : 'Уже созданные проекты и задачи не изменятся.';
+      btn.dataset.confirmToast = 'Удалено';
+      const marker = 'rm' + Math.random().toString(36).slice(2, 8);
+      target.dataset.removeId = marker;
+      btn.dataset.confirmRemove = '[data-remove-id="' + marker + '"]';
+    } else if (label === 'Дублировать') {
+      btn.type = 'button';
+      btn.addEventListener('click', () => {
+        const card = btn.closest('details');
+        if (!card) return;
+        const copy = card.cloneNode(true);
+        const title = copy.querySelector('summary .text-sm.font-medium');
+        if (title) title.textContent = title.textContent.trim() + ' (копия)';
+        copy.querySelectorAll('[data-remove-id]').forEach(el => { el.dataset.removeId += 'c'; });
+        copy.querySelectorAll('[data-confirm-remove]').forEach(b => { b.dataset.confirmRemove = b.dataset.confirmRemove.replace('"]', 'c"]'); });
+        copy.classList.add('ring-2', 'ring-accent/20');
+        card.after(copy);
+        copy.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        window.SEOApp.toast('Создана копия: ' + (title ? title.textContent : 'шаблон'));
+      });
+    }
+  });
 </script>
 </body>
 </html>

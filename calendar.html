@@ -6,6 +6,7 @@
   <title>Календарь — SEO Control</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/app.js"></script>
+  <script src="assets/modals.js"></script>
 </head>
 <body class="bg-canvas text-ink antialiased">
 <div class="min-h-screen">
@@ -23,9 +24,9 @@
         </header>
         <div class="px-4 lg:px-8 py-2 border-t border-black/5 overflow-x-auto">
           <div class="inline-flex bg-zinc-100 rounded-full p-1">
-            <button data-tab="calendar" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium transition bg-white text-zinc-900 shadow-sm whitespace-nowrap">Календарь</button>
-            <button data-tab="notifications" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Уведомления</button>
-            <button data-tab="settings" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Настройки</button>
+            <button data-tab="calendar" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Календарь</button>
+            <button data-tab="notifications" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Уведомления</button>
+            <button data-tab="settings" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Настройки</button>
           </div>
         </div>
       </div>
@@ -40,12 +41,12 @@
             <div class="lg:col-span-2">
               <section class="bg-white rounded-2xl shadow-card overflow-hidden">
                 <div class="px-4 lg:px-6 py-4 flex items-center justify-between border-b border-zinc-100">
-                  <div class="flex items-center gap-2">
-                    <button class="w-8 h-8 rounded-full bg-white border border-zinc-200 text-zinc-500 hover:bg-zinc-50 flex items-center justify-center shrink-0">
+                  <div data-month-nav data-month-min="2025-01" data-month-max="2025-12" class="flex items-center gap-2">
+                    <button type="button" data-month-step="-1" aria-label="Предыдущий месяц" class="w-8 h-8 rounded-full bg-white border border-zinc-200 text-zinc-500 hover:bg-zinc-50 flex items-center justify-center shrink-0">
                       <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                     </button>
-                    <div class="px-3 lg:px-4 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium tabular-nums whitespace-nowrap">Июнь 2025</div>
-                    <button class="w-8 h-8 rounded-full bg-white border border-zinc-200 text-zinc-500 hover:bg-zinc-50 flex items-center justify-center shrink-0">
+                    <div data-month-label class="px-3 lg:px-4 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium tabular-nums whitespace-nowrap">Июнь 2025</div>
+                    <button type="button" data-month-step="1" aria-label="Следующий месяц" class="w-8 h-8 rounded-full bg-white border border-zinc-200 text-zinc-500 hover:bg-zinc-50 flex items-center justify-center shrink-0">
                       <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </button>
                   </div>
@@ -60,7 +61,7 @@
                   <div class="grid grid-cols-7 gap-1 text-center text-xs text-zinc-500 mb-2">
                     <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Вс</div>
                   </div>
-                  <div class="grid grid-cols-7 gap-1">
+                  <div data-cal-grid class="grid grid-cols-7 gap-1">
 
                     <div class="aspect-square p-1.5 rounded-lg border border-transparent text-sm">
                       <div class="text-zinc-300 tabular-nums">26</div>
@@ -416,7 +417,7 @@
           </section>
 
           <div class="flex flex-col sm:flex-row gap-3">
-            <button class="px-5 py-2.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить настройки</button>
+            <button type="button" data-toast="Настройки уведомлений сохранены" class="px-5 py-2.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить настройки</button>
           </div>
         </div>
 
@@ -441,21 +442,21 @@
 
         <div>
           <label class="block text-xs font-medium text-zinc-500 mb-2">Тип</label>
-          <div class="inline-flex bg-zinc-100 rounded-full p-1 w-full">
-            <button type="button" class="flex-1 px-4 py-1.5 rounded-full bg-accent text-white text-sm font-medium transition">Напоминание</button>
-            <button type="button" class="flex-1 px-4 py-1.5 rounded-full text-sm text-zinc-500 transition">Событие</button>
+          <div data-segmented class="w-full" role="group" aria-label="Тип">
+            <button type="button" data-seg="reminder" aria-pressed="true" class="flex-1 px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition">Напоминание</button>
+            <button type="button" data-seg="event" class="flex-1 px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition">Событие</button>
           </div>
         </div>
 
         <div>
           <label class="block text-xs font-medium text-zinc-500 mb-2">Название</label>
-          <input type="text" placeholder="Например: Проверить отчёт по МедЛайф" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+          <input type="text" name="title" required placeholder="Например: Проверить отчёт по МедЛайф" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-xs font-medium text-zinc-500 mb-2">Дата</label>
-            <input type="date" value="2025-06-15" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <input type="date" name="date" required value="2025-06-15" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
           </div>
           <div>
             <label class="block text-xs font-medium text-zinc-500 mb-2">Время</label>
@@ -493,11 +494,40 @@
 
       <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row gap-2 sm:justify-end sticky bottom-0 bg-white rounded-b-3xl">
         <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать</button>
+        <button type="button" data-modal-submit class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать</button>
       </div>
     </div>
   </div>
 </div>
 
+<script>
+(function () {
+  const grid = document.querySelector('[data-cal-grid]');
+  if (!grid) return;
+  const june = grid.innerHTML;
+  const cell = (d, muted, iso) => '<button type="button" data-open-modal="event" data-prefill-date="' + iso + '" class="aspect-square p-1.5 rounded-lg border border-transparent text-sm text-left hover:bg-zinc-50 hover:border-zinc-200 transition"><div class="tabular-nums ' + (muted ? 'text-zinc-300' : '') + '">' + d + '</div></button>';
+  const iso = (y, m, d) => y + '-' + String(m + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+  document.addEventListener('month:change', e => {
+    const { year, month } = e.detail;
+    if (year === 2025 && month === 5) { grid.innerHTML = june; return; }
+    const first = (new Date(year, month, 1).getDay() + 6) % 7;
+    const days = new Date(year, month + 1, 0).getDate();
+    const prevDays = new Date(year, month, 0).getDate();
+    let html = '';
+    for (let i = first; i > 0; i--) html += cell(prevDays - i + 1, true, iso(year, month - 1, prevDays - i + 1));
+    for (let d = 1; d <= days; d++) html += cell(d, false, iso(year, month, d));
+    const tail = (7 - (first + days) % 7) % 7;
+    for (let d = 1; d <= tail; d++) html += cell(d, true, iso(year, month + 1, d));
+    grid.innerHTML = html;
+  });
+  document.getElementById('event-modal').addEventListener('modal:submit', e => {
+    const m = e.currentTarget;
+    const title = m.querySelector('[name="title"]').value.trim();
+    const date = m.querySelector('[name="date"]').value.split('-').reverse().join('.');
+    const kind = m.querySelector('[data-seg][aria-pressed="true"]');
+    e.detail.toast = (kind ? kind.textContent.trim() : 'Событие') + ' «' + title + '» — ' + date;
+  });
+})();
+</script>
 </body>
 </html>

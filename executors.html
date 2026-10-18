@@ -6,6 +6,7 @@
   <title>Сотрудники — SEO Control</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/app.js"></script>
+  <script src="assets/modals.js"></script>
 </head>
 <body class="bg-canvas text-ink antialiased">
 <div class="min-h-screen">
@@ -19,12 +20,12 @@
       <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
         <header class="px-4 lg:px-8 h-14 flex items-center justify-between gap-4">
           <h1 class="text-base font-semibold tracking-tight">Сотрудники</h1>
-          <button class="shrink-0 px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Добавить</button>
+          <button type="button" data-can="hire_seo,hire_managers,invite_contractors" data-open-modal="invite" class="shrink-0 px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Пригласить сотрудника</button>
         </header>
         <div class="px-4 lg:px-8 py-2 border-t border-black/5 overflow-x-auto">
           <div class="inline-flex bg-zinc-100 rounded-full p-1">
-            <button data-tab="list" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 transition whitespace-nowrap">Список</button>
-            <button data-tab="load" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 transition whitespace-nowrap">Загрузка по неделям</button>
+            <button data-tab="list" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Список</button>
+            <button data-tab="load" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Загрузка по неделям</button>
           </div>
         </div>
       </div>
@@ -32,16 +33,21 @@
       <div class="px-4 lg:px-8 py-6 lg:py-8 max-w-none">
 
         <section class="bg-zinc-100/80 rounded-2xl p-4 lg:p-6 mb-6">
-          <h3 class="text-sm font-semibold tracking-tight mb-4">Отпуск</h3>
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <h3 class="text-sm font-semibold tracking-tight">Отпуск</h3>
+            <button type="button" data-open-modal="vacation" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Оформить отпуск</button>
+          </div>
+          <div data-vacation-list class="space-y-2">
           <div class="bg-white rounded-xl px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
               <div class="text-sm font-medium">Алексей Петров</div>
-              <div class="text-xs text-zinc-500 mt-0.5">14–28 июля · проекты «Холод» и «Ремонт+»</div>
+              <div class="text-xs text-zinc-500 mt-0.5">14–28 июля · проекты «Холод» и «Ремонт+» · замещает Никита Морозов</div>
             </div>
             <div class="flex flex-wrap gap-2">
-              <button data-roles="owner,seo_head,mgr_head" data-open-modal="vacation" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Даты</button>
-              <button data-roles="employee" data-open-modal="cover" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Кому передать</button>
+              <button type="button" data-roles="owner,seo_head,mgr_head" data-open-modal="vacation" data-prefill-employee="petrov" data-prefill-from="2025-07-14" data-prefill-to="2025-07-28" data-prefill-substitute="morozov" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Изменить</button>
+              <button type="button" data-roles="employee" data-open-modal="vacation" data-prefill-employee="petrov" data-prefill-from="2025-07-14" data-prefill-to="2025-07-28" data-prefill-substitute="morozov" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Кому передать</button>
             </div>
+          </div>
           </div>
         </section>
 
@@ -63,13 +69,13 @@
               <tbody class="divide-y divide-zinc-100 block md:table-row-group">
                 <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <a href="executor.html" class="flex items-center gap-3 group">
+                    <button type="button" data-open-modal="employee" data-employee="sidorov" class="flex items-center gap-3 group text-left">
                       <span class="w-9 h-9 rounded-full bg-zinc-900 text-white text-[11px] font-semibold flex items-center justify-center shrink-0">ИС</span>
                       <div>
                         <div class="text-sm font-medium group-hover:underline">Иван Сидоров</div>
                         <div class="text-xs text-zinc-500 mt-0.5">ivan@seo.ru</div>
                       </div>
-                    </a>
+                    </button>
                   </td>
                   <td data-label="Роль" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">Руководитель SEO</span>
@@ -82,13 +88,13 @@
                 </tr>
                 <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <a href="executor.html" class="flex items-center gap-3 group">
+                    <button type="button" data-open-modal="employee" data-employee="vetrova" class="flex items-center gap-3 group text-left">
                       <span class="w-9 h-9 rounded-full bg-zinc-900 text-white text-[11px] font-semibold flex items-center justify-center shrink-0">ОВ</span>
                       <div>
                         <div class="text-sm font-medium group-hover:underline">Ольга Ветрова</div>
                         <div class="text-xs text-zinc-500 mt-0.5">olga@seo.ru</div>
                       </div>
-                    </a>
+                    </button>
                   </td>
                   <td data-label="Роль" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-violet-50 text-violet-700">Руководитель менеджеров</span>
@@ -101,13 +107,13 @@
                 </tr>
                 <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <a href="executor.html" class="flex items-center gap-3 group">
+                    <button type="button" data-open-modal="employee" data-employee="morozov" class="flex items-center gap-3 group text-left">
                       <span class="w-9 h-9 rounded-full bg-zinc-900 text-white text-[11px] font-semibold flex items-center justify-center shrink-0">НМ</span>
                       <div>
                         <div class="text-sm font-medium group-hover:underline">Никита Морозов</div>
                         <div class="text-xs text-zinc-500 mt-0.5">n.morozov@seo.ru</div>
                       </div>
-                    </a>
+                    </button>
                   </td>
                   <td data-label="Роль" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700">Менеджер проекта</span>
@@ -120,13 +126,13 @@
                 </tr>
                 <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <a href="executor.html" class="flex items-center gap-3 group">
+                    <button type="button" data-open-modal="employee" data-employee="petrov" class="flex items-center gap-3 group text-left">
                       <span class="w-9 h-9 rounded-full bg-zinc-900 text-white text-[11px] font-semibold flex items-center justify-center shrink-0">АП</span>
                       <div>
                         <div class="text-sm font-medium group-hover:underline">Алексей Петров</div>
                         <div class="text-xs text-zinc-500 mt-0.5">alex@dev.ru</div>
                       </div>
-                    </a>
+                    </button>
                   </td>
                   <td data-label="Роль" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">SEO-специалист</span>
@@ -139,13 +145,13 @@
                 </tr>
                 <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                    <a href="executor.html" class="flex items-center gap-3 group">
+                    <button type="button" data-open-modal="employee" data-employee="kim" class="flex items-center gap-3 group text-left">
                       <span class="w-9 h-9 rounded-full bg-zinc-200 text-zinc-500 text-[11px] font-semibold flex items-center justify-center shrink-0">МК</span>
                       <div>
                         <div class="text-sm font-medium group-hover:underline">Мария Ким</div>
                         <div class="text-xs text-zinc-500 mt-0.5">maria@copy.ru</div>
                       </div>
-                    </a>
+                    </button>
                   </td>
                   <td data-label="Роль" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700">Подрядчик</span>
@@ -218,31 +224,21 @@
   </div>
 </div>
 
-<div id="vacation-modal" class="fixed inset-0 z-50 hidden">
-  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
-  <div class="absolute inset-x-0 bottom-0 sm:inset-0 sm:flex sm:items-center sm:justify-center sm:p-6">
-    <div class="bg-white w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl shadow-pop p-5">
-      <h3 class="text-sm font-semibold tracking-tight mb-4">Даты отпуска</h3>
-      <div class="grid grid-cols-2 gap-3 mb-4">
-        <label class="text-xs text-zinc-500">С<input type="text" value="14.07.2025" class="mt-1 w-full px-3.5 py-2 rounded-xl border border-zinc-200 text-sm"></label>
-        <label class="text-xs text-zinc-500">По<input type="text" value="28.07.2025" class="mt-1 w-full px-3.5 py-2 rounded-xl border border-zinc-200 text-sm"></label>
-      </div>
-      <button data-toast="Даты отпуска сохранены" data-close-modal class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium">Сохранить</button>
-    </div>
-  </div>
-</div>
-<div id="cover-modal" class="fixed inset-0 z-50 hidden">
-  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
-  <div class="absolute inset-x-0 bottom-0 sm:inset-0 sm:flex sm:items-center sm:justify-center sm:p-6">
-    <div class="bg-white w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl shadow-pop p-5">
-      <h3 class="text-sm font-semibold tracking-tight mb-1">Кому передать проекты</h3>
-      <p class="text-xs text-zinc-500 mb-4">На время вашего отпуска</p>
-      <ul class="divide-y divide-zinc-100 border border-zinc-100 rounded-xl mb-4">
-        <li class="px-4 py-3 flex items-center justify-between"><span class="text-sm">Никита Морозов</span><button data-toast="Проекты на отпуск переданы Н. Морозову" data-close-modal class="px-3 py-1.5 rounded-full bg-accent text-white text-sm font-medium">Выбрать</button></li>
-        <li class="px-4 py-3 flex items-center justify-between"><span class="text-sm">Иван Сидоров</span><button data-toast="Проекты на отпуск переданы И. Сидорову" data-close-modal class="px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium">Выбрать</button></li>
-      </ul>
-    </div>
-  </div>
-</div>
+<script>
+document.addEventListener('vacation:saved', e => {
+  const d = e.detail;
+  const list = document.querySelector('[data-vacation-list]');
+  const names = d.projects.map(id => (SEOApp.data.PROJECTS.find(p => p.id === id) || {}).name).filter(Boolean).map(n => n.replace(/^.*?(«.*»)$/, '$1'));
+  let row = Array.from(list.children).find(r => r.textContent.indexOf(d.employee.name) !== -1);
+  if (!row) {
+    row = list.firstElementChild.cloneNode(true);
+    row.querySelectorAll('[data-prefill-employee]').forEach(b => { b.dataset.prefillEmployee = d.employee.id; });
+    list.appendChild(row);
+  }
+  row.querySelector('.text-sm').textContent = d.employee.name;
+  row.querySelector('.text-xs').textContent = d.from + '–' + d.to + (names.length ? ' · проекты ' + names.join(', ') : '') + ' · замещает ' + d.substitute.name;
+  row.classList.add('ring-2', 'ring-accent/20');
+});
+</script>
 </body>
 </html>

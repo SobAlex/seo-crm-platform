@@ -6,6 +6,7 @@
   <title>Настройки компании — SEO Control</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/app.js"></script>
+  <script src="assets/modals.js"></script>
 </head>
 <body class="bg-canvas text-ink antialiased">
 <div class="min-h-screen">
@@ -22,11 +23,11 @@
         </header>
         <div class="px-4 lg:px-8 py-2 border-t border-black/5 overflow-x-auto">
           <div class="inline-flex bg-zinc-100 rounded-full p-1">
-            <button data-can="company_profile" data-tab="general" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Общие</button>
-            <button data-can="int_seo,int_client" data-tab="integrations" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Интеграции</button>
-            <button data-can="hire_seo,hire_managers,invite_contractors,invite_clients" data-tab="users" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Пользователи</button>
-            <button data-roles="owner,seo_head,mgr_head" data-tab="roles" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Роли и доступ</button>
-            <button data-can="billing" data-tab="billing" class="tab-btn px-4 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Биллинг</button>
+            <button data-can="company_profile" data-tab="general" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Общие</button>
+            <button data-can="int_seo,int_client" data-tab="integrations" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Интеграции</button>
+            <button data-can="hire_seo,hire_managers,invite_contractors,invite_clients" data-tab="users" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Пользователи</button>
+            <button data-roles="owner,seo_head,mgr_head" data-tab="roles" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Роли и доступ</button>
+            <button data-can="billing" data-tab="billing" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Биллинг</button>
           </div>
         </div>
       </div>
@@ -55,7 +56,7 @@
               <div class="md:col-span-2 flex items-center gap-4">
                 <span class="w-16 h-16 rounded-2xl bg-zinc-900 text-white text-xl font-semibold flex items-center justify-center shrink-0">РМ</span>
                 <div>
-                  <button class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Загрузить логотип</button>
+                  <button type="button" data-can="company_profile" data-attach="image/png,image/svg+xml" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Загрузить логотип</button>
                   <div class="text-xs text-zinc-500 mt-1.5">PNG или SVG, до 1 МБ</div>
                 </div>
               </div>
@@ -108,7 +109,7 @@
           </section>
 
           <div class="flex flex-col sm:flex-row gap-3">
-            <button class="px-5 py-2.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
+            <button type="button" data-can="company_profile" data-toast="Профиль компании сохранён" class="px-5 py-2.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
           </div>
         </div>
 
@@ -145,9 +146,9 @@
                   Аккаунт: <span class="text-zinc-900 font-medium">direct@romashka.ru</span> · подключён 12.05.2025
                 </div>
                 <div class="flex items-center gap-3 shrink-0">
-                  <button class="text-xs text-zinc-500 hover:text-zinc-900 transition">Переподключить</button>
+                  <button type="button" data-can="int_seo" data-open-modal="integration" data-prefill-service="yandex" data-reconnect="1" class="text-xs text-zinc-500 hover:text-zinc-900 transition">Переподключить</button>
                   <span class="text-zinc-300">·</span>
-                  <button class="text-xs text-zinc-500 hover:text-red-600 transition">Отключить</button>
+                  <button type="button" data-can="int_seo" data-confirm="Отключить Яндекс?" data-confirm-text="Метрики перестанут обновляться во всех проектах. Уже загруженные данные останутся в отчётах." data-confirm-ok="Отключить" data-confirm-toast="Яндекс отключён" class="text-xs text-zinc-500 hover:text-red-600 transition">Отключить</button>
                 </div>
               </div>
             </section>
@@ -170,9 +171,9 @@
                   Аккаунт: <span class="text-zinc-900 font-medium">marketing@romashka.ru</span> · истёк 20.06.2025
                 </div>
                 <div class="flex items-center gap-3 shrink-0">
-                  <button class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Переподключить</button>
+                  <button type="button" data-can="int_seo" data-open-modal="integration" data-prefill-service="google" data-reconnect="1" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Переподключить</button>
                   <span class="text-zinc-300">·</span>
-                  <button class="text-xs text-zinc-500 hover:text-red-600 transition">Отключить</button>
+                  <button type="button" data-can="int_seo" data-confirm="Отключить Google Search Console?" data-confirm-text="Метрики перестанут обновляться во всех проектах. Уже загруженные данные останутся в отчётах." data-confirm-ok="Отключить" data-confirm-toast="Google Search Console отключён" class="text-xs text-zinc-500 hover:text-red-600 transition">Отключить</button>
                 </div>
               </div>
             </section>
@@ -204,9 +205,9 @@
                   API-ключ: <span class="text-zinc-900 font-medium font-mono">clb_●●●●●●</span> · подключён 15.05.2025
                 </div>
                 <div class="flex items-center gap-3 shrink-0">
-                  <button class="text-xs text-zinc-500 hover:text-zinc-900 transition">Переподключить</button>
+                  <button type="button" data-can="int_client" data-open-modal="integration" data-prefill-service="callibri" data-reconnect="1" class="text-xs text-zinc-500 hover:text-zinc-900 transition">Переподключить</button>
                   <span class="text-zinc-300">·</span>
-                  <button class="text-xs text-zinc-500 hover:text-red-600 transition">Отключить</button>
+                  <button type="button" data-can="int_client" data-confirm="Отключить Callibri?" data-confirm-text="Метрики перестанут обновляться во всех проектах. Уже загруженные данные останутся в отчётах." data-confirm-ok="Отключить" data-confirm-toast="Callibri отключён" class="text-xs text-zinc-500 hover:text-red-600 transition">Отключить</button>
                 </div>
               </div>
             </section>
@@ -226,7 +227,7 @@
               </div>
               <div class="px-4 lg:px-6 py-3 border-t border-zinc-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div class="text-xs text-zinc-500">Лиды из CRM подтягиваются в отчёты по проектам</div>
-                <button class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition shrink-0">Подключить</button>
+                <button type="button" data-can="int_client" data-open-modal="integration" data-prefill-service="amocrm" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition shrink-0">Подключить</button>
               </div>
             </section>
           </div>
@@ -245,20 +246,20 @@
             <button data-open-modal="invite" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">+ Пригласить</button>
           </div>
 
-          <section data-roles="owner" class="bg-white rounded-2xl shadow-card p-4 lg:p-6 mb-4 lg:mb-6">
+          <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6 mb-4 lg:mb-6">
             <div data-seat-hired class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div class="min-w-0">
                 <h3 class="text-sm font-semibold tracking-tight">Руководитель SEO — Иван Сидоров</h3>
-                <p class="text-xs text-zinc-500 mt-1">Отдел ведёт приглашённый руководитель. Вы управляете компанией.</p>
+                <p class="text-xs text-zinc-500 mt-1">Отдел ведёт приглашённый руководитель. Владелец управляет компанией.</p>
               </div>
-              <button type="button" data-seat-action="self" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition shrink-0">Вести отдел самому</button>
+              <button type="button" data-seat-action="self" data-roles="owner" data-deny-tip="Кто ведёт SEO-отдел, решает только владелец компании" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition shrink-0">Вести отдел самому</button>
             </div>
             <div data-seat-self class="!hidden flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div class="min-w-0">
-                <h3 class="text-sm font-semibold tracking-tight">Руководитель SEO — вы</h3>
-                <p class="text-xs text-zinc-500 mt-1">Отдельный руководитель не приглашён, поэтому SEO-отдел ведёте вы.</p>
+                <h3 class="text-sm font-semibold tracking-tight">Руководитель SEO — владелец компании</h3>
+                <p class="text-xs text-zinc-500 mt-1">Отдельный руководитель не приглашён, поэтому SEO-отдел ведёт владелец.</p>
               </div>
-              <button type="button" data-seat-action="hire" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition shrink-0">Пригласить руководителя</button>
+              <button type="button" data-seat-action="hire" data-roles="owner" data-deny-tip="Пригласить руководителя SEO может только владелец компании" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition shrink-0">Пригласить руководителя</button>
             </div>
           </section>
 
@@ -478,7 +479,7 @@
                 <div class="text-2xl font-semibold tracking-tight">Agency</div>
                 <div class="text-sm text-zinc-500 mt-1">База $49/мес + $15 за проект</div>
               </div>
-              <button class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Сменить тариф</button>
+              <button type="button" data-can="billing" data-open-modal="tariff" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Сменить тариф</button>
             </div>
           </section>
 
@@ -507,88 +508,6 @@
 
       </div>
     </main>
-  </div>
-</div>
-
-<!-- МОДАЛКА: Пригласить пользователя -->
-<div id="invite-modal" class="fixed inset-0 z-50 hidden">
-  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
-  <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
-    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-y-auto">
-      <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
-        <h3 class="text-sm font-semibold tracking-tight">Пригласить пользователя</h3>
-        <button data-close-modal class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
-          <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
-      </div>
-
-      <div class="p-5 sm:p-6 space-y-4">
-
-        <div>
-          <label class="block text-xs font-medium text-zinc-500 mb-2">Email</label>
-          <input type="email" placeholder="name@example.com" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-        </div>
-
-        <div>
-          <label class="block text-xs font-medium text-zinc-500 mb-2">Имя <span class="text-zinc-500 font-normal">— опционально</span></label>
-          <input type="text" placeholder="Как обращаться" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-        </div>
-
-        <div>
-          <label class="block text-xs font-medium text-zinc-500 mb-2">Роль</label>
-          <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-            <option data-can="hire_seo">Руководитель SEO</option>
-            <option data-can="hire_managers">Руководитель менеджеров</option>
-            <option data-can="hire_managers">Менеджер проекта</option>
-            <option data-can="hire_seo">SEO-специалист</option>
-            <option data-can="invite_contractors">Подрядчик</option>
-            <option data-can="invite_clients">Клиент (доступ в портал)</option>
-          </select>
-          <div class="text-xs text-zinc-500 mt-2">Пригласить может любой сотрудник. Подрядчик видит только назначенные задачи, клиент — свой проект в портале.</div>
-        </div>
-
-        <div>
-          <label class="block text-xs font-medium text-zinc-500 mb-2">Доступ до <span class="text-zinc-500 font-normal">— для подрядчиков, опционально</span></label>
-          <input type="date" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-          <div class="text-xs text-zinc-500 mt-2">После этой даты доступ закроется автоматически.</div>
-        </div>
-
-        <div>
-          <label class="block text-xs font-medium text-zinc-500 mb-2">Проекты</label>
-          <div class="rounded-xl border border-zinc-200 bg-white p-3 space-y-2">
-            <label class="flex items-center gap-2.5 text-sm cursor-pointer">
-              <input type="checkbox" checked class="w-4 h-4 rounded border-zinc-300">
-              <span>Все проекты компании</span>
-            </label>
-            <div class="border-t border-zinc-100 pt-2 space-y-2">
-              <label class="flex items-center gap-2.5 text-sm cursor-pointer">
-                <input type="checkbox" class="w-4 h-4 rounded border-zinc-300">
-                <span>Интернет-магазин «Холод»</span>
-              </label>
-              <label class="flex items-center gap-2.5 text-sm cursor-pointer">
-                <input type="checkbox" class="w-4 h-4 rounded border-zinc-300">
-                <span>Сайт услуг «Ремонт+»</span>
-              </label>
-              <label class="flex items-center gap-2.5 text-sm cursor-pointer">
-                <input type="checkbox" class="w-4 h-4 rounded border-zinc-300">
-                <span>B2B портал «Стройтех»</span>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-xs font-medium text-zinc-500 mb-2">Сообщение <span class="text-zinc-500 font-normal">— опционально</span></label>
-          <textarea rows="2" placeholder="Добавьте пару слов к приглашению" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></textarea>
-        </div>
-
-      </div>
-
-      <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row gap-2 sm:justify-end sticky bottom-0 bg-white rounded-b-3xl">
-        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-        <button class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Отправить приглашение</button>
-      </div>
-    </div>
   </div>
 </div>
 
