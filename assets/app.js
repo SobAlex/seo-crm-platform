@@ -154,6 +154,7 @@ tailwind.config = {
     layers:   'M12 3l9 5-9 5-9-5 9-5zm-9 9l9 5 9-5m-18 4l9 5 9-5',
     sliders:  'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4',
     eye:      'M15 12a3 3 0 11-6 0 3 3 0 016 0zM2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z',
+    globe:    'M12 21a9 9 0 100-18 9 9 0 000 18zM3.5 12h17M12 3c2.5 2.8 3.8 6 3.8 9s-1.3 6.2-3.8 9c-2.5-2.8-3.8-6-3.8-9s1.3-6.2 3.8-9z',
     menu:     'M4 6h16M4 12h16M4 18h16',
     close:    'M6 18L18 6M6 6l12 12',
     lock:     'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z'
@@ -176,6 +177,7 @@ tailwind.config = {
   ];
   const NAV_FOOT = [
     { id: 'portal', href: 'portal.html', label: 'Портал клиента', icon: 'eye', roles: STAFF },
+    { id: 'landing', href: 'landing.html', label: 'Сайт продукта', icon: 'globe', roles: STAFF },
     { id: 'settings', href: 'settings.html', label: 'Настройки компании', icon: 'sliders', roles: STAFF }
   ];
   const BOTTOM = ['index', 'projects', 'tasks', 'calendar'];
@@ -220,6 +222,7 @@ tailwind.config = {
             '</div>' +
             '<label class="block text-[11px] font-medium text-zinc-500 mt-3 mb-1" for="role-switch">Демо: смотреть как</label>' +
             '<select id="role-switch" class="w-full px-3 py-1.5 rounded-lg border border-black/10 bg-white text-xs focus:outline-none focus:ring-4 focus:ring-accent/15">' + options + '</select>' +
+            (role === 'owner' ? '<a href="superadmin.html" class="mt-2 flex items-center justify-center px-3 py-1.5 rounded-full bg-white border border-black/10 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition">Кабинет платформы</a>' : '') +
           '</div>' +
         '</div>' +
       '</aside>';

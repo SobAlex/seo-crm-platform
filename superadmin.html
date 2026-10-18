@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SuperAdmin — SEO Control</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', '"SF Pro Display"', 'Inter', '"Segoe UI"', 'sans-serif'] },
+          colors: { canvas: '#f5f5f7', ink: '#1d1d1f', accent: { DEFAULT: '#0071e3', hover: '#0077ed' } },
+          borderRadius: { xl: '0.875rem', '2xl': '1.25rem', '3xl': '1.75rem' },
+          boxShadow: {
+            card: '0 1px 2px rgba(0,0,0,.04), 0 0 0 1px rgba(0,0,0,.04)',
+            pop: '0 24px 64px rgba(0,0,0,.18)'
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    @media (max-width: 767px) {
+      table.cards thead { display: none; }
+      table.cards, table.cards tbody, table.cards tr, table.cards td { display: block; width: 100%; }
+      table.cards tr { background: #fff; border-radius: 1.25rem; box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 0 0 1px rgba(0,0,0,.04); margin-bottom: 0.75rem; padding: 0.75rem 1rem; }
+      table.cards td { border: 0; padding: 0.4rem 0; }
+      table.cards td[data-label]::before { content: attr(data-label); display: block; font-size: 11px; color: #71717a; margin-bottom: 2px; }
+    }
+  </style>
+</head>
+<body class="bg-canvas text-ink antialiased">
+  <div class="hidden bg-emerald-50 text-emerald-800 bg-emerald-500 bg-amber-50 text-amber-800 bg-amber-500 bg-red-50 text-red-700 bg-red-500 bg-blue-50 text-blue-700 bg-zinc-100 text-zinc-600 bg-zinc-400"></div>
+
+  <div id="overlay" class="hidden fixed inset-0 z-40 bg-black/30 backdrop-blur-sm lg:hidden"></div>
+  <aside id="side" class="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full lg:translate-x-0 transition-transform duration-300 bg-white/90 backdrop-blur-2xl border-r border-black/5 flex flex-col">
+    <div class="px-4 pt-4 pb-3 flex items-center justify-between">
+      <a href="superadmin.html" class="flex items-center gap-2.5 min-w-0">
+        <span class="w-8 h-8 rounded-xl bg-zinc-900 text-white text-sm font-semibold flex items-center justify-center shrink-0">S</span>
+        <span class="min-w-0"><span class="block text-sm font-semibold tracking-tight">SEO Control</span><span class="block text-[11px] text-zinc-500">Платформа</span></span>
+      </a>
+      <button type="button" data-side-close aria-label="Закрыть меню" class="lg:hidden w-8 h-8 rounded-full hover:bg-black/5">×</button>
+    </div>
+    <div class="px-4 pb-3">
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 text-[11px] font-medium">👑 SuperAdmin Platform Dashboard</span>
+    </div>
+    <nav class="px-3 flex flex-col gap-0.5 text-sm">
+      <a href="#metrics" class="px-3 py-2 rounded-xl text-zinc-900 bg-black/5 font-medium">Сводка</a>
+      <a href="#companies" class="px-3 py-2 rounded-xl text-zinc-600 hover:bg-black/5">Компании</a>
+      <a href="#payments" class="px-3 py-2 rounded-xl text-zinc-600 hover:bg-black/5">Платежи</a>
+      <a href="#sandbox" class="px-3 py-2 rounded-xl text-zinc-600 hover:bg-black/5">Песочница</a>
+      <a href="landing.html" class="px-3 py-2 rounded-xl text-zinc-600 hover:bg-black/5">Сайт продукта</a>
+    </nav>
+    <div class="mt-auto p-3 border-t border-black/5">
+      <a href="index.html" class="flex items-center justify-center px-3 py-2 rounded-full bg-zinc-900 text-white text-sm font-medium hover:bg-zinc-800 transition">В кабинет агентства</a>
+    </div>
+  </aside>
+
+  <header class="lg:hidden sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5 px-4 h-14 flex items-center justify-between">
+    <button type="button" data-side-open aria-label="Открыть меню" class="w-10 h-10 -ml-2 rounded-full hover:bg-black/5 flex items-center justify-center">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <span class="text-sm font-semibold tracking-tight">SuperAdmin</span>
+    <a href="index.html" class="text-xs font-medium text-accent">Кабинет</a>
+  </header>
+
+  <div class="lg:pl-64">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight">Платформа</h1>
+          <p class="text-sm text-zinc-500 mt-1">Сводка по агентствам, подпискам и платежам. Данные на 18 октября 2026.</p>
+        </div>
+        <a href="index.html" class="hidden sm:inline-flex self-start px-3.5 py-1.5 rounded-full bg-white shadow-card text-sm font-medium hover:bg-zinc-50">Вернуться в кабинет агентства</a>
+      </div>
+
+      <section id="metrics" class="grid sm:grid-cols-2 xl:grid-cols-4 gap-3 scroll-mt-20">
+        <article class="bg-white rounded-3xl shadow-card p-5">
+          <div class="text-xs text-zinc-500">MRR · месячная выручка</div>
+          <div class="mt-2 text-2xl font-semibold tracking-tight tabular-nums"><span data-stat="mrr">485 000</span> ₽</div>
+          <div class="mt-1 text-xs font-medium text-emerald-700">+12% за месяц</div>
+        </article>
+        <article class="bg-white rounded-3xl shadow-card p-5">
+          <div class="text-xs text-zinc-500">Всего компаний</div>
+          <div data-stat="companies" class="mt-2 text-2xl font-semibold tracking-tight tabular-nums">48</div>
+          <div class="mt-1 text-xs text-zinc-500"><span data-stat="paid">32</span> платных · <span data-stat="trial">11</span> на триале · <span data-stat="overdue">5</span> просрочены</div>
+        </article>
+        <article class="bg-white rounded-3xl shadow-card p-5">
+          <div class="text-xs text-zinc-500">Активных проектов</div>
+          <div data-stat="projects" class="mt-2 text-2xl font-semibold tracking-tight tabular-nums">312</div>
+          <div class="mt-1 text-xs text-zinc-500">по всем агентствам</div>
+        </article>
+        <article class="bg-white rounded-3xl shadow-card p-5">
+          <div class="text-xs text-zinc-500">Конверсия триала в оплату</div>
+          <div class="mt-2 text-2xl font-semibold tracking-tight tabular-nums"><span data-stat="conv">68</span>%</div>
+          <div class="mt-1 text-xs text-zinc-500">за последние 90 дней</div>
+        </article>
+      </section>
+
+      <section id="companies" class="mt-8 scroll-mt-20">
+        <div class="flex items-end justify-between gap-3 mb-3">
+          <h2 class="text-lg font-semibold tracking-tight">Компании</h2>
+          <p data-company-note class="text-xs text-zinc-500"></p>
+        </div>
+        <div class="md:bg-white md:rounded-3xl md:shadow-card md:overflow-hidden">
+          <table class="cards w-full text-left">
+            <thead class="text-[11px] font-medium text-zinc-500 border-b border-zinc-100">
+              <tr>
+                <th class="px-4 py-3 font-medium">Компания</th>
+                <th class="px-4 py-3 font-medium">Владелец</th>
+                <th class="px-4 py-3 font-medium">Тариф</th>
+                <th class="px-4 py-3 font-medium">Подписка</th>
+                <th class="px-4 py-3 font-medium">Проекты / люди</th>
+                <th class="px-4 py-3 font-medium">LTV</th>
+                <th class="px-4 py-3 font-medium">Действия</th>
+              </tr>
+            </thead>
+            <tbody id="company-rows" class="md:divide-y md:divide-zinc-100"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="payments" class="mt-8 scroll-mt-20">
+        <h2 class="text-lg font-semibold tracking-tight mb-3">Платежи</h2>
+        <div class="md:bg-white md:rounded-3xl md:shadow-card md:overflow-hidden">
+          <table class="cards w-full text-left">
+            <thead class="text-[11px] font-medium text-zinc-500 border-b border-zinc-100">
+              <tr>
+                <th class="px-4 py-3 font-medium">Дата</th>
+                <th class="px-4 py-3 font-medium">Компания</th>
+                <th class="px-4 py-3 font-medium">Сумма</th>
+                <th class="px-4 py-3 font-medium">Тариф</th>
+                <th class="px-4 py-3 font-medium">Метод</th>
+                <th class="px-4 py-3 font-medium">Статус</th>
+              </tr>
+            </thead>
+            <tbody id="payment-rows" class="md:divide-y md:divide-zinc-100"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="sandbox" class="mt-8 scroll-mt-20">
+        <div class="bg-white rounded-3xl shadow-card p-5 sm:p-6">
+          <h2 class="text-lg font-semibold tracking-tight">Песочница</h2>
+          <p class="mt-1 text-sm text-zinc-500 max-w-xl">Проверка событий, которые основатель получает как пуш: новая регистрация с лендинга и успешная оплата тарифа.</p>
+          <div class="mt-4 flex flex-col sm:flex-row gap-2">
+            <button type="button" id="sim-signup" class="px-4 py-2.5 rounded-full bg-zinc-900 text-white text-sm font-medium hover:bg-zinc-800 transition">Эмулировать новую регистрацию с лендинга</button>
+            <button type="button" id="sim-pay" class="px-4 py-2.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Эмулировать оплату тарифа</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div data-toasts class="fixed top-4 right-4 left-4 sm:left-auto z-[70] flex flex-col items-stretch sm:items-end gap-2 pointer-events-none" aria-live="polite"></div>
+
+<script>
+(function () {
+  const PLANS = { start: ['Старт', 'bg-zinc-100 text-zinc-700', 4900], pro: ['Про', 'bg-blue-50 text-blue-700', 14900], ent: ['Enterprise', 'bg-zinc-900 text-white', 39900] };
+  const fmt = n => Number(n).toLocaleString('ru-RU');
+  function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+  function daysWord(n) {
+    const a = n % 10, b = n % 100;
+    if (a === 1 && b !== 11) return 'день';
+    if (a >= 2 && a <= 4 && (b < 12 || b > 14)) return 'дня';
+    return 'дней';
+  }
+  function toast(title, text) {
+    const el = document.createElement('div');
+    el.className = 'pointer-events-auto w-full sm:w-80 px-4 py-3 rounded-2xl bg-white shadow-pop';
+    el.innerHTML = '<div class="text-xs font-medium text-zinc-400">SEO Control · платформа</div><div class="mt-0.5 text-sm font-semibold">' + esc(title) + '</div>' + (text ? '<div class="mt-0.5 text-xs text-zinc-500">' + esc(text) + '</div>' : '');
+    const box = document.querySelector('[data-toasts]');
+    box.prepend(el);
+    setTimeout(() => el.remove(), 4200);
+  }
+
+  const stats = { mrr: 485000, companies: 48, paid: 32, trial: 11, overdue: 5, projects: 312, conv: 68 };
+  let companies = [
+    { id: 'romashka', name: 'Ромашка Digital', city: 'Москва', domain: 'romashka.seo', owner: 'Александр Смирнов', email: 'a@romashka.ru', phone: '+7 495 120-00-11', plan: 'pro', status: 'active', until: '15.11', days: 0, projects: 14, people: 8, ltv: 892000 },
+    { id: 'sever', name: 'Север SEO', city: 'Санкт-Петербург', domain: 'sever.seo', owner: 'Мария Козлова', email: 'm@sever.ru', phone: '+7 812 300-11-22', plan: 'start', status: 'trial', until: '', days: 4, projects: 3, people: 2, ltv: 0 },
+    { id: 'media', name: 'МедиаЛайт', city: 'Новосибирск', domain: 'medialight.ru', owner: 'Елена Крылова', email: 'e@medialight.ru', phone: '+7 383 200-10-20', plan: 'pro', status: 'overdue', until: '', days: 0, projects: 9, people: 5, ltv: 268000 },
+    { id: 'alfa', name: 'Альфа Продвижение', city: 'Екатеринбург', domain: 'alfa-seo.ru', owner: 'Дмитрий Лебедев', email: 'd@alfa.ru', phone: '+7 343 222-33-44', plan: 'ent', status: 'active', until: '01.12', days: 0, projects: 41, people: 22, ltv: 2140000 },
+    { id: 'holod', name: 'Холод Маркетинг', city: 'Москва', domain: 'holod-mkt.ru', owner: 'Сергей Волков', email: 's@holod.ru', phone: '+7 495 123-45-67', plan: 'pro', status: 'active', until: '28.10', days: 0, projects: 6, people: 4, ltv: 178800 },
+    { id: 'stroy', name: 'СтройТех SEO', city: 'Казань', domain: 'stroytech-seo.ru', owner: 'Михаил Орлов', email: 'm@stroy.ru', phone: '+7 843 200-40-50', plan: 'start', status: 'active', until: '03.11', days: 0, projects: 4, people: 2, ltv: 49000 },
+    { id: 'vector', name: 'Вектор', city: 'Краснодар', domain: 'vector-seo.ru', owner: 'Ольга Ветрова', email: 'o@vector.ru', phone: '+7 861 555-12-34', plan: 'pro', status: 'trial', until: '', days: 11, projects: 2, people: 3, ltv: 0 },
+    { id: 'legal', name: 'Смирнов и партнёры', city: 'Москва', domain: 'smirnov.legal', owner: 'Андрей Смирнов', email: 'a@smirnov.ru', phone: '+7 916 555-12-34', plan: 'ent', status: 'overdue', until: '', days: 0, projects: 18, people: 11, ltv: 956000 }
+  ];
+  let payments = [
+    { date: '12.10.2026', company: 'Ромашка Digital', amount: 14900, plan: 'pro', method: 'Карта', ok: true },
+    { date: '01.10.2026', company: 'Альфа Продвижение', amount: 39900, plan: 'ent', method: 'Счёт', ok: true },
+    { date: '28.09.2026', company: 'МедиаЛайт', amount: 14900, plan: 'pro', method: 'Карта', ok: false },
+    { date: '15.09.2026', company: 'Холод Маркетинг', amount: 14900, plan: 'pro', method: 'Карта', ok: true },
+    { date: '03.09.2026', company: 'СтройТех SEO', amount: 4900, plan: 'start', method: 'Карта', ok: true },
+    { date: '20.08.2026', company: 'Смирнов и партнёры', amount: 39900, plan: 'ent', method: 'Счёт', ok: false }
+  ];
+  const signups = [
+    ['Новая студия', 'Иван Петров', 'ivan@newstudio.ru'],
+    ['Точка Роста', 'Анна Белова', 'anna@tochka.ru'],
+    ['Лаборатория трафика', 'Павел Орлов', 'p@labtraf.ru'],
+    ['Семантика', 'Кирилл Новиков', 'k@semantika.ru']
+  ];
+  let signupN = 0;
+
+  function statusBadge(c) {
+    if (c.status === 'active') return '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-800 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Активна (до ' + esc(c.until) + ')</span>';
+    if (c.status === 'trial') return '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-800 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Триал (осталось ' + c.days + ' ' + daysWord(c.days) + ')</span>';
+    if (c.status === 'blocked') return '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-600 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>Заблокирована</span>';
+    return '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>Просрочена</span>';
+  }
+  function bump(key) {
+    if (key === 'paid' || key === 'trial' || key === 'overdue') stats[key] = Math.max(0, stats[key]);
+  }
+  function leaveBucket(c) {
+    if (c.status === 'active') stats.paid -= 1;
+    else if (c.status === 'trial') stats.trial -= 1;
+    else if (c.status === 'overdue') stats.overdue -= 1;
+    bump(c.status === 'active' ? 'paid' : c.status);
+  }
+
+  function paintStats() {
+    document.querySelector('[data-stat="mrr"]').textContent = fmt(stats.mrr);
+    ['companies', 'paid', 'trial', 'overdue', 'projects', 'conv'].forEach(k => {
+      document.querySelector('[data-stat="' + k + '"]').textContent = fmt(stats[k]);
+    });
+    document.querySelector('[data-company-note]').textContent = 'показаны ' + companies.length + ' из ' + stats.companies;
+  }
+  function paintCompanies() {
+    document.getElementById('company-rows').innerHTML = companies.map(c => {
+      const plan = PLANS[c.plan];
+      return '<tr class="align-top">' +
+        '<td data-label="Компания" class="px-4 py-3"><div class="text-sm font-semibold">' + esc(c.name) + '</div><div class="text-xs text-zinc-400 mt-0.5">' + esc(c.city) + ' · ' + esc(c.domain) + '</div></td>' +
+        '<td data-label="Владелец" class="px-4 py-3"><div class="text-sm">' + esc(c.owner) + '</div><div class="text-xs text-zinc-400 mt-0.5">' + esc(c.email) + ' · ' + esc(c.phone) + '</div></td>' +
+        '<td data-label="Тариф" class="px-4 py-3"><span class="inline-flex px-2 py-0.5 rounded-full text-xs font-medium ' + plan[1] + '">' + plan[0] + '</span></td>' +
+        '<td data-label="Подписка" class="px-4 py-3">' + statusBadge(c) + '</td>' +
+        '<td data-label="Проекты / люди" class="px-4 py-3 text-sm tabular-nums">' + c.projects + ' / ' + c.people + '</td>' +
+        '<td data-label="LTV" class="px-4 py-3 text-sm tabular-nums whitespace-nowrap">' + fmt(c.ltv) + ' ₽</td>' +
+        '<td data-label="Действия" class="px-4 py-3"><div class="flex flex-wrap gap-1.5">' +
+          '<button type="button" data-act="impersonate" data-id="' + c.id + '" class="px-2.5 py-1 rounded-full bg-zinc-900 text-white text-xs font-medium hover:bg-zinc-800">Войти под компанией</button>' +
+          '<button type="button" data-act="extend" data-id="' + c.id + '" class="px-2.5 py-1 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50">Продлить вручную</button>' +
+          '<button type="button" data-act="block" data-id="' + c.id + '" class="px-2.5 py-1 rounded-full bg-white border border-zinc-200 text-xs font-medium text-red-700 hover:bg-red-50">Заблокировать</button>' +
+        '</div></td></tr>';
+    }).join('');
+  }
+  function paintPayments() {
+    document.getElementById('payment-rows').innerHTML = payments.map(p => {
+      const plan = PLANS[p.plan];
+      return '<tr>' +
+        '<td data-label="Дата" class="px-4 py-3 text-sm tabular-nums whitespace-nowrap">' + esc(p.date) + '</td>' +
+        '<td data-label="Компания" class="px-4 py-3 text-sm font-medium">' + esc(p.company) + '</td>' +
+        '<td data-label="Сумма" class="px-4 py-3 text-sm tabular-nums whitespace-nowrap">' + fmt(p.amount) + ' ₽</td>' +
+        '<td data-label="Тариф" class="px-4 py-3"><span class="inline-flex px-2 py-0.5 rounded-full text-xs font-medium ' + plan[1] + '">' + plan[0] + '</span></td>' +
+        '<td data-label="Метод" class="px-4 py-3 text-sm">' + esc(p.method) + '</td>' +
+        '<td data-label="Статус" class="px-4 py-3">' + (p.ok
+          ? '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-800"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Успешно</span>'
+          : '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-700"><span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>Ошибка списания</span>') +
+        '</td></tr>';
+    }).join('');
+  }
+  function paint() { paintStats(); paintCompanies(); paintPayments(); }
+
+  document.getElementById('company-rows').addEventListener('click', e => {
+    const btn = e.target.closest('[data-act]');
+    if (!btn) return;
+    const c = companies.find(x => x.id === btn.dataset.id);
+    if (!c) return;
+    if (btn.dataset.act === 'impersonate') {
+      if (c.status === 'blocked') { toast('Вход закрыт', 'Компания «' + c.name + '» заблокирована'); return; }
+      toast('Вход под компанией', c.name + ' · открыт кабинет агентства');
+      window.open('index.html', '_blank');
+      return;
+    }
+    if (btn.dataset.act === 'extend') {
+      leaveBucket(c);
+      c.status = 'active';
+      c.until = '18.11';
+      c.days = 0;
+      stats.paid += 1;
+      paint();
+      toast('Подписка продлена', c.name + ' активна до 18.11');
+      return;
+    }
+    if (c.status === 'blocked') { toast('Уже заблокирована', c.name); return; }
+    leaveBucket(c);
+    c.status = 'blocked';
+    paint();
+    toast('Компания заблокирована', c.name + ' · кабинет закрыт до разблокировки');
+  });
+
+  document.getElementById('sim-signup').addEventListener('click', () => {
+    const sample = signups[signupN % signups.length];
+    signupN += 1;
+    const id = 'new' + signupN;
+    companies.unshift({
+      id: id, name: sample[0] + (signupN > signups.length ? ' ' + signupN : ''), city: 'Москва', domain: 'trial-' + signupN + '.seo',
+      owner: sample[1], email: sample[2], phone: '+7 900 100-0' + signupN + '-10',
+      plan: 'pro', status: 'trial', until: '', days: 14, projects: 0, people: 1, ltv: 0
+    });
+    stats.companies += 1;
+    stats.trial += 1;
+    paint();
+    toast('Новая регистрация с лендинга', sample[0] + ' · триал «Про», 14 дней');
+  });
+
+  document.getElementById('sim-pay').addEventListener('click', () => {
+    const c = companies.find(x => x.status === 'trial') || companies.find(x => x.status !== 'blocked') || companies[0];
+    const amount = PLANS[c.plan][2];
+    if (c.status !== 'active') {
+      leaveBucket(c);
+      c.status = 'active';
+      c.until = '18.11';
+      c.days = 0;
+      stats.paid += 1;
+      stats.mrr += amount;
+    }
+    c.ltv += amount;
+    payments.unshift({ date: '18.10.2026', company: c.name, amount: amount, plan: c.plan, method: 'Карта', ok: true });
+    paint();
+    toast('Оплата тарифа', c.name + ' · ' + fmt(amount) + ' ₽, «' + PLANS[c.plan][0] + '»');
+  });
+
+  const side = document.getElementById('side');
+  const overlay = document.getElementById('overlay');
+  function closeSide() { side.classList.add('-translate-x-full'); overlay.classList.add('hidden'); }
+  document.querySelector('[data-side-open]').addEventListener('click', () => { side.classList.remove('-translate-x-full'); overlay.classList.remove('hidden'); });
+  document.querySelector('[data-side-close]').addEventListener('click', closeSide);
+  overlay.addEventListener('click', closeSide);
+  side.querySelectorAll('a').forEach(a => a.addEventListener('click', closeSide));
+
+  paint();
+})();
+</script>
+</body>
+</html>
