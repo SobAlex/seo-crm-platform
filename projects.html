@@ -15,23 +15,42 @@
 
   <div class="flex">
 
-    <main class="flex-1 min-w-0 lg:pl-64 pb-24 lg:pb-0">
+    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 py-6 space-y-6 pb-24 lg:pb-0">
 
-      <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
-        <header class="px-4 lg:px-8 h-14 flex items-center justify-between gap-4">
-          <h1 class="text-base font-semibold tracking-tight">Проекты</h1>
-          <button type="button" data-can="create_project" data-open-modal="project-create" class="shrink-0 px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Новый проект</button>
-        </header>
-        <div class="px-4 lg:px-8 py-2 flex items-center gap-2 overflow-x-auto border-t border-black/5">
-          <input type="date" aria-label="Начало периода" value="2025-05-01" class="px-3 py-1.5 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-          <span class="text-sm text-zinc-500">—</span>
-          <input type="date" aria-label="Конец периода" value="2025-05-31" class="px-3 py-1.5 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+      <header class="sticky top-0 z-30 min-h-[3.5rem] h-auto py-2.5 bg-canvas/80 backdrop-blur-xl border-b border-black/5 -mx-4 lg:-mx-8 -mt-6 px-4 lg:px-8 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate">Проекты</h1>
         </div>
-      </div>
+        <div class="flex items-center gap-2.5 shrink-0">
+          <button type="button" data-can="create_project" data-open-modal="project-create" class="h-9 px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm">+ Новый проект</button>
+          <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
+          <a href="settings.html" aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
+        </div>
+      </header>
 
-      <div class="px-4 lg:px-8 py-6 lg:py-8 max-w-none">
+      <div class="w-full space-y-6">
 
-        <section class="grid grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4 mb-3">
+        <div class="bg-white rounded-2xl shadow-card p-3 lg:p-3.5 flex flex-wrap xl:flex-nowrap items-center justify-between gap-3">
+          <div data-project-scope class="inline-flex bg-zinc-100 rounded-full p-1 shrink-0" role="group" aria-label="Проекты">
+            <button type="button" data-scope="all" aria-pressed="true" class="px-3 py-1 rounded-full text-xs font-medium bg-white text-ink shadow-sm">Все</button>
+            <button type="button" data-scope="mine" aria-pressed="false" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500">Мои</button>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 ml-auto">
+            <div data-date-range class="flex items-center gap-2 shrink-0" role="group" aria-label="Период">
+              <input data-date-from type="date" aria-label="Дата с" class="h-8 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent">
+              <span class="text-xs text-zinc-400" aria-hidden="true">—</span>
+              <input data-date-to type="date" aria-label="Дата по" class="h-8 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent">
+              <span class="!hidden" aria-hidden="true"></span>
+            </div>
+            <label class="relative block w-56 min-w-[12rem]">
+              <svg class="w-4 h-4 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg>
+              <input data-project-q type="search" placeholder="Поиск" aria-label="Поиск проектов" class="h-8 w-full bg-zinc-50 border border-zinc-200/80 rounded-xl pl-8 pr-3 text-xs text-zinc-700 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-accent">
+            </label>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+        <section class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 xl:gap-4">
           <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
             <div class="text-xs font-medium text-zinc-500 mb-2">Трафик</div>
             <div class="flex items-baseline gap-1.5">
@@ -76,7 +95,7 @@
             </div>
             <div class="text-xs font-medium tabular-nums text-amber-700 mt-1.5">92% плана</div>
           </div>
-          <div class="col-span-2 lg:col-span-1 bg-white rounded-2xl shadow-card p-4 lg:p-5">
+          <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
             <div class="text-xs font-medium text-zinc-500 mb-2">Часы</div>
             <div class="flex items-baseline gap-1.5">
               <span class="text-2xl font-semibold tracking-tight tabular-nums">156</span>
@@ -88,7 +107,7 @@
             <div class="text-xs font-medium tabular-nums text-zinc-500 mt-1.5">58% лимита</div>
           </div>
         </section>
-        <p class="text-xs text-zinc-500 mb-6 flex flex-wrap items-center gap-x-4 gap-y-1">
+        <p class="text-xs text-zinc-500 flex flex-wrap items-center gap-x-4 gap-y-1">
           <span>Факт / план. Цвет — выполнение плана:</span>
           <span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500"></span>от 100%</span>
           <span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-500"></span>90–99%</span>
@@ -97,7 +116,7 @@
           <span class="inline-flex items-center gap-1.5">Точка у проекта — здоровье динамики: <span class="w-2 h-2 rounded-full bg-emerald-500"></span>в плане <span class="w-2 h-2 rounded-full bg-amber-400"></span>отставание <span class="w-2 h-2 rounded-full bg-red-500"></span>сильно отстаёт <span class="w-2 h-2 rounded-full bg-zinc-300"></span>нет данных · процент — переход к графику</span>
         </p>
 
-        <section data-metric-chart class="bg-white rounded-2xl shadow-card p-4 lg:p-6 mb-6">
+        <section data-metric-chart class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
           <div class="flex flex-wrap items-center justify-between gap-3 mb-4 lg:mb-6">
             <div>
               <h3 class="text-sm font-semibold tracking-tight">Общая динамика</h3>
@@ -115,6 +134,7 @@
             <div data-chart-svg></div>
           </div>
         </section>
+        </div>
 
         <section class="bg-white rounded-2xl shadow-card overflow-hidden">
           <div class="overflow-x-auto">
@@ -146,7 +166,7 @@
                 </tr>
               </thead>
               <tbody class="divide-y divide-zinc-100 block md:table-row-group">
-                <tr data-project-row="holod" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top">
+                <tr data-range-date="2025-01-01/2025-06-30" data-project-row="holod" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
                     <span class="inline-flex items-center gap-2"><span role="img" aria-label="Динамика в плане · трафик 94%, лиды 108%, ТОП-10 114%" title="Динамика в плане · трафик 94%, лиды 108%, ТОП-10 114%" class="relative flex w-2.5 h-2.5 shrink-0"><span class="relative w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white"></span></span><a href="project.html" class="text-base font-medium hover:underline">Интернет-магазин «Холод»</a></span>
                     <div class="text-xs text-zinc-500 mt-0.5 pl-[18px]">holod-shop.ru</div>
@@ -161,7 +181,7 @@
                   <td data-label="Часы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">82 <span class="text-zinc-500">/96</span> <span class="text-xs font-medium text-zinc-500 ml-2">85%</span></td>
                   <td data-can="see_finance" data-label="Чек" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">240 000 ₽</td>
                 </tr>
-                <tr data-project-row="remont" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top">
+                <tr data-range-date="2025-01-01/2025-06-30" data-project-row="remont" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
                     <span class="inline-flex items-center gap-2"><span role="img" aria-label="Есть отставание от плана · трафик 90%, лиды 85%, ТОП-10 74%" title="Есть отставание от плана · трафик 90%, лиды 85%, ТОП-10 74%" class="relative flex w-2.5 h-2.5 shrink-0"><span class="relative w-2.5 h-2.5 rounded-full bg-amber-400 ring-2 ring-white"></span></span><a href="project.html" class="text-base font-medium hover:underline">Сайт услуг «Ремонт+»</a></span>
                     <div class="text-xs text-zinc-500 mt-0.5 pl-[18px]">remont-plus.ru</div>
@@ -176,7 +196,7 @@
                   <td data-label="Часы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">42 <span class="text-zinc-500">/60</span> <span class="text-xs font-medium text-zinc-500 ml-2">70%</span></td>
                   <td data-can="see_finance" data-label="Чек" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">120 000 ₽</td>
                 </tr>
-                <tr data-project-row="stroytech" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top">
+                <tr data-range-date="2025-01-01/2025-06-30" data-project-row="stroytech" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
                     <span class="inline-flex items-center gap-2"><span role="img" aria-label="Сильно отстаёт от плана · трафик 69%, лиды 51%, ТОП-10 52%" title="Сильно отстаёт от плана · трафик 69%, лиды 51%, ТОП-10 52%" class="relative flex w-2.5 h-2.5 shrink-0"><span class="relative w-2.5 h-2.5 rounded-full bg-red-500 ring-2 ring-white"></span></span><a href="project.html" class="text-base font-medium hover:underline">B2B портал «Стройтех»</a></span>
                     <div class="text-xs text-zinc-500 mt-0.5 pl-[18px]">stroytech.ru</div>
@@ -191,7 +211,7 @@
                   <td data-label="Часы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">18 <span class="text-zinc-500">/72</span> <span class="text-xs font-medium text-zinc-500 ml-2">25%</span></td>
                   <td data-can="see_finance" data-label="Чек" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">180 000 ₽</td>
                 </tr>
-                <tr data-project-row="medlife" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top">
+                <tr data-range-date="2025-01-01/2025-06-30" data-project-row="medlife" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
                     <span class="inline-flex items-center gap-2"><span role="img" aria-label="Есть отставание от плана · трафик 114%, лиды 89%, ТОП-10 151%" title="Есть отставание от плана · трафик 114%, лиды 89%, ТОП-10 151%" class="relative flex w-2.5 h-2.5 shrink-0"><span class="relative w-2.5 h-2.5 rounded-full bg-amber-400 ring-2 ring-white"></span></span><a href="project.html" class="text-base font-medium hover:underline">Клиника «МедЛайф»</a></span>
                     <div class="text-xs text-zinc-500 mt-0.5 pl-[18px]">medlife-clinic.ru</div>
@@ -206,7 +226,7 @@
                   <td data-label="Часы" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">14 <span class="text-zinc-500">/40</span> <span class="text-xs font-medium text-zinc-500 ml-2">35%</span></td>
                   <td data-can="see_finance" data-label="Чек" class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden md:text-right whitespace-nowrap tabular-nums">80 000 ₽</td>
                 </tr>
-                <tr data-project-row="holodb2b" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top">
+                <tr data-range-date="2025-01-01/2025-06-30" data-project-row="holodb2b" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
                     <span class="inline-flex items-center gap-2"><span role="img" aria-label="Нет данных — проект на запуске, план с июля" title="Нет данных — проект на запуске, план с июля" class="relative flex w-2.5 h-2.5 shrink-0"><span class="relative w-2.5 h-2.5 rounded-full bg-zinc-300 ring-2 ring-white"></span></span><a href="project.html" class="text-base font-medium hover:underline">Оптовый портал «Холод B2B»</a></span>
                     <div class="text-xs text-zinc-500 mt-0.5 pl-[18px]">b2b.holod-shop.ru</div>
@@ -275,8 +295,39 @@
     const budget = document.querySelector('#project-create-modal [name="budget"]');
     if (check) check.textContent = budget && budget.value ? (+budget.value).toLocaleString('ru-RU') + ' ₽' : '—';
     tr.classList.add('bg-accent/5');
+    tr.dataset.roleOut = '0';
+    tr.dataset.mineOut = '0';
+    tr.dataset.qOut = '0';
     tbody.prepend(tr);
+    syncProjectToolbar();
   });
+
+  let projectScope = 'all';
+  function syncProjectToolbar() {
+    const q = (document.querySelector('[data-project-q]').value || '').trim().toLowerCase();
+    const mine = (window.SEOApp && SEOApp.myProjects) || [];
+    document.querySelectorAll('[data-project-row]').forEach(el => {
+      el.dataset.mineOut = projectScope === 'mine' && mine.indexOf(el.dataset.projectRow) === -1 ? '1' : '0';
+      el.dataset.qOut = q && el.textContent.toLowerCase().indexOf(q) === -1 ? '1' : '0';
+    });
+    if (window.SEOApp && SEOApp.paintDateRange) SEOApp.paintDateRange();
+  }
+  document.querySelector('[data-project-scope]').addEventListener('click', e => {
+    const b = e.target.closest('[data-scope]');
+    if (!b) return;
+    projectScope = b.dataset.scope;
+    document.querySelectorAll('[data-project-scope] [data-scope]').forEach(btn => {
+      const on = btn === b;
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.classList.toggle('bg-white', on);
+      btn.classList.toggle('text-ink', on);
+      btn.classList.toggle('shadow-sm', on);
+      btn.classList.toggle('text-zinc-500', !on);
+    });
+    syncProjectToolbar();
+  });
+  document.querySelector('[data-project-q]').addEventListener('input', syncProjectToolbar);
+  document.addEventListener('daterange:change', syncProjectToolbar);
 })();
 </script>
 </body>

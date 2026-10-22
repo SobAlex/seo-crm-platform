@@ -15,30 +15,34 @@
 
   <div class="flex">
 
-    <main class="flex-1 min-w-0 lg:pl-64 pb-24 lg:pb-0">
+    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 py-6 space-y-6 pb-24 lg:pb-0">
 
-      <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
-        <header class="px-4 lg:px-8 h-14 flex items-center justify-between gap-4">
-          <h1 class="text-base font-semibold tracking-tight">Календарь</h1>
-          <button data-open-modal="event" class="shrink-0 px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать событие</button>
-        </header>
-        <div class="px-4 lg:px-8 py-2 border-t border-black/5 overflow-x-auto">
-          <div class="inline-flex bg-zinc-100 rounded-full p-1">
-            <button data-tab="calendar" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Календарь</button>
-            <button data-tab="notifications" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Уведомления</button>
-            <button data-tab="settings" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Настройки</button>
+      <header class="sticky top-0 z-30 min-h-[3.5rem] h-auto py-2.5 bg-canvas/80 backdrop-blur-xl border-b border-black/5 -mx-4 lg:-mx-8 -mt-6 px-4 lg:px-8 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate">Календарь</h1>
+        </div>
+        <div class="flex items-center gap-2.5 shrink-0">
+          <button data-open-modal="event" class="h-9 px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm">+ Создать событие</button>
+          <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
+          <a href="settings.html" aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
+        </div>
+      </header>
+
+      <div class="space-y-6">
+        <div class="bg-white rounded-2xl shadow-card p-3 lg:p-3.5 flex flex-wrap xl:flex-nowrap items-center justify-between gap-3">
+          <div class="inline-flex bg-zinc-100 rounded-full p-1 shrink-0">
+            <button data-tab="calendar" class="tab-btn px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Календарь</button>
+            <button data-tab="notifications" class="tab-btn px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Уведомления</button>
+            <button data-tab="settings" class="tab-btn px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Настройки</button>
           </div>
         </div>
-      </div>
-
-      <div class="px-4 lg:px-8 py-6 lg:py-8 max-w-none">
 
         <!-- КАЛЕНДАРЬ -->
         <div data-tab-panel="calendar">
 
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
+          <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
 
-            <div class="lg:col-span-2">
+            <div class="xl:col-span-2 space-y-6">
               <section class="bg-white rounded-2xl shadow-card overflow-hidden">
                 <div class="px-4 lg:px-6 py-4 flex flex-wrap items-center justify-between gap-3 border-b border-zinc-100">
                   <div data-month-nav data-month-min="2025-01" data-month-max="2025-12" class="flex items-center gap-2">
@@ -68,7 +72,7 @@
               </section>
             </div>
 
-            <div class="flex flex-col gap-4">
+            <div class="xl:col-span-1 space-y-6">
               <section class="bg-white rounded-2xl shadow-card overflow-hidden">
                 <div class="px-4 lg:px-6 py-4 flex items-center justify-between gap-3 border-b border-zinc-100">
                   <div>
@@ -486,34 +490,27 @@
   document.addEventListener('month:change', e => { view = e.detail; render(); });
   render();
 
-  /* Дедлайны недели 16–22 июня: чекбокс отмечает выполнение, название ведёт в задачу */
+  /* Дедлайны недели 16–22 июня: карточка ведёт в задачу, без отметки выполнения */
   const week = DEADLINES.filter(t => t.d >= '2025-06-16' && t.d <= '2025-06-22');
   const DOW = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
   const weekBox = document.querySelector('[data-week]');
   function paintWeek() {
-    weekBox.innerHTML = week.map((t, i) => {
+    weekBox.innerHTML = week.map(t => {
       const day = new Date(+t.d.slice(0, 4), +t.d.slice(5, 7) - 1, +t.d.slice(8));
-      const late = !t.done && t.d < TODAY;
+      const late = t.d < TODAY;
       const today = t.d === TODAY;
-      return '<li class="px-4 lg:px-5 py-2.5 flex items-center gap-3">' +
-        '<input type="checkbox" data-week-check="' + i + '"' + (t.done ? ' checked' : '') + ' aria-label="Отметить выполненной: ' + esc(t.title) + '" class="w-4 h-4 rounded-md border-zinc-300 accent-emerald-600 shrink-0">' +
-        '<a href="task.html" class="min-w-0 flex-1 group">' +
-          '<span class="block text-sm truncate group-hover:underline ' + (t.done ? 'line-through text-zinc-400' : 'font-medium') + '">' + esc(t.title) + '</span>' +
-          '<span class="block text-xs text-zinc-500">' + t.p + '</span>' +
+      return '<li class="px-3 py-1.5">' +
+        '<a href="task.html" class="flex items-center gap-3 px-3 py-2.5 rounded-2xl bg-canvas hover:bg-zinc-100 transition">' +
+          '<span class="min-w-0 flex-1">' +
+            '<span class="block text-sm font-medium truncate">' + esc(t.title) + '</span>' +
+            '<span class="block text-xs text-zinc-500 mt-0.5">' + t.p + '</span>' +
+          '</span>' +
+          '<span class="text-xs tabular-nums shrink-0 ' + (late ? 'text-red-600 font-medium' : today ? 'text-accent font-medium' : 'text-zinc-500') + '">' + (today ? 'Сегодня' : DOW[day.getDay()] + ', ' + t.d.slice(8) + '.' + t.d.slice(5, 7)) + '</span>' +
         '</a>' +
-        '<span class="text-xs tabular-nums shrink-0 ' + (t.done ? 'text-zinc-400' : late ? 'text-red-600 font-medium' : today ? 'text-accent font-medium' : 'text-zinc-500') + '">' + (today ? 'Сегодня' : DOW[day.getDay()] + ', ' + t.d.slice(8) + '.' + t.d.slice(5, 7)) + '</span>' +
       '</li>';
     }).join('');
-    document.querySelector('[data-week-left]').textContent = week.filter(t => !t.done).length;
+    document.querySelector('[data-week-left]').textContent = week.length;
   }
-  weekBox.addEventListener('change', e => {
-    const c = e.target.closest('[data-week-check]');
-    if (!c) return;
-    const t = week[c.dataset.weekCheck];
-    t.done = c.checked;
-    paintWeek();
-    App.toast(t.done ? '«' + t.title + '» отмечена выполненной · ушла на проверку' : '«' + t.title + '» снова в работе', t.done ? 'success' : 'warning');
-  });
   paintWeek();
 
   document.getElementById('event-modal').addEventListener('modal:submit', e => {

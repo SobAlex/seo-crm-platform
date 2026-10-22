@@ -15,43 +15,41 @@
 
   <div class="flex">
 
-    <main class="flex-1 min-w-0 lg:pl-64 pb-24 lg:pb-0">
+    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 py-6 space-y-6 pb-24 lg:pb-0">
 
-      <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
-        <header class="px-4 lg:px-8 h-14 flex items-center justify-between gap-4">
-          <h1 class="text-base font-semibold tracking-tight">Задачи</h1>
-          <a data-can="create_tasks" href="task-form.html" class="shrink-0 px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать задачу</a>
-        </header>
+      <header class="sticky top-0 z-30 min-h-[3.5rem] h-auto py-2.5 bg-canvas/80 backdrop-blur-xl border-b border-black/5 -mx-4 lg:-mx-8 -mt-6 px-4 lg:px-8 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate">Задачи</h1>
+        </div>
+        <div class="flex items-center gap-2.5 shrink-0">
+          <a data-can="create_tasks" href="task-form.html" class="h-9 px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm">+ Создать задачу</a>
+          <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
+          <a href="settings.html" aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
+        </div>
+      </header>
 
-        <!-- Строка 1: персональный фокус и вид -->
-        <div class="border-t border-black/5 px-4 lg:px-8 py-2.5 flex items-center gap-3 overflow-x-auto">
+      <div class="w-full space-y-6">
+        <div class="bg-white rounded-2xl shadow-card p-3 lg:p-3.5 flex flex-wrap xl:flex-nowrap items-center justify-between gap-3">
           <div data-focus-switch class="inline-flex bg-zinc-100 rounded-full p-1 shrink-0" role="group" aria-label="Фокус">
-            <button type="button" data-focus="all" data-deny="contractor" data-deny-tip="Подрядчик видит только задачи, где он исполнитель" class="px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap">Все задачи<span data-focus-count="all" class="ml-1.5 text-xs tabular-nums opacity-60">0</span></button>
-            <button type="button" data-focus="exec" class="px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap">Я исполнитель<span data-focus-count="exec" class="ml-1.5 text-xs tabular-nums opacity-60">0</span></button>
-            <button type="button" data-focus="set" data-deny="contractor" data-deny-tip="Подрядчик не ставит задачи другим" class="px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap">Я постановщик<span data-focus-count="set" class="ml-1.5 text-xs tabular-nums opacity-60">0</span></button>
+            <button type="button" data-focus="all" data-deny="contractor" data-deny-tip="Подрядчик видит только задачи, где он исполнитель" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Все задачи<span data-focus-count="all" class="ml-1.5 text-xs tabular-nums opacity-60">0</span></button>
+            <button type="button" data-focus="exec" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Я исполнитель<span data-focus-count="exec" class="ml-1.5 text-xs tabular-nums opacity-60">0</span></button>
+            <button type="button" data-focus="set" data-deny="contractor" data-deny-tip="Подрядчик не ставит задачи другим" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Я постановщик<span data-focus-count="set" class="ml-1.5 text-xs tabular-nums opacity-60">0</span></button>
           </div>
-          <span class="flex-1"></span>
-          <span class="w-px h-6 bg-black/10 shrink-0" aria-hidden="true"></span>
           <div data-mode-switch class="inline-flex bg-zinc-100 rounded-full p-1 shrink-0" role="group" aria-label="Представление">
-            <button type="button" data-mode="board" class="px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap"><span aria-hidden="true">☷</span> Доска<span class="hidden xl:inline text-zinc-400"> (Канбан)</span></button>
-            <button type="button" data-mode="list" class="px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap"><span aria-hidden="true">☰</span> Список</button>
+            <button type="button" data-mode="board" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Доска</button>
+            <button type="button" data-mode="list" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Список</button>
+          </div>
+          <div class="flex flex-wrap xl:flex-nowrap items-center gap-2 min-w-0 xl:flex-1 xl:justify-end">
+            <select data-filter="project" aria-label="Проект" class="h-8 w-full sm:w-40 xl:w-auto xl:flex-1 xl:min-w-0 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent"></select>
+            <select data-filter="direction" aria-label="Направление" class="h-8 w-full sm:w-40 xl:w-auto xl:flex-1 xl:min-w-0 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent"></select>
+            <select data-filter="assignee" aria-label="Исполнитель" class="h-8 w-full sm:w-40 xl:w-auto xl:flex-1 xl:min-w-0 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent disabled:opacity-50 disabled:cursor-not-allowed"></select>
+            <label class="relative block w-full sm:w-44 xl:w-auto xl:flex-1 xl:min-w-0">
+              <svg class="w-4 h-4 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg>
+              <input data-filter="q" type="search" placeholder="Поиск по названию…" aria-label="Поиск по названию" class="h-8 w-full bg-zinc-50 border border-zinc-200/80 rounded-xl pl-8 pr-3 text-xs text-zinc-700 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-accent">
+            </label>
           </div>
         </div>
-
-        <!-- Строка 2: контекст выборки -->
-        <div class="px-4 lg:px-8 pb-3 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-[repeat(3,minmax(0,1fr))_minmax(0,1.25fr)] gap-2 lg:gap-3">
-          <select data-filter="project" aria-label="Проект" class="w-full min-w-0 px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></select>
-          <select data-filter="direction" aria-label="Направление" class="w-full min-w-0 px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></select>
-          <select data-filter="assignee" aria-label="Исполнитель" class="w-full min-w-0 px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></select>
-          <label class="relative block min-w-0">
-            <svg class="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg>
-            <input data-filter="q" type="search" placeholder="Поиск по названию…" aria-label="Поиск по названию" class="w-full pl-10 pr-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-          </label>
-        </div>
-      </div>
-
-      <div class="px-4 lg:px-8 py-5 lg:py-6 max-w-none">
-        <div class="flex flex-wrap items-center gap-x-3 gap-y-2 mb-4 min-h-[28px]">
+        <div class="flex flex-wrap items-center gap-x-3 gap-y-2 min-h-[28px]">
           <p data-context class="text-xs text-zinc-500"></p>
           <span data-flag-chip class="hidden inline-flex items-center gap-1 pl-2.5 pr-1 py-0.5 rounded-full bg-accent/10 text-accent text-xs font-medium">
             <span data-flag-label></span>
@@ -212,7 +210,8 @@
     if (focus === 'set' && !(t.creator === me && t.assignee !== me)) return false;
     if (state.project && t.project !== state.project) return false;
     if (state.direction && t.dir !== state.direction) return false;
-    if (state.assignee && t.assignee !== state.assignee && !t.co.includes(state.assignee)) return false;
+    const pickPeople = state.focus === 'all' && ['owner', 'seo_head', 'pm'].indexOf(App.role) !== -1;
+    if (pickPeople && state.assignee && t.assignee !== state.assignee && !t.co.includes(state.assignee)) return false;
     if (state.q && t.title.toLowerCase().indexOf(state.q) === -1) return false;
     if (state.flag && !FLAGS[state.flag][1](t)) return false;
     return true;
@@ -350,7 +349,7 @@
   }
 
   /* ---------- Шапка, счётчики, подписи ---------- */
-  const SEG_ON = ['bg-white', 'text-zinc-900', 'shadow-sm'];
+  const SEG_ON = ['bg-white', 'text-ink', 'shadow-sm'];
   function paintSeg(box, attr, value) {
     box.querySelectorAll('[' + attr + ']').forEach(b => {
       const on = b.getAttribute(attr) === value;
@@ -401,6 +400,21 @@
     const list = current();
     paintSeg(document.querySelector('[data-focus-switch]'), 'data-focus', state.focus);
     paintSeg(document.querySelector('[data-mode-switch]'), 'data-mode', state.mode);
+    const assigneeSel = document.querySelector('[data-filter="assignee"]');
+    const pickPeople = state.focus === 'all' && ['owner', 'seo_head', 'pm'].indexOf(App.role) !== -1;
+    assigneeSel.disabled = !pickPeople;
+    assigneeSel.classList.toggle('opacity-50', !pickPeople);
+    assigneeSel.classList.toggle('cursor-not-allowed', !pickPeople);
+    if (pickPeople) {
+      assigneeSel.title = 'Исполнитель';
+      delete assigneeSel.dataset.tip;
+      delete assigneeSel.dataset.denyTip;
+    } else {
+      const tip = state.focus === 'all' ? 'Недоступно для вашей роли' : 'Исполнитель уже задан этой вкладкой';
+      assigneeSel.title = tip;
+      assigneeSel.dataset.denyTip = tip;
+      assigneeSel.dataset.tip = tip;
+    }
     document.querySelectorAll('[data-focus-count]').forEach(c => { c.textContent = TASKS.filter(t => matches(t, c.dataset.focusCount)).length; });
     board.classList.toggle('hidden', state.mode !== 'board');
     document.querySelector('[data-list]').classList.toggle('hidden', state.mode !== 'list');

@@ -15,38 +15,41 @@
 
   <div class="flex">
 
-    <main class="flex-1 min-w-0 lg:pl-64 pb-24 lg:pb-0">
+    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 py-6 space-y-6 pb-24 lg:pb-0">
 
-      <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
-        <header class="px-4 lg:px-8 h-14 flex items-center justify-between gap-4">
-          <h1 class="text-base font-semibold tracking-tight shrink-0">Отчёты</h1>
-          <div data-scope-switch class="inline-flex bg-zinc-100 rounded-full p-1 max-w-full overflow-x-auto" role="group" aria-label="Чьи отчёты">
-            <button type="button" data-scope="exec" data-deny="owner" data-can="compose_reports" data-deny-tip="Владелец не составляет отчёты — смотрите «Все отчёты»" class="px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap">Я составляю</button>
-            <button type="button" data-scope="team" data-deny="owner" data-deny-tip="Владелец не состоит в командах проектов — смотрите «Все отчёты»" class="px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap">Мои проекты</button>
-            <button type="button" data-scope="all" data-roles="owner,seo_head,mgr_head" class="px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap">Все отчёты</button>
-          </div>
-        </header>
-        <div class="border-t border-black/5 px-4 lg:px-8 py-2.5 flex items-center gap-3 overflow-x-auto">
-          <div class="flex items-center gap-1 shrink-0" role="group" aria-label="Отчётный период">
-            <button type="button" data-month-step="-1" aria-label="Предыдущий месяц" class="w-9 h-9 rounded-full text-zinc-500 hover:text-zinc-900 hover:bg-black/5 disabled:opacity-30 disabled:pointer-events-none transition flex items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
-            <select data-report-month aria-label="Отчётный месяц" class="px-3.5 py-2 rounded-full border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40 font-medium">
-              <option value="2025-06">Июнь 2025</option>
-              <option value="2025-05" selected>Май 2025</option>
-              <option value="2025-04">Апрель 2025</option>
-              <option value="2025-03">Март 2025</option>
-            </select>
-            <button type="button" data-month-step="1" aria-label="Следующий месяц" class="w-9 h-9 rounded-full text-zinc-500 hover:text-zinc-900 hover:bg-black/5 disabled:opacity-30 disabled:pointer-events-none transition flex items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
-          </div>
-          <div data-view-switch class="inline-flex bg-zinc-100 rounded-full p-1 shrink-0 ml-auto" role="group" aria-label="Статус отчётов">
-            <button type="button" data-view="all" class="shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium transition whitespace-nowrap">Все<span data-view-count="all" class="ml-1.5 text-xs tabular-nums opacity-60">0</span></button>
-            <button type="button" data-view="draft" class="shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium transition whitespace-nowrap">Черновики<span data-view-count="draft" class="ml-1.5 text-xs tabular-nums opacity-60">0</span></button>
-            <button type="button" data-view="review" class="shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium transition whitespace-nowrap">На согласовании<span data-view-count="review" class="ml-1.5 text-xs tabular-nums opacity-60">0</span></button>
-            <button type="button" data-view="sent" class="shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium transition whitespace-nowrap">Отправлены клиенту<span data-view-count="sent" class="ml-1.5 text-xs tabular-nums opacity-60">0</span></button>
-          </div>
+      <header class="sticky top-0 z-30 min-h-[3.5rem] h-auto py-2.5 bg-canvas/80 backdrop-blur-xl border-b border-black/5 -mx-4 lg:-mx-8 -mt-6 px-4 lg:px-8 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate">Отчёты</h1>
         </div>
-        <div class="border-t border-black/5 px-4 lg:px-8 py-2.5 flex flex-col sm:flex-row sm:items-center gap-2 lg:gap-3">
-          <div class="flex items-center gap-2 min-w-0 flex-1">
-            <select data-report-target aria-label="Проект / Клиент" class="min-w-0 sm:w-64 px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+        <div class="flex items-center gap-2.5 shrink-0">
+          <button type="button" data-can="compose_reports" data-open-modal="report-create" class="h-9 px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm">+ Создать отчёт</button>
+          <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
+          <a href="settings.html" aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
+        </div>
+      </header>
+        <div class="bg-white rounded-2xl shadow-card p-3 lg:p-3.5 flex flex-wrap xl:flex-nowrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2 overflow-x-auto">
+            <div data-scope-switch class="inline-flex bg-zinc-100 rounded-full p-1 max-w-full overflow-x-auto shrink-0" role="group" aria-label="Чьи отчёты">
+              <button type="button" data-scope="exec" data-deny="owner" data-can="compose_reports" data-deny-tip="Владелец не составляет отчёты — смотрите «Все отчёты»" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Я составляю</button>
+              <button type="button" data-scope="team" data-deny="owner" data-deny-tip="Владелец не состоит в командах проектов — смотрите «Все отчёты»" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Мои проекты</button>
+              <button type="button" data-scope="all" data-roles="owner,seo_head,mgr_head" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Все отчёты</button>
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 ml-auto">
+            <div data-view-switch class="inline-flex bg-zinc-100 rounded-full p-1 shrink-0" role="group" aria-label="Статус отчётов">
+              <button type="button" data-view="all" class="shrink-0 px-3 py-1 rounded-full text-xs font-medium transition whitespace-nowrap">Все<span data-view-count="all" class="ml-1.5 tabular-nums opacity-60">0</span></button>
+              <button type="button" data-view="draft" class="shrink-0 px-3 py-1 rounded-full text-xs font-medium transition whitespace-nowrap">Черновики<span data-view-count="draft" class="ml-1.5 tabular-nums opacity-60">0</span></button>
+              <button type="button" data-view="review" class="shrink-0 px-3 py-1 rounded-full text-xs font-medium transition whitespace-nowrap">На согласовании<span data-view-count="review" class="ml-1.5 tabular-nums opacity-60">0</span></button>
+              <button type="button" data-view="sent" class="shrink-0 px-3 py-1 rounded-full text-xs font-medium transition whitespace-nowrap">Отправлены клиенту<span data-view-count="sent" class="ml-1.5 tabular-nums opacity-60">0</span></button>
+            </div>
+          <div data-date-range class="flex items-center gap-2 shrink-0" role="group" aria-label="Период">
+            <input data-date-from type="date" aria-label="Дата с" class="h-8 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent">
+            <span class="text-xs text-zinc-400" aria-hidden="true">—</span>
+            <input data-date-to type="date" aria-label="Дата по" class="h-8 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent">
+            <span class="!hidden" aria-hidden="true"></span>
+          </div>
+          <div class="flex items-center gap-2 min-w-0">
+            <select data-report-target aria-label="Проект / Клиент" class="h-8 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent min-w-0 sm:w-64">
               <option value="">Все проекты и клиенты</option>
               <optgroup label="Проекты">
                 <option value="p:holod">Интернет-магазин «Холод»</option>
@@ -62,19 +65,18 @@
               </optgroup>
             </select>
             <label class="relative flex-1 min-w-0 sm:max-w-xs">
-              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M20 20l-3.5-3.5"/></svg>
-              <input data-report-q type="search" placeholder="Поиск по клиенту или проекту…" aria-label="Поиск отчётов" class="w-full pl-9 pr-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              <svg class="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M20 20l-3.5-3.5"/></svg>
+              <input data-report-q type="search" placeholder="Поиск по клиенту или проекту…" aria-label="Поиск отчётов" class="h-8 w-full bg-zinc-50 border border-zinc-200/80 rounded-xl pl-8 pr-3 text-xs text-zinc-700 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-accent">
             </label>
           </div>
           <div class="flex items-center gap-2 shrink-0">
             <button type="button" data-can="view_reports" data-export class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition whitespace-nowrap">Экспорт реестра</button>
-            <button type="button" data-can="compose_reports" data-open-modal="report-create" class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition whitespace-nowrap">+ Создать отчёт за месяц</button>
           </div>
         </div>
-      </div>
+        </div>
 
-      <div class="px-4 lg:px-8 py-6 lg:py-8 max-w-none">
-        <section data-task-region data-count-source class="bg-white rounded-2xl shadow-card overflow-hidden mb-4 lg:mb-6">
+      <div class="w-full space-y-6">
+        <section data-task-region data-count-source class="bg-white rounded-2xl shadow-card overflow-hidden">
           <div class="overflow-x-auto">
             <table class="w-full block md:table">
               <thead class="hidden md:table-header-group">
@@ -90,7 +92,7 @@
               <tbody data-task-group data-report-rows class="divide-y divide-zinc-100 block md:table-row-group"></tbody>
             </table>
           </div>
-          <div data-task-empty data-empty-filter="За этот месяц отчётов по выбранному проекту нет" class="hidden px-4 lg:px-6 py-10 text-center text-sm text-zinc-500">Отчётов по выбранным условиям нет.</div>
+          <div data-task-empty data-empty-filter="За выбранный период отчётов по выбранному проекту нет" class="hidden px-4 lg:px-6 py-10 text-center text-sm text-zinc-500">Отчётов по выбранным условиям нет.</div>
         </section>
         <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
           <div class="flex items-start justify-between gap-4">
@@ -217,26 +219,18 @@
   const tbody = document.querySelector('[data-report-rows]');
   tbody.innerHTML = REPORTS.map(row).join('');
 
-  const month = document.querySelector('[data-report-month]');
   const target = document.querySelector('[data-report-target]');
   const q = document.querySelector('[data-report-q]');
   function apply() {
     const t = target.value;
     const text = q.value.trim().toLowerCase();
-    App.setTaskFilter(el => el.dataset.month === month.value &&
+    App.setTaskFilter(el => App.dateInRange(el.dataset.month) &&
       (!t || (t[0] === 'p' ? el.dataset.project : el.dataset.client) === t.slice(2)) &&
       (!text || el.dataset.q.includes(text)));
-    const i = month.selectedIndex;
-    document.querySelector('[data-month-step="-1"]').disabled = i >= month.options.length - 1;
-    document.querySelector('[data-month-step="1"]').disabled = i <= 0;
   }
-  month.addEventListener('change', apply);
   target.addEventListener('change', apply);
   q.addEventListener('input', apply);
-  document.querySelectorAll('[data-month-step]').forEach(b => b.addEventListener('click', () => {
-    month.selectedIndex = Math.min(month.options.length - 1, Math.max(0, month.selectedIndex - Number(b.dataset.monthStep)));
-    apply();
-  }));
+  document.addEventListener('daterange:change', apply);
 
   function replace(i) {
     const old = tbody.querySelector('[data-report="' + i + '"]');
@@ -275,7 +269,10 @@
   document.querySelector('[data-export]').addEventListener('click', e => {
     if (e.currentTarget.disabled) return;
     const n = Array.from(tbody.querySelectorAll('[data-task]')).filter(r => r.dataset.match === '1').length;
-    App.toast('Реестр за ' + month.selectedOptions[0].text.toLowerCase() + ' выгружен в XLSX · ' + n + ' ' + App.plural(n, ['отчёт', 'отчёта', 'отчётов']), 'success');
+    const range = App.dateRange();
+    const fmt = iso => iso ? iso.slice(8, 10) + '.' + iso.slice(5, 7) + '.' + iso.slice(0, 4) : '';
+    const period = range.from || range.to ? (fmt(range.from) || '…') + ' — ' + (fmt(range.to) || '…') : 'весь период';
+    App.toast('Реестр за ' + period + ' выгружен в XLSX · ' + n + ' ' + App.plural(n, ['отчёт', 'отчёта', 'отчётов']), 'success');
   });
   apply();
 })();

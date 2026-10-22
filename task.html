@@ -15,28 +15,30 @@
 
   <div class="flex">
 
-    <main class="flex-1 min-w-0 lg:pl-64 pb-24 lg:pb-0">
+    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 py-6 space-y-6 pb-24 lg:pb-0">
 
-      <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
-        <header class="px-4 lg:px-8 h-14 flex items-center justify-between gap-3 overflow-x-auto">
+      <header class="sticky top-0 z-30 min-h-[3.5rem] h-auto py-2.5 bg-canvas/80 backdrop-blur-xl border-b border-black/5 -mx-4 lg:-mx-8 -mt-6 px-4 lg:px-8 flex flex-wrap items-center justify-between gap-3">
           <div class="flex items-center gap-3 min-w-0">
             <a href="tasks.html" class="text-sm text-zinc-500 hover:text-zinc-900 transition shrink-0">← Задачи</a>
-            <h1 class="text-base font-semibold tracking-tight truncate">Проверить индексацию в GSC</h1>
+            <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate">Проверить индексацию в GSC</h1>
           </div>
-          <div class="flex items-center gap-2 shrink-0">
-            <button type="button" data-task-action="rework" data-accept-item data-creator="petrov" data-acceptor="petrov" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition whitespace-nowrap">На доработку</button>
-            <button type="button" data-task-action="accept" data-accept-item data-creator="petrov" data-acceptor="petrov" class="px-3.5 py-1.5 rounded-full bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition whitespace-nowrap">Принять</button>
-            <span data-status-note class="hidden inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap"></span>
-            <span data-accept-deny data-creator="petrov" data-acceptor="petrov" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 text-amber-700 text-sm font-medium whitespace-nowrap">
+          <div class="flex items-center gap-2.5 shrink-0">
+            <button type="button" data-task-action="submit" data-assignee="kim" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 transition whitespace-nowrap">Отправить на проверку</button>
+            <button type="button" data-task-action="finish" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 transition whitespace-nowrap">Завершить задачу</button>
+            <button type="button" data-task-action="rework" data-accept-item data-creator="petrov" data-acceptor="petrov" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-amber-500 text-white text-xs font-medium hover:bg-amber-600 transition whitespace-nowrap">На доработку</button>
+            <button type="button" data-task-action="accept" data-accept-item data-creator="petrov" data-acceptor="petrov" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 transition whitespace-nowrap">Принять</button>
+            <span data-status-note class="hidden inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap"></span>
+            <span data-accept-deny data-creator="petrov" data-acceptor="petrov" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 text-amber-700 text-xs font-medium whitespace-nowrap">
               <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>Принимает А. Петров
             </span>
+            <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
+            <a href="settings.html" aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
           </div>
-        </header>
-      </div>
+      </header>
 
-      <div class="px-4 lg:px-8 py-6 lg:py-8 max-w-7xl">
+      <div class="space-y-6">
 
-        <div class="mb-6">
+        <div>
           <div class="flex flex-wrap items-center gap-3 mb-2">
             <span data-task-status class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium"></span>
             <a href="tasks.html?direction=audit" class="text-xs text-zinc-500 hover:text-zinc-900 hover:underline">Аудит · Аудит технический</a>
@@ -47,9 +49,9 @@
           <div data-return-note class="hidden mt-4 max-w-xl"></div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
 
-          <div class="lg:col-span-2 flex flex-col gap-4 lg:gap-6">
+          <div class="xl:col-span-2 space-y-6">
 
             <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
               <h3 class="text-sm font-semibold tracking-tight mb-3">Описание задачи</h3>
@@ -108,7 +110,7 @@
                 </a>
               </div>
 
-              <ul data-feed class="max-h-[420px] overflow-y-auto overscroll-contain divide-y divide-zinc-100 border-t border-zinc-100 [scrollbar-width:thin]"></ul>
+              <ul data-feed class="max-h-[420px] overflow-y-auto overscroll-auto divide-y divide-zinc-100 border-t border-zinc-100 [scrollbar-width:thin]"></ul>
 
               <div class="border-t border-zinc-100 bg-zinc-50/80 p-3 lg:p-4">
                 <div data-composer class="rounded-2xl border border-zinc-200 bg-white transition focus-within:ring-4 focus-within:ring-accent/15 focus-within:border-accent/40">
@@ -149,7 +151,7 @@
                   <span class="hidden sm:block w-px h-5 bg-zinc-200" aria-hidden="true"></span>
                   <label class="inline-flex items-center gap-2.5 cursor-pointer select-none">
                     <input type="checkbox" data-report-toggle data-can="compose_reports" data-deny-tip="Включить комментарий в отчёт может сотрудник компании. Подрядчик пишет текст — его включит менеджер проекта." class="peer sr-only">
-                    <span class="relative w-9 h-5 shrink-0 rounded-full bg-zinc-200 transition peer-checked:bg-emerald-500 peer-disabled:opacity-40 peer-focus-visible:ring-4 peer-focus-visible:ring-accent/20 after:absolute after:left-0.5 after:top-0.5 after:w-4 after:h-4 after:rounded-full after:bg-white after:shadow-sm after:transition peer-checked:after:translate-x-4"></span>
+                    <span class="relative w-9 h-5 shrink-0 rounded-full bg-zinc-200 transition peer-checked:bg-emerald-500 peer-disabled:opacity-50 peer-focus-visible:ring-4 peer-focus-visible:ring-accent/20 after:absolute after:left-0.5 after:top-0.5 after:w-4 after:h-4 after:rounded-full after:bg-white after:shadow-sm after:transition peer-checked:after:translate-x-4"></span>
                     <span class="text-sm text-zinc-700 peer-disabled:text-zinc-400">📄 Включить в отчёт клиенту</span>
                   </label>
                   <div class="sm:ml-auto flex items-center gap-3">
@@ -163,7 +165,7 @@
 
           </div>
 
-          <aside class="flex flex-col gap-4 lg:gap-6">
+          <aside class="xl:col-span-1 space-y-6">
 
             <section data-time-widget class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
               <div class="flex items-center justify-between gap-3 mb-3">
@@ -491,11 +493,41 @@
           '<div class="text-xs mt-0.5 ' + (rework ? 'text-amber-800' : 'text-zinc-500') + '">Причина: ' + esc(last.reason) + '</div>' +
         '</div>' +
       '</div>';
-    document.querySelectorAll('[data-task-action]').forEach(b => b.classList.toggle('hidden', task.status !== 'review'));
+    const meId = App.me;
+    const both = meId === 'petrov' && meId === 'kim';
+    const execOnly = meId === 'kim';
+    const setter = !execOnly && !both && (meId === 'petrov' || !!App.isLead);
+    const open = task.status !== 'done';
+    const showAction = (action, roleOk, stateOk) => {
+      const b = document.querySelector('[data-task-action="' + action + '"]');
+      if (!b || b.dataset.rbacOff === '1') return;
+      b.classList.remove('hidden');
+      const enabled = roleOk && stateOk;
+      b.disabled = !enabled;
+      b.classList.toggle('opacity-50', !enabled);
+      b.classList.toggle('cursor-not-allowed', !enabled);
+      if (enabled) {
+        b.removeAttribute('aria-disabled');
+        b.removeAttribute('title');
+        delete b.dataset.tip;
+        if (!b.hasAttribute('data-deny-tip') || b.dataset.denyTip === 'Недоступно для вашей роли' || b.dataset.denyTip === 'Сейчас это действие недоступно') delete b.dataset.denyTip;
+        return;
+      }
+      const tip = roleOk ? 'Сейчас это действие недоступно' : 'Недоступно для вашей роли';
+      b.setAttribute('aria-disabled', 'true');
+      b.dataset.denyTip = tip;
+      b.dataset.tip = tip;
+      b.title = tip;
+    };
+    showAction('submit', execOnly, task.status !== 'review' && open);
+    showAction('finish', both, open);
+    showAction('accept', setter, task.status === 'review' && open);
+    showAction('rework', setter, task.status === 'review' && open);
     const sn = document.querySelector('[data-status-note]');
-    sn.classList.toggle('hidden', task.status === 'review');
-    sn.className = (task.status === 'review' ? 'hidden ' : '') + 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap ' + st.badge;
-    sn.innerHTML = '<span class="w-1.5 h-1.5 rounded-full ' + st.dot + '"></span>' + (rework ? 'Ждём исправлений от М. Кима' : 'Принята ' + task.dates.done);
+    const waitingReview = execOnly && task.status === 'review';
+    sn.classList.toggle('hidden', task.status === 'review' && !waitingReview);
+    sn.className = (task.status === 'review' && !waitingReview ? 'hidden ' : '') + 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap ' + (waitingReview ? 'bg-amber-50 text-amber-700' : st.badge);
+    sn.innerHTML = '<span class="w-1.5 h-1.5 rounded-full ' + (waitingReview ? 'bg-amber-600' : st.dot) + '"></span>' + (waitingReview ? 'На проверке у А. Петрова' : rework ? 'Ждём исправлений от М. Кима' : 'Принята ' + task.dates.done);
   }
   function addHistory(text, tone) {
     const li = document.createElement('li');
@@ -505,9 +537,29 @@
   }
   const shortName = n => { const p = n.split(' '); return p.length > 1 ? p[0][0] + '. ' + p[1] : n; };
   document.querySelectorAll('[data-task-action]').forEach(btn => btn.addEventListener('click', async () => {
-    if (btn.disabled || btn.getAttribute('aria-disabled') === 'true' || task.status !== 'review') return;
+    if (btn.disabled || btn.getAttribute('aria-disabled') === 'true' || btn.classList.contains('hidden')) return;
     const who = shortName(me.user);
-    if (btn.dataset.taskAction === 'accept') {
+    const action = btn.dataset.taskAction;
+    if (action === 'submit') {
+      if (task.status === 'review' || task.status === 'done') return;
+      task.status = 'review';
+      task.dates.review = '18.06';
+      events.push({ id: 'e' + Date.now(), system: true, text: esc(who) + ' передал задачу на проверку · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });
+      addHistory(who + ' отправил задачу на проверку', 'bg-amber-500');
+      paint(true); paintLifecycle();
+      return App.toast('Задача на проверке · А. Петров получит уведомление', 'success');
+    }
+    if (action === 'finish') {
+      if (task.status === 'done') return;
+      task.status = 'done';
+      task.dates.done = '18.06';
+      events.push({ id: 'e' + Date.now(), system: true, tone: 'green', text: esc(who) + ' завершил задачу · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });
+      addHistory(who + ' завершил задачу', 'bg-emerald-500');
+      paint(true); paintLifecycle();
+      return App.toast('Задача завершена', 'success');
+    }
+    if (task.status !== 'review') return;
+    if (action === 'accept') {
       task.status = 'done';
       task.dates.done = '18.06';
       events.push({ id: 'e' + Date.now(), system: true, tone: 'green', text: esc(who) + ' принял задачу · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });

@@ -28,6 +28,9 @@
       table.cards td { border: 0; padding: 0.4rem 0; }
       table.cards td[data-label]::before { content: attr(data-label); display: block; font-size: 11px; color: #71717a; margin-bottom: 2px; }
     }
+    @media (min-width: 1024px) {
+      main.lg\:px-8.lg\:pl-64 { padding-left: calc(16rem + 2rem); }
+    }
   </style>
 </head>
 <body class="bg-canvas text-ink antialiased">
@@ -57,25 +60,33 @@
     </div>
   </aside>
 
-  <header class="lg:hidden sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5 px-4 h-14 flex items-center justify-between">
-    <button type="button" data-side-open aria-label="Открыть меню" class="w-10 h-10 -ml-2 rounded-full hover:bg-black/5 flex items-center justify-center">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M4 7h16M4 12h16M4 17h16"/></svg>
-    </button>
-    <span class="text-sm font-semibold tracking-tight">SuperAdmin</span>
-    <a href="index.html" class="text-xs font-medium text-accent">Кабинет</a>
-  </header>
-
-  <div class="lg:pl-64">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
-        <div>
-          <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight">Платформа</h1>
-          <p class="text-sm text-zinc-500 mt-1">Сводка по агентствам, подпискам и платежам. Данные на 18 октября 2026.</p>
-        </div>
-        <a href="index.html" class="hidden sm:inline-flex self-start px-3.5 py-1.5 rounded-full bg-white shadow-card text-sm font-medium hover:bg-zinc-50">Вернуться в кабинет агентства</a>
+  <div>
+    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 py-6 space-y-6">
+    <header class="sticky top-0 z-30 min-h-[3.5rem] h-auto py-2.5 bg-canvas/80 backdrop-blur-xl border-b border-black/5 -mx-4 lg:-mx-8 -mt-6 px-4 lg:px-8 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <button type="button" data-side-open aria-label="Открыть меню" class="lg:hidden h-9 w-9 -ml-1 rounded-full hover:bg-black/5 flex items-center justify-center shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate">Платформа</h1>
       </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="index.html" class="h-9 px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm">В кабинет агентства</a>
+        <a href="#sandbox" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
+        <span aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0">SA</span>
+      </div>
+    </header>
+    <div class="w-full space-y-6">
+      <div class="bg-white rounded-2xl shadow-card p-3 lg:p-3.5 flex flex-wrap xl:flex-nowrap items-center justify-between gap-3">
+        <div class="inline-flex bg-zinc-100 rounded-full p-1 shrink-0">
+          <a href="#metrics" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 whitespace-nowrap">Сводка</a>
+          <a href="#companies" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 whitespace-nowrap">Компании</a>
+          <a href="#payments" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 whitespace-nowrap">Платежи</a>
+          <a href="#sandbox" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 whitespace-nowrap">Песочница</a>
+        </div>
+      </div>
+      <p class="text-sm text-zinc-500">Сводка по агентствам, подпискам и платежам. Данные на 18 октября 2026.</p>
 
-      <section id="metrics" class="grid sm:grid-cols-2 xl:grid-cols-4 gap-3 scroll-mt-20">
+      <section id="metrics" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 xl:gap-4 scroll-mt-20">
         <article class="bg-white rounded-3xl shadow-card p-5">
           <div class="text-xs text-zinc-500">MRR · месячная выручка</div>
           <div class="mt-2 text-2xl font-semibold tracking-tight tabular-nums"><span data-stat="mrr">485 000</span> ₽</div>
@@ -98,7 +109,7 @@
         </article>
       </section>
 
-      <section id="companies" class="mt-8 scroll-mt-20">
+      <section id="companies" class="scroll-mt-20">
         <div class="flex items-end justify-between gap-3 mb-3">
           <h2 class="text-lg font-semibold tracking-tight">Компании</h2>
           <p data-company-note class="text-xs text-zinc-500"></p>
@@ -121,7 +132,7 @@
         </div>
       </section>
 
-      <section id="payments" class="mt-8 scroll-mt-20">
+      <section id="payments" class="scroll-mt-20">
         <h2 class="text-lg font-semibold tracking-tight mb-3">Платежи</h2>
         <div class="md:bg-white md:rounded-3xl md:shadow-card md:overflow-hidden">
           <table class="cards w-full text-left">
@@ -140,7 +151,7 @@
         </div>
       </section>
 
-      <section id="sandbox" class="mt-8 scroll-mt-20">
+      <section id="sandbox" class="scroll-mt-20">
         <div class="bg-white rounded-3xl shadow-card p-5 sm:p-6">
           <h2 class="text-lg font-semibold tracking-tight">Песочница</h2>
           <p class="mt-1 text-sm text-zinc-500 max-w-xl">Проверка событий, которые основатель получает как пуш: новая регистрация с лендинга и успешная оплата тарифа.</p>
@@ -151,6 +162,7 @@
         </div>
       </section>
     </div>
+    </main>
   </div>
 
   <div data-toasts class="fixed top-4 right-4 left-4 sm:left-auto z-[70] flex flex-col items-stretch sm:items-end gap-2 pointer-events-none" aria-live="polite"></div>

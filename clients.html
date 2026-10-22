@@ -15,16 +15,32 @@
 
   <div class="flex">
 
-    <main class="flex-1 min-w-0 lg:pl-64 pb-24 lg:pb-0">
+    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 py-6 space-y-6 pb-24 lg:pb-0">
 
-      <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
-        <header class="px-4 lg:px-8 h-14 flex items-center justify-between gap-4">
-          <h1 class="text-base font-semibold tracking-tight">Клиенты</h1>
-          <button type="button" data-can="create_client" data-open-modal="client-create" class="shrink-0 px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Новый клиент</button>
-        </header>
-      </div>
+      <header class="sticky top-0 z-30 min-h-[3.5rem] h-auto py-2.5 bg-canvas/80 backdrop-blur-xl border-b border-black/5 -mx-4 lg:-mx-8 -mt-6 px-4 lg:px-8 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate">Клиенты</h1>
+        </div>
+        <div class="flex items-center gap-2.5 shrink-0">
+          <button type="button" data-can="create_client" data-open-modal="client-create" class="h-9 px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm">+ Новый клиент</button>
+          <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
+          <a href="settings.html" aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
+        </div>
+      </header>
 
-      <div class="px-4 lg:px-8 py-6 lg:py-8 max-w-none">
+      <div class="w-full space-y-6">
+        <div class="bg-white rounded-2xl shadow-card p-3 lg:p-3.5 flex flex-wrap xl:flex-nowrap items-center justify-between gap-3">
+          <div data-client-scope class="inline-flex bg-zinc-100 rounded-full p-1 shrink-0" role="group" aria-label="Сотрудничество">
+            <button type="button" data-coop="all" aria-pressed="true" class="px-3 py-1 rounded-full text-xs font-medium bg-white text-ink shadow-sm whitespace-nowrap">Все</button>
+            <button type="button" data-coop="active" aria-pressed="false" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 whitespace-nowrap">Активные</button>
+            <button type="button" data-coop="paused" aria-pressed="false" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 whitespace-nowrap">Приостановлены</button>
+            <button type="button" data-coop="lead" aria-pressed="false" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 whitespace-nowrap">Лиды</button>
+          </div>
+          <label class="relative block w-56 min-w-[12rem] ml-auto">
+            <svg class="w-4 h-4 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg>
+            <input data-client-q type="search" placeholder="Поиск" aria-label="Поиск клиентов" class="h-8 w-full bg-zinc-50 border border-zinc-200/80 rounded-xl pl-8 pr-3 text-xs text-zinc-700 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-accent">
+          </label>
+        </div>
 
         <section class="bg-white rounded-2xl shadow-card overflow-hidden">
           <div class="overflow-x-auto">
@@ -122,12 +138,31 @@
     '</tr>';
   }
   const tbody = document.querySelector('[data-client-rows]');
+  let coop = 'all';
   const paint = () => {
-    tbody.innerHTML = CLIENTS.map(row).join('');
-    document.querySelector('[data-clients-shown]').textContent = '1–' + CLIENTS.length;
+    const q = (document.querySelector('[data-client-q]').value || '').trim().toLowerCase();
+    const list = CLIENTS.filter(c => (coop === 'all' || c.status === coop) && (!q || (c.name + ' ' + c.contact + ' ' + c.email).toLowerCase().indexOf(q) !== -1));
+    tbody.innerHTML = list.map(row).join('');
+    document.querySelector('[data-clients-shown]').textContent = list.length ? '1–' + list.length : '0';
     document.querySelector('[data-clients-total]').textContent = CLIENTS.length;
+    if (window.SEOApp) SEOApp.applyPermissions();
   };
   paint();
+  document.querySelector('[data-client-scope]').addEventListener('click', e => {
+    const b = e.target.closest('[data-coop]');
+    if (!b) return;
+    coop = b.dataset.coop;
+    document.querySelectorAll('[data-client-scope] [data-coop]').forEach(btn => {
+      const on = btn === b;
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.classList.toggle('bg-white', on);
+      btn.classList.toggle('text-ink', on);
+      btn.classList.toggle('shadow-sm', on);
+      btn.classList.toggle('text-zinc-500', !on);
+    });
+    paint();
+  });
+  document.querySelector('[data-client-q]').addEventListener('input', paint);
 
   tbody.addEventListener('click', e => {
     const t = e.target.closest('[data-projects-toggle]');
@@ -159,7 +194,8 @@
     const c = CLIENTS.find(x => x.id === id);
     if (!c || c.brief.state === 'filled') return;
     c.brief = { state: 'sent', date: '18.06' };
-    document.querySelector('[data-brief-cell="' + id + '"]').innerHTML = brief(c);
+    const cell = document.querySelector('[data-brief-cell="' + id + '"]');
+    if (cell) cell.innerHTML = brief(c);
     App.applyPermissions();
   });
 })();

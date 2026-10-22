@@ -15,26 +15,46 @@
 
   <div class="flex">
 
-    <main class="flex-1 min-w-0 lg:pl-64 pb-24 lg:pb-0">
+    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 py-6 space-y-6 pb-24 lg:pb-0">
 
-      <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
-        <header class="px-4 lg:px-8 h-14 flex items-center justify-between gap-4">
-          <h1 class="text-base font-semibold tracking-tight">Сотрудники</h1>
-          <button type="button" data-can="hire_seo,hire_managers,invite_contractors" data-open-modal="invite" class="shrink-0 px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Пригласить сотрудника</button>
-        </header>
-        <div class="px-4 lg:px-8 py-2 border-t border-black/5 overflow-x-auto">
-          <div class="inline-flex bg-zinc-100 rounded-full p-1">
-            <button data-tab="list" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Список</button>
-            <button data-tab="load" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Загрузка по неделям</button>
+      <header class="sticky top-0 z-30 min-h-[3.5rem] h-auto py-2.5 bg-canvas/80 backdrop-blur-xl border-b border-black/5 -mx-4 lg:-mx-8 -mt-6 px-4 lg:px-8 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate">Сотрудники</h1>
+        </div>
+        <div class="flex items-center gap-2.5 shrink-0">
+          <button type="button" data-can="hire_seo,hire_managers,invite_contractors" data-open-modal="invite" class="h-9 px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm">+ Пригласить сотрудника</button>
+          <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
+          <a href="settings.html" aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
+        </div>
+      </header>
+
+      <div class="w-full space-y-6">
+
+        <div class="bg-white rounded-2xl shadow-card p-3 lg:p-3.5 flex flex-wrap xl:flex-nowrap items-center justify-between gap-3">
+          <div class="inline-flex bg-zinc-100 rounded-full p-1 shrink-0" role="group" aria-label="Представление">
+            <button data-tab="list" class="tab-btn px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Список</button>
+            <button data-tab="load" class="tab-btn px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Загрузка по неделям</button>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 ml-auto">
+            <span class="!hidden"></span>
+            <select data-team-role aria-label="Роль" class="h-8 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent">
+              <option value="">Все роли</option>
+              <option>Руководитель SEO</option>
+              <option>Руководитель менеджеров</option>
+              <option>Менеджер проекта</option>
+              <option>SEO-специалист</option>
+              <option>Подрядчик</option>
+            </select>
+            <label class="relative block w-56 min-w-[12rem]">
+              <svg class="w-4 h-4 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg>
+              <input data-team-q type="search" placeholder="Поиск" aria-label="Поиск сотрудников" class="h-8 w-full bg-zinc-50 border border-zinc-200/80 rounded-xl pl-8 pr-3 text-xs text-zinc-700 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-accent">
+            </label>
           </div>
         </div>
-      </div>
 
-      <div class="px-4 lg:px-8 py-6 lg:py-8 max-w-none">
-
-        <section class="bg-zinc-100/80 rounded-2xl p-4 lg:p-6 mb-6">
+        <section class="w-full bg-zinc-100/80 rounded-2xl p-4 lg:p-6">
           <div class="flex items-center justify-between gap-3 mb-4">
-            <h3 class="text-sm font-semibold tracking-tight">Отпуск</h3>
+            <h3 class="text-sm font-semibold tracking-tight">Отпуск сотрудников</h3>
             <button type="button" data-open-modal="vacation" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Оформить отпуск</button>
           </div>
           <div data-vacation-list class="space-y-2">
@@ -67,7 +87,7 @@
                 </tr>
               </thead>
               <tbody class="divide-y divide-zinc-100 block md:table-row-group">
-                <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top">
+                <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top cursor-pointer">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
                     <button type="button" data-open-modal="employee" data-employee="sidorov" class="flex items-center gap-3 group text-left">
                       <span class="w-9 h-9 rounded-full bg-zinc-900 text-white text-[11px] font-semibold flex items-center justify-center shrink-0">ИС</span>
@@ -86,7 +106,7 @@
                   <td data-label="Загрузка" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden"><div class="min-w-0 w-40"><div class="flex items-center gap-1.5"><span class="text-sm font-semibold tabular-nums text-zinc-900">116 ч</span><span class="text-xs font-semibold tabular-nums text-emerald-600">72%</span><span class="ml-auto w-12 h-1 rounded-full bg-zinc-100 overflow-hidden shrink-0" role="progressbar" aria-label="Загрузка" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"><span class="block h-full rounded-full bg-emerald-500" style="width:72%"></span></span></div><div class="text-xs text-zinc-400 mt-0.5">из 160 ч/мес</div></div></td>
                   <td data-label="Готово" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">48</td>
                 </tr>
-                <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top">
+                <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top cursor-pointer">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
                     <button type="button" data-open-modal="employee" data-employee="vetrova" class="flex items-center gap-3 group text-left">
                       <span class="w-9 h-9 rounded-full bg-zinc-900 text-white text-[11px] font-semibold flex items-center justify-center shrink-0">ОВ</span>
@@ -105,7 +125,7 @@
                   <td data-label="Загрузка" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden"><div class="min-w-0 w-40"><div class="flex items-center gap-1.5"><span class="text-sm font-semibold tabular-nums text-zinc-900">104 ч</span><span class="text-xs font-semibold tabular-nums text-emerald-600">65%</span><span class="ml-auto w-12 h-1 rounded-full bg-zinc-100 overflow-hidden shrink-0" role="progressbar" aria-label="Загрузка" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"><span class="block h-full rounded-full bg-emerald-500" style="width:65%"></span></span></div><div class="text-xs text-zinc-400 mt-0.5">из 160 ч/мес</div></div></td>
                   <td data-label="Готово" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">32</td>
                 </tr>
-                <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top">
+                <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top cursor-pointer">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
                     <button type="button" data-open-modal="employee" data-employee="morozov" class="flex items-center gap-3 group text-left">
                       <span class="w-9 h-9 rounded-full bg-zinc-900 text-white text-[11px] font-semibold flex items-center justify-center shrink-0">НМ</span>
@@ -124,7 +144,7 @@
                   <td data-label="Загрузка" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden"><div class="min-w-0 w-40"><div class="flex items-center gap-1.5"><span class="text-sm font-semibold tabular-nums text-zinc-900">62 ч</span><span class="text-xs font-semibold tabular-nums text-emerald-600">78%</span><span class="ml-auto w-12 h-1 rounded-full bg-zinc-100 overflow-hidden shrink-0" role="progressbar" aria-label="Загрузка" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"><span class="block h-full rounded-full bg-emerald-500" style="width:78%"></span></span></div><div class="text-xs text-zinc-400 mt-0.5">из 80 ч/мес · <span class="text-zinc-500">отпуск 16–29.06</span></div></div></td>
                   <td data-label="Готово" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">24</td>
                 </tr>
-                <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top">
+                <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top cursor-pointer">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
                     <button type="button" data-open-modal="employee" data-employee="petrov" class="flex items-center gap-3 group text-left">
                       <span class="w-9 h-9 rounded-full bg-zinc-900 text-white text-[11px] font-semibold flex items-center justify-center shrink-0">АП</span>
@@ -143,7 +163,7 @@
                   <td data-label="Загрузка" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden"><div class="min-w-0 w-40"><div class="flex items-center gap-1.5"><span class="text-sm font-semibold tabular-nums text-zinc-900">176 ч</span><span class="text-xs font-semibold tabular-nums text-red-600">110%</span><span class="ml-auto w-12 h-1 rounded-full bg-zinc-100 overflow-hidden shrink-0" role="progressbar" aria-label="Загрузка" aria-valuenow="110" aria-valuemin="0" aria-valuemax="100"><span class="block h-full rounded-full bg-red-500" style="width:100%"></span></span></div><div class="text-xs text-zinc-400 mt-0.5">из 160 ч/мес · <span class="text-red-600 font-medium">перегруз +16 ч</span></div></div></td>
                   <td data-label="Готово" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">67</td>
                 </tr>
-                <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top">
+                <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top cursor-pointer">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
                     <button type="button" data-open-modal="employee" data-employee="dronov" class="flex items-center gap-3 group text-left">
                       <span class="w-9 h-9 rounded-full bg-zinc-900 text-white text-[11px] font-semibold flex items-center justify-center shrink-0">ИД</span>
@@ -162,7 +182,7 @@
                   <td data-label="Загрузка" class="md:px-3 md:py-3 lg:py-4 text-sm min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden"><div class="min-w-0 w-40"><div class="flex items-center gap-1.5"><span class="text-sm font-semibold tabular-nums text-zinc-900">108 ч</span><span class="text-xs font-semibold tabular-nums text-emerald-600">68%</span><span class="ml-auto w-12 h-1 rounded-full bg-zinc-100 overflow-hidden shrink-0" role="progressbar" aria-label="Загрузка" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100"><span class="block h-full rounded-full bg-emerald-500" style="width:68%"></span></span></div><div class="text-xs text-zinc-400 mt-0.5">из 160 ч/мес</div></div></td>
                   <td data-label="Готово" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">41</td>
                 </tr>
-                <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top">
+                <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top cursor-pointer">
                   <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
                     <button type="button" data-open-modal="employee" data-employee="kim" class="flex items-center gap-3 group text-left">
                       <span class="w-9 h-9 rounded-full bg-zinc-200 text-zinc-500 text-[11px] font-semibold flex items-center justify-center shrink-0">МК</span>
@@ -244,6 +264,21 @@
 </div>
 
 <script>
+function filterTeam() {
+  const q = (document.querySelector('[data-team-q]').value || '').trim().toLowerCase();
+  const role = document.querySelector('[data-team-role]').value;
+  document.querySelectorAll('[data-tab-panel="list"] tbody tr, [data-tab-panel="load"] li').forEach(el => {
+    const text = el.textContent.toLowerCase();
+    el.classList.toggle('!hidden', (q && text.indexOf(q) === -1) || (role && el.textContent.indexOf(role) === -1));
+  });
+}
+document.querySelector('[data-team-q]').addEventListener('input', filterTeam);
+document.querySelector('[data-team-role]').addEventListener('change', filterTeam);
+document.querySelector('[data-tab-panel="list"] tbody').addEventListener('click', e => {
+  if (e.target.closest('a, button, input, select')) return;
+  const open = e.target.closest('tr') && e.target.closest('tr').querySelector('[data-open-modal="employee"]');
+  if (open) open.click();
+});
 document.addEventListener('vacation:saved', e => {
   const d = e.detail;
   const list = document.querySelector('[data-vacation-list]');

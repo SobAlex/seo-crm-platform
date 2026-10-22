@@ -330,7 +330,14 @@
   App.registerModal('employee', {
     title: 'Сотрудник', subtitle: 'Роль, отдел и норма часов', submit: 'Сохранить',
     body: () =>
-      '<div class="flex items-center gap-3"><span data-emp-avatar class="w-11 h-11 rounded-full bg-zinc-900 text-white text-xs font-semibold flex items-center justify-center shrink-0"></span><div class="min-w-0"><div data-emp-name class="text-sm font-semibold"></div><div data-emp-mail class="text-xs text-zinc-500"></div></div></div>' +
+      '<div class="flex items-center gap-3"><span data-emp-avatar class="w-11 h-11 rounded-full bg-zinc-900 text-white text-xs font-semibold flex items-center justify-center shrink-0"></span><div class="min-w-0"><div data-emp-name class="text-sm font-semibold"></div><div data-emp-mail class="text-xs text-zinc-500"></div><div data-emp-phone class="text-xs text-zinc-500"></div></div></div>' +
+      '<div class="rounded-2xl bg-canvas p-4">' +
+        '<div class="flex items-center justify-between gap-3 text-xs"><span class="text-zinc-500">Загрузка · июнь</span><span data-emp-hours class="font-medium tabular-nums"></span></div>' +
+        '<div class="mt-2 h-1.5 rounded-full bg-white overflow-hidden" role="progressbar" aria-label="Загрузка за месяц"><div data-emp-bar class="h-full rounded-full"></div></div>' +
+        '<div data-can="see_finance" class="mt-2 text-xs text-zinc-500">Ставка <span data-emp-rate class="font-medium text-zinc-900 tabular-nums"></span></div>' +
+        '<div class="mt-3 text-xs font-medium text-zinc-500">Задачи месяца</div>' +
+        '<ul data-emp-tasks class="mt-1.5 space-y-1.5"></ul>' +
+      '</div>' +
       field('Роль', select('role', App.ROLES.map(r => option(r.id, r.label, { disabled: r.id === 'owner' })).join(''), 'data-can="change_roles" data-deny-tip="Менять роль может только владелец компании"'), { hint: 'Смена роли сразу меняет доступы человека' }) +
       grid(3,
         field('Отдел', select('dept', option('SEO', 'SEO') + option('Менеджеры', 'Менеджеры') + option('Контент', 'Контент') + option('—', 'Без отдела'))) +
@@ -338,16 +345,34 @@
         field('Ставка, ₽/ч', input('rate', 'type="number" min="0" step="100"'), { attrs: 'data-can="see_finance"' })) +
       field('Проекты', '<div data-emp-projects class="flex flex-wrap gap-1.5"></div>'),
     onOpen(m, opener) {
+      const MONTH = {
+        sidorov: { spent: 116, cap: 160, phone: '+7 495 120-11-01', mail: 'ivan@seo.ru', tasks: [['Аудит семантики «Холод»', 40], ['План на июль «Ремонт+»', 36], ['Технический контроль «Стройтех»', 40]] },
+        vetrova: { spent: 104, cap: 160, phone: '+7 495 120-11-02', mail: 'olga@seo.ru', tasks: [['Контент-план «МедЛайф»', 48], ['Правки мета «Холод»', 32], ['Бриф нового клиента', 24]] },
+        morozov: { spent: 62, cap: 80, phone: '+7 495 120-11-03', mail: 'n.morozov@seo.ru', tasks: [['Согласование отчёта «Холод»', 28], ['Встреча с «Ремонт+»', 22], ['Передача на отпуск', 12]] },
+        petrov: { spent: 176, cap: 160, phone: '+7 495 120-11-04', mail: 'alex@dev.ru', tasks: [['Индексация GSC «Холод»', 64], ['Ссылки «Ремонт+»', 58], ['Скорость «Стройтех»', 54]] },
+        dronov: { spent: 108, cap: 160, phone: '+7 495 120-11-05', mail: 'ivan.d@seo.ru', tasks: [['Кластеризация «МедЛайф»', 42], ['Сниппеты «Холод»', 36], ['Мониторинг позиций', 30]] },
+        kim: { spent: 56, cap: 80, phone: '+7 495 120-11-06', mail: 'maria@copy.ru', tasks: [['Тексты категорий «Холод»', 24], ['Описания услуг «Ремонт+»', 18], ['Правки по замечаниям', 14]] }
+      };
       const p = person(opener && opener.dataset.employee) || TEAM[1];
+      const load = MONTH[p.id] || { spent: 0, cap: 160, phone: '', mail: p.id + '@romashka.ru', tasks: [] };
+      const rate = p.role === 'contractor' ? 1200 : 1800;
       m.querySelector('[data-emp-name]').textContent = p.name;
-      const mail = opener && opener.querySelector('.text-xs');
-      m.querySelector('[data-emp-mail]').textContent = (mail ? mail.textContent.trim() : p.id + '@romashka.ru') + ' · ' + roleLabel(p.role);
+      m.querySelector('[data-emp-mail]').textContent = load.mail;
+      m.querySelector('[data-emp-phone]').textContent = load.phone;
+      m.querySelector('[data-emp-hours]').textContent = load.spent + ' / ' + load.cap + ' ч';
+      const bar = m.querySelector('[data-emp-bar]');
+      bar.style.width = Math.min(100, Math.round(load.spent / load.cap * 100)) + '%';
+      bar.className = 'h-full rounded-full ' + (load.spent > load.cap ? 'bg-red-500' : 'bg-emerald-500');
+      const rateEl = m.querySelector('[data-emp-rate]');
+      if (rateEl) rateEl.textContent = rate.toLocaleString('ru-RU') + ' ₽/ч';
+      m.querySelector('[data-emp-tasks]').innerHTML = load.tasks.map(t =>
+        '<li class="flex items-center justify-between gap-3 text-sm"><span class="min-w-0 truncate">' + esc(t[0]) + '</span><span class="text-xs text-zinc-500 tabular-nums shrink-0">' + t[1] + ' ч</span></li>').join('');
       m.querySelector('[data-emp-avatar]').textContent = p.name.split(' ').map(s => s[0]).join('');
       m.querySelector('[data-modal-title]').textContent = p.name;
       m.querySelector('[name="role"]').value = p.role;
       m.querySelector('[name="dept"]').value = p.dept;
       m.querySelector('[name="week"]').value = p.load.split('/')[1];
-      m.querySelector('[name="rate"]').value = p.role === 'contractor' ? 1200 : 1800;
+      m.querySelector('[name="rate"]').value = rate;
       m.querySelector('[data-emp-projects]').innerHTML = p.projects.length
         ? p.projects.map(id => '<span class="px-2.5 py-1 rounded-full bg-zinc-100 text-xs text-zinc-700">' + esc((PROJECTS.find(x => x.id === id) || {}).name) + '</span>').join('')
         : '<span class="text-xs text-zinc-500">Нет назначенных проектов</span>';

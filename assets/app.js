@@ -24,7 +24,8 @@ tailwind.config = {
         pop: '0 24px 64px rgba(0,0,0,.18)'
       }
     }
-  }
+  },
+  safelist: ['opacity-50', 'cursor-not-allowed', 'pointer-events-none']
 };
 
 (function () {
@@ -269,6 +270,12 @@ tailwind.config = {
     const holder = document.querySelector('[data-app-chrome]');
     const main = document.querySelector('main');
     if (main) main.classList.add('pb-24', 'lg:pb-0', 'lg:pl-64');
+    if (!document.getElementById('shell-pad')) {
+      const pad = document.createElement('style');
+      pad.id = 'shell-pad';
+      pad.textContent = '@media (min-width:1024px){main.lg\\:px-8.lg\\:pl-64{padding-left:calc(16rem + 2rem)}}';
+      document.head.appendChild(pad);
+    }
     if (!holder) return;
     const active = holder.dataset.appChrome;
     const allowed = holder.dataset.roles ? holder.dataset.roles.split(',').map(s => s.trim()) : null;
@@ -297,37 +304,60 @@ tailwind.config = {
   }
 
   /* ---------- Права на элементах ----------
-     Кнопки и ссылки чужой роли остаются на месте и становятся неактивными.
-     Текстовые блоки по-прежнему скрываются.
+     Кнопки и поля остаются в разметке для любой роли.
+     Нет права — disabled, opacity-50, cursor-not-allowed и подсказка.
+     Текстовые блоки без элементов управления по-прежнему скрываются.
      data-can="ключ"        — активно, только если право есть
      data-roles="a,b"       — активно только для перечисленных ролей
      data-deny="a,b"        — неактивно для перечисленных ролей
+     data-deny-tip          — свой текст подсказки, иначе «Недоступно для вашей роли»
      data-role-name / data-user-name / data-user-full — подстановка текущей роли / имени / имени и фамилии */
+  const DENY_TIP = 'Недоступно для вашей роли';
   function isActionControl(el) {
     const tag = el.tagName;
     return tag === 'BUTTON' || tag === 'A' || tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA';
   }
 
-  /* Подсказка у неактивного элемента: data-deny-tip="свой текст", иначе — из права или списка ролей. */
-  function denyControl(el, reason) {
-    if (el.getAttribute('aria-disabled') === 'true') return;
-    el.setAttribute('aria-disabled', 'true');
-    el.classList.add('opacity-40', 'cursor-not-allowed');
-    const tip = el.dataset.denyTip || ('Недоступно для роли «' + roleLabel() + '»' + (reason ? '. ' + reason : ''));
+  /* Подсказка у неактивного элемента. Свой data-deny-tip сохраняется. */
+  function denyControl(el) {
+    if (!el || el.dataset.rbacOff === '1' || !el.isConnected) return;
+    el.dataset.rbacOff = '1';
+    const tip = el.dataset.denyTip || DENY_TIP;
+    el.dataset.denyTip = tip;
     el.dataset.tip = tip;
     el.setAttribute('title', tip);
+    el.setAttribute('aria-disabled', 'true');
+    el.classList.add('opacity-50', 'cursor-not-allowed');
     if (el.tagName === 'A') {
-      el.addEventListener('click', e => { e.preventDefault(); toast(tip, 'error'); });
-      el.removeAttribute('href');
-    } else {
+      el.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); }, true);
+    } else if ('disabled' in el) {
       el.disabled = true;
+    }
+    /* Обёртка ловит наведение: у disabled-кнопки браузер не показывает title. */
+    if ((el.tagName === 'BUTTON' || el.tagName === 'A') && el.parentElement && !el.parentElement.hasAttribute('data-deny-wrap')) {
+      const wrap = document.createElement('span');
+      wrap.className = 'inline-flex max-w-full cursor-not-allowed';
+      wrap.setAttribute('data-deny-wrap', '');
+      wrap.dataset.tip = tip;
+      wrap.title = tip;
+      el.classList.add('pointer-events-none');
+      el.parentNode.insertBefore(wrap, el);
+      wrap.appendChild(el);
     }
   }
 
-  function gate(el, allowed, reason) {
-    if (allowed) return;
-    if (isActionControl(el)) denyControl(el, reason);
-    else el.remove();
+  function gate(el, allowed) {
+    if (!el || !el.isConnected || allowed) return;
+    if (isActionControl(el)) {
+      denyControl(el);
+      return;
+    }
+    const controls = el.querySelectorAll('button, a, input, select, textarea');
+    if (controls.length) {
+      controls.forEach(denyControl);
+      return;
+    }
+    el.remove();
   }
 
   const permLabel = key => {
@@ -358,10 +388,11 @@ tailwind.config = {
     document.querySelectorAll('[data-role-name]').forEach(el => { el.textContent = roleLabel(); });
     document.querySelectorAll('[data-user-name]').forEach(el => { el.textContent = r.user.split(' ')[0]; });
     document.querySelectorAll('[data-user-full]').forEach(el => { el.textContent = r.user; });
+    document.querySelectorAll('[data-user-initials]').forEach(el => { el.textContent = r.initials; });
   }
 
   /* ---------- 4. Табы ---------- */
-  const TAB_ON = ['bg-white', 'text-zinc-900', 'shadow-sm'];
+  const TAB_ON = ['bg-white', 'text-ink', 'shadow-sm'];
   const TAB_OFF = ['text-zinc-500'];
 
   function initTabs() {
@@ -814,6 +845,69 @@ tailwind.config = {
     return f[m10 === 1 && m100 !== 11 ? 0 : (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20) ? 1 : 2)];
   }
 
+  /* Диапазон «Дата с / Дата по»: [data-date-from], [data-date-to].
+     Значение строки: ГГГГ-ММ-ДД, ГГГГ-ММ (весь месяц) или «начало/конец». */
+  function dateRange() {
+    const fromEl = document.querySelector('[data-date-from]');
+    const toEl = document.querySelector('[data-date-to]');
+    return { from: (fromEl && fromEl.value) || '', to: (toEl && toEl.value) || '' };
+  }
+  function dateInRange(value, from, to) {
+    if (from === undefined || to === undefined) {
+      const r = dateRange();
+      if (from === undefined) from = r.from;
+      if (to === undefined) to = r.to;
+    }
+    if (!from && !to) return true;
+    if (!value) return false;
+    let start = value;
+    let end = value;
+    const slash = value.indexOf('/');
+    if (slash !== -1) {
+      start = value.slice(0, slash);
+      end = value.slice(slash + 1);
+    } else if (value.length === 7) {
+      start = value + '-01';
+      end = value + '-31';
+    }
+    if (from && end < from) return false;
+    if (to && start > to) return false;
+    return true;
+  }
+  function paintRangeRows() {
+    const rows = document.querySelectorAll('[data-project-row]');
+    if (!rows.length) return;
+    rows.forEach(el => {
+      const rangeOut = el.dataset.rangeDate ? !dateInRange(el.dataset.rangeDate) : false;
+      const extra = el.dataset.mineOut === '1' || el.dataset.qOut === '1';
+      el.classList.toggle('!hidden', el.dataset.roleOut === '1' || rangeOut || extra);
+    });
+    const visible = Array.from(rows).filter(el => !el.classList.contains('!hidden'));
+    const total = Array.from(rows).filter(el => el.dataset.roleOut !== '1').length;
+    document.querySelectorAll('[data-project-summary]').forEach(el => {
+      const num = '<span class="tabular-nums text-zinc-900 font-medium">';
+      el.innerHTML = visible.length
+        ? 'Показано ' + num + '1–' + visible.length + '</span> из ' + num + total + '</span>'
+        : 'Показано ' + num + '0</span> из ' + num + total + '</span>';
+    });
+  }
+  function initDateRange() {
+    const fromEl = document.querySelector('[data-date-from]');
+    const toEl = document.querySelector('[data-date-to]');
+    if (!fromEl && !toEl) return;
+    const apply = () => {
+      if (fromEl && toEl) {
+        toEl.min = fromEl.value;
+        fromEl.max = toEl.value;
+      }
+      paintRangeRows();
+      if (pageFilter) applyFilters();
+      document.dispatchEvent(new CustomEvent('daterange:change', { bubbles: true }));
+    };
+    if (fromEl) fromEl.addEventListener('change', apply);
+    if (toEl) toEl.addEventListener('change', apply);
+  }
+
   /* Переключатель месяца: [data-month-nav] > [data-month-step="-1|1"], [data-month-label]
      data-month-min / data-month-max = "2025-01"; событие month:change (detail.year, detail.month 0–11). */
   const MONTHS = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
@@ -1183,7 +1277,7 @@ tailwind.config = {
     all:  'Все задачи компании'
   };
   const SCOPE_DEFAULT = { owner: 'all', seo_head: 'all', mgr_head: 'all', pm: 'all', employee: 'all', contractor: 'exec' };
-  const SEG_ON = ['bg-white', 'text-zinc-900', 'shadow-sm'];
+  const SEG_ON = ['bg-white', 'text-ink', 'shadow-sm'];
   const SEG_OFF = ['text-zinc-500'];
   const CHIP_ON = SEG_ON;
   const CHIP_OFF = SEG_OFF;
@@ -1293,7 +1387,7 @@ tailwind.config = {
     });
     document.querySelectorAll('[data-view-switch] [data-view]').forEach(b => {
       const on = b.dataset.view === view;
-      ['bg-zinc-900', 'text-white', 'bg-white', 'shadow-card', 'shadow-sm', 'text-zinc-900', 'text-zinc-700'].forEach(c => b.classList.remove(c));
+      ['bg-zinc-900', 'text-white', 'bg-white', 'shadow-card', 'shadow-sm', 'text-zinc-900', 'text-ink', 'text-zinc-700'].forEach(c => b.classList.remove(c));
       (on ? CHIP_ON : CHIP_OFF).forEach(c => b.classList.add(c));
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
@@ -1340,7 +1434,8 @@ tailwind.config = {
   Object.assign(window.SEOApp, {
     me: ME.id, myProjects: ME.projects, isLead,
     canAccept: creator => can('accept_work') && (isLead || creator === ME.id),
-    setTaskFilter(fn) { pageFilter = fn || null; applyFilters(); }
+    setTaskFilter(fn) { pageFilter = fn || null; applyFilters(); },
+    dateInRange, dateRange, paintDateRange: paintRangeRows
   });
 
   /* ---------- Место руководителя SEO ----------
@@ -1389,18 +1484,11 @@ tailwind.config = {
   function applyProjectList() {
     const rows = document.querySelectorAll('[data-project-row]');
     if (!rows.length) return;
-    if (!can('view_all_projects')) {
-      rows.forEach(el => {
-        if (!ME.projects.includes(el.dataset.projectRow || '')) el.classList.add('!hidden');
-      });
-    }
-    const n = Array.from(rows).filter(el => !el.classList.contains('!hidden')).length;
-    document.querySelectorAll('[data-project-summary]').forEach(el => {
-      const num = '<span class="tabular-nums text-zinc-900 font-medium">';
-      el.innerHTML = n
-        ? 'Показано ' + num + '1–' + n + '</span> из ' + num + n + '</span>'
-        : 'Показано ' + num + '0</span>';
+    const limited = !can('view_all_projects');
+    rows.forEach(el => {
+      el.dataset.roleOut = (limited && !ME.projects.includes(el.dataset.projectRow || '')) ? '1' : '0';
     });
+    paintRangeRows();
   }
 
   function initHomeTables() {
@@ -1484,6 +1572,7 @@ tailwind.config = {
     initTooltips();
     initDemoActions();
     initMonthNav();
+    initDateRange();
     renderMatrix();
     initScope();
     initSeat();

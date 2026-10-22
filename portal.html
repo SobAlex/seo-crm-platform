@@ -15,41 +15,33 @@
 
   <div class="flex">
 
-    <main class="flex-1 min-w-0 lg:pl-64 pb-24 lg:pb-0">
+    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 py-6 space-y-6 pb-24 lg:pb-0">
 
-      <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
-        <header class="px-4 lg:px-8 h-14 flex items-center justify-between gap-4">
-          <h1 class="text-base font-semibold tracking-tight">Мой проект</h1>
-          <nav class="flex items-center gap-4 text-sm">
-            <a href="#approve" class="text-zinc-500 hover:text-zinc-900 transition">Согласование</a>
-            <a href="#reports" class="text-zinc-500 hover:text-zinc-900 transition">Отчёты</a>
-          </nav>
-        </header>
-      </div>
+      <header class="sticky top-0 z-30 min-h-[3.5rem] h-auto py-2.5 bg-canvas/80 backdrop-blur-xl border-b border-black/5 -mx-4 lg:-mx-8 -mt-6 px-4 lg:px-8 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate">Мой проект</h1>
+        </div>
+        <div class="flex items-center gap-2.5 shrink-0">
+          <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
+          <a href="settings.html" aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>ЕК</span></a>
+        </div>
+      </header>
 
-      <div class="px-4 lg:px-8 py-6 lg:py-8 max-w-4xl">
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
+        <div class="xl:col-span-2 space-y-6">
 
-        <div data-deny="client" class="mb-6 rounded-2xl bg-blue-50 px-4 py-3 text-sm text-blue-800">
+        <div data-deny="client" class="rounded-2xl bg-blue-50 px-4 py-3 text-sm text-blue-800">
           <strong class="font-medium">Предпросмотр.</strong> Так проект видит клиент Елена Крылова: результаты, задачи на согласовании и отправленные отчёты. Часы и ставки, внутренние комментарии и фамилии подрядчиков ему не показываются.
         </div>
 
-        <div class="mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-          <div>
-            <p class="text-sm text-zinc-500 mb-1">Ромашка Digital · SEO-продвижение</p>
-            <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight">Интернет-магазин «Холод»</h2>
-            <p class="text-sm text-zinc-500 mt-1">holod-shop.ru · Июнь 2025</p>
-          </div>
-          <div class="flex items-center gap-3 bg-white rounded-2xl shadow-card px-4 py-3 sm:self-auto">
-            <span class="w-9 h-9 rounded-full bg-zinc-900 text-white text-[11px] font-semibold flex items-center justify-center shrink-0">НМ</span>
-            <div class="min-w-0">
-              <div class="text-sm font-medium">Никита Морозов</div>
-              <div class="text-xs text-zinc-500">Ваш менеджер · n.morozov@romashka.ru</div>
-            </div>
-          </div>
+        <div>
+          <p class="text-sm text-zinc-500 mb-1">Ромашка Digital · SEO-продвижение</p>
+          <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight">Интернет-магазин «Холод»</h2>
+          <p class="text-sm text-zinc-500 mt-1">holod-shop.ru · Июнь 2025</p>
         </div>
 
         <!-- Нужно от вас -->
-        <section id="approve" data-seg-scope class="mb-8 scroll-mt-20">
+        <section id="approve" data-seg-scope class="scroll-mt-20">
           <div class="mb-3 flex flex-wrap items-center justify-between gap-3">
             <h3 class="text-sm font-semibold tracking-tight">Нужно от вас</h3>
             <div data-segmented role="group" aria-label="Что нужно от вас">
@@ -95,7 +87,7 @@
         </section>
 
         <!-- Результаты -->
-        <section class="mb-8">
+        <section>
           <div class="mb-3 flex items-end justify-between gap-3">
             <h3 class="text-sm font-semibold tracking-tight">Результаты</h3>
             <span class="text-xs text-zinc-500">Данные на 18.06</span>
@@ -160,7 +152,7 @@
         </section>
 
         <!-- Дорожная карта -->
-        <section class="mb-8">
+        <section>
           <h3 class="text-sm font-semibold tracking-tight mb-3">Дорожная карта</h3>
           <div class="bg-white rounded-2xl shadow-card overflow-hidden">
             <ul class="divide-y divide-zinc-100">
@@ -186,7 +178,7 @@
         </section>
 
         <!-- Ежемесячные отчёты -->
-        <section id="reports" class="mb-8 scroll-mt-20">
+        <section id="reports" class="scroll-mt-20">
           <div class="mb-3 flex items-end justify-between gap-3">
             <h3 class="text-sm font-semibold tracking-tight">Ежемесячные отчёты</h3>
             <span class="hidden sm:inline text-xs text-zinc-500">Присылаем до 5 числа следующего месяца</span>
@@ -194,8 +186,22 @@
           <div data-portal-reports class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4"></div>
         </section>
 
-        <p class="text-xs text-zinc-500 text-center">Остались вопросы? Напишите менеджеру — ответим в течение рабочего дня.</p>
+        <p class="text-xs text-zinc-500">Остались вопросы? Напишите менеджеру — ответим в течение рабочего дня.</p>
 
+        </div>
+        <div class="xl:col-span-1 space-y-6">
+          <div class="flex items-center gap-3 bg-white rounded-2xl shadow-card px-4 py-3">
+            <span class="w-9 h-9 rounded-full bg-zinc-900 text-white text-[11px] font-semibold flex items-center justify-center shrink-0">НМ</span>
+            <div class="min-w-0">
+              <div class="text-sm font-medium">Никита Морозов</div>
+              <div class="text-xs text-zinc-500">Ваш менеджер · n.morozov@romashka.ru</div>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl shadow-card p-4 space-y-2">
+            <a href="#approve" class="block text-sm text-zinc-600 hover:text-zinc-900 transition">Согласование</a>
+            <a href="#reports" class="block text-sm text-zinc-600 hover:text-zinc-900 transition">Отчёты</a>
+          </div>
+        </div>
       </div>
     </main>
   </div>
