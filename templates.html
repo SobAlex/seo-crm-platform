@@ -1472,13 +1472,10 @@
         </div>
         <div class="flex flex-wrap items-baseline justify-between gap-2">
           <span class="text-xs font-medium text-zinc-500">Направления и работы</span>
-          <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
-            <span data-rm-total class="text-xs text-zinc-500 tabular-nums whitespace-nowrap"></span>
-            <button type="button" data-rm-fill class="text-xs font-medium text-accent hover:underline whitespace-nowrap">Заполнить из типового шаблона</button>
-          </div>
+          <span data-rm-total class="text-xs text-zinc-500 tabular-nums whitespace-nowrap"></span>
         </div>
         <div data-rm-list class="space-y-3"></div>
-        <button type="button" data-rm-add-dir class="w-full px-4 py-2.5 rounded-2xl border border-dashed border-zinc-300 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 transition">+ Направление</button>
+        <button type="button" data-rm-add-dir class="w-full px-4 py-2.5 rounded-2xl border border-dashed border-zinc-300 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 transition">+ Добавить направление</button>
       </div>
       <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white/95 backdrop-blur rounded-b-3xl">
         <button type="button" data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
@@ -2204,12 +2201,12 @@
         '<button type="button" data-rm-move="1" aria-label="Ниже" class="w-7 h-7 shrink-0 rounded-full text-zinc-500 hover:bg-white transition">↓</button>' +
         '<button type="button" data-rm-del-dir class="px-2 text-xs text-zinc-500 hover:text-red-600 transition">Удалить</button></div>' +
         '<ul data-rm-works class="divide-y divide-zinc-100"></ul>' +
-        '<div class="px-3 py-2 border-t border-zinc-100"><button type="button" data-rm-add-work class="text-xs font-medium text-accent hover:underline">+ Работа</button></div>';
+        '<div class="px-3 py-2 border-t border-zinc-100"><button type="button" data-rm-add-work class="text-xs font-medium text-accent hover:underline">+ Добавить работу</button></div>';
       const ul = box.querySelector('[data-rm-works]');
       if (d) {
         box.querySelector('[data-rm-dir-name]').value = d[0];
         d[1].forEach(w => ul.appendChild(workRow(w)));
-      } else ul.appendChild(workRow());
+      }
       return box;
     }
     function renumber() {
@@ -2228,12 +2225,8 @@
       });
       total.textContent = plural(dirs.length, 'направление', 'направления', 'направлений') + ' · ' + plural(works, 'работа', 'работы', 'работ') + ' · ' + hoursText(hours) + ' ч';
     }
-    function load(type) {
-      list.replaceChildren.apply(list, (ROADMAPS[type] || []).map(dirBlock));
-      renumber();
-    }
     function reset() {
-      list.replaceChildren(dirBlock());
+      list.replaceChildren();
       modal.querySelector('[data-rm-name]').value = '';
       modal.querySelector('[data-rm-desc]').value = '';
       renumber();
@@ -2243,7 +2236,6 @@
     modal.addEventListener('click', e => {
       const t = e.target;
       if (t.closest('[data-rm-add-dir]')) { const b = dirBlock(); list.appendChild(b); renumber(); b.querySelector('input').focus(); return; }
-      if (t.closest('[data-rm-fill]')) { load(typeSel.value); return window.SEOApp.toast('Загружен шаблон «' + TYPE_NAME[typeSel.value] + '» — поправьте под проект'); }
       const box = t.closest('[data-rm-dir]');
       if (!box) return;
       if (t.closest('[data-rm-add-work]')) { const li = workRow(); box.querySelector('[data-rm-works]').appendChild(li); renumber(); li.querySelector('input').focus(); }
@@ -2272,27 +2264,45 @@
         })).filter(w => w.title)
       }));
       const bad = dirs.findIndex(d => !d.name || !d.works.length);
-      if (!dirs.length || bad !== -1) {
+      if (bad !== -1) {
         e.preventDefault();
-        const box = list.children[bad === -1 ? 0 : bad];
+        const box = list.children[bad];
         if (box) box.classList.add('ring-4', 'ring-red-100', '!border-red-300');
         setTimeout(() => box && box.classList.remove('ring-4', 'ring-red-100', '!border-red-300'), 1600);
-        return window.SEOApp.toast(!dirs.length ? 'Добавьте хотя бы одно направление' : 'У направления ' + (bad + 1) + ' нужно название и хотя бы одна работа');
+        return window.SEOApp.toast('У направления ' + (bad + 1) + ' нужно название и хотя бы одна работа');
       }
-      const name = modal.querySelector('[data-rm-name]').value.trim();
+      const rawName = modal.querySelector('[data-rm-name]').value.trim();
+      const name = rawName.indexOf('Дорожная карта') === 0 ? rawName : 'Дорожная карта · ' + rawName;
+      const desc = modal.querySelector('[data-rm-desc]').value.trim() || 'Направления и работы добавляются в эту карту.';
       const works = dirs.reduce((n, d) => n + d.works.length, 0);
+      const chevron = '<svg class="w-3 h-3 text-zinc-500 transition-transform group-open:rotate-90 shrink-0" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
       const details = document.createElement('details');
       details.open = true;
       details.className = 'bg-white rounded-2xl shadow-card overflow-hidden group ring-2 ring-accent/20';
       details.innerHTML = '<summary class="px-4 lg:px-6 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-zinc-50/50 transition gap-3">' +
+        '<div class="flex items-center gap-3 lg:gap-4 min-w-0">' + chevron +
         '<div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 min-w-0"><span class="text-sm font-medium truncate">' + esc(name) + '</span>' +
-        '<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 w-fit shrink-0">Новая · ' + TYPE_NAME[typeSel.value] + '</span></div>' +
+        '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-violet-50 text-violet-700 w-fit shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-violet-600"></span>' + esc(TYPE_NAME[typeSel.value]) + '</span></div></div>' +
         '<div class="text-xs text-zinc-500 tabular-nums shrink-0">' + plural(dirs.length, 'направление', 'направления', 'направлений') + ' · ' + plural(works, 'работа', 'работы', 'работ') + '</div></summary>' +
+        '<div class="px-4 lg:px-6 py-3 border-t border-zinc-100 flex flex-wrap items-center justify-between gap-3">' +
+        '<p class="text-sm text-zinc-600">' + esc(desc) + '</p>' +
+        '<div class="flex items-center gap-3 text-xs shrink-0">' +
+        '<button type="button" class="text-zinc-500 hover:text-zinc-900 transition">Дублировать</button>' +
+        '<button type="button" data-open-modal="roadmap-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>' +
+        '<span class="text-zinc-300">·</span>' +
+        '<button type="button" class="text-zinc-500 hover:text-red-600 transition">Удалить</button></div></div>' +
         '<div class="px-4 lg:px-6 pb-4 space-y-3 border-t border-zinc-100 pt-4">' + dirs.map((d, i) =>
-          '<div class="rounded-xl border border-black/5 overflow-hidden"><div class="px-3 lg:px-4 py-2.5 bg-zinc-50 text-sm font-medium">' + (i + 1) + '. ' + esc(d.name) + '</div>' +
+          '<div class="rounded-xl border border-black/5 overflow-hidden"><div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">' +
+          '<span class="text-sm font-medium">' + esc(d.name) + '</span>' +
+          '<div class="flex items-center gap-3 text-xs"><button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>' +
+          '<span class="text-zinc-500 tabular-nums">' + plural(d.works.length, 'работа', 'работы', 'работ') + '</span>' +
+          '<button type="button" class="text-zinc-500 hover:text-red-600 transition">Удалить</button></div></div>' +
           '<ul class="divide-y divide-zinc-50 text-sm">' + d.works.map((w, j) =>
-            '<li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3"><span class="truncate"><span class="text-xs text-zinc-500 tabular-nums mr-2">' + (i + 1) + '.' + (j + 1) + '</span>' + esc(w.title) + '</span>' + roleTag(w.role) + '</li>').join('') +
-          '</ul></div>').join('') + '</div>';
+            '<li class="px-3 lg:px-4 py-2 flex items-center justify-between gap-3"><span class="truncate"><span class="text-xs text-zinc-500 tabular-nums mr-2">' + (i + 1) + '.' + (j + 1) + '</span>' + esc(w.title) + '</span>' + roleTag(w.role) +
+            '<button type="button" class="text-xs text-zinc-500 hover:text-red-600 transition shrink-0">Удалить</button></li>').join('') +
+          '<li class="px-3 lg:px-4 py-2 bg-zinc-50/50"><button type="button" data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button></li></ul></div>').join('') +
+        '<button type="button" data-open-modal="direction" class="w-full px-4 py-2.5 rounded-xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить направление</button></div>';
+      bindTemplateActions(details);
       const panel = document.querySelector('[data-tab-panel="roadmap"] .flex.flex-col');
       if (panel) panel.prepend(details);
       e.detail.toast = 'Дорожная карта «' + name + '» создана · ' + plural(works, 'работа', 'работы', 'работ');
@@ -2317,10 +2327,11 @@
   });
 
   /* ---------- Удалить и Дублировать в карточках шаблонов ---------- */
-  document.querySelectorAll('button').forEach(btn => {
-    const label = btn.textContent.trim();
-    if (btn.closest('[id$="-modal"]') || Object.keys(btn.dataset).length) return;
-    if (label === 'Удалить') {
+  function bindTemplateActions(root) {
+    root.querySelectorAll('button').forEach(btn => {
+      const label = btn.textContent.trim();
+      if (btn.closest('[id$="-modal"]') || Object.keys(btn.dataset).length) return;
+      if (label !== 'Удалить') return;
       const li = btn.closest('li');
       const dirBox = !li && btn.closest('.rounded-xl.border');
       const card = btn.closest('details, section');
@@ -2334,22 +2345,24 @@
       const marker = 'rm' + Math.random().toString(36).slice(2, 8);
       target.dataset.removeId = marker;
       btn.dataset.confirmRemove = '[data-remove-id="' + marker + '"]';
-    } else if (label === 'Дублировать') {
-      btn.type = 'button';
-      btn.addEventListener('click', () => {
-        const card = btn.closest('details');
-        if (!card) return;
-        const copy = card.cloneNode(true);
-        const title = copy.querySelector('summary .text-sm.font-medium');
-        if (title) title.textContent = title.textContent.trim() + ' (копия)';
-        copy.querySelectorAll('[data-remove-id]').forEach(el => { el.dataset.removeId += 'c'; });
-        copy.querySelectorAll('[data-confirm-remove]').forEach(b => { b.dataset.confirmRemove = b.dataset.confirmRemove.replace('"]', 'c"]'); });
-        copy.classList.add('ring-2', 'ring-accent/20');
-        card.after(copy);
-        copy.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        window.SEOApp.toast('Создана копия: ' + (title ? title.textContent : 'шаблон'));
-      });
-    }
+    });
+  }
+  bindTemplateActions(document);
+
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('button');
+    if (!btn || btn.closest('[id$="-modal"]') || btn.textContent.trim() !== 'Дублировать') return;
+    const card = btn.closest('details');
+    if (!card) return;
+    const copy = card.cloneNode(true);
+    const title = copy.querySelector('summary .text-sm.font-medium');
+    if (title) title.textContent = title.textContent.trim() + ' (копия)';
+    copy.querySelectorAll('[data-remove-id]').forEach(el => { el.dataset.removeId += 'c'; });
+    copy.querySelectorAll('[data-confirm-remove]').forEach(b => { b.dataset.confirmRemove = b.dataset.confirmRemove.replace('"]', 'c"]'); });
+    copy.classList.add('ring-2', 'ring-accent/20');
+    card.after(copy);
+    copy.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    window.SEOApp.toast('Создана копия: ' + (title ? title.textContent : 'шаблон'));
   });
 </script>
 </body>

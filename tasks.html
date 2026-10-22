@@ -29,23 +29,28 @@
       </header>
 
       <div class="w-full space-y-6">
-        <div class="bg-white rounded-2xl shadow-card p-3 lg:p-3.5 flex flex-wrap xl:flex-nowrap items-center justify-between gap-3">
-          <div data-focus-switch class="inline-flex bg-zinc-100 rounded-full p-1 shrink-0" role="group" aria-label="Фокус">
-            <button type="button" data-focus="all" data-deny="contractor" data-deny-tip="Подрядчик видит только задачи, где он исполнитель" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Все задачи<span data-focus-count="all" class="ml-1.5 text-xs tabular-nums opacity-60">0</span></button>
-            <button type="button" data-focus="exec" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Я исполнитель<span data-focus-count="exec" class="ml-1.5 text-xs tabular-nums opacity-60">0</span></button>
-            <button type="button" data-focus="set" data-deny="contractor" data-deny-tip="Подрядчик не ставит задачи другим" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Я постановщик<span data-focus-count="set" class="ml-1.5 text-xs tabular-nums opacity-60">0</span></button>
+        <div class="bg-white rounded-2xl shadow-card p-4 space-y-3 mb-6">
+          <div class="flex items-center justify-between gap-4">
+            <div data-focus-switch class="inline-flex bg-zinc-100 rounded-full p-1 shrink-0" role="group" aria-label="Фокус">
+              <button type="button" data-focus="all" data-deny="contractor" data-deny-tip="Подрядчик видит только задачи, где он исполнитель" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Все задачи<span data-focus-count="all" class="ml-1.5 text-xs tabular-nums opacity-60">0</span></button>
+              <button type="button" data-focus="exec" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Я исполнитель<span data-focus-count="exec" class="ml-1.5 text-xs tabular-nums opacity-60">0</span></button>
+              <button type="button" data-focus="set" data-deny="contractor" data-deny-tip="Подрядчик не ставит задачи другим" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Я постановщик<span data-focus-count="set" class="ml-1.5 text-xs tabular-nums opacity-60">0</span></button>
+            </div>
+            <div data-mode-switch class="inline-flex bg-zinc-100 rounded-full p-1 shrink-0" role="group" aria-label="Представление">
+              <button type="button" data-mode="board" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Доска</button>
+              <button type="button" data-mode="list" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Список</button>
+            </div>
           </div>
-          <div data-mode-switch class="inline-flex bg-zinc-100 rounded-full p-1 shrink-0" role="group" aria-label="Представление">
-            <button type="button" data-mode="board" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Доска</button>
-            <button type="button" data-mode="list" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Список</button>
-          </div>
-          <div class="flex flex-wrap xl:flex-nowrap items-center gap-2 min-w-0 xl:flex-1 xl:justify-end">
-            <select data-filter="project" aria-label="Проект" class="h-8 w-full sm:w-40 xl:w-auto xl:flex-1 xl:min-w-0 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent"></select>
-            <select data-filter="direction" aria-label="Направление" class="h-8 w-full sm:w-40 xl:w-auto xl:flex-1 xl:min-w-0 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent"></select>
-            <select data-filter="assignee" aria-label="Исполнитель" class="h-8 w-full sm:w-40 xl:w-auto xl:flex-1 xl:min-w-0 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent disabled:opacity-50 disabled:cursor-not-allowed"></select>
-            <label class="relative block w-full sm:w-44 xl:w-auto xl:flex-1 xl:min-w-0">
+          <div class="border-t border-zinc-100"></div>
+          <div class="flex flex-wrap lg:flex-nowrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5">
+              <select data-filter="project" aria-label="Проект" class="h-8 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent"></select>
+              <select data-filter="direction" aria-label="Направление" class="h-8 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent"></select>
+              <select data-filter="assignee" aria-label="Исполнитель" class="h-8 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent disabled:opacity-50 disabled:cursor-not-allowed"></select>
+            </div>
+            <label class="relative block w-64 shrink-0">
               <svg class="w-4 h-4 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg>
-              <input data-filter="q" type="search" placeholder="Поиск по названию…" aria-label="Поиск по названию" class="h-8 w-full bg-zinc-50 border border-zinc-200/80 rounded-xl pl-8 pr-3 text-xs text-zinc-700 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-accent">
+              <input data-filter="q" type="search" placeholder="Поиск по названию…" aria-label="Поиск по названию" class="h-8 w-64 bg-zinc-50 border border-zinc-200/80 rounded-xl pl-8 pr-3 text-xs text-zinc-700 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-accent">
             </label>
           </div>
         </div>

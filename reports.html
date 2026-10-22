@@ -27,52 +27,50 @@
           <a href="settings.html" aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
         </div>
       </header>
-        <div class="bg-white rounded-2xl shadow-card p-3 lg:p-3.5 flex flex-wrap xl:flex-nowrap items-center justify-between gap-3">
-          <div class="flex items-center gap-2 overflow-x-auto">
-            <div data-scope-switch class="inline-flex bg-zinc-100 rounded-full p-1 max-w-full overflow-x-auto shrink-0" role="group" aria-label="Чьи отчёты">
-              <button type="button" data-scope="exec" data-deny="owner" data-can="compose_reports" data-deny-tip="Владелец не составляет отчёты — смотрите «Все отчёты»" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Я составляю</button>
-              <button type="button" data-scope="team" data-deny="owner" data-deny-tip="Владелец не состоит в командах проектов — смотрите «Все отчёты»" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Мои проекты</button>
-              <button type="button" data-scope="all" data-roles="owner,seo_head,mgr_head" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 transition whitespace-nowrap">Все отчёты</button>
-            </div>
-          </div>
-          <div class="flex flex-wrap items-center gap-2 ml-auto">
+        <div class="bg-white rounded-2xl shadow-card p-4 space-y-3 mb-6">
+          <div class="flex items-center justify-between gap-4">
             <div data-view-switch class="inline-flex bg-zinc-100 rounded-full p-1 shrink-0" role="group" aria-label="Статус отчётов">
               <button type="button" data-view="all" class="shrink-0 px-3 py-1 rounded-full text-xs font-medium transition whitespace-nowrap">Все<span data-view-count="all" class="ml-1.5 tabular-nums opacity-60">0</span></button>
               <button type="button" data-view="draft" class="shrink-0 px-3 py-1 rounded-full text-xs font-medium transition whitespace-nowrap">Черновики<span data-view-count="draft" class="ml-1.5 tabular-nums opacity-60">0</span></button>
               <button type="button" data-view="review" class="shrink-0 px-3 py-1 rounded-full text-xs font-medium transition whitespace-nowrap">На согласовании<span data-view-count="review" class="ml-1.5 tabular-nums opacity-60">0</span></button>
               <button type="button" data-view="sent" class="shrink-0 px-3 py-1 rounded-full text-xs font-medium transition whitespace-nowrap">Отправлены клиенту<span data-view-count="sent" class="ml-1.5 tabular-nums opacity-60">0</span></button>
             </div>
-          <div data-date-range class="flex items-center gap-2 shrink-0" role="group" aria-label="Период">
-            <input data-date-from type="date" aria-label="Дата с" class="h-8 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent">
-            <span class="text-xs text-zinc-400" aria-hidden="true">—</span>
-            <input data-date-to type="date" aria-label="Дата по" class="h-8 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent">
-            <span class="!hidden" aria-hidden="true"></span>
+            <button type="button" data-can="view_reports" data-export class="h-8 px-3.5 rounded-xl border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition inline-flex items-center gap-1.5 shrink-0">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v10m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
+              Экспорт реестра
+            </button>
           </div>
-          <div class="flex items-center gap-2 min-w-0">
-            <select data-report-target aria-label="Проект / Клиент" class="h-8 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent min-w-0 sm:w-64">
-              <option value="">Все проекты и клиенты</option>
-              <optgroup label="Проекты">
-                <option value="p:holod">Интернет-магазин «Холод»</option>
-                <option value="p:remont">Сайт услуг «Ремонт+»</option>
-                <option value="p:medlife">Клиника «МедЛайф»</option>
-                <option value="p:stroytech">B2B портал «Стройтех»</option>
-              </optgroup>
-              <optgroup label="Клиенты">
-                <option value="c:holod">ООО «Холод Групп»</option>
-                <option value="c:smirnov">ИП Смирнов А.</option>
-                <option value="c:medlife">ООО «МедЛайф»</option>
-                <option value="c:stroytech">АО «Стройтех»</option>
-              </optgroup>
-            </select>
-            <label class="relative flex-1 min-w-0 sm:max-w-xs">
-              <svg class="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M20 20l-3.5-3.5"/></svg>
-              <input data-report-q type="search" placeholder="Поиск по клиенту или проекту…" aria-label="Поиск отчётов" class="h-8 w-full bg-zinc-50 border border-zinc-200/80 rounded-xl pl-8 pr-3 text-xs text-zinc-700 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-accent">
-            </label>
+          <div class="border-t border-zinc-100"></div>
+          <div class="flex flex-wrap lg:flex-nowrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <select data-report-target aria-label="Проект / Клиент" class="h-8 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent">
+                <option value="">Все проекты и клиенты</option>
+                <optgroup label="Проекты">
+                  <option value="p:holod">Интернет-магазин «Холод»</option>
+                  <option value="p:remont">Сайт услуг «Ремонт+»</option>
+                  <option value="p:medlife">Клиника «МедЛайф»</option>
+                  <option value="p:stroytech">B2B портал «Стройтех»</option>
+                </optgroup>
+                <optgroup label="Клиенты">
+                  <option value="c:holod">ООО «Холод Групп»</option>
+                  <option value="c:smirnov">ИП Смирнов А.</option>
+                  <option value="c:medlife">ООО «МедЛайф»</option>
+                  <option value="c:stroytech">АО «Стройтех»</option>
+                </optgroup>
+              </select>
+              <label class="relative block w-64 shrink-0">
+                <svg class="w-4 h-4 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg>
+                <input data-report-q type="search" placeholder="Поиск по клиенту…" aria-label="Поиск отчётов" class="h-8 w-64 bg-zinc-50 border border-zinc-200/80 rounded-xl pl-8 pr-3 text-xs text-zinc-700 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-accent">
+              </label>
+            </div>
+            <div data-date-range class="flex items-center gap-2 shrink-0" role="group" aria-label="Период">
+              <span class="text-xs text-zinc-500">с</span>
+              <input data-date-from type="date" aria-label="Дата с" class="h-8 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent">
+              <span class="text-xs text-zinc-500">по</span>
+              <input data-date-to type="date" aria-label="Дата по" class="h-8 bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent">
+              <span class="!hidden" aria-hidden="true"></span>
+            </div>
           </div>
-          <div class="flex items-center gap-2 shrink-0">
-            <button type="button" data-can="view_reports" data-export class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition whitespace-nowrap">Экспорт реестра</button>
-          </div>
-        </div>
         </div>
 
       <div class="w-full space-y-6">
