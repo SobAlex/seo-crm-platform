@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru" class="overflow-x-hidden">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Принять приглашение — SEO Control</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', '"SF Pro Display"', 'Inter', '"Segoe UI"', 'sans-serif'] },
+          colors: { canvas: '#f5f5f7', ink: '#1d1d1f', accent: { DEFAULT: '#0071e3', hover: '#0077ed' } },
+          borderRadius: { xl: '0.875rem', '2xl': '1.25rem', '3xl': '1.75rem' },
+          boxShadow: {
+            card: '0 1px 2px rgba(0,0,0,.04), 0 0 0 1px rgba(0,0,0,.04)',
+            pop: '0 24px 64px rgba(0,0,0,.18)'
+          }
+        }
+      }
+    };
+  </script>
+  <script src="assets/app.js"></script>
+</head>
+<body class="bg-canvas text-ink antialiased overflow-x-hidden">
+  <div class="bg-canvas min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-sm mx-auto">
+      <div class="bg-white rounded-3xl shadow-card p-6 sm:p-8">
+        <div class="flex flex-col items-center text-center mb-5">
+          <span class="w-12 h-12 rounded-2xl bg-zinc-900 text-white text-lg font-semibold flex items-center justify-center shadow-sm">S</span>
+          <div class="mt-3 text-sm font-semibold tracking-tight">SEO Control</div>
+          <h1 class="mt-4 text-xl font-semibold tracking-tight text-ink">Принять приглашение</h1>
+          <p class="mt-1 text-sm text-zinc-500">Создайте пароль и войдите в кабинет команды</p>
+        </div>
+
+        <div class="mb-5 rounded-2xl bg-zinc-50 border border-zinc-100 px-4 py-3 text-center">
+          <span class="bg-blue-50 text-blue-700 text-xs px-3 py-1 rounded-full font-medium inline-block mb-2">Приглашение</span>
+          <div class="text-sm font-medium text-ink">Приглашение в команду «Ромашка Digital»</div>
+          <p class="mt-1 text-xs text-zinc-500">Вам назначена роль: <span class="font-semibold text-zinc-800">SEO-специалист</span></p>
+        </div>
+
+        <form id="register-form" class="space-y-4" novalidate>
+          <div>
+            <label for="reg-email" class="block text-xs font-medium text-zinc-500 mb-2">Email</label>
+            <input id="reg-email" name="email" type="email" value="anna.belova@gmail.com" readonly class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50 text-sm text-zinc-700">
+          </div>
+          <div>
+            <label for="reg-name" class="block text-xs font-medium text-zinc-500 mb-2">Имя и фамилия</label>
+            <input id="reg-name" name="name" type="text" value="Анна Белова" required autocomplete="name" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+          </div>
+          <div>
+            <label for="reg-password" class="block text-xs font-medium text-zinc-500 mb-2">Пароль</label>
+            <input id="reg-password" name="password" type="password" required autocomplete="new-password" placeholder="Придумайте пароль" minlength="6" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+          </div>
+          <div>
+            <label for="reg-password2" class="block text-xs font-medium text-zinc-500 mb-2">Подтверждение пароля</label>
+            <input id="reg-password2" name="password2" type="password" required autocomplete="new-password" placeholder="Повторите пароль" minlength="6" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+          </div>
+          <button type="submit" class="h-10 w-full rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition shadow-sm">Принять приглашение и войти</button>
+        </form>
+      </div>
+
+      <p class="mt-5 text-center text-sm text-zinc-500">
+        Уже есть аккаунт?
+        <a href="login.html" class="text-accent hover:underline">Войти</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+  document.getElementById('register-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    const p1 = form.password.value;
+    const p2 = form.password2.value;
+    if (p1 !== p2) {
+      if (window.SEOApp && SEOApp.toast) SEOApp.toast('Пароли не совпадают', 'error');
+      else alert('Пароли не совпадают');
+      form.password2.focus();
+      return;
+    }
+    if (window.SEOApp && SEOApp.toast) SEOApp.toast('Добро пожаловать в команду!', 'success');
+    setTimeout(() => { location.href = 'index.html'; }, 700);
+  });
+  </script>
+</body>
+</html>

@@ -1168,7 +1168,9 @@ tailwind.config = {
       el.innerHTML =
         '<div class="text-sm font-semibold tracking-tight">' + (opts.title || 'Вернуть на доработку') + '</div>' +
         (opts.sub ? '<div class="text-xs text-zinc-500 mt-0.5 truncate">' + opts.sub + '</div>' : '') +
-        '<textarea rows="3" data-reason aria-label="Что исправить" placeholder="' + (opts.placeholder || 'Что исправить — исполнитель увидит это в задаче') + '" class="mt-2 w-full px-3 py-2 rounded-xl border border-zinc-200 bg-white text-sm resize-none focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></textarea>' +
+        '<label class="mt-2 block text-xs font-medium text-zinc-500">Комментарий <span class="text-red-500">*</span> <span class="font-normal text-zinc-400">— обязательно</span></label>' +
+        '<textarea rows="3" data-reason required aria-required="true" aria-label="Что исправить" placeholder="' + (opts.placeholder || 'Что исправить — исполнитель увидит это в задаче') + '" class="mt-1.5 w-full px-3 py-2 rounded-xl border border-zinc-200 bg-white text-sm resize-none focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></textarea>' +
+        '<p data-reason-hint class="hidden mt-1 text-[11px] text-red-600">Напишите, что нужно исправить — без комментария вернуть нельзя</p>' +
         '<div class="mt-2 flex items-center justify-end gap-2"><span class="mr-auto text-[11px] text-zinc-400">⌘↵ — ' + (opts.ok || 'Вернуть').toLowerCase() + '</span>' +
         '<button type="button" data-cancel class="px-3 py-1.5 rounded-full text-sm text-zinc-500 hover:text-zinc-900 hover:bg-black/5 transition">Отмена</button>' +
         '<button type="button" data-ok class="px-3.5 py-1.5 rounded-full bg-amber-500 text-white text-sm font-medium hover:bg-amber-600 transition">' + (opts.ok || 'Вернуть') + '</button></div>';
@@ -1195,9 +1197,25 @@ tailwind.config = {
       }
       function ok() {
         const v = ta.value.trim();
-        if (!v) { ta.classList.add('!border-red-300'); ta.focus(); return toast('Напишите, что нужно исправить', 'error'); }
+        const hint = el.querySelector('[data-reason-hint]');
+        if (!v) {
+          ta.setAttribute('aria-invalid', 'true');
+          ta.classList.add('border-red-400', 'ring-2', 'ring-red-200');
+          if (hint) hint.classList.remove('hidden');
+          ta.focus();
+          return toast('Напишите, что нужно исправить', 'error');
+        }
+        ta.removeAttribute('aria-invalid');
+        if (hint) hint.classList.add('hidden');
         done(v);
       }
+      ta.addEventListener('input', () => {
+        if (!ta.value.trim()) return;
+        ta.removeAttribute('aria-invalid');
+        ta.classList.remove('border-red-400', 'ring-2', 'ring-red-200');
+        const hint = el.querySelector('[data-reason-hint]');
+        if (hint) hint.classList.add('hidden');
+      });
       reasonPop = { cancel: () => done(null) };
       el.querySelector('[data-cancel]').addEventListener('click', () => done(null));
       el.querySelector('[data-ok]').addEventListener('click', ok);

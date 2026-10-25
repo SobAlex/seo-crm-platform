@@ -198,8 +198,13 @@
     if (!btn) return;
     const row = btn.closest('[data-task]');
     const who = PEOPLE[row.dataset.assignee][0];
-    App.askReason(btn, { sub: row.dataset.title + ' · ' + who }).then(reason => {
-      if (!reason) return;
+    App.askReason(btn, {
+      title: 'Вернуть на доработку',
+      sub: row.dataset.title + ' · ' + who,
+      placeholder: 'Обязательно опишите, что исправить — исполнитель увидит это в задаче',
+      ok: 'Вернуть'
+    }).then(reason => {
+      if (!reason || !String(reason).trim()) return;
       row.remove();
       recount();
       App.toast('«' + row.dataset.title + '» отправлена на доработку · ' + who + ' получит замечание', 'warning');
