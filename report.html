@@ -1,211 +1,360 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="overflow-x-hidden">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Отчёт за июнь — SEO Control</title>
+  <title>Отчёт по проекту holod-shop.ru — Май 2025</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/app.js"></script>
   <script src="assets/modals.js"></script>
+  <script>
+    window.__CLIENT_REPORT = (function () {
+      const q = new URLSearchParams(location.search);
+      let role = '';
+      try { role = localStorage.getItem('seo_control_role') || ''; } catch (e) { /* ignore */ }
+      return q.get('view') === 'client' || q.get('print') === '1' || role === 'client';
+    })();
+    if (window.__CLIENT_REPORT) document.documentElement.classList.add('client-report');
+  </script>
+  <style>
+    @media print {
+      header, nav, button, a[href*="portal.html"], .no-print { display: none !important; }
+      body { background: #ffffff !important; color: #000000 !important; }
+      main { padding: 0 !important; margin: 0 !important; max-width: 100% !important; width: 100% !important; }
+      .shadow-card { box-shadow: none !important; border: 1px solid #e4e4e7 !important; }
+      .page-break { page-break-before: always; }
+      [data-report-chart-card], [data-report-kpi] {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+    }
+  </style>
 </head>
-<body class="bg-canvas text-ink antialiased">
-<div class="min-h-screen">
+<body class="bg-canvas text-ink antialiased overflow-x-hidden">
+<div class="min-h-screen overflow-x-hidden">
 
-  <div data-app-chrome="reports" data-roles="owner,seo_head,mgr_head,pm,employee"></div>
+  <div data-staff-chrome data-app-chrome="reports" data-roles="owner,seo_head,mgr_head,pm,employee"></div>
 
-  <div class="flex">
-
-    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 py-6 space-y-6 pb-24 lg:pb-0">
+  <!-- Черновик / навигация агентства (первый main — для initChrome) -->
+  <div data-staff-doc class="flex">
+    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 pt-6 pb-24 lg:pb-20 space-y-6">
 
       <header class="sticky top-0 z-30 min-h-[3.5rem] h-auto py-2.5 bg-canvas/80 backdrop-blur-xl border-b border-black/5 -mx-4 lg:-mx-8 -mt-6 px-4 lg:px-8 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-3 min-w-0">
           <a href="reports.html" class="text-sm text-zinc-500 hover:text-zinc-900 transition shrink-0">← Отчёты</a>
-          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate">Отчёт за июнь 2025</h1>
+          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[140px] sm:max-w-none">Отчёт за май 2025</h1>
         </div>
-        <div class="flex items-center gap-2.5 shrink-0">
+        <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <div data-staff-only class="flex items-center justify-end gap-2 shrink-0">
-            <button data-roles="pm,employee" data-toast="Черновик сохранён" class="h-9 px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition flex items-center justify-center shrink-0">Сохранить</button>
-            <button data-roles="pm,employee" data-toast="Отчёт передан на проверку" class="h-9 px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm">Передать на проверку</button>
-            <button data-roles="owner,seo_head,mgr_head" data-toast="Отчёт принят" class="h-9 px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm">Принять</button>
-            <button data-roles="owner,seo_head,mgr_head" data-toast="Отчёт возвращён автору" class="h-9 px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition flex items-center justify-center shrink-0">Вернуть</button>
-            <button data-roles="owner,seo_head,mgr_head" data-toast="Отчёт отправлен клиенту" class="h-9 px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition flex items-center justify-center shrink-0">Отправить клиенту</button>
+            <button data-can="compose_reports" data-roles="owner,seo_head,mgr_head,pm,employee" data-toast="Черновик сохранён" class="h-9 px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition flex items-center justify-center shrink-0">Сохранить</button>
+            <a href="report.html?month=2025-05&view=client" class="h-8 sm:h-9 px-3 sm:px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm">Превью клиента</a>
+            <button type="button" onclick="window.print()" class="h-9 px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition flex items-center justify-center shrink-0">PDF</button>
           </div>
           <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
           <a href="settings.html" aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
         </div>
       </header>
 
-      <div class="bg-white rounded-2xl shadow-card p-3 lg:p-3.5 flex flex-wrap items-center gap-3">
-        <div class="inline-flex bg-zinc-100 rounded-full p-1 shrink-0" role="group" aria-label="Вид отчёта">
-          <button type="button" data-report-mode="edit" class="px-3 py-1 rounded-full text-xs font-medium bg-white text-ink shadow-sm whitespace-nowrap">Черновик</button>
-          <button type="button" data-report-mode="portal" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 whitespace-nowrap">Портал клиента</button>
-          <button type="button" data-report-mode="pdf" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 whitespace-nowrap">Страница PDF</button>
-        </div>
+      <div class="flex flex-wrap items-center gap-3 mb-2">
+        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Утверждён</span>
+        <a href="project.html" class="text-xs text-zinc-500 hover:text-zinc-900 hover:underline">Интернет-магазин «Холод»</a>
       </div>
+      <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight">Отчёт за май 2025</h2>
+      <p class="text-sm text-zinc-500">Клиентская выдача — чистый документ без часов, ставок и маржи. Откройте превью или отправьте ссылку из портала.</p>
 
-      <div>
-          <div class="flex flex-wrap items-center gap-3 mb-2">
-            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700"><span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>Черновик</span>
-            <a href="project.html" class="text-xs text-zinc-500 hover:text-zinc-900 hover:underline">Интернет-магазин «Холод»</a>
+      <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
+        <h3 class="text-sm font-semibold tracking-tight mb-3">Итоги месяца (план vs факт)</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div class="rounded-xl bg-zinc-50 p-3">
+            <div class="text-xs text-zinc-500 mb-1">Трафик</div>
+            <div class="text-lg font-semibold tracking-tight tabular-nums">24 380</div>
+            <div class="text-xs font-medium tabular-nums text-amber-700 mt-0.5">94% плана</div>
           </div>
-          <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight">Отчёт за июнь 2025</h2>
-
-          <ol data-staff-only aria-label="Этапы отчёта" class="mt-5 grid grid-cols-3 gap-1 sm:gap-2 max-w-md">
-            <li aria-current="step">
-              <div class="h-1 rounded-full bg-zinc-900"></div>
-              <div class="mt-2 text-[11px] sm:text-xs font-medium text-zinc-900">Черновик</div>
-            </li>
-            <li>
-              <div class="h-1 rounded-full bg-zinc-200"></div>
-              <div class="mt-2 text-[11px] sm:text-xs text-zinc-500">Проверен менеджером</div>
-            </li>
-            <li>
-              <div class="h-1 rounded-full bg-zinc-200"></div>
-              <div class="mt-2 text-[11px] sm:text-xs text-zinc-500">Отправлен</div>
-            </li>
-          </ol>
-        </div>
-
-        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
-
-          <div class="xl:col-span-2 space-y-6">
-
-            <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
-              <div class="flex items-start justify-between gap-3 mb-4">
-                <div>
-                  <h3 class="text-sm font-semibold tracking-tight">Итоги месяца</h3>
-                  <p class="text-xs text-zinc-500 mt-0.5">Собраны автоматически · данные на 18.06, 04:00</p>
-                </div>
-                <button data-toast="Метрики обновлены" class="text-xs text-zinc-500 hover:text-zinc-900 transition shrink-0">Обновить</button>
-              </div>
-              <div class="grid grid-cols-3 gap-3">
-                <div class="rounded-xl bg-zinc-50 p-3">
-                  <div class="text-xs text-zinc-500 mb-1">Трафик</div>
-                  <div class="text-lg font-semibold tracking-tight tabular-nums">24 380</div>
-                  <div class="text-xs font-medium tabular-nums text-amber-700 mt-0.5">94% плана</div>
-                </div>
-                <div class="rounded-xl bg-zinc-50 p-3">
-                  <div class="text-xs text-zinc-500 mb-1">Лиды</div>
-                  <div class="text-lg font-semibold tracking-tight tabular-nums">312</div>
-                  <div class="text-xs font-medium tabular-nums text-emerald-700 mt-0.5">108% плана</div>
-                </div>
-                <div class="rounded-xl bg-zinc-50 p-3">
-                  <div class="text-xs text-zinc-500 mb-1">Топ-10</div>
-                  <div class="text-lg font-semibold tracking-tight tabular-nums">186</div>
-                  <div class="text-xs font-medium tabular-nums text-emerald-700 mt-0.5">103% плана</div>
-                </div>
-              </div>
-            </section>
-
-            <section data-report-sheet class="bg-white rounded-2xl shadow-card overflow-hidden">
-              <div class="px-4 lg:px-6 py-4">
-                <h3 class="text-sm font-semibold tracking-tight">Что сделано</h3>
-                <p class="text-xs text-zinc-500 mt-0.5">Собрано из комментариев задач с отметкой «В отчёте»</p>
-              </div>
-              <div data-report-done class="px-4 lg:px-6 py-4 border-t border-zinc-100 space-y-4 text-sm text-zinc-700 leading-relaxed">
-                <p data-report-seed="s3"><span class="font-medium text-zinc-900">Проверка индексации.</span> 92% страниц в индексе Google. Найдено 3 URL, выпавших после релиза, — направлены на переобход. Служебные страницы закрыты корректно.</p>
-                <p><span class="font-medium text-zinc-900">Canonical для фильтров.</span> Настроили canonical для страниц фильтров каталога и убрали дубли из индекса.</p>
-              </div>
-            </section>
-
-            <section data-staff-only class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
-              <h3 class="text-sm font-semibold tracking-tight mb-1">Комментарий менеджера</h3>
-              <p class="text-xs text-zinc-500 mb-3">Простыми словами: что значат цифры и что дальше</p>
-              <textarea rows="5" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">Трафик чуть ниже плана из-за сезонного спада в категории «Холодильники». Лиды выше плана за счёт улучшения коммерческих страниц. В июле продолжим работу над индексацией и запустим перелинковку карточек.</textarea>
-            </section>
-
-            <section class="bg-white rounded-2xl shadow-card overflow-hidden">
-              <div class="px-4 lg:px-6 py-4">
-                <h3 class="text-sm font-semibold tracking-tight">План на июль</h3>
-                <p class="text-xs text-zinc-500 mt-0.5">Список задач на следующий месяц</p>
-              </div>
-              <ul class="divide-y divide-zinc-100 border-t border-zinc-100 text-sm">
-                <li class="px-4 lg:px-6 py-3"><a href="task.html" class="hover:underline">Перелинковка в карточках товаров</a></li>
-                <li class="px-4 lg:px-6 py-3"><a href="task.html" class="hover:underline">Кластеризация запросов</a></li>
-                <li class="px-4 lg:px-6 py-3"><a href="task.html" class="hover:underline">Стратегия наращивания ссылок</a></li>
-              </ul>
-            </section>
-
+          <div class="rounded-xl bg-zinc-50 p-3">
+            <div class="text-xs text-zinc-500 mb-1">Лиды</div>
+            <div class="text-lg font-semibold tracking-tight tabular-nums">312</div>
+            <div class="text-xs font-medium tabular-nums text-emerald-700 mt-0.5">108% плана</div>
           </div>
-
-          <aside data-staff-only class="xl:col-span-1 space-y-6">
-
-            <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
-              <h3 class="text-sm font-semibold tracking-tight mb-4">Выдача клиенту</h3>
-              <dl class="space-y-3 text-sm">
-                <div class="flex justify-between gap-3"><dt class="text-zinc-500">Получатель</dt><dd class="text-right">Е. Крылова</dd></div>
-                <div class="flex justify-between gap-3"><dt class="text-zinc-500">Отправка</dt><dd class="text-right tabular-nums">03.07, 10:00</dd></div>
-                <div class="flex justify-between gap-3"><dt class="text-zinc-500">Формат</dt><dd class="text-right">Портал + PDF</dd></div>
-              </dl>
-              <div class="flex flex-col gap-2 mt-5">
-                <a href="portal.html#reports" class="text-center px-3.5 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Как увидит клиент</a>
-                <button data-toast="PDF сформирован" class="px-3.5 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Скачать PDF</button>
-              </div>
-            </section>
-
-            <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
-              <h3 class="text-sm font-semibold tracking-tight mb-4">История</h3>
-              <ul class="space-y-4 text-sm">
-                <li class="flex gap-3">
-                  <span class="w-1.5 h-1.5 rounded-full bg-zinc-300 mt-2 shrink-0"></span>
-                  <div><div class="text-zinc-500 text-xs tabular-nums">18.06 12:10</div><div class="text-zinc-700">А. Петров добавил выводы по индексации</div></div>
-                </li>
-                <li class="flex gap-3">
-                  <span class="w-1.5 h-1.5 rounded-full bg-zinc-300 mt-2 shrink-0"></span>
-                  <div><div class="text-zinc-500 text-xs tabular-nums">01.06 06:00</div><div class="text-zinc-700">Черновик создан автоматически</div></div>
-                </li>
-              </ul>
-            </section>
-
-          </aside>
+          <div class="rounded-xl bg-zinc-50 p-3">
+            <div class="text-xs text-zinc-500 mb-1">Топ-10</div>
+            <div class="text-lg font-semibold tracking-tight tabular-nums">148</div>
+            <div class="text-xs font-medium tabular-nums text-emerald-700 mt-0.5">114% плана</div>
+          </div>
+          <div class="rounded-xl bg-zinc-50 p-3">
+            <div class="text-xs text-zinc-500 mb-1">Принято работ</div>
+            <div class="text-lg font-semibold tracking-tight tabular-nums">22 / 23</div>
+            <div class="text-xs font-medium tabular-nums text-emerald-700 mt-0.5">96%</div>
+          </div>
         </div>
+      </section>
+
+      <section class="bg-white rounded-2xl shadow-card overflow-hidden">
+        <div class="px-4 lg:px-6 py-4">
+          <h3 class="text-sm font-semibold tracking-tight">Что сделано</h3>
+          <p class="text-xs text-zinc-500 mt-0.5">Комментарии с пометкой «Для отчёта» · без внутренних часов и себестоимости</p>
+        </div>
+        <div class="px-4 lg:px-6 py-4 border-t border-zinc-100 space-y-4 text-sm text-zinc-700 leading-relaxed">
+          <p><span class="font-medium text-zinc-900">Core Web Vitals.</span> Оптимизация скриптов и WebP — LCP мобильных с 3.8 с до 1.4 с.</p>
+          <p><span class="font-medium text-zinc-900">Семантика.</span> 480 запросов по «Морозильные камеры», 12 посадочных.</p>
+          <p><span class="font-medium text-zinc-900">Schema.org Product.</span> Сниппеты со звёздами и ценами в выдаче.</p>
+        </div>
+      </section>
+
     </main>
   </div>
+
+  <!-- Эталонный клиентский документ -->
+  <main data-client-doc class="hidden max-w-4xl mx-auto px-4 py-8 space-y-8 bg-canvas min-h-screen">
+
+    <div class="no-print flex flex-wrap items-center justify-between gap-3">
+      <a href="portal.html" class="text-sm text-zinc-500 hover:text-zinc-900 transition shrink-0">← Вернуться в портал</a>
+      <button type="button" onclick="window.print()" class="h-9 px-4 rounded-full bg-zinc-900 text-white text-xs font-medium hover:bg-zinc-800 transition inline-flex items-center gap-2 shadow-sm">🖨 Сохранить в PDF / Печать</button>
+    </div>
+
+    <section class="bg-white rounded-2xl shadow-card p-6 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-12 h-12 rounded-2xl bg-zinc-900 text-white text-sm font-semibold flex items-center justify-center shrink-0">RD</div>
+        <div class="min-w-0">
+          <div class="text-sm font-semibold tracking-tight truncate">Ромашка Digital</div>
+          <div class="text-xs text-zinc-500">SEO &amp; Performance</div>
+        </div>
+      </div>
+      <div class="text-center flex-1 min-w-[12rem] px-2">
+        <div class="text-sm font-semibold tracking-tight text-ink">Отчёт по проекту holod-shop.ru за Май 2025</div>
+        <div class="text-xs text-emerald-700 mt-1 font-medium">Утверждён 03.06.2025</div>
+      </div>
+      <div class="flex items-center gap-3 min-w-0">
+        <div data-report-client-logo class="w-12 h-12 rounded-2xl bg-zinc-900 text-white text-sm font-semibold flex items-center justify-center shrink-0 overflow-hidden">ХГ</div>
+        <div class="min-w-0 text-right">
+          <div class="text-sm font-medium truncate">ООО «Холод Групп»</div>
+          <div class="text-xs text-zinc-500">Интернет-магазин «Холод»</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-sm font-semibold tracking-tight mb-3">Сводные метрики месяца</h2>
+      <div data-report-kpi-grid class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div data-report-kpi="traffic" class="bg-white rounded-2xl shadow-card p-4">
+          <div class="text-xs text-zinc-500 mb-1">Поисковый трафик</div>
+          <div class="text-xl font-semibold tracking-tight tabular-nums">24 380</div>
+          <div class="text-[11px] text-zinc-500 mt-1">план: 26 000 · <span class="text-amber-700 font-medium">94%</span></div>
+        </div>
+        <div data-report-kpi="leads" class="bg-white rounded-2xl shadow-card p-4">
+          <div class="text-xs text-zinc-500 mb-1">Целевые обращения</div>
+          <div class="text-xl font-semibold tracking-tight tabular-nums">312</div>
+          <div class="text-[11px] text-zinc-500 mt-1">план: 290 · <span class="text-emerald-700 font-medium">108%</span></div>
+        </div>
+        <div data-report-kpi="top10" class="bg-white rounded-2xl shadow-card p-4">
+          <div class="text-xs text-zinc-500 mb-1">Запросов в ТОП-10</div>
+          <div class="text-xl font-semibold tracking-tight tabular-nums">148</div>
+          <div class="text-[11px] text-zinc-500 mt-1">план: 130 · <span class="text-emerald-700 font-medium">114%</span></div>
+        </div>
+        <div data-report-kpi="works" class="bg-white rounded-2xl shadow-card p-4">
+          <div class="text-xs text-zinc-500 mb-1">Принято работ</div>
+          <div class="text-xl font-semibold tracking-tight tabular-nums">22 из 23</div>
+          <div class="text-[11px] text-zinc-500 mt-1"><span class="text-emerald-700 font-medium">96%</span> выполнения</div>
+        </div>
+      </div>
+    </section>
+
+    <section data-report-charts class="space-y-4"></section>
+
+    <section class="space-y-4">
+      <div>
+        <h2 class="text-sm font-semibold tracking-tight">Выполненные работы за месяц</h2>
+        <p class="text-xs text-zinc-500 mt-0.5">Сформированы из комментариев с пометкой «Для отчёта»</p>
+      </div>
+
+      <article class="bg-white rounded-2xl shadow-card p-4 lg:p-6 space-y-4">
+        <div class="text-[11px] font-medium uppercase tracking-wide text-zinc-400">Аудит и техническая часть</div>
+        <div>
+          <h3 class="text-sm font-semibold text-ink">Оптимизация скорости загрузки карточек товаров (Core Web Vitals)</h3>
+          <p class="mt-2 text-sm text-zinc-700 leading-relaxed">Проведена оптимизация скриптов и сжатие изображений каталога в WebP. Время загрузки первого экрана на мобильных сократилось с 3.8 сек до 1.4 сек (зелёная зона Google PageSpeed).</p>
+          <div class="mt-3 flex flex-wrap items-center gap-3">
+            <a href="https://pagespeed.web.dev/" target="_blank" rel="noopener" class="block w-28 h-20 rounded-xl overflow-hidden ring-1 ring-black/5 bg-zinc-50 hover:ring-accent/40 transition" title="Скриншот PageSpeed">
+              <svg viewBox="0 0 112 80" class="w-full h-full" aria-hidden="true">
+                <rect width="112" height="80" fill="#f4f4f5"/>
+                <rect x="10" y="12" width="92" height="8" rx="2" fill="#e4e4e7"/>
+                <circle cx="56" cy="48" r="18" fill="none" stroke="#22c55e" stroke-width="4"/>
+                <text x="56" y="52" text-anchor="middle" fill="#16a34a" font-size="12" font-weight="600">94</text>
+              </svg>
+            </a>
+            <a href="https://pagespeed.web.dev/" target="_blank" rel="noopener" class="text-xs text-accent hover:underline">Открыть проверку PageSpeed →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="bg-white rounded-2xl shadow-card p-4 lg:p-6 space-y-3">
+        <div class="text-[11px] font-medium uppercase tracking-wide text-zinc-400">Семантика и структура</div>
+        <div>
+          <h3 class="text-sm font-semibold text-ink">Кластеризация и расширение раздела «Морозильные камеры»</h3>
+          <p class="mt-2 text-sm text-zinc-700 leading-relaxed">Собрано 480 поисковых запросов, внедрены новые фильтры по объёму и компрессорам. Создано 12 новых посадочных страниц.</p>
+        </div>
+      </article>
+
+      <article class="bg-white rounded-2xl shadow-card p-4 lg:p-6 space-y-3">
+        <div class="text-[11px] font-medium uppercase tracking-wide text-zinc-400">Внутренняя оптимизация</div>
+        <div>
+          <h3 class="text-sm font-semibold text-ink">Внедрение микроразметки Schema.org Product</h3>
+          <p class="mt-2 text-sm text-zinc-700 leading-relaxed">Настроена разметка цен, наличия и отзывов для товарных карточек. В поисковой выдаче Яндекса и Google появились сниппеты со звёздами и ценами.</p>
+        </div>
+      </article>
+    </section>
+
+  </main>
 </div>
+
 <script>
 (function () {
-  /* Комментарии задач с отметкой «В отчёте» — в том же виде: списки, жирный, ссылки, изображения */
+  const client = !!window.__CLIENT_REPORT;
+  const wantPrint = new URLSearchParams(location.search).get('print') === '1';
   const App = window.SEOApp;
-  const data = App.comments.load();
-  const box = document.querySelector('[data-report-done]');
-  if (!box) return;
-  if (data.flags.s3 === false) box.querySelector('[data-report-seed="s3"]').remove();
-  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  data.items.filter(c => c.report).forEach(c => {
-    const files = c.files || [];
-    const images = files.filter(f => f.url);
-    const other = files.filter(f => !f.url);
-    const el = document.createElement('div');
-    el.dataset.reportItem = c.id;
-    el.innerHTML =
-      '<div class="font-medium text-zinc-900">Проверка индексации в GSC</div>' +
-      '<div data-staff-only class="text-[11px] text-emerald-700 mt-0.5">📄 Из комментария к задаче · ' + esc(c.author) + ', ' + esc(c.time) + '</div>' +
-      '<div class="mt-1 ' + App.RICH + '">' + c.html + '</div>' +
-      (images.length ? '<div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">' + images.map(f => '<figure><img src="' + f.url + '" alt="' + esc(f.name) + '" class="w-full rounded-xl ring-1 ring-black/5"><figcaption class="mt-1 text-[11px] text-zinc-500">' + esc(f.name) + '</figcaption></figure>').join('') + '</div>' : '') +
-      (other.length ? '<div class="mt-2 flex flex-wrap gap-2">' + other.map(f => '<span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-zinc-50 border border-zinc-200 text-xs font-medium">' + esc(f.name) + '</span>').join('') + '</div>' : '');
-    box.appendChild(el);
-  });
-})();
-</script>
-<script>
-(function () {
-  const buttons = document.querySelectorAll('[data-report-mode]');
-  const sheet = document.querySelector('[data-report-sheet]');
-  function apply(mode) {
-    document.querySelectorAll('[data-staff-only]').forEach(el => el.classList.toggle('hidden', mode !== 'edit'));
-    buttons.forEach(b => {
-      const on = b.dataset.reportMode === mode;
-      b.classList.toggle('bg-white', on);
-      b.classList.toggle('text-ink', on);
-      b.classList.toggle('shadow-sm', on);
-      b.classList.toggle('text-zinc-500', !on);
-    });
-    if (!sheet) return;
-    sheet.classList.toggle('max-w-3xl', mode === 'pdf');
-    sheet.classList.toggle('mx-auto', mode === 'pdf');
-    sheet.classList.toggle('p-2', mode === 'pdf');
+
+  const CHARTS = {
+    traffic: {
+      title: 'Динамика поискового трафика за месяц',
+      label: 'Трафик', color: '#0071e3',
+      summary: 'Факт 24 380 · план 26 000 · 94%',
+      fact: [16800, 18200, 19800, 21200, 22400, 23400, 24380],
+      plan: [18000, 19500, 21000, 22500, 24000, 25000, 26000],
+      yLabels: ['0', '8k', '16k', '24k', '32k']
+    },
+    leads: {
+      title: 'Динамика целевых обращений (лидов)',
+      label: 'Лиды', color: '#059669',
+      summary: 'Факт 312 · план 290 · 108%',
+      fact: [210, 235, 255, 270, 288, 300, 312],
+      plan: [200, 220, 240, 255, 270, 280, 290],
+      yLabels: ['0', '80', '160', '240', '320']
+    },
+    top10: {
+      title: 'Динамика позиций в ТОП-10',
+      label: '% в ТОП-10', color: '#7c3aed',
+      summary: 'Факт 148 · план 130 · 114%',
+      fact: [108, 118, 126, 132, 138, 144, 148],
+      plan: [100, 108, 114, 118, 122, 126, 130],
+      yLabels: ['0', '40', '80', '120', '160']
+    }
+  };
+  const DAYS = [1, 5, 10, 15, 20, 25, 31];
+  const XS = [48, 143, 238, 333, 428, 523, 620];
+
+  function paintLogo() {
+    const box = document.querySelector('[data-report-client-logo]');
+    if (!box) return;
+    let src = '';
+    try { src = localStorage.getItem('seo_client_logo_holod') || ''; } catch (e) { /* ignore */ }
+    if (!src) return;
+    box.className = 'w-12 h-12 rounded-2xl overflow-hidden shrink-0 bg-white border border-zinc-200';
+    box.innerHTML = '<img src="' + src + '" alt="" class="w-full h-full object-contain p-1">';
   }
-  buttons.forEach(b => b.addEventListener('click', () => apply(b.dataset.reportMode)));
+
+  function yScale(vals, yTop, yBot) {
+    const hi = Math.max.apply(null, vals) * 1.12;
+    const lo = 0;
+    return v => yBot - ((v - lo) / (hi - lo || 1)) * (yBot - yTop);
+  }
+
+  function chartSvg(key) {
+    const s = CHARTS[key];
+    if (!s) return '';
+    const y = yScale(s.fact.concat(s.plan), 28, 180);
+    const factPts = s.fact.map((v, i) => XS[i] + ',' + y(v).toFixed(1)).join(' ');
+    const planPts = s.plan.map((v, i) => XS[i] + ',' + y(v).toFixed(1)).join(' ');
+    const area = factPts + ' 620,180 48,180';
+    const gid = 'rcFill-' + key;
+    return '<svg viewBox="0 0 640 220" class="w-full h-auto" role="img" aria-label="' + s.title + '">' +
+      '<defs><linearGradient id="' + gid + '" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0%" stop-color="' + s.color + '" stop-opacity="0.18"/>' +
+        '<stop offset="100%" stop-color="' + s.color + '" stop-opacity="0"/>' +
+      '</linearGradient></defs>' +
+      '<g stroke="#e4e4e7" stroke-width="1">' +
+        '<line x1="48" y1="20" x2="48" y2="180"/>' +
+        '<line x1="48" y1="180" x2="620" y2="180"/>' +
+        '<line x1="48" y1="140" x2="620" y2="140" stroke-dasharray="3 4"/>' +
+        '<line x1="48" y1="100" x2="620" y2="100" stroke-dasharray="3 4"/>' +
+        '<line x1="48" y1="60" x2="620" y2="60" stroke-dasharray="3 4"/>' +
+      '</g>' +
+      [184, 144, 104, 64, 28].map((yy, i) => '<text x="40" y="' + yy + '" text-anchor="end" fill="#a1a1aa" font-size="10">' + s.yLabels[i] + '</text>').join('') +
+      '<polyline fill="none" stroke="#a1a1aa" stroke-width="2" stroke-dasharray="6 5" stroke-linejoin="round" stroke-linecap="round" points="' + planPts + '"/>' +
+      '<polygon fill="url(#' + gid + ')" points="' + area + '"/>' +
+      '<polyline fill="none" stroke="' + s.color + '" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="' + factPts + '"/>' +
+      '<g fill="' + s.color + '">' + s.fact.map((v, i) => '<circle cx="' + XS[i] + '" cy="' + y(v).toFixed(1) + '" r="3.5"/>').join('') + '</g>' +
+      '<g fill="#71717a" font-size="10" text-anchor="middle">' + DAYS.map((d, i) => '<text x="' + XS[i] + '" y="198">' + d + '</text>').join('') + '</g>' +
+      '<g font-size="11">' +
+        '<line x1="460" y1="28" x2="480" y2="28" stroke="' + s.color + '" stroke-width="2.5"/>' +
+        '<text x="488" y="32" fill="#3f3f46">Факт</text>' +
+        '<line x1="540" y1="28" x2="560" y2="28" stroke="#a1a1aa" stroke-width="2" stroke-dasharray="5 4"/>' +
+        '<text x="568" y="32" fill="#3f3f46">План</text>' +
+      '</g>' +
+    '</svg>';
+  }
+
+  function initReportCharts() {
+    const host = document.querySelector('[data-report-charts]');
+    if (!host || host.dataset.ready) return;
+    host.dataset.ready = '1';
+    const active = (App.getProjectKpis && App.getProjectKpis()) || ['traffic', 'leads'];
+
+    document.querySelectorAll('[data-report-kpi]').forEach(card => {
+      const key = card.dataset.reportKpi;
+      if (key === 'works') return;
+      card.classList.toggle('hidden', active.indexOf(key) === -1);
+    });
+    const grid = document.querySelector('[data-report-kpi-grid]');
+    if (grid) {
+      const visible = grid.querySelectorAll('[data-report-kpi]:not(.hidden)').length;
+      const cols = visible <= 1 ? 'grid-cols-1 sm:grid-cols-2'
+        : visible === 2 ? 'grid-cols-2'
+        : visible === 3 ? 'grid-cols-2 lg:grid-cols-3'
+        : 'grid-cols-2 lg:grid-cols-4';
+      grid.className = 'grid gap-4 ' + cols;
+    }
+
+    host.innerHTML = active.map(key => {
+      const s = CHARTS[key];
+      if (!s) return '';
+      return '<article data-report-chart-card class="bg-white rounded-2xl shadow-card p-4 lg:p-6">' +
+        '<h3 class="text-sm font-semibold tracking-tight text-ink">' + s.title + '</h3>' +
+        '<p class="text-xs text-zinc-500 mt-0.5 mb-4">' + s.summary + ' · факт — сплошная · план — пунктир</p>' +
+        chartSvg(key) +
+      '</article>';
+    }).join('');
+  }
+
+  function activateClientView() {
+    document.querySelectorAll('[data-staff-chrome], [data-app-chrome], [data-staff-doc], #sidebar, #sidebar-overlay').forEach(el => el.remove());
+    document.querySelectorAll('header.lg\\:hidden, nav.fixed, [data-bottom-nav]').forEach(el => el.remove());
+    const doc = document.querySelector('[data-client-doc]');
+    if (doc) {
+      doc.classList.remove('hidden', 'lg:pl-64', 'pb-24', 'lg:pb-20', 'lg:px-8', 'pt-6');
+      doc.classList.add('max-w-4xl', 'mx-auto', 'px-4', 'py-8', 'space-y-8', 'min-h-screen');
+    }
+    paintLogo();
+    initReportCharts();
+  }
+
+  if (client) {
+    const holder = document.querySelector('[data-app-chrome]');
+    if (holder) holder.remove();
+    const staff = document.querySelector('[data-staff-doc]');
+    if (staff) staff.remove();
+    const doc = document.querySelector('[data-client-doc]');
+    if (doc) doc.classList.remove('hidden');
+  }
+
+  document.addEventListener('seo:ready', () => {
+    if (client) {
+      activateClientView();
+      document.querySelectorAll('main').forEach(m => {
+        m.classList.remove('lg:pl-64', 'pb-24', 'lg:pb-20', 'lg:px-8', 'pt-6');
+      });
+      if (wantPrint) setTimeout(() => window.print(), 400);
+    } else {
+      initReportCharts();
+    }
+  });
 })();
 </script>
 </body>

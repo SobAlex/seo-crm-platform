@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="overflow-x-hidden">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,14 +8,14 @@
   <script src="assets/app.js"></script>
   <script src="assets/modals.js"></script>
 </head>
-<body class="bg-canvas text-ink antialiased">
-<div class="min-h-screen">
+<body class="bg-canvas text-ink antialiased overflow-x-hidden">
+<div class="min-h-screen overflow-x-hidden">
 
   <div data-app-chrome="tasks" data-roles="owner,seo_head,mgr_head,pm,employee"></div>
 
   <div class="flex">
 
-    <main class="flex-1 min-w-0 lg:pl-64 pb-24 lg:pb-0">
+    <main class="flex-1 min-w-0 lg:pl-64 pt-6 pb-24 lg:pb-20">
 
       <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
         <header class="px-4 lg:px-8 h-14 flex items-center justify-between gap-3 overflow-x-auto">
@@ -55,27 +55,33 @@
               </div>
 
               <div class="md:col-span-2">
-                <label class="flex items-center gap-2.5 text-sm text-zinc-700">
-                  <input id="link-roadmap" type="checkbox" checked class="w-4 h-4 rounded border-zinc-300">
-                  Привязать к работе из дорожной карты
+                <label class="block text-xs font-medium text-zinc-500 mb-2">
+                  Пункт дорожной карты
+                  <span class="text-zinc-400 font-normal">— опционально</span>
                 </label>
-                <p class="text-xs text-zinc-500 mt-1.5">Если снять — задача станет свободной: она не входит в выполнение дорожной карты и отмечается в списках отдельно.</p>
-              </div>
-
-              <div id="roadmap-fields" class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-5">
-                <div>
-                  <label class="block text-xs font-medium text-zinc-500 mb-2">Направление</label>
-                  <select id="direction-select" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-                    <option value="audit">Аудит</option>
-                    <option value="semantics">Семантика</option>
-                    <option value="internal">Внутренняя оптимизация</option>
-                    <option value="external">Внешняя оптимизация</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="block text-xs font-medium text-zinc-500 mb-2">Работа</label>
-                  <select id="work-select" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></select>
-                </div>
+                <select name="roadmap_item" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+                  <option value="" selected>— Внеплановая (свободная задача) —</option>
+                  <optgroup label="Аудит">
+                    <option value="audit-tech">Технический аудит</option>
+                    <option value="audit-behavior">Аудит поведенческих факторов</option>
+                    <option value="audit-commercial">Аудит коммерческих факторов</option>
+                  </optgroup>
+                  <optgroup label="Семантика">
+                    <option value="sem-collect">Сбор семантического ядра</option>
+                    <option value="sem-cluster">Кластеризация запросов</option>
+                    <option value="sem-pages">Распределение по страницам</option>
+                  </optgroup>
+                  <optgroup label="Внутренняя оптимизация">
+                    <option value="in-meta">Оптимизация мета-тегов</option>
+                    <option value="in-content">Написание текстов категорий</option>
+                    <option value="in-microdata">Внедрение микроразметки Schema.org</option>
+                  </optgroup>
+                  <optgroup label="Внешняя оптимизация">
+                    <option value="out-links">Размещение внешних ссылок</option>
+                    <option value="out-crowd">Крауд-маркетинг</option>
+                  </optgroup>
+                </select>
+                <p class="text-[11px] text-zinc-400 mt-1">Привязка задачи автоматически двигает прогресс выполнения этапа в дорожной карте проекта.</p>
               </div>
 
               <div class="md:col-span-2">
@@ -205,28 +211,6 @@
 </div>
 
 <script>
-
-  const worksByDirection = {
-    audit:        ['Аудит поведенческих факторов', 'Аудит коммерческих факторов', 'Аудит технический', 'Конкурентный анализ'],
-    semantics:    ['Сбор маркеров', 'Сбор семантики', 'Кластеризация', 'Распределение по страницам'],
-    internal:     ['Оптимизация метаданных', 'Оптимизация текстов', 'Перелинковка'],
-    external:     ['Поиск подходящих конкурентов', 'Сбор ссылочного профиля', 'Стратегия по наращиванию ссылок']
-  };
-  const directionSel = document.getElementById('direction-select');
-  const workSel = document.getElementById('work-select');
-  function renderWorks() {
-    const list = worksByDirection[directionSel.value] || [];
-    workSel.innerHTML = list.map(w => `<option>${w}</option>`).join('');
-  }
-  directionSel.addEventListener('change', renderWorks);
-  renderWorks();
-
-  const linkRoadmap = document.getElementById('link-roadmap');
-  const roadmapFields = document.getElementById('roadmap-fields');
-  linkRoadmap.addEventListener('change', () => {
-    roadmapFields.classList.toggle('hidden', !linkRoadmap.checked);
-  });
-
   const executorsByRole = {
     'seo-lead':   ['Иван Сидоров'],
     'pm':         ['Никита Морозов', 'Ольга Ветрова'],

@@ -28,6 +28,17 @@ tailwind.config = {
   safelist: ['opacity-50', 'cursor-not-allowed', 'pointer-events-none']
 };
 
+/* Мобильный guard: без горизонтального скролла страницы + скрытый скроллбар у капсул/канбана */
+(function () {
+  if (document.getElementById('seo-mobile-guards')) return;
+  const s = document.createElement('style');
+  s.id = 'seo-mobile-guards';
+  s.textContent = 'html,body{overflow-x:hidden;}' +
+    '.no-scrollbar::-webkit-scrollbar{display:none;}' +
+    '.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none;}';
+  (document.head || document.documentElement).appendChild(s);
+})();
+
 (function () {
   'use strict';
 
@@ -39,7 +50,7 @@ tailwind.config = {
     { id: 'seo_head',   label: 'Руководитель SEO',        user: 'Иван Сидоров',      initials: 'ИС', badge: 'bg-blue-50 text-blue-700',    desc: 'Полный доступ, кроме профиля компании, тарифа, смены ролей и удаления компании. Шаблоны и интеграции ему доступны.' },
     { id: 'mgr_head',   label: 'Руководитель менеджеров', user: 'Ольга Ветрова',     initials: 'ОВ', badge: 'bg-violet-50 text-violet-700', desc: 'Тот же доступ, что у руководителя SEO: всё, кроме профиля, тарифа, смены ролей и удаления компании.' },
     { id: 'pm',         label: 'Менеджер проекта',        user: 'Никита Морозов',    initials: 'НМ', badge: 'bg-amber-50 text-amber-700',  desc: 'Ведёт проекты, задачи, людей, отчёты и деньги. Не настраивает шаблоны и не подключает интеграции. Профиль компании закрыт.' },
-    { id: 'employee',   label: 'SEO-специалист',          user: 'Алексей Петров',    initials: 'АП', badge: 'bg-emerald-50 text-emerald-700', desc: 'Тот же доступ, что у менеджера проекта: все проекты и отчёты, без шаблонов, интеграций и профиля компании.' },
+    { id: 'employee',   label: 'SEO-специалист',          user: 'Алексей Петров',    initials: 'АП', badge: 'bg-emerald-50 text-emerald-700', desc: 'Проекты, задачи и отчёты. Без создания клиентов и проектов, без шаблонов, интеграций и профиля компании.' },
     { id: 'contractor', label: 'Подрядчик',               user: 'Мария Ким',         initials: 'МК', badge: 'bg-zinc-100 text-zinc-700',   desc: 'Видит и выполняет только назначенные задачи. Может комментировать их и вести свои часы.' },
     { id: 'client',     label: 'Клиент',                  user: 'Елена Крылова',     initials: 'ЕК', badge: 'bg-cyan-50 text-cyan-700',    desc: 'Свой проект только для просмотра: результаты, дорожная карта и принятые отчёты.' }
   ];
@@ -83,12 +94,13 @@ tailwind.config = {
     ]},
     { title: 'Проекты и клиенты', items: [
       { key: 'view_all_projects', label: 'Все проекты компании',            level: 'staff' },
-      { key: 'create_client',     label: 'Создать и редактировать клиента', level: 'staff' },
-      { key: 'create_project',    label: 'Создать проект',                  level: 'staff' },
+      { key: 'create_client',     label: 'Создать и редактировать клиента', level: 'lead', also: ['pm'] },
+      { key: 'create_project',    label: 'Создать проект',                  level: 'lead', also: ['pm'] },
       { key: 'edit_project',      label: 'Редактировать проект, карту и план месяца', level: 'staff' },
+      { key: 'assign_team',      label: 'Назначать и убирать команду проекта', level: 'lead', also: ['pm'] },
       { key: 'transfer_project',  label: 'Передать проект другому специалисту', level: 'staff' },
       { key: 'archive_project',   label: 'Архивировать проект',             level: 'staff' },
-      { key: 'delete_project',    label: 'Удалить проект',                  level: 'staff' }
+      { key: 'delete_project',    label: 'Удалить проект',                  level: 'company' }
     ]},
     { title: 'Задачи', items: [
       { key: 'create_tasks', label: 'Задача из карты, свободная и подзадача', level: 'staff' },
@@ -170,7 +182,7 @@ tailwind.config = {
     { id: 'clients',   href: 'clients.html',   label: 'Клиенты',      icon: 'users',    roles: STAFF },
     { id: 'calendar',  href: 'calendar.html',  label: 'Календарь',    icon: 'calendar', roles: STAFF },
     { id: 'portal',    href: 'portal.html',    label: 'Мой проект',   icon: 'home',     roles: ['client'] },
-    { id: 'brief',     href: 'brief.html',     label: 'Бриф',         icon: 'check',    roles: ['client'] },
+    { id: 'brief',     href: 'brief-form.html', label: 'Бриф',         icon: 'check',    roles: ['client'] },
     { group: 'Команда', roles: STAFF },
     { id: 'executors', href: 'executors.html', label: 'Сотрудники',   icon: 'team',     roles: STAFF },
     { id: 'templates', href: 'templates.html', label: 'Шаблоны',      icon: 'layers',   roles: LEADS },
@@ -269,7 +281,10 @@ tailwind.config = {
   function initChrome() {
     const holder = document.querySelector('[data-app-chrome]');
     const main = document.querySelector('main');
-    if (main) main.classList.add('pb-24', 'lg:pb-0', 'lg:pl-64');
+    if (main) {
+      main.classList.remove('lg:pb-0');
+      main.classList.add('pb-24', 'lg:pb-20', 'lg:pl-64');
+    }
     if (!document.getElementById('shell-pad')) {
       const pad = document.createElement('style');
       pad.id = 'shell-pad';
@@ -1308,11 +1323,11 @@ tailwind.config = {
 
   const words = v => (v || '').split(' ').filter(Boolean);
 
-  /* Приёмка есть у всего уровня «сотрудник» и выше. Подрядчик и клиент чужие задачи не принимают. */
+  /* Приёмка: постановщик, PM и руководство. Исполнитель — только если он же постановщик. */
   function canAcceptItem(el) {
     if (!can('accept_work')) return false;
-    if (!el || !el.dataset) return isLead;
-    if (isLead) return true;
+    if (!el || !el.dataset) return isLead || role === 'pm';
+    if (isLead || role === 'pm') return true;
     return el.dataset.creator === ME.id;
   }
 
@@ -1447,7 +1462,7 @@ tailwind.config = {
   /* Для страниц со своей логикой задач (доска и список в tasks.html) */
   Object.assign(window.SEOApp, {
     me: ME.id, myProjects: ME.projects, isLead,
-    canAccept: creator => can('accept_work') && (isLead || creator === ME.id),
+    canAccept: creator => can('accept_work') && (isLead || role === 'pm' || creator === ME.id),
     setTaskFilter(fn) { pageFilter = fn || null; applyFilters(); },
     dateInRange, dateRange, paintDateRange: paintRangeRows
   });

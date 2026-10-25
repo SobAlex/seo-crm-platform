@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="overflow-x-hidden">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,33 +8,33 @@
   <script src="assets/app.js"></script>
   <script src="assets/modals.js"></script>
 </head>
-<body class="bg-canvas text-ink antialiased">
-<div class="min-h-screen">
+<body class="bg-canvas text-ink antialiased overflow-x-hidden">
+<div class="min-h-screen overflow-x-hidden">
 
   <div data-app-chrome="templates" data-roles="owner,seo_head,mgr_head"></div>
 
   <div class="flex">
 
-    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 py-6 space-y-6 pb-24 lg:pb-0">
+    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 pt-6 pb-24 lg:pb-20 space-y-6">
 
       <header class="sticky top-0 z-30 min-h-[3.5rem] h-auto py-2.5 bg-canvas/80 backdrop-blur-xl border-b border-black/5 -mx-4 lg:-mx-8 -mt-6 px-4 lg:px-8 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-3 min-w-0">
-          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate">Шаблоны</h1>
+          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[140px] sm:max-w-none">Шаблоны</h1>
         </div>
-        <div class="flex items-center gap-2.5 shrink-0">
+        <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
           <a href="settings.html" aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
         </div>
       </header>
 
       <div class="w-full space-y-6">
-        <div class="bg-white rounded-2xl shadow-card p-3 lg:p-3.5 flex flex-wrap xl:flex-nowrap items-center justify-between gap-3">
-          <div class="inline-flex bg-zinc-100 rounded-full p-1 shrink-0">
-            <button data-tab="types" class="tab-btn px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Типы проектов</button>
-            <button data-tab="roadmap" class="tab-btn px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Дорожные карты</button>
-            <button data-tab="month" class="tab-btn px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Месячные планы</button>
-            <button data-tab="workflows" class="tab-btn px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Бизнес-процессы</button>
-            <button data-tab="brief" class="tab-btn px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Бриф</button>
+        <div class="bg-white rounded-2xl shadow-card w-full max-w-full overflow-hidden p-3 lg:p-3.5">
+          <div class="inline-flex bg-zinc-100 rounded-full p-1 max-w-full overflow-x-auto no-scrollbar shrink-0" role="tablist" aria-label="Библиотека шаблонов">
+            <button data-tab="types" class="tab-btn shrink-0 whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition">Типы проектов</button>
+            <button data-tab="roadmap" class="tab-btn shrink-0 whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition">Дорожные карты</button>
+            <button data-tab="month" class="tab-btn shrink-0 whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition">Месячные планы</button>
+            <button data-tab="workflows" class="tab-btn shrink-0 whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition">Бизнес-процессы</button>
+            <button data-tab="brief" class="tab-btn shrink-0 whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition">Бриф</button>
           </div>
         </div>
 
@@ -53,7 +53,7 @@
                     </div>
                   </div>
                   <div class="flex items-center gap-3 text-xs shrink-0">
-                    <button data-open-modal="type-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                    <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="type-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
                     <span class="text-zinc-300">·</span>
                     <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                   </div>
@@ -67,7 +67,7 @@
                     </div>
                   </div>
                   <div class="flex items-center gap-3 text-xs shrink-0">
-                    <button data-open-modal="type-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                    <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="type-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
                     <span class="text-zinc-300">·</span>
                     <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                   </div>
@@ -81,7 +81,7 @@
                     </div>
                   </div>
                   <div class="flex items-center gap-3 text-xs shrink-0">
-                    <button data-open-modal="type-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                    <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="type-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
                     <span class="text-zinc-300">·</span>
                     <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                   </div>
@@ -95,7 +95,7 @@
                     </div>
                   </div>
                   <div class="flex items-center gap-3 text-xs shrink-0">
-                    <button data-open-modal="type-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                    <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="type-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
                     <span class="text-zinc-300">·</span>
                     <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                   </div>
@@ -109,7 +109,7 @@
                     </div>
                   </div>
                   <div class="flex items-center gap-3 text-xs shrink-0">
-                    <button data-open-modal="type-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                    <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="type-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
                     <span class="text-zinc-300">·</span>
                     <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                   </div>
@@ -117,7 +117,7 @@
               </ul>
             </div>
 
-            <button data-open-modal="type" class="w-full px-4 py-3 rounded-2xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Создать тип проекта</button>
+            <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="type" class="w-full px-4 py-3 rounded-2xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Создать тип проекта</button>
 
           </div>
         </div>
@@ -144,7 +144,7 @@
                 <p class="text-sm text-zinc-600">Карта для интернет-магазинов и маркетплейсов.</p>
                 <div class="flex items-center gap-3 text-xs shrink-0">
                   <button class="text-zinc-500 hover:text-zinc-900 transition">Дублировать</button>
-                  <button data-open-modal="roadmap-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                  <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="roadmap-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
                   <span class="text-zinc-300">·</span>
                   <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                 </div>
@@ -156,7 +156,7 @@
                   <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
                     <span class="text-sm font-medium">Аудит</span>
                     <div class="flex items-center gap-3 text-xs">
-                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
                       <span class="text-zinc-500 tabular-nums">4 работы</span>
                       <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                     </div>
@@ -167,7 +167,7 @@
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Аудит ассортимента</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Конкурентный анализ</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
-                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                      <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
                     </li>
                   </ul>
                 </div>
@@ -176,7 +176,7 @@
                   <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
                     <span class="text-sm font-medium">Семантика</span>
                     <div class="flex items-center gap-3 text-xs">
-                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
                       <span class="text-zinc-500 tabular-nums">4 работы</span>
                       <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                     </div>
@@ -187,7 +187,7 @@
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Кластеризация</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Распределение по страницам</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
-                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                      <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
                     </li>
                   </ul>
                 </div>
@@ -196,7 +196,7 @@
                   <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
                     <span class="text-sm font-medium">Внутренняя оптимизация</span>
                     <div class="flex items-center gap-3 text-xs">
-                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
                       <span class="text-zinc-500 tabular-nums">3 работы</span>
                       <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                     </div>
@@ -206,7 +206,7 @@
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Оптимизация текстов</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-zinc-100 text-zinc-700">Подрядчик</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Перелинковка</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
-                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                      <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
                     </li>
                   </ul>
                 </div>
@@ -215,7 +215,7 @@
                   <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
                     <span class="text-sm font-medium">Внешняя оптимизация</span>
                     <div class="flex items-center gap-3 text-xs">
-                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
                       <span class="text-zinc-500 tabular-nums">3 работы</span>
                       <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                     </div>
@@ -225,12 +225,12 @@
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Сбор ссылочного профиля конкурентов</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-zinc-100 text-zinc-700">Подрядчик</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Стратегия по наращиванию ссылок</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-zinc-100 text-zinc-700">Подрядчик</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
-                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                      <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
                     </li>
                   </ul>
                 </div>
 
-                <button data-open-modal="direction" class="w-full px-4 py-2.5 rounded-xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить направление</button>
+                <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="direction" class="w-full px-4 py-2.5 rounded-xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить направление</button>
 
               </div>
             </details>
@@ -252,7 +252,7 @@
                 <p class="text-sm text-zinc-600">Карта для блогов, медиа, информационных порталов.</p>
                 <div class="flex items-center gap-3 text-xs shrink-0">
                   <button class="text-zinc-500 hover:text-zinc-900 transition">Дублировать</button>
-                  <button data-open-modal="roadmap-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                  <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="roadmap-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
                   <span class="text-zinc-300">·</span>
                   <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                 </div>
@@ -262,7 +262,7 @@
                   <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
                     <span class="text-sm font-medium">Аудит</span>
                     <div class="flex items-center gap-3 text-xs">
-                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
                       <span class="text-zinc-500 tabular-nums">3 работы</span>
                       <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                     </div>
@@ -272,7 +272,7 @@
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Аудит контента</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Аудит поведенческих факторов</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
-                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                      <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
                     </li>
                   </ul>
                 </div>
@@ -280,7 +280,7 @@
                   <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
                     <span class="text-sm font-medium">Семантика</span>
                     <div class="flex items-center gap-3 text-xs">
-                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
                       <span class="text-zinc-500 tabular-nums">4 работы</span>
                       <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                     </div>
@@ -291,7 +291,7 @@
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Кластеризация</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Контент-план</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-zinc-100 text-zinc-700">Подрядчик</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
-                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                      <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
                     </li>
                   </ul>
                 </div>
@@ -299,7 +299,7 @@
                   <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
                     <span class="text-sm font-medium">Продвижение</span>
                     <div class="flex items-center gap-3 text-xs">
-                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
                       <span class="text-zinc-500 tabular-nums">3 работы</span>
                       <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                     </div>
@@ -309,11 +309,11 @@
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Внешние упоминания</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Отчёт по видимости</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
-                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                      <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
                     </li>
                   </ul>
                 </div>
-<button data-open-modal="direction" class="w-full px-4 py-2.5 rounded-xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить направление</button>
+<button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="direction" class="w-full px-4 py-2.5 rounded-xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить направление</button>
               </div>
             </details>
 
@@ -334,7 +334,7 @@
                 <p class="text-sm text-zinc-600">Компактный набор для одностраничных сайтов.</p>
                 <div class="flex items-center gap-3 text-xs shrink-0">
                   <button class="text-zinc-500 hover:text-zinc-900 transition">Дублировать</button>
-                  <button data-open-modal="roadmap-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                  <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="roadmap-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
                   <span class="text-zinc-300">·</span>
                   <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                 </div>
@@ -344,7 +344,7 @@
                   <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
                     <span class="text-sm font-medium">Аудит</span>
                     <div class="flex items-center gap-3 text-xs">
-                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
                       <span class="text-zinc-500 tabular-nums">3 работы</span>
                       <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                     </div>
@@ -354,7 +354,7 @@
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Аудит конверсии</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Проверка скорости загрузки</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
-                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                      <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
                     </li>
                   </ul>
                 </div>
@@ -362,7 +362,7 @@
                   <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
                     <span class="text-sm font-medium">Оптимизация</span>
                     <div class="flex items-center gap-3 text-xs">
-                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
                       <span class="text-zinc-500 tabular-nums">3 работы</span>
                       <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                     </div>
@@ -372,11 +372,11 @@
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Скорость посадочной</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Тексты оффера</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-zinc-100 text-zinc-700">Подрядчик</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
-                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                      <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
                     </li>
                   </ul>
                 </div>
-<button data-open-modal="direction" class="w-full px-4 py-2.5 rounded-xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить направление</button>
+<button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="direction" class="w-full px-4 py-2.5 rounded-xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить направление</button>
               </div>
             </details>
 
@@ -397,7 +397,7 @@
                 <p class="text-sm text-zinc-600">Длинный цикл сделки: семантика, посадочные под отрасли, доступы клиента.</p>
                 <div class="flex items-center gap-3 text-xs shrink-0">
                   <button class="text-zinc-500 hover:text-zinc-900 transition">Дублировать</button>
-                  <button data-open-modal="roadmap-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                  <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="roadmap-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
                   <span class="text-zinc-300">·</span>
                   <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                 </div>
@@ -407,7 +407,7 @@
                   <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
                     <span class="text-sm font-medium">Аудит</span>
                     <div class="flex items-center gap-3 text-xs">
-                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
                       <span class="text-zinc-500 tabular-nums">2 работы</span>
                       <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                     </div>
@@ -416,7 +416,7 @@
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Аудит технический</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Аудит коммерческих факторов</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
-                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                      <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
                     </li>
                   </ul>
                 </div>
@@ -425,7 +425,7 @@
                   <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
                     <span class="text-sm font-medium">Семантика</span>
                     <div class="flex items-center gap-3 text-xs">
-                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
                       <span class="text-zinc-500 tabular-nums">2 работы</span>
                       <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                     </div>
@@ -434,7 +434,7 @@
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Сбор семантики</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Кластеризация</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
-                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                      <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
                     </li>
                   </ul>
                 </div>
@@ -443,7 +443,7 @@
                   <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
                     <span class="text-sm font-medium">Запуск</span>
                     <div class="flex items-center gap-3 text-xs">
-                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
                       <span class="text-zinc-500 tabular-nums">2 работы</span>
                       <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                     </div>
@@ -452,12 +452,12 @@
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Доступы к GSC и Метрике</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-amber-50 text-amber-700">Менеджер проекта</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Тексты отраслевых страниц</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-zinc-100 text-zinc-700">Подрядчик</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
-                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                      <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
                     </li>
                   </ul>
                 </div>
 
-                <button data-open-modal="direction" class="w-full px-4 py-2.5 rounded-xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить направление</button>
+                <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="direction" class="w-full px-4 py-2.5 rounded-xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить направление</button>
               </div>
             </details>
             <details class="bg-white rounded-2xl shadow-card overflow-hidden group">
@@ -477,7 +477,7 @@
                 <p class="text-sm text-zinc-600">Локальные услуги: семантика, страницы услуг, тексты.</p>
                 <div class="flex items-center gap-3 text-xs shrink-0">
                   <button class="text-zinc-500 hover:text-zinc-900 transition">Дублировать</button>
-                  <button data-open-modal="roadmap-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                  <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="roadmap-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
                   <span class="text-zinc-300">·</span>
                   <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                 </div>
@@ -487,7 +487,7 @@
                   <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
                     <span class="text-sm font-medium">Аудит</span>
                     <div class="flex items-center gap-3 text-xs">
-                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
                       <span class="text-zinc-500 tabular-nums">2 работы</span>
                       <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                     </div>
@@ -496,7 +496,7 @@
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Аудит технический</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Аудит конверсии</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
-                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                      <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
                     </li>
                   </ul>
                 </div>
@@ -505,7 +505,7 @@
                   <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
                     <span class="text-sm font-medium">Семантика</span>
                     <div class="flex items-center gap-3 text-xs">
-                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
                       <span class="text-zinc-500 tabular-nums">2 работы</span>
                       <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                     </div>
@@ -514,7 +514,7 @@
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Сбор семантики</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Распределение по страницам</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
-                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                      <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
                     </li>
                   </ul>
                 </div>
@@ -523,7 +523,7 @@
                   <div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">
                     <span class="text-sm font-medium">Страницы</span>
                     <div class="flex items-center gap-3 text-xs">
-                      <button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
+                      <button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>
                       <span class="text-zinc-500 tabular-nums">2 работы</span>
                       <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                     </div>
@@ -532,15 +532,15 @@
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Тексты услуг</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-zinc-100 text-zinc-700">Подрядчик</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="grid grid-cols-12 gap-4 items-center px-4 py-3 hover:bg-zinc-50/60 transition border-b border-zinc-100 last:border-b-0 text-sm"><div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate">Перелинковка</div><div class="col-span-3 lg:col-span-2 flex items-center justify-start"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">SEO-специалист</span></div><div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>
                     <li class="px-3 lg:px-4 py-2 bg-zinc-50/50">
-                      <button data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
+                      <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button>
                     </li>
                   </ul>
                 </div>
 
-                <button data-open-modal="direction" class="w-full px-4 py-2.5 rounded-xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить направление</button>
+                <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="direction" class="w-full px-4 py-2.5 rounded-xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить направление</button>
               </div>
             </details>
-            <button data-open-modal="roadmap" class="w-full px-4 py-3 rounded-2xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Создать дорожную карту</button>
+            <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="roadmap" class="w-full px-4 py-3 rounded-2xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Создать дорожную карту</button>
 
           </div>
         </div>
@@ -582,7 +582,7 @@
                   <p class="text-sm text-zinc-600">Аудит, семантика, первые правки.</p>
                   <div class="flex items-center gap-3 text-xs shrink-0">
                     <button class="text-zinc-500 hover:text-zinc-900 transition">Дублировать</button>
-                    <button data-open-modal="month-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                    <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="month-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
                     <span class="text-zinc-300">·</span>
                     <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                   </div>
@@ -809,7 +809,7 @@
                   <p class="text-sm text-zinc-600">Аудит, семантика, контент-план.</p>
                   <div class="flex items-center gap-3 text-xs shrink-0">
                     <button class="text-zinc-500 hover:text-zinc-900 transition">Дублировать</button>
-                    <button data-open-modal="month-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                    <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="month-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
                     <span class="text-zinc-300">·</span>
                     <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                   </div>
@@ -924,7 +924,7 @@
                   <p class="text-sm text-zinc-600">Технический аудит, конверсия, скорость.</p>
                   <div class="flex items-center gap-3 text-xs shrink-0">
                     <button class="text-zinc-500 hover:text-zinc-900 transition">Дублировать</button>
-                    <button data-open-modal="month-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
+                    <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="month-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>
                     <span class="text-zinc-300">·</span>
                     <button class="text-zinc-500 hover:text-red-600 transition">Удалить</button>
                   </div>
@@ -1130,7 +1130,7 @@
               </details>
             </div>
           </div>
-          <button data-open-modal="month" class="w-full mt-4 px-4 py-3 rounded-2xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Создать месячный план</button>
+          <button data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="month" class="w-full mt-4 px-4 py-3 rounded-2xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Создать месячный план</button>
 
         </div>
 
@@ -1144,9 +1144,12 @@
         </div>
 
         <div data-tab-panel="brief" class="hidden">
-          <div class="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <p class="text-sm text-zinc-500">Вопросы, которые клиент увидит в портале в начале проекта.</p>
-            <button type="button" data-toast="Вопросы брифа сохранены" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition shrink-0">Сохранить</button>
+          <div class="mb-4 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+            <div class="min-w-0">
+              <h2 class="text-sm font-semibold tracking-tight text-ink">Шаблон брифа агентства</h2>
+              <p class="text-sm text-zinc-500 mt-1 max-w-2xl">Универсальный список вопросов. При создании нового клиента вопросы копируются в его персональный бриф. Редактирование здесь не меняет уже отправленные брифы клиентов.</p>
+            </div>
+            <button type="button" data-toast="Шаблон брифа сохранён" class="bg-accent text-white rounded-full px-4 py-1.5 text-xs font-medium hover:bg-accent-hover transition shrink-0">Сохранить шаблон</button>
           </div>
           <div data-brief-questions class="flex flex-col gap-4">
             <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
@@ -1926,7 +1929,7 @@
         '<div class="flex items-center justify-between gap-3 mb-3">' +
           '<div class="flex items-center gap-2 min-w-0"><span class="w-2.5 h-2.5 rounded-full shrink-0 bg-' + c + '-500"></span><h3 class="text-sm font-semibold tracking-tight truncate">' + esc(name) + '</h3>' +
           '<span class="text-xs text-zinc-500 tabular-nums shrink-0">' + plural(steps.length, 'этап', 'этапа', 'этапов') + '</span></div>' +
-          '<button type="button" data-open-modal="workflow" data-workflow-direction="' + esc(name) + '" class="shrink-0 px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Настроить</button>' +
+          '<button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="workflow" data-workflow-direction="' + esc(name) + '" class="shrink-0 px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Настроить</button>' +
         '</div>' +
         '<ol class="grid grid-cols-2 sm:flex sm:items-stretch gap-2" aria-label="Этапы: ' + esc(name) + '">' + steps.map((st, i) => {
           const edge = i === 0 ? '↔ В работе' : (i === steps.length - 1 ? '↔ Принята' : '');
@@ -1940,6 +1943,7 @@
         }).join('') + '</ol>' +
       '</section>';
     }).join('');
+    if (window.SEOApp && SEOApp.applyPermissions) SEOApp.applyPermissions();
   }
   renderWorkflows();
 
@@ -2079,7 +2083,7 @@
           '<p class="text-sm text-zinc-600">' + esc(desc || 'Новый месячный план') + '</p>' +
           '<div class="flex items-center gap-3 text-xs shrink-0">' +
             '<button type="button" class="text-zinc-500 hover:text-zinc-900 transition">Дублировать</button>' +
-            '<button type="button" data-open-modal="month-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>' +
+            '<button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="month-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>' +
             '<span class="text-zinc-300">·</span>' +
             '<button type="button" class="text-zinc-500 hover:text-red-600 transition">Удалить</button>' +
           '</div></div>' +
@@ -2212,13 +2216,13 @@
         '<p class="text-sm text-zinc-600">' + esc(desc) + '</p>' +
         '<div class="flex items-center gap-3 text-xs shrink-0">' +
         '<button type="button" class="text-zinc-500 hover:text-zinc-900 transition">Дублировать</button>' +
-        '<button type="button" data-open-modal="roadmap-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>' +
+        '<button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="roadmap-edit" class="text-zinc-500 hover:text-zinc-900 transition">Редактировать</button>' +
         '<span class="text-zinc-300">·</span>' +
         '<button type="button" class="text-zinc-500 hover:text-red-600 transition">Удалить</button></div></div>' +
         '<div class="px-4 lg:px-6 pb-4 space-y-3 border-t border-zinc-100 pt-4">' + dirs.map((d, i) =>
           '<div class="rounded-xl border border-black/5 overflow-hidden"><div class="px-3 lg:px-4 py-2.5 bg-zinc-50 flex items-center justify-between">' +
           '<span class="text-sm font-medium">' + esc(d.name) + '</span>' +
-          '<div class="flex items-center gap-3 text-xs"><button type="button" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>' +
+          '<div class="flex items-center gap-3 text-xs"><button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="workflow" class="text-zinc-500 hover:text-zinc-900 transition">Процесс</button>' +
           '<span class="text-zinc-500 tabular-nums">' + plural(d.works.length, 'работа', 'работы', 'работ') + '</span>' +
           '<button type="button" class="text-zinc-500 hover:text-red-600 transition">Удалить</button></div></div>' +
           '<ul class="text-sm">' + d.works.map((w, j) =>
@@ -2226,11 +2230,12 @@
             '<div class="col-span-7 lg:col-span-8 min-w-0 font-normal text-zinc-900 truncate"><span class="text-xs text-zinc-500 tabular-nums mr-2">' + (i + 1) + '.' + (j + 1) + '</span>' + esc(w.title) + '</div>' +
             '<div class="col-span-3 lg:col-span-2 flex items-center justify-start">' + roleTag(w.role) + '</div>' +
             '<div class="col-span-2 flex items-center justify-end text-xs text-zinc-400"><button type="button" class="hover:text-red-600 transition">Удалить</button></div></li>').join('') +
-          '<li class="px-3 lg:px-4 py-2 bg-zinc-50/50"><button type="button" data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button></li></ul></div>').join('') +
-        '<button type="button" data-open-modal="direction" class="w-full px-4 py-2.5 rounded-xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить направление</button></div>';
+          '<li class="px-3 lg:px-4 py-2 bg-zinc-50/50"><button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="work" class="w-full px-3 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">+ Добавить работу</button></li></ul></div>').join('') +
+        '<button type="button" data-roles="owner,seo_head" data-deny-tip="Управление библиотекой шаблонов доступно только Руководителю SEO или Владельцу" data-open-modal="direction" class="w-full px-4 py-2.5 rounded-xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить направление</button></div>';
       bindTemplateActions(details);
       const panel = document.querySelector('[data-tab-panel="roadmap"] .flex.flex-col');
       if (panel) panel.prepend(details);
+      if (window.SEOApp && SEOApp.applyPermissions) SEOApp.applyPermissions();
       e.detail.toast = 'Дорожная карта «' + name + '» создана · ' + plural(works, 'работа', 'работы', 'работ');
       setTimeout(reset, 300);
     });

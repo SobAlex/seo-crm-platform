@@ -108,6 +108,85 @@
     return out;
   };
 
+  /* ---------- KPI проекта (множественный выбор для портала и отчётов) ---------- */
+  const KPI_STORE = 'seo_project_kpis_holod';
+  const KPI_DEFAULT = ['traffic', 'leads'];
+  const KPI_OPTS = [
+    { id: 'traffic', label: 'Поисковый трафик' },
+    { id: 'leads', label: 'Целевые обращения (Лиды)' },
+    { id: 'top10', label: 'Видимость в поиске (% в ТОП-10)' }
+  ];
+  function normalizeKpis(list) {
+    const allowed = KPI_OPTS.map(k => k.id);
+    const seen = {};
+    (Array.isArray(list) ? list : []).forEach(id => {
+      if (allowed.indexOf(id) === -1 || seen[id]) return;
+      seen[id] = true;
+    });
+    const out = allowed.filter(id => seen[id]);
+    return out.length ? out : KPI_DEFAULT.slice();
+  }
+  function getProjectKpis() {
+    let raw = null;
+    try { raw = localStorage.getItem(KPI_STORE); } catch (e) { /* ignore */ }
+    if (!raw) {
+      try {
+        const legacy = localStorage.getItem('seo_primary_kpi_holod');
+        if (legacy) return normalizeKpis([legacy]);
+      } catch (e) { /* ignore */ }
+      return KPI_DEFAULT.slice();
+    }
+    try {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return normalizeKpis(parsed);
+      if (typeof parsed === 'string') return normalizeKpis([parsed]);
+    } catch (e) {
+      if (typeof raw === 'string' && raw) return normalizeKpis([raw]);
+    }
+    return KPI_DEFAULT.slice();
+  }
+  function setProjectKpis(list) {
+    const kpis = normalizeKpis(list);
+    try { localStorage.setItem(KPI_STORE, JSON.stringify(kpis)); } catch (e) { /* ignore */ }
+    return kpis;
+  }
+  function getPrimaryKpi() {
+    return getProjectKpis()[0] || 'leads';
+  }
+  App.getProjectKpis = getProjectKpis;
+  App.setProjectKpis = setProjectKpis;
+  App.getPrimaryKpi = getPrimaryKpi;
+  function syncProjectKpiChecks(m, list) {
+    const active = normalizeKpis(list);
+    m.querySelectorAll('[name="project_kpi"]').forEach(cb => { cb.checked = active.indexOf(cb.value) !== -1; });
+  }
+  function readProjectKpis(m, e, d) {
+    const picked = Array.from(m.querySelectorAll('[name="project_kpi"]:checked')).map(cb => cb.value);
+    if (!picked.length) {
+      if (e) e.preventDefault();
+      if (d) d.toast = '';
+      App.toast('Отметьте хотя бы одну метрику проекта', 'error');
+      return null;
+    }
+    return setProjectKpis(picked);
+  }
+  function kpiField(selected) {
+    const cur = normalizeKpis(selected || getProjectKpis());
+    return '<div class="mb-4">' +
+      '<label class="block text-xs font-medium text-zinc-500 mb-2">Метрики проекта для клиента и отчётов</label>' +
+      '<div class="space-y-2 bg-zinc-50 p-3 rounded-xl border border-zinc-200/80">' +
+      KPI_OPTS.map(k =>
+        '<label class="flex items-center gap-2.5 text-xs text-zinc-700 cursor-pointer">' +
+          '<input type="checkbox" name="project_kpi" value="' + k.id + '"' + (cur.indexOf(k.id) !== -1 ? ' checked' : '') +
+            ' class="w-4 h-4 rounded border-zinc-300 text-accent focus:ring-accent accent-accent">' +
+          '<span class="font-medium">' + esc(k.label) + '</span>' +
+        '</label>'
+      ).join('') +
+      '</div>' +
+      '<p class="text-[11px] text-zinc-400 mt-1">Отмеченные показатели выводятся в портале клиента и попадают в ежемесячные отчёты.</p>' +
+      '</div>';
+  }
+
   /* ---------- Новый проект ---------- */
   App.registerModal('project-create', {
     title: 'Новый проект', subtitle: 'Клиент, тип и дорожная карта связаны: карта подбирается по типу проекта',
@@ -132,7 +211,8 @@
         field('Лимит часов', input('hours', 'type="number" min="1" value="60"'))) +
       grid(2,
         field('Менеджер проекта', select('pm', option('', 'Выберите') + teamOptions(p => p.role === 'pm' || p.role === 'mgr_head'), 'required'), { req: true }) +
-        field('SEO-специалист', select('seo', option('', 'Выберите') + teamOptions(p => p.role === 'employee' || p.role === 'seo_head', null, true), 'required'), { req: true })),
+        field('SEO-специалист', select('seo', option('', 'Выберите') + teamOptions(p => p.role === 'employee' || p.role === 'seo_head', null, true), 'required'), { req: true })) +
+      kpiField(KPI_DEFAULT),
     init(m) {
       const info = m.querySelector('[data-roadmap-info]');
       const cInfo = m.querySelector('[data-client-info]');
@@ -148,9 +228,14 @@
           : 'Показаны шаблоны выбранного типа';
       };
       m.addEventListener('change', paint);
-      m.addEventListener('modal:open', () => setTimeout(paint));
+      m.addEventListener('modal:open', () => setTimeout(() => {
+        paint();
+        syncProjectKpiChecks(m, KPI_DEFAULT);
+      }));
     },
-    onSubmit(m, d) {
+    onSubmit(m, d, e) {
+      const kpis = readProjectKpis(m, e, d);
+      if (!kpis) return;
       const c = val(m, 'client') === '__new' ? val(m, 'new_client') : label(m, 'client');
       const rm = ROADMAPS.find(x => x.id === val(m, 'roadmap'));
       d.toast = 'Проект «' + val(m, 'title') + '» создан · ' + c + ' · дорожная карта и все месячные планы скопированы';
@@ -163,7 +248,9 @@
         roadmapId: val(m, 'roadmap'),
         copyRoadmap: true,
         copyMonthPlans: true,
-        templateInfo: rm ? rm.info : ''
+        templateInfo: rm ? rm.info : '',
+        project_kpis: kpis,
+        primary_kpi: kpis[0]
       });
     }
   });
@@ -176,7 +263,13 @@
       grid(2,
         field('Название проекта', input('title', 'type="text" required value="Интернет-магазин «Холод»"'), { req: true }) +
         field('Сайт', input('site', 'type="text" required value="holod-shop.ru" inputmode="url"'), { req: true })) +
-      field('Клиент', select('client', clientOptions('holod'), 'required'), { req: true, hint: 'Ставка и контакты подтянутся из карточки клиента', hintAttr: 'data-client-info' }) +
+      field('Клиент', select('client', clientOptions('holod') + option('__new', '＋ Новый клиент…'), 'required data-dep-source="pclient"'), { req: true, hint: 'Ставка и контакты подтянутся из карточки клиента', hintAttr: 'data-client-info' }) +
+      '<div data-show-when="pclient:__new" class="hidden">' + box(
+        '<div class="text-xs font-medium text-zinc-900">Новый клиент</div>' +
+        grid(2,
+          field('Компания', input('new_client', 'type="text" required placeholder="ООО «Бета»"'), { req: true }) +
+          field('ИНН', input('new_inn', 'type="text" required inputmode="numeric" data-digits="10,12" placeholder="10 или 12 цифр"'), { req: true })) +
+        field('Контактное лицо', input('new_contact', 'type="text" placeholder="Имя и фамилия"'), { opt: 'можно позже' })) + '</div>' +
       grid(2,
         field('Тип проекта', select('type', TYPES.map(t => option(t.id, t.name, { selected: t.id === 'ecommerce' })).join(''), 'required data-dep-source="ptype"'), { req: true }) +
         field('Дорожная карта', select('roadmap', ROADMAPS.map(r => option(r.id, r.name, { when: r.type, selected: r.id === 'rm-ecom' })).join(''), 'required data-dep="ptype"'), { req: true, hint: 'Смена карты не удаляет уже созданные задачи', hintAttr: 'data-roadmap-info' })) +
@@ -186,7 +279,8 @@
         field('Лимит часов', input('hours', 'type="number" min="1" value="96"'))) +
       grid(2,
         field('Менеджер проекта', select('pm', option('', 'Выберите') + teamOptions(p => p.role === 'pm' || p.role === 'mgr_head', 'morozov'), 'required'), { req: true }) +
-        field('SEO-специалист', select('seo', option('', 'Выберите') + teamOptions(p => p.role === 'employee' || p.role === 'seo_head', 'petrov', true), 'required'), { req: true })),
+        field('SEO-специалист', select('seo', option('', 'Выберите') + teamOptions(p => p.role === 'employee' || p.role === 'seo_head', 'petrov', true), 'required'), { req: true })) +
+      kpiField(),
     init(m) {
       const info = m.querySelector('[data-roadmap-info]');
       const cInfo = m.querySelector('[data-client-info]');
@@ -198,20 +292,76 @@
         info.textContent = r ? r.info + ' · смена карты не удаляет уже созданные задачи' : 'Смена карты не удаляет уже созданные задачи';
       };
       m.addEventListener('change', paint);
-      m.addEventListener('modal:open', () => setTimeout(paint));
+      m.addEventListener('modal:open', () => setTimeout(() => {
+        paint();
+        syncProjectKpiChecks(m, getProjectKpis());
+      }));
     },
-    onSubmit(m, d) {
+    onSubmit(m, d, e) {
+      const kpis = readProjectKpis(m, e, d);
+      if (!kpis) return;
       d.toast = 'Настройки проекта сохранены';
-      emit('project:updated', { title: val(m, 'title'), site: val(m, 'site'), client: label(m, 'client'), type: label(m, 'type'), roadmap: label(m, 'roadmap') });
+      emit('project:updated', { title: val(m, 'title'), site: val(m, 'site'), client: label(m, 'client'), type: label(m, 'type'), roadmap: label(m, 'roadmap'), project_kpis: kpis, primary_kpi: kpis[0] });
     }
   });
 
   /* ---------- Клиент: создать / редактировать ---------- */
   const CITIES = ['Москва', 'Санкт-Петербург', 'Екатеринбург', 'Новосибирск', 'Казань', 'Краснодар', 'Нижний Новгород'];
+  const LOGO_KEY = id => 'seo_client_logo_' + (id || 'new');
+  function monoFromName(name) {
+    const skip = /^(ооо|оао|ао|зао|пао|ип|llc|ltd|inc)$/i;
+    const parts = String(name || '').replace(/[«»"']/g, '').split(/\s+/).filter(p => p && !skip.test(p));
+    if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+    return (parts[0] || 'КЛ').slice(0, 2).toUpperCase();
+  }
+  function logoPreviewHtml(c) {
+    c = c || {};
+    let src = '';
+    try { src = localStorage.getItem(LOGO_KEY(c.id || 'holod')) || ''; } catch (e) { /* ignore */ }
+    if (src) return '<img src="' + esc(src) + '" alt="" class="w-full h-full object-contain p-1.5">';
+    return '<span>' + esc(monoFromName(c.name || 'Холод Групп')) + '</span>';
+  }
+  function clientLogoField(c) {
+    return '<div class="mb-4">' +
+      '<label class="block text-xs font-medium text-zinc-500 mb-2">Логотип клиента <span class="text-zinc-400 font-normal">— опционально</span></label>' +
+      '<div class="flex items-center gap-4">' +
+        '<div data-client-logo-preview class="w-14 h-14 rounded-2xl bg-zinc-900 text-white font-semibold flex items-center justify-center shrink-0 text-base shadow-sm overflow-hidden">' +
+          logoPreviewHtml(c) +
+        '</div>' +
+        '<div class="flex-1 min-w-0">' +
+          '<input name="logo" type="file" accept="image/png,image/jpeg,image/svg+xml" class="block w-full text-xs text-zinc-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-medium file:bg-zinc-100 file:text-zinc-700 hover:file:bg-zinc-200 cursor-pointer">' +
+          '<p class="text-[11px] text-zinc-400 mt-1">PNG, SVG или JPG до 2 МБ. Отображается в шапке отчётов.</p>' +
+        '</div>' +
+      '</div></div>';
+  }
+  function bindClientLogo(m, clientId) {
+    const input = m.querySelector('input[name="logo"]');
+    const preview = m.querySelector('[data-client-logo-preview]');
+    if (!input || !preview || input.dataset.bound) return;
+    input.dataset.bound = '1';
+    input.addEventListener('change', () => {
+      const file = input.files && input.files[0];
+      if (!file) return;
+      if (file.size > 2 * 1024 * 1024) {
+        App.toast('Файл больше 2 МБ — выберите изображение поменьше', 'error');
+        input.value = '';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        const data = String(reader.result || '');
+        preview.innerHTML = '<img src="' + data + '" alt="" class="w-full h-full object-contain p-1.5">';
+        m.dataset.logoData = data;
+        try { localStorage.setItem(LOGO_KEY(clientId || 'holod'), data); } catch (e) { /* ignore */ }
+      };
+      reader.readAsDataURL(file);
+    });
+  }
   function clientBody(c) {
     c = c || {};
     const v = x => x ? ' value="' + esc(x) + '"' : '';
-    return grid(2,
+    return clientLogoField(c) +
+      grid(2,
         field('Название компании', input('name', 'type="text" required placeholder="ООО «Альфа»"' + v(c.name)), { req: true }) +
         field('ИНН', input('inn', 'type="text" required inputmode="numeric" data-digits="10,12" placeholder="10 или 12 цифр"' + v(c.inn)), { req: true, hint: '10 цифр — юрлицо, 12 — ИП' })) +
       grid(2,
@@ -229,8 +379,14 @@
   App.registerModal('client-create', {
     title: 'Новый клиент', subtitle: 'Реквизиты, контакт и бриф для старта', size: 'lg', submit: 'Создать клиента', submitCan: 'create_client',
     body: () => clientBody() + check('send_brief', 'Отправить бриф контакту сразу после создания', { checked: true }),
+    init(m) {
+      m.addEventListener('modal:open', () => setTimeout(() => bindClientLogo(m, 'new')));
+    },
     onSubmit(m, d) {
       const c = { id: 'c' + Date.now(), name: val(m, 'name'), inn: val(m, 'inn'), city: val(m, 'city'), rate: +val(m, 'rate') || 0, contact: val(m, 'contact'), phone: val(m, 'phone'), email: val(m, 'email'), brief: val(m, 'brief') };
+      if (m.dataset.logoData) {
+        try { localStorage.setItem(LOGO_KEY(c.id), m.dataset.logoData); } catch (e) { /* ignore */ }
+      }
       CLIENTS.push(c);
       document.querySelectorAll('select[name="client"]').forEach(s => {
         const o = document.createElement('option');
@@ -256,9 +412,12 @@
   App.registerModal('client-edit', {
     title: 'Редактировать клиента', subtitle: 'ООО «Холод Групп»', size: 'lg', submit: 'Сохранить', submitCan: 'create_client', reset: false,
     body: () => clientBody(CLIENTS[0]),
+    init(m) {
+      m.addEventListener('modal:open', () => setTimeout(() => bindClientLogo(m, 'holod')));
+    },
     onSubmit(m, d) {
       d.toast = 'Карточка клиента сохранена';
-      emit('client:updated', { name: val(m, 'name'), inn: val(m, 'inn'), city: val(m, 'city'), rate: val(m, 'rate'), contact: val(m, 'contact'), email: val(m, 'email'), phone: val(m, 'phone'), post: val(m, 'post') });
+      emit('client:updated', { name: val(m, 'name'), inn: val(m, 'inn'), city: val(m, 'city'), rate: val(m, 'rate'), contact: val(m, 'contact'), email: val(m, 'email'), phone: val(m, 'phone'), post: val(m, 'post'), logo: m.dataset.logoData || '' });
     }
   });
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="overflow-x-hidden">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,20 +8,20 @@
   <script src="assets/app.js"></script>
   <script src="assets/modals.js"></script>
 </head>
-<body class="bg-canvas text-ink antialiased">
-<div class="min-h-screen">
+<body class="bg-canvas text-ink antialiased overflow-x-hidden">
+<div class="min-h-screen overflow-x-hidden">
 
   <div data-app-chrome="portal" data-roles="owner,seo_head,mgr_head,pm,employee,client"></div>
 
   <div class="flex">
 
-    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 py-6 space-y-6 pb-24 lg:pb-0">
+    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 pt-6 pb-24 lg:pb-20 space-y-6">
 
       <header class="sticky top-0 z-30 min-h-[3.5rem] h-auto py-2.5 bg-canvas/80 backdrop-blur-xl border-b border-black/5 -mx-4 lg:-mx-8 -mt-6 px-4 lg:px-8 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-3 min-w-0">
-          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate">Мой проект</h1>
+          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[140px] sm:max-w-none">Мой проект</h1>
         </div>
-        <div class="flex items-center gap-2.5 shrink-0">
+        <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
           <a href="settings.html" aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>ЕК</span></a>
         </div>
@@ -60,7 +60,7 @@
           </div>
 
           <div data-seg-panel="other" class="hidden flex flex-col gap-3">
-            <a href="brief.html" class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 hover:bg-zinc-50 transition">
+            <a href="brief-form.html" class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 hover:bg-zinc-50 transition">
               <div class="flex items-start gap-3 min-w-0">
                 <span class="w-2 h-2 rounded-full bg-blue-500 mt-2 shrink-0"></span>
                 <div class="min-w-0">
@@ -92,8 +92,8 @@
             <h3 class="text-sm font-semibold tracking-tight">Результаты</h3>
             <span class="text-xs text-zinc-500">Данные на 18.06</span>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4">
-            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+          <div data-portal-kpi-cards class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
+            <div data-portal-kpi="traffic" class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
               <div class="text-xs font-medium text-zinc-500 mb-2">Посетители сайта</div>
               <div class="flex items-baseline gap-1.5">
                 <span class="text-2xl font-semibold tracking-tight tabular-nums">24 380</span>
@@ -104,7 +104,7 @@
               </div>
               <div class="text-xs font-medium tabular-nums text-amber-700 mt-1.5">94% от цели</div>
             </div>
-            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+            <div data-portal-kpi="leads" class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
               <div class="text-xs font-medium text-zinc-500 mb-2">Заявки и звонки</div>
               <div class="flex items-baseline gap-1.5">
                 <span class="text-2xl font-semibold tracking-tight tabular-nums">312</span>
@@ -115,7 +115,7 @@
               </div>
               <div class="text-xs font-medium tabular-nums text-emerald-700 mt-1.5">108% от цели</div>
             </div>
-            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
+            <div data-portal-kpi="top10" class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
               <div class="text-xs font-medium text-zinc-500 mb-2">Запросы в топ-10</div>
               <div class="flex items-baseline gap-1.5">
                 <span class="text-2xl font-semibold tracking-tight tabular-nums">148</span>
@@ -128,36 +128,41 @@
             </div>
           </div>
 
-          <div class="bg-white rounded-2xl shadow-card p-4 lg:p-6 mt-3 lg:mt-4">
-            <div class="flex items-center justify-between mb-4">
-              <h4 class="text-sm font-medium">Посетители за 6 месяцев</h4>
-              <span class="text-xs text-emerald-700 font-medium">+38% с января</span>
+          <div data-metric-chart class="bg-white rounded-2xl shadow-card p-4 lg:p-6 mt-3 lg:mt-4">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+              <div>
+                <h4 class="text-sm font-medium">Динамика ключевых показателей</h4>
+                <p class="text-xs text-zinc-500 mt-0.5">Январь–июнь 2025 · пунктир — согласованный план</p>
+              </div>
+              <div data-portal-chart-tabs data-segmented role="group" aria-label="Показатель" class="inline-flex bg-zinc-100 rounded-full p-1 max-w-full overflow-x-auto no-scrollbar"></div>
             </div>
-            <div class="overflow-x-auto">
-              <svg viewBox="0 0 600 160" class="w-full h-36 min-w-[420px]" role="img" aria-label="График посетителей сайта за шесть месяцев">
-                <line x1="20" y1="140" x2="580" y2="140" class="stroke-zinc-200" stroke-width="1"/>
-                <line x1="20" y1="90" x2="580" y2="90" class="stroke-zinc-100" stroke-width="1"/>
-                <line x1="20" y1="40" x2="580" y2="40" class="stroke-zinc-100" stroke-width="1"/>
-                <path d="M 20,118 L 132,104 L 244,92 L 356,70 L 468,56 L 580,44" class="fill-none stroke-accent" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="20" cy="118" r="4" class="fill-white stroke-accent" stroke-width="2"/>
-                <circle cx="132" cy="104" r="4" class="fill-white stroke-accent" stroke-width="2"/>
-                <circle cx="244" cy="92" r="4" class="fill-white stroke-accent" stroke-width="2"/>
-                <circle cx="356" cy="70" r="4" class="fill-white stroke-accent" stroke-width="2"/>
-                <circle cx="468" cy="56" r="4" class="fill-white stroke-accent" stroke-width="2"/>
-                <circle cx="580" cy="44" r="4.5" class="fill-accent stroke-accent" stroke-width="2"/>
-              </svg>
+            <div data-chart-stats class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4"></div>
+            <div class="w-full overflow-x-auto">
+              <div data-chart-svg></div>
             </div>
-            <div class="flex justify-between text-xs text-zinc-500 mt-1 px-1"><span>Янв</span><span>Фев</span><span>Мар</span><span>Апр</span><span>Май</span><span>Июн</span></div>
           </div>
         </section>
 
         <!-- Ежемесячные отчёты -->
-        <section id="reports" class="scroll-mt-20">
-          <div class="mb-3 flex items-end justify-between gap-3">
+        <section id="reports" class="bg-white rounded-2xl shadow-card overflow-hidden scroll-mt-20">
+          <div class="px-4 lg:px-6 py-4 flex items-center justify-between border-b border-zinc-100 gap-3">
             <h3 class="text-sm font-semibold tracking-tight">Ежемесячные отчёты</h3>
-            <span class="hidden sm:inline text-xs text-zinc-500">Присылаем до 5 числа следующего месяца</span>
+            <span class="text-xs text-zinc-500 shrink-0">Присылаем до 5 числа следующего месяца</span>
           </div>
-          <div data-portal-reports class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-zinc-100 text-[11px] font-medium text-zinc-400 uppercase tracking-wider">
+                  <th class="px-4 lg:px-6 py-3">Период</th>
+                  <th class="px-4 py-3">Статус</th>
+                  <th class="px-4 py-3">Согласован</th>
+                  <th class="px-4 lg:px-6 py-3 text-right">Действия</th>
+                </tr>
+              </thead>
+              <tbody data-portal-reports class="divide-y divide-zinc-100 text-sm">
+              </tbody>
+            </table>
+          </div>
         </section>
 
         <!-- Дорожная карта -->
@@ -290,32 +295,87 @@
     }
   });
 
-  /* Ежемесячные отчёты — только отправленные клиенту */
+  /* Ежемесячные отчёты — компактный реестр (1 строка = 1 отчёт) */
   const REPORTS = [
-    { m: 'Май 2025', key: '2025-05', period: '01.05 — 31.05', sent: '03.06', kpi: [['Посетители', '23 120', '+6%'], ['Заявки', '287', '+9%'], ['В топ-10', '139', '+11']] },
-    { m: 'Апрель 2025', key: '2025-04', period: '01.04 — 30.04', sent: '02.05', kpi: [['Посетители', '21 840', '+12%'], ['Заявки', '263', '+4%'], ['В топ-10', '128', '+14']] },
-    { m: 'Март 2025', key: '2025-03', period: '01.03 — 31.03', sent: '03.04', kpi: [['Посетители', '19 500', '+8%'], ['Заявки', '253', '+7%'], ['В топ-10', '114', '+9']] }
+    { m: 'Май 2025', key: '2025-05', sent: '03.06' },
+    { m: 'Апрель 2025', key: '2025-04', sent: '02.05' },
+    { m: 'Март 2025', key: '2025-03', sent: '03.04' }
   ];
-  const PDF_ICON = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8l-5-5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3v5h5"/></svg>';
-  document.querySelector('[data-portal-reports]').innerHTML =
-    '<article class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col gap-3">' +
-      '<div class="flex items-start justify-between gap-3"><div><div class="text-sm font-semibold tracking-tight">Июнь 2025</div><div class="text-xs text-zinc-500 mt-0.5">Готовим — пришлём до 05.07</div></div>' +
-      '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-zinc-100 text-zinc-600 shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>В работе</span></div>' +
-    '</article>' +
-    REPORTS.map(r =>
-      '<article class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col gap-3">' +
-        '<div><div class="text-sm font-semibold tracking-tight">' + r.m + '</div>' +
-        '<div class="text-xs text-zinc-500 mt-0.5 tabular-nums">Согласован ' + r.sent + '</div></div>' +
-        '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 w-fit"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Принят клиентом</span>' +
-        '<div class="flex flex-wrap gap-2 mt-auto">' +
-          '<a href="report.html?month=' + r.key + '" class="h-8 px-3 rounded-full bg-zinc-100 text-xs font-medium hover:bg-zinc-200 transition inline-flex items-center">Веб-версия</a>' +
-          '<button type="button" data-pdf="' + r.m + '" class="h-8 px-3 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition inline-flex items-center gap-1.5">' + PDF_ICON + 'Скачать PDF</button>' +
+  const PDF_ICON = '<svg class="w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>';
+  let rowsHtml =
+    '<tr class="hover:bg-zinc-50/50 transition">' +
+      '<td class="px-4 lg:px-6 py-3 font-medium text-zinc-900">Июнь 2025</td>' +
+      '<td class="px-4 py-3">' +
+        '<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-600">' +
+          '<span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>В работе' +
+        '</span>' +
+      '</td>' +
+      '<td class="px-4 py-3 text-xs text-zinc-500">Готовим — пришлём до 05.07</td>' +
+      '<td class="px-4 lg:px-6 py-3 text-right text-xs text-zinc-400">—</td>' +
+    '</tr>';
+  rowsHtml += REPORTS.map(r =>
+    '<tr class="hover:bg-zinc-50/50 transition">' +
+      '<td class="px-4 lg:px-6 py-3 font-medium text-zinc-900">' + r.m + '</td>' +
+      '<td class="px-4 py-3">' +
+        '<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">' +
+          '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Принят клиентом' +
+        '</span>' +
+      '</td>' +
+      '<td class="px-4 py-3 text-xs text-zinc-600 tabular-nums">' + r.sent + '</td>' +
+      '<td class="px-4 lg:px-6 py-3 text-right">' +
+        '<div class="inline-flex items-center justify-end gap-2">' +
+          '<a href="report.html?month=' + r.key + '&view=client" class="h-7 px-3 rounded-full bg-zinc-100 text-xs font-medium text-zinc-700 hover:bg-zinc-200 transition inline-flex items-center">Веб-версия</a>' +
+          '<a href="report.html?month=' + r.key + '&view=client&print=1" class="h-7 px-3 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition inline-flex items-center gap-1.5">' +
+            PDF_ICON + '<span>PDF</span>' +
+          '</a>' +
         '</div>' +
-      '</article>'
-    ).join('');
-  document.addEventListener('click', e => {
-    const b = e.target.closest('[data-pdf]');
-    if (b) App.toast('PDF «Отчёт за ' + b.dataset.pdf.toLowerCase() + '» скачивается', 'success');
+      '</td>' +
+    '</tr>'
+  ).join('');
+  document.querySelector('[data-portal-reports]').innerHTML = rowsHtml;
+
+  /* График и плашки: только метрики, включённые в проекте (по умолчанию traffic + leads) */
+  document.addEventListener('seo:ready', () => {
+    const active = (App.getProjectKpis && App.getProjectKpis()) || ['traffic', 'leads'];
+    const TAB_LABELS = { traffic: 'Трафик', leads: 'Лиды', top10: '% в ТОП-10' };
+    const ALL_SERIES = {
+      traffic: { label: 'Трафик', color: '#0071e3', fact: [14200, 16100, 18300, 20500, 22600, 24380], plan: [15000, 17000, 19000, 21500, 24000, 26000] },
+      leads:   { label: 'Лиды', color: '#059669', fact: [168, 196, 228, 256, 287, 312], plan: [180, 200, 220, 245, 270, 290] },
+      top10:   { label: '% в ТОП-10', color: '#7c3aed', suffix: '%', fact: [18.5, 22.1, 25.7, 28.6, 32.4, 35.2], plan: [20, 22, 25, 27, 29, 31] }
+    };
+
+    document.querySelectorAll('[data-portal-kpi]').forEach(card => {
+      card.classList.toggle('hidden', active.indexOf(card.dataset.portalKpi) === -1);
+    });
+    const cardsGrid = document.querySelector('[data-portal-kpi-cards]');
+    if (cardsGrid) {
+      const n = active.length;
+      cardsGrid.className = 'grid gap-3 lg:gap-4 grid-cols-1' +
+        (n >= 2 ? ' sm:grid-cols-2' : '') +
+        (n >= 3 ? ' lg:grid-cols-3' : '');
+    }
+
+    const root = document.querySelector('[data-metric-chart]');
+    if (!root || !App.metricChart) return;
+    const tabs = root.querySelector('[data-portal-chart-tabs]');
+    if (tabs) {
+      if (active.length <= 1) {
+        tabs.classList.add('hidden');
+        tabs.innerHTML = '';
+      } else {
+        tabs.classList.remove('hidden');
+        tabs.innerHTML = active.map((id, i) =>
+          '<button type="button" data-seg="' + id + '"' + (i === 0 ? ' aria-pressed="true"' : '') +
+            ' class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition shrink-0' +
+            (id === 'top10' ? ' whitespace-nowrap' : '') + '">' + TAB_LABELS[id] + '</button>'
+        ).join('');
+        if (App.segment) App.segment(tabs, active[0]);
+      }
+    }
+    const series = {};
+    active.forEach(id => { if (ALL_SERIES[id]) series[id] = ALL_SERIES[id]; });
+    const chart = App.metricChart(root, { months: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн'], series: series });
+    chart.show(active[0]);
   });
 })();
 </script>

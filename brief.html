@@ -1,93 +1,66 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="overflow-x-hidden">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Бриф — SEO Control</title>
+  <title>Ответы на бриф — SEO Control</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/app.js"></script>
   <script src="assets/modals.js"></script>
 </head>
-<body class="bg-canvas text-ink antialiased">
-<div class="min-h-screen">
+<body class="bg-canvas text-ink antialiased overflow-x-hidden">
+<div class="min-h-screen overflow-x-hidden">
 
-  <div data-app-chrome="brief" data-roles="owner,seo_head,mgr_head,pm,employee,client"></div>
+  <div data-app-chrome="clients" data-roles="owner,seo_head,mgr_head,pm,employee"></div>
 
   <div class="flex">
 
-    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 py-6 space-y-6 pb-24 lg:pb-0">
+    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 pt-6 pb-24 lg:pb-20 space-y-6">
 
       <header class="sticky top-0 z-30 min-h-[3.5rem] h-auto py-2.5 bg-canvas/80 backdrop-blur-xl border-b border-black/5 -mx-4 lg:-mx-8 -mt-6 px-4 lg:px-8 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-3 min-w-0">
-          <a href="portal.html" class="text-sm text-zinc-500 hover:text-zinc-900 transition shrink-0">← Мой проект</a>
-          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate">Бриф</h1>
+          <a href="client.html" class="text-sm text-zinc-500 hover:text-zinc-900 transition shrink-0">← К клиенту</a>
+          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[140px] sm:max-w-none">Ответы на бриф</h1>
         </div>
-        <div class="flex items-center gap-2.5 shrink-0">
-          <button type="submit" form="brief-answer" data-toast="Ответы отправлены менеджеру" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition">Отправить</button>
-          <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
-          <a href="settings.html" aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
+        <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+          <button type="button" onclick="window.print()" class="h-8 sm:h-9 px-3.5 sm:px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition inline-flex items-center justify-center shrink-0">Печать / Экспорт PDF</button>
+          <a href="calendar.html" aria-label="Уведомления" class="h-8 w-8 sm:h-9 sm:w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
+          <a href="settings.html" aria-label="Профиль" class="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
         </div>
       </header>
 
-      <div class="max-w-4xl mx-auto space-y-6">
+      <div class="max-w-4xl mx-auto space-y-4">
 
-        <div data-deny="client" class="rounded-2xl bg-blue-50 px-4 py-3 text-sm text-blue-800">
-          <strong class="font-medium">Предпросмотр.</strong> Так бриф заполняет клиент. Сотрудник вопросы не меняет на этом экране.
+        <div class="bg-white rounded-2xl shadow-card p-4 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <p class="text-zinc-600 min-w-0">
+            <span class="text-zinc-900 font-medium">Клиент:</span> ООО «Холод Групп»
+            <span class="text-zinc-300 mx-1.5">·</span>
+            <span class="text-zinc-900 font-medium">Сайт:</span> holod-shop.ru
+            <span class="text-zinc-300 mx-1.5">·</span>
+            <span class="text-zinc-900 font-medium">Заполнил:</span> Сергей Волков (s.volkov@holod.ru)
+          </p>
+          <p class="text-zinc-500 tabular-nums shrink-0">Дата заполнения: 03.05.2025 в 14:20</p>
         </div>
 
-        <div>
-          <p class="text-sm text-zinc-500 mb-1">Ромашка Digital · Интернет-магазин «Холод»</p>
-          <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight">Бриф</h2>
-        </div>
+        <section class="bg-white rounded-2xl shadow-card p-5 sm:p-6 space-y-3">
+          <h2 class="text-sm font-semibold tracking-tight text-ink">Какая главная цель на ближайшие 3 месяца?</h2>
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 text-sm font-medium">✓ Рост органического трафика</div>
+        </section>
 
-        <form id="brief-answer" class="flex flex-col gap-4 lg:gap-6" onsubmit="return false">
+        <section class="bg-white rounded-2xl shadow-card p-5 sm:p-6 space-y-3">
+          <h2 class="text-sm font-semibold tracking-tight text-ink">Какие доступы уже есть у команды?</h2>
+          <ul class="space-y-2 text-sm">
+            <li class="flex items-center gap-2 text-emerald-800 font-medium">✓ Яндекс Метрика</li>
+            <li class="flex items-center gap-2 text-zinc-400">— Google Search Console</li>
+            <li class="flex items-center gap-2 text-emerald-800 font-medium">✓ Админка сайта</li>
+          </ul>
+        </section>
 
-          <fieldset class="bg-white rounded-2xl shadow-card p-6 space-y-4">
-            <legend class="text-sm font-semibold tracking-tight mb-4">Какая главная цель на ближайшие 3 месяца?</legend>
-            <div class="space-y-2">
-              <label class="flex items-center gap-2.5 text-sm cursor-pointer">
-                <input type="radio" name="goal" checked class="w-4 h-4 border-zinc-300">
-                <span>Рост органического трафика</span>
-              </label>
-              <label class="flex items-center gap-2.5 text-sm cursor-pointer">
-                <input type="radio" name="goal" class="w-4 h-4 border-zinc-300">
-                <span>Заявки из поиска</span>
-              </label>
-              <label class="flex items-center gap-2.5 text-sm cursor-pointer">
-                <input type="radio" name="goal" class="w-4 h-4 border-zinc-300">
-                <span>Выход в топ по категориям</span>
-              </label>
-            </div>
-          </fieldset>
+        <section class="bg-white rounded-2xl shadow-card p-5 sm:p-6 space-y-3">
+          <h2 class="text-sm font-semibold tracking-tight text-ink">Что важно учесть по ассортименту и сезонности?</h2>
+          <div class="p-4 rounded-xl bg-zinc-50 border border-zinc-100 text-sm text-zinc-800 leading-relaxed">Пик продаж холодильного оборудования приходится на май–июль. Важно сделать упор на категорию промышленных чиллеров и морозильных ларей к началу сезона.</div>
+        </section>
 
-          <fieldset class="bg-white rounded-2xl shadow-card p-6 space-y-4">
-            <legend class="text-sm font-semibold tracking-tight mb-4">Какие доступы уже есть у команды?</legend>
-            <div class="space-y-2">
-              <label class="flex items-center gap-2.5 text-sm cursor-pointer">
-                <input type="checkbox" checked class="w-4 h-4 rounded border-zinc-300">
-                <span>Яндекс Метрика</span>
-              </label>
-              <label class="flex items-center gap-2.5 text-sm cursor-pointer">
-                <input type="checkbox" class="w-4 h-4 rounded border-zinc-300">
-                <span>Google Search Console</span>
-              </label>
-              <label class="flex items-center gap-2.5 text-sm cursor-pointer">
-                <input type="checkbox" checked class="w-4 h-4 rounded border-zinc-300">
-                <span>Админка сайта</span>
-              </label>
-            </div>
-          </fieldset>
-
-          <section class="bg-white rounded-2xl shadow-card p-6 space-y-4">
-            <label class="block text-sm font-semibold tracking-tight mb-4" for="season">Что важно учесть по ассортименту и сезонности?</label>
-            <textarea id="season" rows="4" placeholder="Например: пик продаж холодильников в мае–июле" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"></textarea>
-          </section>
-
-          <div class="flex flex-col sm:flex-row gap-2 sm:justify-end">
-            <a href="portal.html" class="px-5 py-2.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition text-center">Позже</a>
-            <button type="submit" data-toast="Ответы отправлены менеджеру" class="px-5 py-2.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Отправить</button>
-          </div>
-        </form>
       </div>
     </main>
   </div>

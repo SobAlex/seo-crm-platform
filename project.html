@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="overflow-x-hidden">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,27 +8,27 @@
   <script src="assets/app.js"></script>
   <script src="assets/modals.js"></script>
 </head>
-<body class="bg-canvas text-ink antialiased">
-<div class="min-h-screen">
+<body class="bg-canvas text-ink antialiased overflow-x-hidden">
+<div class="min-h-screen overflow-x-hidden">
 
   <div data-app-chrome="projects" data-roles="owner,seo_head,mgr_head,pm,employee"></div>
 
   <div class="flex">
 
-    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 py-6 space-y-6 pb-24 lg:pb-0">
+    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 pt-6 pb-24 lg:pb-20 space-y-6">
 
       <header class="sticky top-0 z-30 min-h-[3.5rem] h-auto py-2.5 bg-canvas/80 backdrop-blur-xl border-b border-black/5 -mx-4 lg:-mx-8 -mt-6 px-4 lg:px-8 flex flex-wrap items-center justify-between gap-3">
           <div class="flex items-center gap-3 min-w-0">
             <a href="projects.html" class="text-sm text-zinc-500 hover:text-zinc-900 transition shrink-0">← Проекты</a>
-            <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate">Интернет-магазин «Холод»</h1>
+            <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[140px] sm:max-w-none">Интернет-магазин «Холод»</h1>
           </div>
-          <div class="flex items-center gap-2.5 shrink-0">
-            <button type="button" data-can="edit_project" data-open-modal="project-edit" class="h-9 px-3.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition inline-flex items-center gap-1.5 shrink-0">
+          <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            <button type="button" data-can="edit_project" data-open-modal="project-edit" class="h-8 sm:h-9 px-3 sm:px-3.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition inline-flex items-center gap-1.5 shrink-0">
               <svg class="w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-              Настройки проекта
+              <span class="sm:hidden">Настройки</span><span class="hidden sm:inline">Настройки проекта</span>
             </button>
-            <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
-            <a href="settings.html" aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
+            <a href="calendar.html" aria-label="Уведомления" class="h-8 w-8 sm:h-9 sm:w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
+            <a href="settings.html" aria-label="Профиль" class="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
           </div>
       </header>
 
@@ -38,69 +38,68 @@
           <p class="text-sm text-zinc-500 mt-1">holod-shop.ru · Старт 01.05.2025</p>
           <div class="flex flex-wrap gap-2 mt-3">
             <a href="audit.html" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">ИИ-аудит</a>
-            <a data-roles="owner,seo_head,mgr_head" href="templates.html#brief" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Вопросы брифа</a>
-            <a data-roles="pm,employee" href="brief-form.html" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Бриф</a>
+            <a data-roles="owner,seo_head,mgr_head,pm,employee" href="brief.html?client=holod" class="h-8 lg:h-9 px-3.5 lg:px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition inline-flex items-center justify-center shrink-0">Бриф проекта</a>
             <button data-can="transfer_project" data-open-modal="transfer" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Передать проект</button>
             <button data-can="archive_project" data-confirm="Отправить проект в архив?" data-confirm-text="Проект уйдёт из активных. Задачи, отчёты и часы сохранятся — вернуть можно из архива." data-confirm-ok="В архив" data-confirm-toast="Проект отправлен в архив" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">В архив</button>
-            <button data-can="delete_project" data-confirm="Удалить проект «Холод»?" data-confirm-text="Удалятся дорожная карта, планы месяцев, задачи и отчёты проекта. Действие нельзя отменить." data-confirm-toast="Проект удалён" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium text-red-600 hover:bg-red-50 transition">Удалить</button>
+            <button type="button" data-roles="owner" data-can="delete_project" data-deny-tip="Удаление проекта доступно только владельцу компании" data-confirm="Удалить проект «Холод»?" data-confirm-text="Удалятся дорожная карта, планы месяцев, задачи и отчёты проекта. Действие нельзя отменить." data-confirm-toast="Проект удалён" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium text-red-600 hover:bg-red-50 transition">Удалить</button>
           </div>
         </div>
 
-          <section class="grid grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4">
-            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
-              <div class="text-xs font-medium text-zinc-500 mb-2">Трафик</div>
-              <div class="flex items-baseline gap-1.5">
-                <span data-kpi-value="traffic" class="text-2xl font-semibold tracking-tight tabular-nums">24 380</span>
-                <span class="text-xs text-zinc-500 tabular-nums">из 26 000</span>
+          <section class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4 w-full">
+            <div class="bg-white rounded-2xl shadow-card p-3 sm:p-4 flex flex-col justify-between min-w-0">
+              <div class="text-xs font-medium text-zinc-500 truncate mb-1">Трафик</div>
+              <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-1.5 min-w-0">
+                <span data-kpi-value="traffic" class="text-lg sm:text-2xl font-bold tracking-tight text-ink tabular-nums leading-tight">24 380</span>
+                <span class="text-[11px] sm:text-xs text-zinc-400 tabular-nums">из 26 000</span>
               </div>
-              <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+              <div class="mt-2 h-1.5 bg-zinc-100 rounded-full overflow-hidden w-full">
                 <div class="h-full bg-amber-500 rounded-full w-[94%]"></div>
               </div>
-              <div data-kpi-pct="traffic" class="text-xs font-medium tabular-nums text-amber-700 mt-1.5">94% плана</div>
+              <div data-kpi-pct="traffic" class="text-xs font-medium tabular-nums text-amber-700 mt-1">94% плана</div>
             </div>
-            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
-              <div class="text-xs font-medium text-zinc-500 mb-2">Лиды</div>
-              <div class="flex items-baseline gap-1.5">
-                <span data-kpi-value="leads" class="text-2xl font-semibold tracking-tight tabular-nums">312</span>
-                <span class="text-xs text-zinc-500 tabular-nums">из 290</span>
+            <div class="bg-white rounded-2xl shadow-card p-3 sm:p-4 flex flex-col justify-between min-w-0">
+              <div class="text-xs font-medium text-zinc-500 truncate mb-1">Лиды</div>
+              <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-1.5 min-w-0">
+                <span data-kpi-value="leads" class="text-lg sm:text-2xl font-bold tracking-tight text-ink tabular-nums leading-tight">312</span>
+                <span class="text-[11px] sm:text-xs text-zinc-400 tabular-nums">из 290</span>
               </div>
-              <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+              <div class="mt-2 h-1.5 bg-zinc-100 rounded-full overflow-hidden w-full">
                 <div class="h-full bg-emerald-500 rounded-full w-full"></div>
               </div>
-              <div data-kpi-pct="leads" class="text-xs font-medium tabular-nums text-emerald-700 mt-1.5">108% плана</div>
+              <div data-kpi-pct="leads" class="text-xs font-medium tabular-nums text-emerald-700 mt-1">108% плана</div>
             </div>
-            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
-              <div class="text-xs font-medium text-zinc-500 mb-2">Запросы в топ-10</div>
-              <div class="flex items-baseline gap-1.5">
-                <span class="text-2xl font-semibold tracking-tight tabular-nums">148</span>
-                <span class="text-xs text-zinc-500 tabular-nums">из 130</span>
+            <div class="bg-white rounded-2xl shadow-card p-3 sm:p-4 flex flex-col justify-between min-w-0">
+              <div class="text-xs font-medium text-zinc-500 truncate mb-1">ТОП-10</div>
+              <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-1.5 min-w-0">
+                <span class="text-lg sm:text-2xl font-bold tracking-tight text-ink tabular-nums leading-tight">148</span>
+                <span class="text-[11px] sm:text-xs text-zinc-400 tabular-nums">из 130</span>
               </div>
-              <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+              <div class="mt-2 h-1.5 bg-zinc-100 rounded-full overflow-hidden w-full">
                 <div class="h-full bg-emerald-500 rounded-full w-full"></div>
               </div>
-              <div class="text-xs font-medium tabular-nums text-emerald-700 mt-1.5">114% плана</div>
+              <div class="text-xs font-medium tabular-nums text-emerald-700 mt-1">114% плана</div>
             </div>
-            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
-              <div class="text-xs font-medium text-zinc-500 mb-2">Работы принято</div>
-              <div class="flex items-baseline gap-1.5">
-                <span class="text-2xl font-semibold tracking-tight tabular-nums">22</span>
-                <span class="text-xs text-zinc-500 tabular-nums">из 23</span>
+            <div class="bg-white rounded-2xl shadow-card p-3 sm:p-4 flex flex-col justify-between min-w-0">
+              <div class="text-xs font-medium text-zinc-500 truncate mb-1">Работы</div>
+              <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-1.5 min-w-0">
+                <span class="text-lg sm:text-2xl font-bold tracking-tight text-ink tabular-nums leading-tight">22</span>
+                <span class="text-[11px] sm:text-xs text-zinc-400 tabular-nums">из 23</span>
               </div>
-              <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+              <div class="mt-2 h-1.5 bg-zinc-100 rounded-full overflow-hidden w-full">
                 <div class="h-full bg-amber-500 rounded-full w-[96%]"></div>
               </div>
-              <div class="text-xs font-medium tabular-nums text-amber-700 mt-1.5">96% плана</div>
+              <div class="text-xs font-medium tabular-nums text-amber-700 mt-1">96% плана</div>
             </div>
-            <div class="col-span-2 lg:col-span-1 bg-white rounded-2xl shadow-card p-4 lg:p-5">
-              <div class="text-xs font-medium text-zinc-500 mb-2">Часы</div>
-              <div class="flex items-baseline gap-1.5">
-                <span class="text-2xl font-semibold tracking-tight tabular-nums">82</span>
-                <span class="text-xs text-zinc-500 tabular-nums">из 96 ч</span>
+            <div class="col-span-2 md:col-span-1 xl:col-span-1 bg-white rounded-2xl shadow-card p-3 sm:p-4 flex flex-col justify-between min-w-0">
+              <div class="text-xs font-medium text-zinc-500 truncate mb-1">Часы</div>
+              <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-1.5 min-w-0">
+                <span class="text-lg sm:text-2xl font-bold tracking-tight text-ink tabular-nums leading-tight">82</span>
+                <span class="text-[11px] sm:text-xs text-zinc-400 tabular-nums">из 96 ч</span>
               </div>
-              <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+              <div class="mt-2 h-1.5 bg-zinc-100 rounded-full overflow-hidden w-full">
                 <div class="h-full bg-zinc-400 rounded-full w-[85%]"></div>
               </div>
-              <div class="text-xs font-medium tabular-nums text-zinc-500 mt-1.5">85% лимита</div>
+              <div class="text-xs font-medium tabular-nums text-zinc-500 mt-1">85% лимита</div>
             </div>
           </section>
 
@@ -112,8 +111,8 @@
               </div>
               <div class="flex flex-wrap items-center gap-2">
                 <div data-segmented role="group" aria-label="Показатель">
-                  <button type="button" data-seg="traffic" aria-pressed="true" class="px-3 lg:px-4 py-1.5 rounded-full text-xs lg:text-sm font-medium text-zinc-500 hover:text-zinc-900 transition">Трафик</button>
-                  <button type="button" data-seg="leads" class="px-3 lg:px-4 py-1.5 rounded-full text-xs lg:text-sm font-medium text-zinc-500 hover:text-zinc-900 transition">Лиды</button>
+                  <button type="button" data-seg="leads" aria-pressed="true" class="px-3 lg:px-4 py-1.5 rounded-full text-xs lg:text-sm font-medium text-zinc-500 hover:text-zinc-900 transition">Лиды</button>
+                  <button type="button" data-seg="traffic" class="px-3 lg:px-4 py-1.5 rounded-full text-xs lg:text-sm font-medium text-zinc-500 hover:text-zinc-900 transition">Трафик</button>
                   <button type="button" data-seg="top10" class="px-3 lg:px-4 py-1.5 rounded-full text-xs lg:text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">% в ТОП-10</button>
                 </div>
                 <button type="button" data-can="edit_project" data-open-modal="fact" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition whitespace-nowrap">Внести факт за месяц</button>
@@ -124,12 +123,12 @@
             </div>
           </section>
 
-        <div class="w-full bg-white rounded-2xl shadow-card p-3 lg:p-3.5 flex flex-wrap items-center justify-between gap-3">
-          <div class="inline-flex bg-zinc-100 rounded-full p-1 shrink-0">
-            <button type="button" data-tab="roadmap" class="tab-btn px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Дорожная карта</button>
-            <button type="button" data-tab="month" class="tab-btn px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">План месяца</button>
-            <button type="button" data-can="view_reports" data-tab="reports" class="tab-btn px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Отчёты</button>
-            <button type="button" data-deny="contractor" data-tab="sources" class="tab-btn px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">Источники</button>
+        <div class="w-full max-w-full bg-white rounded-2xl shadow-card overflow-hidden p-3 lg:p-3.5 flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-3">
+          <div class="inline-flex bg-zinc-100 rounded-full p-1 max-w-full overflow-x-auto no-scrollbar shrink-0 min-w-0" role="tablist" aria-label="Разделы проекта">
+            <button type="button" data-tab="roadmap" class="tab-btn shrink-0 whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition">Дорожная карта</button>
+            <button type="button" data-tab="month" class="tab-btn shrink-0 whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition">План месяца</button>
+            <button type="button" data-can="view_reports" data-tab="reports" class="tab-btn shrink-0 whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition">Отчёты</button>
+            <button type="button" data-deny="contractor" data-tab="sources" class="tab-btn shrink-0 whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition">Источники</button>
           </div>
           <div class="flex items-center gap-2 shrink-0 ml-auto">
             <div data-tab-actions="roadmap" class="flex items-center gap-2">
@@ -743,38 +742,38 @@
             <section class="bg-white rounded-2xl shadow-card p-5">
               <div class="flex items-center justify-between mb-4">
                 <h3 class="text-sm font-semibold tracking-tight">Команда проекта</h3>
-                <button type="button" data-can="edit_project" data-open-modal="team-add" class="text-xs text-zinc-500 hover:text-zinc-900 transition">+ Добавить</button>
+                <button type="button" data-can="assign_team" data-deny-tip="Назначать команду проекта могут менеджер и руководство" data-open-modal="team-add" class="text-xs text-zinc-500 hover:text-zinc-900 transition">+ Добавить</button>
               </div>
               <ul data-team-list class="divide-y divide-zinc-100 -mx-5 border-t border-zinc-100">
                 <li class="px-5 py-3 flex items-center gap-3" data-member="sidorov">
                   <span class="w-8 h-8 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0">ИС</span>
                   <div class="min-w-0 flex-1"><div class="text-sm font-medium">Иван Сидоров</div><div class="text-xs text-zinc-500">Методология и приёмка</div></div>
-                  <button type="button" data-can="edit_project" data-team-role data-open-modal="team-role" class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 shrink-0 hover:ring-2 hover:ring-accent/20 transition">Рук. SEO</button>
-                  <button type="button" data-can="edit_project" data-team-remove data-confirm="Удалить сотрудника из команды проекта?" data-confirm-text="Сотрудник потеряет доступ к задачам и отчётам этого проекта." data-confirm-remove="li" data-confirm-toast="Сотрудник удалён из команды проекта" aria-label="Удалить из команды" class="h-7 w-7 rounded-full hover:bg-red-50 hover:text-red-600 text-zinc-400 flex items-center justify-center transition shrink-0">
+                  <button type="button" data-can="assign_team" data-team-role data-open-modal="team-role" class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 shrink-0 hover:ring-2 hover:ring-accent/20 transition">Рук. SEO</button>
+                  <button type="button" data-can="assign_team" data-deny-tip="Убирать участников команды могут менеджер и руководство" data-team-remove data-confirm="Удалить сотрудника из команды проекта?" data-confirm-text="Сотрудник потеряет доступ к задачам и отчётам этого проекта." data-confirm-remove="li" data-confirm-toast="Сотрудник удалён из команды проекта" aria-label="Удалить из команды" class="h-7 w-7 rounded-full hover:bg-red-50 hover:text-red-600 text-zinc-400 flex items-center justify-center transition shrink-0">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
                 </li>
                 <li class="px-5 py-3 flex items-center gap-3" data-member="morozov">
                   <span class="w-8 h-8 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0">НМ</span>
                   <div class="min-w-0 flex-1"><div class="text-sm font-medium">Никита Морозов</div><div class="text-xs text-zinc-500">Клиент, отчёты, коллтрекинг</div></div>
-                  <button type="button" data-can="edit_project" data-team-role data-open-modal="team-role" class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 shrink-0 hover:ring-2 hover:ring-accent/20 transition">Менеджер</button>
-                  <button type="button" data-can="edit_project" data-team-remove data-confirm="Удалить сотрудника из команды проекта?" data-confirm-text="Сотрудник потеряет доступ к задачам и отчётам этого проекта." data-confirm-remove="li" data-confirm-toast="Сотрудник удалён из команды проекта" aria-label="Удалить из команды" class="h-7 w-7 rounded-full hover:bg-red-50 hover:text-red-600 text-zinc-400 flex items-center justify-center transition shrink-0">
+                  <button type="button" data-can="assign_team" data-team-role data-open-modal="team-role" class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 shrink-0 hover:ring-2 hover:ring-accent/20 transition">Менеджер</button>
+                  <button type="button" data-can="assign_team" data-deny-tip="Убирать участников команды могут менеджер и руководство" data-team-remove data-confirm="Удалить сотрудника из команды проекта?" data-confirm-text="Сотрудник потеряет доступ к задачам и отчётам этого проекта." data-confirm-remove="li" data-confirm-toast="Сотрудник удалён из команды проекта" aria-label="Удалить из команды" class="h-7 w-7 rounded-full hover:bg-red-50 hover:text-red-600 text-zinc-400 flex items-center justify-center transition shrink-0">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
                 </li>
                 <li class="px-5 py-3 flex items-center gap-3" data-member="petrov">
                   <span class="w-8 h-8 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0">АП</span>
                   <div class="min-w-0 flex-1"><div class="text-sm font-medium">Алексей Петров</div><div class="text-xs text-zinc-500">Технический SEO</div></div>
-                  <button type="button" data-can="edit_project" data-team-role data-open-modal="team-role" class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shrink-0 hover:ring-2 hover:ring-accent/20 transition">SEO-специалист</button>
-                  <button type="button" data-can="edit_project" data-team-remove data-confirm="Удалить сотрудника из команды проекта?" data-confirm-text="Сотрудник потеряет доступ к задачам и отчётам этого проекта." data-confirm-remove="li" data-confirm-toast="Сотрудник удалён из команды проекта" aria-label="Удалить из команды" class="h-7 w-7 rounded-full hover:bg-red-50 hover:text-red-600 text-zinc-400 flex items-center justify-center transition shrink-0">
+                  <button type="button" data-can="assign_team" data-team-role data-open-modal="team-role" class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shrink-0 hover:ring-2 hover:ring-accent/20 transition">SEO-специалист</button>
+                  <button type="button" data-can="assign_team" data-deny-tip="Убирать участников команды могут менеджер и руководство" data-team-remove data-confirm="Удалить сотрудника из команды проекта?" data-confirm-text="Сотрудник потеряет доступ к задачам и отчётам этого проекта." data-confirm-remove="li" data-confirm-toast="Сотрудник удалён из команды проекта" aria-label="Удалить из команды" class="h-7 w-7 rounded-full hover:bg-red-50 hover:text-red-600 text-zinc-400 flex items-center justify-center transition shrink-0">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
                 </li>
                 <li class="px-5 py-3 flex items-center gap-3" data-member="kim">
                   <span class="w-8 h-8 rounded-full bg-zinc-200 text-zinc-700 text-[10px] font-semibold flex items-center justify-center shrink-0">МК</span>
                   <div class="min-w-0 flex-1"><div class="text-sm font-medium">Мария Ким</div><div class="text-xs text-zinc-500">Тексты · доступ до 30.06</div></div>
-                  <button type="button" data-can="edit_project" data-team-role data-open-modal="team-role" class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700 shrink-0 hover:ring-2 hover:ring-accent/20 transition">Подрядчик</button>
-                  <button type="button" data-can="edit_project" data-team-remove data-confirm="Удалить сотрудника из команды проекта?" data-confirm-text="Сотрудник потеряет доступ к задачам и отчётам этого проекта." data-confirm-remove="li" data-confirm-toast="Сотрудник удалён из команды проекта" aria-label="Удалить из команды" class="h-7 w-7 rounded-full hover:bg-red-50 hover:text-red-600 text-zinc-400 flex items-center justify-center transition shrink-0">
+                  <button type="button" data-can="assign_team" data-team-role data-open-modal="team-role" class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700 shrink-0 hover:ring-2 hover:ring-accent/20 transition">Подрядчик</button>
+                  <button type="button" data-can="assign_team" data-deny-tip="Убирать участников команды могут менеджер и руководство" data-team-remove data-confirm="Удалить сотрудника из команды проекта?" data-confirm-text="Сотрудник потеряет доступ к задачам и отчётам этого проекта." data-confirm-remove="li" data-confirm-toast="Сотрудник удалён из команды проекта" aria-label="Удалить из команды" class="h-7 w-7 rounded-full hover:bg-red-50 hover:text-red-600 text-zinc-400 flex items-center justify-center transition shrink-0">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
                 </li>
@@ -998,7 +997,11 @@
   let chart = null;
   document.addEventListener('seo:ready', () => {
     const root = document.querySelector('[data-metric-chart]');
-    if (root) chart = SEOApp.metricChart(root, metrics);
+    const primary = (SEOApp.getPrimaryKpi && SEOApp.getPrimaryKpi()) || 'leads';
+    if (root) {
+      chart = SEOApp.metricChart(root, metrics);
+      chart.show(primary);
+    }
     const metric = new URLSearchParams(location.search).get('metric');
     const btn = metric && root && root.querySelector('[data-seg="' + metric + '"]');
     if (!btn) return;
@@ -1006,6 +1009,11 @@
     root.scrollIntoView({ block: 'start' });
     root.classList.add('ring-4', 'ring-accent/20');
     setTimeout(() => root.classList.remove('ring-4', 'ring-accent/20'), 1600);
+  });
+  document.addEventListener('project:updated', e => {
+    const kpis = e.detail && e.detail.project_kpis;
+    const kpi = (kpis && kpis[0]) || (e.detail && e.detail.primary_kpi);
+    if (kpi && chart) chart.show(kpi);
   });
 
   /* Факт за месяц обновляет график и, если это текущий месяц, карточки сверху */
@@ -1075,8 +1083,8 @@
     li.innerHTML =
       '<span class="w-8 h-8 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"></span>' +
       '<div class="min-w-0 flex-1"><div class="text-sm font-medium"></div><div class="text-xs text-zinc-500"></div></div>' +
-      '<button type="button" data-can="edit_project" data-team-role data-open-modal="team-role" class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium shrink-0 hover:ring-2 hover:ring-accent/20 transition ' + tone + '"></button>' +
-      '<button type="button" data-can="edit_project" data-team-remove data-confirm="Удалить сотрудника из команды проекта?" data-confirm-text="Сотрудник потеряет доступ к задачам и отчётам этого проекта." data-confirm-remove="li" data-confirm-toast="Сотрудник удалён из команды проекта" aria-label="Удалить из команды" class="h-7 w-7 rounded-full hover:bg-red-50 hover:text-red-600 text-zinc-400 flex items-center justify-center transition shrink-0">' +
+      '<button type="button" data-can="assign_team" data-team-role data-open-modal="team-role" class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium shrink-0 hover:ring-2 hover:ring-accent/20 transition ' + tone + '"></button>' +
+      '<button type="button" data-can="assign_team" data-deny-tip="Убирать участников команды могут менеджер и руководство" data-team-remove data-confirm="Удалить сотрудника из команды проекта?" data-confirm-text="Сотрудник потеряет доступ к задачам и отчётам этого проекта." data-confirm-remove="li" data-confirm-toast="Сотрудник удалён из команды проекта" aria-label="Удалить из команды" class="h-7 w-7 rounded-full hover:bg-red-50 hover:text-red-600 text-zinc-400 flex items-center justify-center transition shrink-0">' +
       '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>';
     li.children[0].textContent = initials(person.name);
     li.querySelector('.text-sm').textContent = person.name;
@@ -1087,6 +1095,7 @@
   document.addEventListener('team:added', e => {
     const list = document.querySelector('[data-team-list]');
     if (list) list.appendChild(teamRow(e.detail.person, e.detail.note || e.detail.as, e.detail.projectRole));
+    if (window.SEOApp && SEOApp.applyPermissions) SEOApp.applyPermissions();
   });
   document.addEventListener('team:role', e => {
     const btn = e.detail.row && e.detail.row.querySelector('[data-team-role]');

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="overflow-x-hidden">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,30 +8,30 @@
   <script src="assets/app.js"></script>
   <script src="assets/modals.js"></script>
 </head>
-<body class="bg-canvas text-ink antialiased">
-<div class="min-h-screen">
+<body class="bg-canvas text-ink antialiased overflow-x-hidden">
+<div class="min-h-screen overflow-x-hidden">
 
   <div data-app-chrome="index" data-roles="owner,seo_head,mgr_head,pm,employee"></div>
 
   <div class="flex">
 
-    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 py-6 space-y-6 pb-24 lg:pb-0">
+    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 pt-6 pb-24 lg:pb-20 space-y-6">
 
       <header class="sticky top-0 z-30 min-h-[3.5rem] h-auto py-2.5 bg-canvas/80 backdrop-blur-xl border-b border-black/5 -mx-4 lg:-mx-8 -mt-6 px-4 lg:px-8 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-3 min-w-0">
-          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate">Главная</h1>
+          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[140px] sm:max-w-none">Главная</h1>
         </div>
-        <div class="flex items-center gap-2.5 shrink-0">
+        <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
           <a href="settings.html" aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
         </div>
       </header>
 
       <div class="w-full space-y-6">
-        <div class="bg-white rounded-2xl shadow-card p-3 lg:p-3.5 flex flex-wrap xl:flex-nowrap items-center justify-between gap-3">
-          <div data-queue-switch class="inline-flex bg-zinc-100 rounded-full p-1 shrink-0 max-w-full overflow-x-auto" role="group" aria-label="Фильтр приёмки">
-            <button type="button" data-queue="all" class="px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition">Все <span data-queue-count="all" class="ml-0.5 tabular-nums opacity-60">0</span></button>
-            <button type="button" data-queue="mine" class="px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition">Где я постановщик <span data-queue-count="mine" class="ml-0.5 tabular-nums opacity-60">0</span></button>
+        <div class="bg-white rounded-2xl shadow-card w-full max-w-full overflow-hidden p-3 lg:p-3.5">
+          <div data-queue-switch class="inline-flex bg-zinc-100 rounded-full p-1 max-w-full overflow-x-auto no-scrollbar shrink-0" role="group" aria-label="Фильтр приёмки">
+            <button type="button" data-queue="all" class="px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition shrink-0">Все <span data-queue-count="all" class="ml-0.5 tabular-nums opacity-60">0</span></button>
+            <button type="button" data-queue="mine" class="px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition shrink-0">Где я постановщик <span data-queue-count="mine" class="ml-0.5 tabular-nums opacity-60">0</span></button>
           </div>
         </div>
         <div>
@@ -45,7 +45,7 @@
             </div>
             <a href="tasks.html?view=review" class="text-sm text-zinc-500 hover:text-zinc-900 transition shrink-0">Все →</a>
           </div>
-          <div class="overflow-x-auto border-t border-zinc-100">
+          <div class="overflow-x-auto border-t border-zinc-100 -mx-4 sm:mx-0 px-4 sm:px-0 max-w-full">
             <table data-sortable data-setter-col class="w-full block md:table">
               <thead class="hidden md:table-header-group">
                 <tr class="border-b border-zinc-100">
@@ -70,7 +70,7 @@
             </div>
             <a href="tasks.html?view=attention" class="text-sm text-zinc-500 hover:text-zinc-900 transition shrink-0">Все →</a>
           </div>
-          <div class="overflow-x-auto border-t border-zinc-100">
+          <div class="overflow-x-auto border-t border-zinc-100 -mx-4 sm:mx-0 px-4 sm:px-0 max-w-full">
             <table data-sortable data-setter-col class="w-full block md:table">
               <thead class="hidden md:table-header-group">
                 <tr class="border-b border-zinc-100">
@@ -128,9 +128,9 @@
   const ROW = 'hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row';
   const days = n => n + ' ' + App.plural(n, ['день', 'дня', 'дней']);
   const REASON = {
-    overdue:  t => '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-700 ring-1 ring-red-100 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>' + (t.noun || 'Просрочена') + ' на ' + days(t.days) + '</span>',
-    waiting:  t => '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 ring-1 ring-amber-100 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Ждёт клиента</span><span class="text-xs text-zinc-500 tabular-nums">' + days(t.days) + '</span>',
-    returned: () => '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 ring-1 ring-amber-100 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Возвращена на доработку</span>'
+    overdue:  t => '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-700 ring-1 ring-red-100 whitespace-nowrap shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>' + (t.noun || 'Просрочена') + ' на ' + days(t.days) + '</span>',
+    waiting:  t => '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 ring-1 ring-amber-100 whitespace-nowrap shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Ждёт клиента</span><span class="text-xs text-zinc-500 tabular-nums">' + days(t.days) + '</span>',
+    returned: () => '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 ring-1 ring-amber-100 whitespace-nowrap shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Возвращена на доработку</span>'
   };
 
   function cells(t) {
@@ -155,11 +155,11 @@
 
   document.querySelector('[data-accept-queue]').innerHTML = QUEUE.map(t =>
     '<tr ' + attrs(t, 'review') + ' data-status="review" data-title="' + esc(t.title) + '">' + cells(t) +
-      '<td data-label="Статус" class="' + TD + '"><div class="flex flex-wrap items-center gap-x-2 gap-y-1"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>На проверке</span><span class="text-xs text-zinc-500 tabular-nums">' + t.days + ' дн.</span></div></td>' +
+      '<td data-label="Статус" class="' + TD + '"><div class="flex flex-wrap items-center gap-x-2 gap-y-1"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 whitespace-nowrap shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>На проверке</span><span class="text-xs text-zinc-500 tabular-nums">' + t.days + ' дн.</span></div></td>' +
       '<td data-label="Срок" class="' + TD + ' md:text-right whitespace-nowrap tabular-nums text-zinc-500">' + t.due + '</td>' +
       '<td data-label="" class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1 md:text-right"><div class="flex gap-2 md:justify-end">' +
-        '<button type="button" data-resolve="Принято: «' + esc(t.title) + '»" title="Принять" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 active:scale-[.97] transition whitespace-nowrap"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Принять</button>' +
-        '<button type="button" data-rework class="px-2.5 py-1 rounded-full bg-amber-500 text-white text-xs font-medium hover:bg-amber-600 active:scale-[.97] transition whitespace-nowrap">На доработку</button>' +
+        '<button type="button" data-resolve="Принято: «' + esc(t.title) + '»" title="Принять" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 active:scale-[.97] transition whitespace-nowrap shrink-0"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Принять</button>' +
+        '<button type="button" data-rework class="px-2.5 py-1 rounded-full bg-amber-500 text-white text-xs font-medium hover:bg-amber-600 active:scale-[.97] transition whitespace-nowrap shrink-0">На доработку</button>' +
       '</div></td>' +
     '</tr>').join('');
 

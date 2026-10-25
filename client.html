@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="overflow-x-hidden">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,34 +8,34 @@
   <script src="assets/app.js"></script>
   <script src="assets/modals.js"></script>
 </head>
-<body class="bg-canvas text-ink antialiased">
-<div class="min-h-screen">
+<body class="bg-canvas text-ink antialiased overflow-x-hidden">
+<div class="min-h-screen overflow-x-hidden">
 
   <div data-app-chrome="clients" data-roles="owner,seo_head,mgr_head,pm,employee"></div>
 
   <div class="flex">
 
-    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 py-6 space-y-6 pb-24 lg:pb-0">
+    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 pt-6 pb-24 lg:pb-20 space-y-6">
 
       <header class="sticky top-0 z-30 min-h-[3.5rem] h-auto py-2.5 bg-canvas/80 backdrop-blur-xl border-b border-black/5 -mx-4 lg:-mx-8 -mt-6 px-4 lg:px-8 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-3 min-w-0">
           <a href="clients.html" class="text-sm text-zinc-500 hover:text-zinc-900 transition shrink-0">← Клиенты</a>
-          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate">ООО «Холод Групп»</h1>
+          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[140px] sm:max-w-none">ООО «Холод Групп»</h1>
         </div>
-        <div class="flex items-center gap-2.5 shrink-0">
-          <button type="button" data-can="create_client" data-open-modal="brief-send" data-prefill-client="holod" class="h-9 px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition flex items-center justify-center shrink-0">Отправить бриф</button>
-          <button type="button" data-can="invite_clients" data-open-modal="client-invite" data-prefill-client="holod" class="h-9 px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition flex items-center justify-center shrink-0">Пригласить в портал</button>
-          <button type="button" data-can="create_client" data-open-modal="client-edit" class="h-9 px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition flex items-center justify-center shrink-0">Редактировать</button>
-          <button type="button" data-can="create_project" data-open-modal="project-create" data-prefill-client="holod" class="h-9 px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm">+ Проект</button>
-          <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
-          <a href="settings.html" aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
+        <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0 flex-wrap justify-end">
+          <button type="button" data-can="create_client" data-deny-tip="Управление клиентами доступно менеджерам и руководству" data-open-modal="brief-send" data-prefill-client="holod" class="hidden sm:inline-flex h-8 sm:h-9 px-3 sm:px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition items-center justify-center shrink-0">Отправить бриф</button>
+          <button type="button" data-can="invite_clients" data-open-modal="client-invite" data-prefill-client="holod" class="hidden md:inline-flex h-8 sm:h-9 px-3 sm:px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition items-center justify-center shrink-0">Пригласить в портал</button>
+          <button type="button" data-can="create_client" data-deny-tip="Управление клиентами доступно менеджерам и руководству" data-open-modal="client-edit" class="h-8 sm:h-9 px-3 sm:px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition inline-flex items-center justify-center shrink-0"><span class="sm:hidden">Изменить</span><span class="hidden sm:inline">Редактировать</span></button>
+          <button type="button" data-can="create_project" data-deny-tip="Создание проектов доступно менеджеру или руководству" data-open-modal="project-create" data-prefill-client="holod" class="h-8 sm:h-9 px-3 sm:px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm">+ Проект</button>
+          <a href="calendar.html" aria-label="Уведомления" class="h-8 w-8 sm:h-9 sm:w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
+          <a href="settings.html" aria-label="Профиль" class="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
         </div>
       </header>
 
       <div class="space-y-6">
 
         <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5">
-          <span class="w-14 h-14 lg:w-16 lg:h-16 rounded-2xl bg-zinc-900 text-white text-lg lg:text-xl font-semibold flex items-center justify-center shrink-0">ХГ</span>
+          <div data-client-logo class="w-14 h-14 lg:w-16 lg:h-16 rounded-2xl bg-zinc-900 text-white text-lg lg:text-xl font-semibold flex items-center justify-center shrink-0 overflow-hidden">ХГ</div>
           <div>
             <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
               <h2 data-client-name class="text-2xl lg:text-3xl font-semibold tracking-tight">ООО «Холод Групп»</h2>
@@ -191,30 +191,28 @@
 
           <aside class="xl:col-span-1 space-y-6">
 
-            <section data-brief-plate class="bg-white rounded-2xl shadow-card overflow-hidden">
-              <div class="px-4 lg:px-6 py-4 flex items-center justify-between">
+            <section data-brief-plate data-brief-state="filled" class="bg-white rounded-2xl shadow-card overflow-hidden">
+              <div class="px-4 lg:px-6 py-4 flex items-center justify-between gap-3">
                 <h3 class="text-sm font-semibold tracking-tight">Бриф</h3>
-                <button type="button" data-can="create_client" data-open-modal="brief-send" data-prefill-client="holod" class="text-xs text-zinc-500 hover:text-zinc-900 transition">+ Новый</button>
+                <button type="button" data-can="create_client" data-deny-tip="Управление клиентами доступно менеджерам и руководству" data-open-modal="brief-send" data-prefill-client="holod" class="text-xs text-zinc-500 hover:text-zinc-900 transition shrink-0">Отправить ещё</button>
               </div>
-              <ul class="divide-y divide-zinc-100 border-t border-zinc-100 text-sm">
-                <li class="px-4 lg:px-6 py-3">
-                  <div class="flex items-center justify-between gap-3">
-                    <a href="brief.html" class="font-medium hover:underline truncate">Бриф интернет-магазина</a>
-                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 whitespace-nowrap shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Заполнен</span>
+              <div class="px-4 lg:px-6 pb-5 space-y-4 border-t border-zinc-100 pt-4">
+                <!-- Состояние: заполнен (основное для «Холод») -->
+                <div data-brief-view="filled" class="space-y-4">
+                  <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Заполнен 03.05.2025</span>
+                  <p class="text-xs text-zinc-500">Заполнил: Сергей Волков (Директор по маркетингу)</p>
+                  <a href="brief.html?client=holod" class="w-full text-center px-4 py-2 rounded-full bg-zinc-900 text-white text-xs font-medium hover:bg-zinc-800 transition block">Посмотреть ответы клиента</a>
+                </div>
+                <!-- Состояние: отправлен, ждёт заполнения (скрыто в демо «Холод») -->
+                <div data-brief-view="sent" class="hidden space-y-4">
+                  <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Отправлен 12.06.2025</span>
+                  <div class="flex items-center gap-2">
+                    <input type="text" readonly value="https://romashka.seo-control.app/brief/holod-7f3a" aria-label="Ссылка на бриф" class="flex-1 min-w-0 h-9 px-3 rounded-xl border border-zinc-200 bg-zinc-50 text-xs text-zinc-700 tabular-nums truncate">
+                    <button type="button" data-copy-brief-link class="shrink-0 h-9 px-3 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">Скопировать ссылку</button>
                   </div>
-                  <div class="text-xs text-zinc-500 mt-1">«Холод» · заполнен 03.05.2025</div>
-                </li>
-                <li class="px-4 lg:px-6 py-3">
-                  <div class="flex items-center justify-between gap-3">
-                    <span class="font-medium truncate">Бриф B2B-компании</span>
-                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 whitespace-nowrap shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Отправлен</span>
-                  </div>
-                  <div class="mt-1 flex items-center justify-between gap-3">
-                    <span data-brief-sent class="text-xs text-zinc-500">«Холод B2B» · отправлен 12.06 · не открыт</span>
-                    <button type="button" data-remind data-can="create_client" class="shrink-0 px-2.5 py-1 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">Напомнить</button>
-                  </div>
-                </li>
-              </ul>
+                  <button type="button" data-remind data-can="create_client" data-deny-tip="Управление клиентами доступно менеджерам и руководству" class="w-full px-4 py-2 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">Напомнить клиенту</button>
+                </div>
+              </div>
             </section>
 
             <section class="bg-white rounded-2xl shadow-card overflow-hidden">
@@ -239,7 +237,7 @@
             <section class="bg-white rounded-2xl shadow-card overflow-hidden">
               <div class="px-4 lg:px-6 py-4 flex items-center justify-between">
                 <h3 class="text-sm font-semibold tracking-tight">Документы</h3>
-                <button type="button" data-can="create_client" data-attach=".pdf,.doc,.docx,.xlsx" class="text-xs text-zinc-500 hover:text-zinc-900 transition">+ Загрузить</button>
+                <button type="button" data-can="create_client" data-deny-tip="Управление клиентами доступно менеджерам и руководству" data-attach=".pdf,.doc,.docx,.xlsx" class="text-xs text-zinc-500 hover:text-zinc-900 transition">+ Загрузить</button>
               </div>
               <ul class="divide-y divide-zinc-100 border-t border-zinc-100 text-sm">
                 <li class="px-4 lg:px-6 py-3 flex items-center gap-3">
@@ -262,11 +260,37 @@
 
 <script>
 document.addEventListener('click', e => {
+  const copy = e.target.closest('[data-copy-brief-link]');
+  if (copy) {
+    const input = copy.closest('[data-brief-view]')?.querySelector('input[readonly]');
+    const url = input ? input.value : '';
+    if (navigator.clipboard && url) navigator.clipboard.writeText(url).catch(() => {});
+    SEOApp.toast('Ссылка на бриф скопирована', 'success');
+    return;
+  }
   const b = e.target.closest('[data-remind]');
   if (!b || b.disabled) return;
-  document.querySelector('[data-brief-sent]').textContent = '«Холод B2B» · отправлен 12.06 · напомнили 18.06';
-  SEOApp.toast('Напоминание отправлено: ссылка на бриф повторно ушла на s.volkov@holod.ru', 'success');
+  SEOApp.toast('Напоминание отправлено', 'success');
 });
+function paintClientLogo(src, name) {
+  const box = document.querySelector('[data-client-logo]');
+  if (!box) return;
+  if (src) {
+    box.className = 'w-14 h-14 lg:w-16 lg:h-16 rounded-2xl overflow-hidden shrink-0';
+    box.innerHTML = '<img src="' + src + '" alt="" class="w-14 h-14 lg:w-16 lg:h-16 rounded-2xl object-contain bg-white border border-zinc-200 p-1">';
+    return;
+  }
+  const skip = /^(ооо|оао|ао|зао|пао|ип|llc|ltd|inc)$/i;
+  const parts = String(name || 'Холод Групп').replace(/[«»"']/g, '').split(/\s+/).filter(p => p && !skip.test(p));
+  const mono = parts.length >= 2 ? (parts[0][0] + parts[1][0]).toUpperCase() : (parts[0] || 'ХГ').slice(0, 2).toUpperCase();
+  box.className = 'w-14 h-14 lg:w-16 lg:h-16 rounded-2xl bg-zinc-900 text-white text-lg lg:text-xl font-semibold flex items-center justify-center shrink-0 overflow-hidden';
+  box.textContent = mono;
+}
+(function () {
+  let src = '';
+  try { src = localStorage.getItem('seo_client_logo_holod') || ''; } catch (e) { /* ignore */ }
+  paintClientLogo(src, 'Холод Групп');
+})();
 document.addEventListener('client:updated', e => {
   const c = e.detail;
   document.querySelector('[data-client-name]').textContent = c.name;
@@ -280,6 +304,9 @@ document.addEventListener('client:updated', e => {
     first.children[2].textContent = c.email;
     if (first.children[3]) first.children[3].textContent = c.phone || '';
   }
+  let src = c.logo || '';
+  try { if (!src) src = localStorage.getItem('seo_client_logo_holod') || ''; } catch (err) { /* ignore */ }
+  paintClientLogo(src, c.name);
 });
 document.addEventListener('attach:file', e => {
   if (!e.target.closest('section') || !e.target.closest('section').querySelector('h3') || e.target.closest('section').querySelector('h3').textContent !== 'Документы') return;
