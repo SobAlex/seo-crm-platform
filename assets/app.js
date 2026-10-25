@@ -346,15 +346,27 @@ tailwind.config = {
     }
   }
 
-  function gate(el, allowed) {
+  const TIP_SYSTEM = 'Доступно только руководителю SEO или владельцу компании';
+  const TIP_TEAM = 'Действие доступно только участникам команды этого проекта';
+  const TIP_ACCEPT = 'Принять задачу может только её постановщик или руководитель';
+  function permItem(key) {
+    for (const g of GROUPS) for (const i of g.items) if (i.key === key) return i;
+    return null;
+  }
+
+  function gate(el, allowed, tip) {
     if (!el || !el.isConnected || allowed) return;
+    if (tip && !el.dataset.denyTip) el.dataset.denyTip = tip;
     if (isActionControl(el)) {
       denyControl(el);
       return;
     }
     const controls = el.querySelectorAll('button, a, input, select, textarea');
     if (controls.length) {
-      controls.forEach(denyControl);
+      controls.forEach(c => {
+        if (tip && !c.dataset.denyTip) c.dataset.denyTip = tip;
+        denyControl(c);
+      });
       return;
     }
     el.remove();
@@ -370,19 +382,21 @@ tailwind.config = {
   function applyPermissions() {
     document.querySelectorAll('[data-can]').forEach(el => {
       const keys = ids(el.dataset.can);
-      gate(el, keys.some(can), 'Нужно право «' + permLabel(keys[0]) + '»');
+      const system = keys.map(permItem).some(i => i && (i.level === 'company' || i.level === 'lead'));
+      gate(el, keys.some(can), system ? TIP_SYSTEM : TIP_TEAM);
     });
     document.querySelectorAll('[data-roles]').forEach(el => {
       if (el.hasAttribute('data-app-chrome')) return;
       const list = ids(el.dataset.roles);
-      gate(el, covers(role, list), 'Доступно: ' + roleList(list));
+      const system = list.length && list.every(id => id === 'owner' || id === 'seo_head' || id === 'mgr_head');
+      gate(el, covers(role, list), system ? TIP_SYSTEM : TIP_TEAM);
     });
     document.querySelectorAll('[data-deny]').forEach(el => {
       gate(el, !covers(role, ids(el.dataset.deny)));
     });
     /* data-accept-item data-acceptor="id" — только тем, кто вправе принять эту задачу;
        data-accept-deny — наоборот, тем, кто принять не может (показываем, кто принимает) */
-    document.querySelectorAll('[data-accept-item]').forEach(el => { gate(el, canAcceptItem(el), 'Принимает постановщик или руководитель'); });
+    document.querySelectorAll('[data-accept-item]').forEach(el => { gate(el, canAcceptItem(el), TIP_ACCEPT); });
     document.querySelectorAll('[data-accept-deny]').forEach(el => { if (canAcceptItem(el)) el.remove(); });
     const r = roleInfo(role);
     document.querySelectorAll('[data-role-name]').forEach(el => { el.textContent = roleLabel(); });
@@ -845,7 +859,7 @@ tailwind.config = {
     return f[m10 === 1 && m100 !== 11 ? 0 : (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20) ? 1 : 2)];
   }
 
-  /* Диапазон «Дата с / Дата по»: [data-date-from], [data-date-to].
+  /* Диапазон дат: [data-date-from], [data-date-to].
      Значение строки: ГГГГ-ММ-ДД, ГГГГ-ММ (весь месяц) или «начало/конец». */
   function dateRange() {
     const fromEl = document.querySelector('[data-date-from]');

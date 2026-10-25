@@ -125,15 +125,14 @@
         field('Контактное лицо', input('new_contact', 'type="text" placeholder="Имя и фамилия"'), { opt: 'можно позже' })) + '</div>' +
       grid(2,
         field('Тип проекта', select('type', option('', 'Выберите тип') + TYPES.map(t => option(t.id, t.name)).join(''), 'required data-dep-source="ptype"'), { req: true }) +
-        field('Дорожная карта', select('roadmap', option('', 'Сначала выберите тип') + ROADMAPS.map(r => option(r.id, r.name, { when: r.type })).join(''), 'required data-dep="ptype"'), { req: true, hint: 'Показаны шаблоны выбранного типа', hintAttr: 'data-roadmap-info' })) +
+        field('Дорожная карта', select('roadmap', option('', 'Сначала выберите тип') + ROADMAPS.map(r => option(r.id, r.name, { when: r.type })).join(''), 'required data-dep="ptype"'), { req: true, hint: 'В проект будут скопированы дорожная карта и все месячные планы шаблона', hintAttr: 'data-roadmap-info' })) +
       grid(3,
         field('Старт работ', select('start', MONTH_OPTIONS(6, 11, '2025-07'))) +
         field('Чек в месяц, ₽', input('budget', 'type="number" min="0" step="1000" placeholder="120 000"'), { attrs: 'data-can="see_finance"' }) +
         field('Лимит часов', input('hours', 'type="number" min="1" value="60"'))) +
       grid(2,
         field('Менеджер проекта', select('pm', option('', 'Выберите') + teamOptions(p => p.role === 'pm' || p.role === 'mgr_head'), 'required'), { req: true }) +
-        field('SEO-специалист', select('seo', option('', 'Выберите') + teamOptions(p => p.role === 'employee' || p.role === 'seo_head', null, true), 'required'), { req: true })) +
-      check('first_plan', 'Сразу собрать план первого месяца из дорожной карты', { checked: true, hint: 'Работы месяца 1 станут задачами с исполнителями по ролям' }),
+        field('SEO-специалист', select('seo', option('', 'Выберите') + teamOptions(p => p.role === 'employee' || p.role === 'seo_head', null, true), 'required'), { req: true })),
     init(m) {
       const info = m.querySelector('[data-roadmap-info]');
       const cInfo = m.querySelector('[data-client-info]');
@@ -141,17 +140,69 @@
         const c = client(val(m, 'client'));
         cInfo.textContent = c ? c.contact + ' · ' + c.email + ' · ставка ' + c.rate.toLocaleString('ru-RU') + ' ₽/ч' : 'Ставка и контакты подтянутся из карточки клиента';
         const t = m.querySelector('[name="type"]');
-        if (c && !t.value && TYPES.some(x => x.id === c.brief)) { t.value = c.brief; App.syncDeps(m); }
+        if (c && !t.value && TYPES.some(x => x.id === c.brief)) t.value = c.brief;
+        App.syncDeps(m);
         const r = ROADMAPS.find(x => x.id === val(m, 'roadmap'));
-        info.textContent = r ? r.info : 'Показаны шаблоны выбранного типа';
+        info.textContent = r
+          ? 'В проект будут скопированы дорожная карта и все месячные планы шаблона'
+          : 'Показаны шаблоны выбранного типа';
       };
       m.addEventListener('change', paint);
       m.addEventListener('modal:open', () => setTimeout(paint));
     },
     onSubmit(m, d) {
       const c = val(m, 'client') === '__new' ? val(m, 'new_client') : label(m, 'client');
-      d.toast = 'Проект «' + val(m, 'title') + '» создан · ' + c + (m.querySelector('[name="first_plan"]').checked ? ' · план месяца 1 собран' : '');
-      emit('project:created', { title: val(m, 'title'), site: val(m, 'site'), client: c, type: label(m, 'type'), roadmap: label(m, 'roadmap') });
+      const rm = ROADMAPS.find(x => x.id === val(m, 'roadmap'));
+      d.toast = 'Проект «' + val(m, 'title') + '» создан · ' + c + ' · дорожная карта и все месячные планы скопированы';
+      emit('project:created', {
+        title: val(m, 'title'),
+        site: val(m, 'site'),
+        client: c,
+        type: label(m, 'type'),
+        roadmap: label(m, 'roadmap'),
+        roadmapId: val(m, 'roadmap'),
+        copyRoadmap: true,
+        copyMonthPlans: true,
+        templateInfo: rm ? rm.info : ''
+      });
+    }
+  });
+
+  /* ---------- Проект: редактировать ---------- */
+  App.registerModal('project-edit', {
+    title: 'Настройки проекта', subtitle: 'Интернет-магазин «Холод» · holod-shop.ru',
+    size: 'lg', submit: 'Сохранить', submitCan: 'edit_project', reset: false,
+    body: () =>
+      grid(2,
+        field('Название проекта', input('title', 'type="text" required value="Интернет-магазин «Холод»"'), { req: true }) +
+        field('Сайт', input('site', 'type="text" required value="holod-shop.ru" inputmode="url"'), { req: true })) +
+      field('Клиент', select('client', clientOptions('holod'), 'required'), { req: true, hint: 'Ставка и контакты подтянутся из карточки клиента', hintAttr: 'data-client-info' }) +
+      grid(2,
+        field('Тип проекта', select('type', TYPES.map(t => option(t.id, t.name, { selected: t.id === 'ecommerce' })).join(''), 'required data-dep-source="ptype"'), { req: true }) +
+        field('Дорожная карта', select('roadmap', ROADMAPS.map(r => option(r.id, r.name, { when: r.type, selected: r.id === 'rm-ecom' })).join(''), 'required data-dep="ptype"'), { req: true, hint: 'Смена карты не удаляет уже созданные задачи', hintAttr: 'data-roadmap-info' })) +
+      grid(3,
+        field('Старт работ', select('start', MONTH_OPTIONS(4, 11, '2025-05'))) +
+        field('Чек в месяц, ₽', input('budget', 'type="number" min="0" step="1000" value="240000"'), { attrs: 'data-can="see_finance"' }) +
+        field('Лимит часов', input('hours', 'type="number" min="1" value="96"'))) +
+      grid(2,
+        field('Менеджер проекта', select('pm', option('', 'Выберите') + teamOptions(p => p.role === 'pm' || p.role === 'mgr_head', 'morozov'), 'required'), { req: true }) +
+        field('SEO-специалист', select('seo', option('', 'Выберите') + teamOptions(p => p.role === 'employee' || p.role === 'seo_head', 'petrov', true), 'required'), { req: true })),
+    init(m) {
+      const info = m.querySelector('[data-roadmap-info]');
+      const cInfo = m.querySelector('[data-client-info]');
+      const paint = () => {
+        const c = client(val(m, 'client'));
+        cInfo.textContent = c ? c.contact + ' · ' + c.email + ' · ставка ' + c.rate.toLocaleString('ru-RU') + ' ₽/ч' : 'Ставка и контакты подтянутся из карточки клиента';
+        App.syncDeps(m);
+        const r = ROADMAPS.find(x => x.id === val(m, 'roadmap'));
+        info.textContent = r ? r.info + ' · смена карты не удаляет уже созданные задачи' : 'Смена карты не удаляет уже созданные задачи';
+      };
+      m.addEventListener('change', paint);
+      m.addEventListener('modal:open', () => setTimeout(paint));
+    },
+    onSubmit(m, d) {
+      d.toast = 'Настройки проекта сохранены';
+      emit('project:updated', { title: val(m, 'title'), site: val(m, 'site'), client: label(m, 'client'), type: label(m, 'type'), roadmap: label(m, 'roadmap') });
     }
   });
 
@@ -211,32 +262,17 @@
     }
   });
 
-  /* ---------- Отправить бриф ---------- */
+  /* ---------- Отправить бриф (публичная ссылка на опросник) ---------- */
   App.registerModal('brief-send', {
-    title: 'Отправить бриф', subtitle: 'Публичная ссылка на форму или приглашение в портал', submit: 'Готово', submitCan: 'create_client',
+    title: 'Отправить бриф', subtitle: 'Защищённая публичная ссылка на форму — без учётной записи', submit: 'Готово', submitCan: 'create_client',
     body: () =>
       grid(2,
         field('Клиент', select('client', clientOptions('holod'), 'required'), { req: true }) +
         field('Шаблон брифа', select('brief', briefOptions('ecommerce')))) +
-      '<div data-seg-scope class="space-y-4">' +
-        '<div data-segmented data-brief-mode class="w-full" role="group" aria-label="Способ">' +
-          '<button type="button" data-seg="link" aria-pressed="true" class="flex-1 px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition">Публичная ссылка</button>' +
-          '<button type="button" data-seg="invite" class="flex-1 px-4 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition">Приглашение в портал</button>' +
-        '</div>' +
-        '<div data-seg-panel="link" class="space-y-4">' +
-          field('Ссылка на бриф', '<div class="flex gap-2"><input name="link" type="text" readonly class="' + F + ' bg-zinc-50 text-zinc-600 font-mono text-xs"><button type="button" data-copy data-copy-from="[name=link]" data-copy-toast="Ссылка на бриф скопирована" class="shrink-0 px-4 py-2 rounded-full bg-zinc-900 text-white text-sm font-medium hover:bg-zinc-800 transition">Скопировать</button></div>', { hint: 'Клиент заполнит бриф без регистрации. Ответы появятся в карточке клиента.' }) +
-          grid(2,
-            field('Ссылка действует', select('ttl', option('7', '7 дней') + option('14', '14 дней', { selected: true }) + option('30', '30 дней') + option('0', 'Без срока'))) +
-            '<div class="flex items-end"><a data-brief-preview href="brief-form.html" target="_blank" rel="noopener" class="w-full text-center px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Открыть форму брифа ↗</a></div>') +
-        '</div>' +
-        '<div data-seg-panel="invite" class="space-y-4 hidden">' +
-          grid(2,
-            field('Email контакта', input('email', 'type="email" required'), { req: true }) +
-            field('Имя', input('contact', 'type="text"'))) +
-          check('portal', 'Открыть клиенту доступ к порталу проекта', { checked: true, hint: 'Роль «Клиент»: результаты, дорожная карта и принятые отчёты', attrs: 'data-can="invite_clients"' }) +
-          field('Сообщение', textarea('message', '', 'Здравствуйте! Чтобы мы быстрее стартовали, заполните, пожалуйста, бриф — это займёт около 10 минут.')) +
-        '</div>' +
-      '</div>',
+      field('Ссылка на бриф', '<div class="flex gap-2"><input name="link" type="text" readonly class="' + F + ' bg-zinc-50 text-zinc-600 font-mono text-xs"><button type="button" data-copy data-copy-from="[name=link]" data-copy-toast="Ссылка на бриф скопирована" class="shrink-0 px-4 py-2 rounded-full bg-zinc-900 text-white text-sm font-medium hover:bg-zinc-800 transition">Скопировать ссылку</button></div>', { hint: 'Клиент заполнит бриф без регистрации. Ответы появятся в карточке клиента.' }) +
+      grid(2,
+        field('Ссылка действует', select('ttl', option('7', '7 дней') + option('14', '14 дней', { selected: true }) + option('30', '30 дней') + option('0', 'Без срока'))) +
+        '<div class="flex items-end"><a data-brief-preview href="brief-form.html" target="_blank" rel="noopener" class="w-full text-center px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Открыть форму брифа ↗</a></div>'),
     init(m) {
       const paint = () => {
         const c = client(val(m, 'client')) || CLIENTS[0];
@@ -244,38 +280,92 @@
         url.searchParams.set('client', c.id);
         url.searchParams.set('brief', val(m, 'brief'));
         url.searchParams.set('t', (c.inn || '').slice(-4) + 'k9');
+        const ttl = val(m, 'ttl');
+        if (ttl && ttl !== '0') url.searchParams.set('ttl', ttl);
         m.querySelector('[name="link"]').value = url.href;
         m.querySelector('[data-brief-preview]').href = url.href;
-        const email = m.querySelector('[name="email"]');
-        if (email && (!email.value || email.dataset.auto === '1')) { email.value = c.email || ''; email.dataset.auto = '1'; }
-        const name = m.querySelector('[name="contact"]');
-        if (name && (!name.value || name.dataset.auto === '1')) { name.value = c.contact || ''; name.dataset.auto = '1'; }
       };
       m.querySelector('[name="client"]').addEventListener('change', () => {
         const c = client(val(m, 'client'));
         if (c && c.brief) m.querySelector('[name="brief"]').value = c.brief;
-        m.querySelectorAll('[data-auto]').forEach(f => { f.value = ''; });
       });
       m.addEventListener('change', paint);
-      m.querySelectorAll('[name="email"], [name="contact"]').forEach(f => f.addEventListener('input', () => { f.dataset.auto = '0'; }));
-      const submit = m.querySelector('[data-modal-submit]');
-      m.addEventListener('seg:change', e => {
-        if (!e.target.matches('[data-brief-mode]')) return;
-        submit.textContent = e.detail.value === 'invite' ? 'Отправить приглашение' : 'Готово';
-      });
       m.addEventListener('modal:open', () => {
         const c = client(val(m, 'client'));
         if (c && c.brief) m.querySelector('[name="brief"]').value = c.brief;
-        m.querySelectorAll('[data-auto]').forEach(f => { f.value = ''; });
-        App.segment(m.querySelector('[data-brief-mode]'), 'link');
-        submit.textContent = 'Готово';
         paint();
       });
     },
     onSubmit(m, d) {
-      const invite = m.querySelector('[data-seg-panel="invite"]:not(.hidden)');
-      d.toast = invite ? 'Бриф отправлен на ' + val(m, 'email') + (m.querySelector('[name="portal"]').checked ? ' · доступ в портал открыт' : '') : 'Ссылка на бриф сохранена в карточке клиента';
-      emit('brief:sent', { client: label(m, 'client'), mode: invite ? 'invite' : 'link' });
+      d.toast = 'Ссылка на бриф сохранена в карточке клиента';
+      emit('brief:sent', { client: label(m, 'client'), mode: 'link' });
+    }
+  });
+
+  /* ---------- Пригласить клиента в портал ---------- */
+  App.registerModal('client-invite', {
+    title: 'Пригласить клиента в портал',
+    subtitle: 'Клиент получит ссылку для входа и доступ к просмотру результатов, дорожной карты и согласования задач',
+    submit: 'Отправить приглашение',
+    submitCan: 'invite_clients',
+    body: () =>
+      field('Клиент', select('client', clientOptions('holod'), 'required'), { req: true }) +
+      grid(2,
+        field('Email контакта', input('email', 'type="email" required placeholder="name@company.ru"'), { req: true }) +
+        field('Имя контакта', input('contact', 'type="text" placeholder="Сергей Волков"'))) +
+      field('Проекты', box(
+        check('all_projects', 'Все проекты клиента', { checked: false, attrs: 'data-all-client-projects' }) +
+        '<div class="border-t border-zinc-100 pt-3 space-y-2" data-client-project-checks>' +
+          PROJECTS.filter(p => p.client === 'holod').map((p, i) => check('projects', p.name, { value: p.id, checked: i === 0 })).join('') +
+        '</div>'
+      ), { hint: 'Клиент увидит только выбранные проекты — в режиме просмотра' }) +
+      note('Роль «Клиент»: результаты, дорожная карта, принятые отчёты и задачи на согласовании. Внутренние часы и ставки скрыты.'),
+    init(m) {
+      const all = m.querySelector('[data-all-client-projects] input');
+      const items = () => m.querySelectorAll('[data-client-project-checks] input');
+      const paintProjects = () => {
+        const c = client(val(m, 'client'));
+        const boxEl = m.querySelector('[data-client-project-checks]');
+        if (!c || !boxEl) return;
+        const ids = PROJECTS.filter(p => p.client === c.id).map(p => p.id);
+        const keep = ids.length ? ids : PROJECTS.map(p => p.id);
+        boxEl.innerHTML = PROJECTS.filter(p => keep.indexOf(p.id) !== -1)
+          .map((p, i) => check('projects', p.name, { value: p.id, checked: i === 0 || keep.length === 1 })).join('');
+        syncAll();
+      };
+      const syncAll = () => {
+        items().forEach(i => {
+          i.disabled = all.checked;
+          i.closest('label').classList.toggle('opacity-50', all.checked);
+          if (all.checked) i.checked = true;
+        });
+      };
+      const paintContact = () => {
+        const c = client(val(m, 'client')) || CLIENTS[0];
+        const email = m.querySelector('[name="email"]');
+        const name = m.querySelector('[name="contact"]');
+        if (email && (!email.value || email.dataset.auto === '1')) { email.value = c.email || ''; email.dataset.auto = '1'; }
+        if (name && (!name.value || name.dataset.auto === '1')) { name.value = c.contact || ''; name.dataset.auto = '1'; }
+      };
+      m.querySelector('[name="client"]').addEventListener('change', () => {
+        m.querySelectorAll('[data-auto]').forEach(f => { f.value = ''; });
+        paintProjects();
+        paintContact();
+      });
+      all.addEventListener('change', syncAll);
+      m.querySelectorAll('[name="email"], [name="contact"]').forEach(f => f.addEventListener('input', () => { f.dataset.auto = '0'; }));
+      m.addEventListener('modal:open', () => {
+        m.querySelectorAll('[data-auto]').forEach(f => { f.value = ''; });
+        all.checked = false;
+        paintProjects();
+        paintContact();
+      });
+    },
+    onSubmit(m, d) {
+      const email = val(m, 'email');
+      const picked = Array.from(m.querySelectorAll('[name="projects"]:checked')).map(i => i.value);
+      d.toast = 'Приглашение отправлено на ' + email + (picked.length ? ' · ' + picked.length + ' проект' + (picked.length === 1 ? '' : (picked.length < 5 ? 'а' : 'ов')) : '');
+      emit('client:invited', { client: label(m, 'client'), email, contact: val(m, 'contact'), projects: picked });
     }
   });
 
@@ -545,20 +635,61 @@
     }
   });
 
-  /* ---------- Добавить в команду проекта ---------- */
+  /* ---------- Добавить в команду проекта / сменить роль ---------- */
+  const PROJECT_ROLES = [
+    { id: 'seo_head', name: 'Руководитель SEO', short: 'Рук. SEO', tone: 'bg-blue-50 text-blue-700' },
+    { id: 'pm', name: 'Менеджер проекта', short: 'Менеджер', tone: 'bg-amber-50 text-amber-700' },
+    { id: 'employee', name: 'SEO-специалист', short: 'SEO-специалист', tone: 'bg-emerald-50 text-emerald-700' },
+    { id: 'contractor', name: 'Подрядчик', short: 'Подрядчик', tone: 'bg-zinc-100 text-zinc-700' }
+  ];
+  const projectRoleOptions = sel => PROJECT_ROLES.map(r => option(r.id, r.name, { selected: r.id === sel })).join('');
+  let teamRoleRow = null;
+
   App.registerModal('team-add', {
     title: 'Добавить в команду', subtitle: 'Интернет-магазин «Холод»', submit: 'Добавить', submitCan: 'edit_project',
     body: () =>
-      field('Сотрудник', select('member', option('', 'Выберите') + teamOptions(p => ['dronov', 'vetrova', 'sidorov', 'kim'].indexOf(p.id) !== -1, null, true), 'required data-dep-source="member"'), { req: true }) +
+      field('Сотрудник', select('member', option('', 'Выберите') + teamOptions(p => ['dronov', 'vetrova', 'smirnov', 'kim'].indexOf(p.id) !== -1, null, true), 'required'), { req: true }) +
       grid(2,
-        field('Роль в проекте', select('as', option('exec', 'Исполнитель') + option('accept', 'Принимает работу') + option('watch', 'Наблюдатель'))) +
+        field('Роль в проекте', select('as', projectRoleOptions('employee'), 'required data-dep-source="prole"'), { req: true }) +
         field('Лимит часов в месяц', input('hours', 'type="number" min="1" value="20"'))) +
-      '<div data-show-when="member:kim" class="hidden">' + field('Доступ до', input('until', 'type="date" value="2025-09-30"'), { hint: 'Подрядчик увидит только назначенные задачи проекта' }) + '</div>',
+      '<div data-show-when="prole:contractor" class="hidden">' + field('Доступ до', input('until', 'type="date" value="2025-09-30"'), { hint: 'Подрядчик увидит только назначенные задачи проекта' }) + '</div>',
     onSubmit(m, d) {
       const p = person(val(m, 'member'));
-      d.toast = p.name + ' добавлен(а) в команду · ' + label(m, 'as').toLowerCase();
-      emit('team:added', { person: p, as: label(m, 'as'), role: roleLabel(p.role) });
+      const role = PROJECT_ROLES.find(r => r.id === val(m, 'as')) || PROJECT_ROLES[2];
+      d.toast = p.name + ' добавлен(а) в команду · ' + role.name;
+      emit('team:added', { person: p, as: role.name, note: role.name, projectRole: role.name, role: roleLabel(p.role) });
     }
+  });
+
+  App.registerModal('team-role', {
+    title: 'Роль в проекте', subtitle: 'Изменить роль участника команды', submit: 'Сохранить', submitCan: 'edit_project', reset: false,
+    body: () =>
+      field('Сотрудник', '<div data-team-role-name class="px-3.5 py-2 rounded-xl border border-zinc-200 bg-zinc-50 text-sm text-zinc-700">—</div>') +
+      field('Роль в проекте', select('as', projectRoleOptions('employee'), 'required'), { req: true, hint: 'Роль определяет доступ к задачам, отчётам и финансам проекта' }),
+    init(m) {
+      m.addEventListener('modal:open', e => {
+        const opener = e.detail && e.detail.opener;
+        teamRoleRow = opener ? opener.closest('li') : null;
+        const name = teamRoleRow ? (teamRoleRow.querySelector('.text-sm.font-medium') || {}).textContent || '—' : '—';
+        const cur = teamRoleRow ? (teamRoleRow.querySelector('[data-team-role]') || {}).textContent || '' : '';
+        m.querySelector('[data-team-role-name]').textContent = name;
+        const match = PROJECT_ROLES.find(r => r.short === cur || r.name === cur);
+        m.querySelector('[name="as"]').value = match ? match.id : 'employee';
+      });
+    },
+    onSubmit(m, d) {
+      const role = PROJECT_ROLES.find(r => r.id === val(m, 'as')) || PROJECT_ROLES[2];
+      d.toast = 'Роль обновлена: ' + role.name;
+      emit('team:role', { row: teamRoleRow, role: role.name, short: role.short, tone: role.tone });
+      teamRoleRow = null;
+    }
+  });
+
+  document.addEventListener('confirm:ok', e => {
+    const btn = e.target.closest('[data-team-remove]');
+    if (!btn) return;
+    /* Удаление строки — через data-confirm-remove="li" в app.js; здесь фиксируем событие для страницы */
+    emit('team:removed', { row: btn.closest('li') });
   });
 
   /* ---------- Интеграции компании: мастер «Сервис → Авторизация → Проекты» ---------- */

@@ -124,17 +124,10 @@
             <button type="button" data-can="int_seo,int_client" data-open-modal="integration" class="shrink-0 self-start sm:self-auto px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">+ Подключить сервис</button>
           </div>
 
-          <!-- SEO-инструменты -->
-          <div data-can="int_seo" class="mb-6">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-              <span class="text-xs font-medium text-zinc-500 uppercase tracking-wide">SEO-инструменты</span>
-            </div>
-            <div class="text-xs text-zinc-500 mb-4">Метрика и позиции. Подключают владелец и руководители</div>
-
-            <section data-integration="yandex" class="bg-white rounded-2xl shadow-card overflow-hidden mb-3">
-              <div class="px-4 lg:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <div class="flex items-center gap-4 min-w-0">
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mb-6">
+            <section data-integration="yandex" data-can="int_seo" class="bg-white rounded-2xl shadow-card p-5 flex flex-col gap-4">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex items-center gap-3 min-w-0">
                   <span class="w-11 h-11 rounded-xl bg-red-50 text-red-600 flex items-center justify-center shrink-0 font-bold">Я</span>
                   <div class="min-w-0">
                     <div class="text-sm font-medium">Яндекс</div>
@@ -145,55 +138,36 @@
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Подключён
                 </span>
               </div>
-              <div class="px-4 lg:px-6 py-3 border-t border-zinc-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <div class="text-xs text-zinc-500">
-                  Аккаунт: <span class="text-zinc-900 font-medium">direct@romashka.ru</span> · подключён 12.05.2025
-                </div>
-                <div class="flex items-center gap-3 shrink-0">
-                  <button type="button" data-can="int_seo" data-open-modal="integration" data-prefill-service="yandex" data-reconnect="1" class="text-xs text-zinc-500 hover:text-zinc-900 transition">Переподключить через Яндекс ID</button>
-                  <span class="text-zinc-300">·</span>
-                  <button type="button" data-can="int_seo" data-confirm="Отключить Яндекс?" data-confirm-text="Метрики перестанут обновляться во всех проектах. Уже загруженные данные останутся в отчётах." data-confirm-ok="Отключить" data-confirm-toast="Яндекс отключён" class="text-xs text-zinc-500 hover:text-red-600 transition">Отключить</button>
-                </div>
+              <p class="text-xs text-zinc-500">Аккаунт: <span class="text-zinc-900 font-medium">direct@romashka.ru</span> · подключён 12.05.2025</p>
+              <div class="mt-auto flex flex-wrap items-center gap-2">
+                <button type="button" data-can="int_seo" data-open-modal="integration" data-prefill-service="yandex" data-reconnect="1" class="h-9 px-3.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">Переподключить</button>
+                <button type="button" data-can="int_seo" data-confirm="Отключить Яндекс?" data-confirm-text="Метрики перестанут обновляться во всех проектах. Уже загруженные данные останутся в отчётах." data-confirm-ok="Отключить" data-confirm-toast="Яндекс отключён" class="h-9 px-3.5 rounded-full text-xs font-medium text-zinc-500 hover:text-red-600 hover:bg-red-50 transition">Отключить</button>
               </div>
             </section>
 
-            <section data-integration="google" class="bg-white rounded-2xl shadow-card overflow-hidden">
-              <div class="px-4 lg:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <div class="flex items-center gap-4 min-w-0">
+            <section data-integration="google" data-can="int_seo" class="bg-white rounded-2xl shadow-card p-5 flex flex-col gap-4">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex items-center gap-3 min-w-0">
                   <span class="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 font-bold">G</span>
                   <div class="min-w-0">
-                    <div class="text-sm font-medium">Google</div>
-                    <div class="text-xs text-zinc-500 mt-0.5">Search Console</div>
+                    <div class="text-sm font-medium">Google Search Console</div>
+                    <div class="text-xs text-zinc-500 mt-0.5">Показы, клики и индексация</div>
                   </div>
                 </div>
                 <span data-int-state class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 shrink-0">
                   <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>Требует переподключения
                 </span>
               </div>
-              <div class="px-4 lg:px-6 py-3 border-t border-zinc-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <div class="text-xs text-zinc-500">
-                  Аккаунт: <span class="text-zinc-900 font-medium">marketing@romashka.ru</span> · токен истёк 15.06.2025
-                </div>
-                <div class="flex items-center gap-3 shrink-0">
-                  <button type="button" data-can="int_seo" data-open-modal="integration" data-prefill-service="google" data-reconnect="1" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Переподключить</button>
-                  <span class="text-zinc-300">·</span>
-                  <button type="button" data-can="int_seo" data-confirm="Отключить Google Search Console?" data-confirm-text="Метрики перестанут обновляться во всех проектах. Уже загруженные данные останутся в отчётах." data-confirm-ok="Отключить" data-confirm-toast="Google Search Console отключён" class="text-xs text-zinc-500 hover:text-red-600 transition">Отключить</button>
-                </div>
+              <p class="text-xs text-zinc-500">Аккаунт: <span class="text-zinc-900 font-medium">marketing@romashka.ru</span> · токен истёк 15.06.2025</p>
+              <div class="mt-auto flex flex-wrap items-center gap-2">
+                <button type="button" data-can="int_seo" data-open-modal="integration" data-prefill-service="google" data-reconnect="1" class="h-9 px-3.5 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition">Переподключить</button>
+                <button type="button" data-can="int_seo" data-confirm="Отключить Google Search Console?" data-confirm-text="Метрики перестанут обновляться во всех проектах. Уже загруженные данные останутся в отчётах." data-confirm-ok="Отключить" data-confirm-toast="Google Search Console отключён" class="h-9 px-3.5 rounded-full text-xs font-medium text-zinc-500 hover:text-red-600 hover:bg-red-50 transition">Отключить</button>
               </div>
             </section>
-          </div>
 
-          <!-- Клиентские -->
-          <div data-can="int_client" class="mb-6">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="w-2 h-2 rounded-full bg-amber-600"></span>
-              <span class="text-xs font-medium text-zinc-500 uppercase tracking-wide">Клиентские инструменты</span>
-            </div>
-            <div class="text-xs text-zinc-500 mb-4">Коллтрекинг и CRM. Подключают владелец и руководители</div>
-
-            <section data-integration="callibri" class="bg-white rounded-2xl shadow-card overflow-hidden mb-3">
-              <div class="px-4 lg:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <div class="flex items-center gap-4 min-w-0">
+            <section data-integration="callibri" data-can="int_client" class="bg-white rounded-2xl shadow-card p-5 flex flex-col gap-4">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex items-center gap-3 min-w-0">
                   <span class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 font-bold">C</span>
                   <div class="min-w-0">
                     <div class="text-sm font-medium">Callibri</div>
@@ -204,21 +178,16 @@
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Подключён
                 </span>
               </div>
-              <div class="px-4 lg:px-6 py-3 border-t border-zinc-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <div class="text-xs text-zinc-500">
-                  API-ключ: <span class="text-zinc-900 font-medium font-mono">clb_●●●●●●</span> · подключён 15.05.2025
-                </div>
-                <div class="flex items-center gap-3 shrink-0">
-                  <button type="button" data-can="int_client" data-open-modal="integration" data-prefill-service="callibri" data-reconnect="1" class="text-xs text-zinc-500 hover:text-zinc-900 transition">Переподключить</button>
-                  <span class="text-zinc-300">·</span>
-                  <button type="button" data-can="int_client" data-confirm="Отключить Callibri?" data-confirm-text="Метрики перестанут обновляться во всех проектах. Уже загруженные данные останутся в отчётах." data-confirm-ok="Отключить" data-confirm-toast="Callibri отключён" class="text-xs text-zinc-500 hover:text-red-600 transition">Отключить</button>
-                </div>
+              <p class="text-xs text-zinc-500">API-ключ: <span class="text-zinc-900 font-medium font-mono">clb_●●●●●●</span> · подключён 15.05.2025</p>
+              <div class="mt-auto flex flex-wrap items-center gap-2">
+                <button type="button" data-can="int_client" data-open-modal="integration" data-prefill-service="callibri" data-reconnect="1" class="h-9 px-3.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">Переподключить</button>
+                <button type="button" data-can="int_client" data-confirm="Отключить Callibri?" data-confirm-text="Метрики перестанут обновляться во всех проектах. Уже загруженные данные останутся в отчётах." data-confirm-ok="Отключить" data-confirm-toast="Callibri отключён" class="h-9 px-3.5 rounded-full text-xs font-medium text-zinc-500 hover:text-red-600 hover:bg-red-50 transition">Отключить</button>
               </div>
             </section>
 
-            <section data-integration="amocrm" class="bg-white rounded-2xl shadow-card overflow-hidden">
-              <div class="px-4 lg:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <div class="flex items-center gap-4 min-w-0">
+            <section data-integration="amocrm" data-can="int_client" class="bg-white rounded-2xl shadow-card p-5 flex flex-col gap-4">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex items-center gap-3 min-w-0">
                   <span class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0 font-bold">A</span>
                   <div class="min-w-0">
                     <div class="text-sm font-medium">amoCRM</div>
@@ -229,9 +198,9 @@
                   <span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>Не подключён
                 </span>
               </div>
-              <div class="px-4 lg:px-6 py-3 border-t border-zinc-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <div class="text-xs text-zinc-500">Лиды из CRM подтягиваются в отчёты по проектам</div>
-                <button type="button" data-can="int_client" data-open-modal="integration" data-prefill-service="amocrm" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition shrink-0">Подключить</button>
+              <p class="text-xs text-zinc-500">Лиды из CRM подтягиваются в отчёты по проектам</p>
+              <div class="mt-auto">
+                <button type="button" data-can="int_client" data-open-modal="integration" data-prefill-service="amocrm" class="h-9 px-3.5 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition">Подключить</button>
               </div>
             </section>
           </div>
@@ -269,15 +238,15 @@
 
           <section class="bg-white rounded-2xl shadow-card overflow-hidden mb-6">
             <div class="overflow-x-auto">
-              <table class="w-full block md:table">
+              <table class="w-full min-w-full block md:table md:table-fixed">
                 <thead class="hidden md:table-header-group">
                   <tr class="border-b border-zinc-100">
-                    <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-4 lg:px-6 py-3">Пользователь</th>
-                    <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">Роль</th>
-                    <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">Отдел</th>
-                    <th class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">Проектов</th>
-                    <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3">Статус</th>
-                    <th class="px-4 lg:px-6 py-3 md:pl-8 whitespace-nowrap"></th>
+                    <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-4 lg:px-6 py-3 md:w-[34%]">Пользователь</th>
+                    <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3 md:w-[18%]">Роль</th>
+                    <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3 md:w-[12%]">Отдел</th>
+                    <th class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3 md:w-[10%]">Проектов</th>
+                    <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3 md:w-[14%]">Статус</th>
+                    <th class="px-4 lg:px-6 py-3 whitespace-nowrap md:w-[12%]"></th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-zinc-100 block md:table-row-group">

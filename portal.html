@@ -151,6 +151,15 @@
           </div>
         </section>
 
+        <!-- Ежемесячные отчёты -->
+        <section id="reports" class="scroll-mt-20">
+          <div class="mb-3 flex items-end justify-between gap-3">
+            <h3 class="text-sm font-semibold tracking-tight">Ежемесячные отчёты</h3>
+            <span class="hidden sm:inline text-xs text-zinc-500">Присылаем до 5 числа следующего месяца</span>
+          </div>
+          <div data-portal-reports class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+        </section>
+
         <!-- Дорожная карта -->
         <section>
           <h3 class="text-sm font-semibold tracking-tight mb-3">Дорожная карта</h3>
@@ -175,15 +184,6 @@
             </ul>
           </div>
           <p class="text-xs text-zinc-500 mt-3">Показан общий прогресс по направлениям. В этом месяце в работе: индексация, сбор семантики, перелинковка.</p>
-        </section>
-
-        <!-- Ежемесячные отчёты -->
-        <section id="reports" class="scroll-mt-20">
-          <div class="mb-3 flex items-end justify-between gap-3">
-            <h3 class="text-sm font-semibold tracking-tight">Ежемесячные отчёты</h3>
-            <span class="hidden sm:inline text-xs text-zinc-500">Присылаем до 5 числа следующего месяца</span>
-          </div>
-          <div data-portal-reports class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4"></div>
         </section>
 
         <p class="text-xs text-zinc-500">Остались вопросы? Напишите менеджеру — ответим в течение рабочего дня.</p>
@@ -234,9 +234,9 @@
       '<p class="text-sm text-zinc-600 mt-1">' + esc(t.about) + '</p>' +
       '<div class="mt-4 flex flex-col sm:flex-row sm:items-center gap-3">' +
         '<button type="button" data-toast="Файл «' + esc(t.file) + '» скачивается" class="inline-flex items-center gap-1.5 text-xs text-zinc-600 hover:text-zinc-900 transition min-w-0"><svg class="w-4 h-4 shrink-0 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg><span class="truncate">' + esc(t.file) + '</span></button>' +
-        '<div data-approval-actions class="flex gap-2 sm:ml-auto">' +
-          '<button type="button" data-approve class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Утверждаю</button>' +
-          '<button type="button" data-remarks class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Есть замечания</button>' +
+        '<div data-approval-actions class="flex flex-wrap gap-2 sm:ml-auto">' +
+          '<button type="button" data-approve class="h-8 px-3 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium transition">Утвердить результат</button>' +
+          '<button type="button" data-remarks class="h-8 px-3 rounded-full bg-white border border-zinc-200 text-zinc-700 text-xs font-medium hover:bg-zinc-50 transition">Есть замечания</button>' +
         '</div>' +
       '</div>' +
     '</article>';
@@ -244,6 +244,8 @@
   list.innerHTML = APPROVALS.map(card).join('');
 
   function settle(el, tone, label) {
+    const box = el.querySelector('[data-remark-box]');
+    if (box) box.remove();
     const st = el.querySelector('[data-approval-state]');
     st.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium ' + (tone === 'ok' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700');
     st.innerHTML = '<span class="w-1.5 h-1.5 rounded-full ' + (tone === 'ok' ? 'bg-emerald-500' : 'bg-amber-500') + '"></span>' + label;
@@ -267,18 +269,24 @@
       el.dataset.busy = '1';
       settle(el, 'ok', 'Утверждено');
       App.toast('Задача утверждена · спасибо!', 'success');
+    } else if (e.target.closest('[data-remark-send]')) {
+      const field = el.querySelector('[data-remark-text]');
+      const text = field ? field.value.trim() : '';
+      if (!text) { if (field) field.focus(); return; }
+      el.dataset.busy = '1';
+      settle(el, 'warn', 'Замечания отправлены');
+      App.toast('Замечания отправлены менеджеру', 'warning');
     } else if (e.target.closest('[data-remarks]')) {
-      App.askReason(e.target.closest('[data-remarks]'), {
-        title: 'Есть замечания',
-        sub: el.querySelector('h4').textContent,
-        placeholder: 'Что поправить — менеджер увидит это в задаче',
-        ok: 'Отправить'
-      }).then(text => {
-        if (!text) return;
-        el.dataset.busy = '1';
-        settle(el, 'warn', 'Замечания отправлены');
-        App.toast('Замечания отправлены менеджеру', 'warning');
-      });
+      let box = el.querySelector('[data-remark-box]');
+      if (!box) {
+        box = document.createElement('div');
+        box.dataset.remarkBox = '';
+        box.className = 'mt-3 flex flex-col gap-2';
+        box.innerHTML = '<textarea data-remark-text rows="3" placeholder="Что поправить — менеджер увидит это в задаче" class="w-full px-3 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40 resize-y"></textarea>' +
+          '<div class="flex justify-end"><button type="button" data-remark-send class="h-8 px-3 rounded-full bg-zinc-900 text-white text-xs font-medium hover:bg-zinc-800 transition">Отправить замечания</button></div>';
+        el.appendChild(box);
+      }
+      box.querySelector('[data-remark-text]').focus();
     }
   });
 
@@ -288,21 +296,20 @@
     { m: 'Апрель 2025', key: '2025-04', period: '01.04 — 30.04', sent: '02.05', kpi: [['Посетители', '21 840', '+12%'], ['Заявки', '263', '+4%'], ['В топ-10', '128', '+14']] },
     { m: 'Март 2025', key: '2025-03', period: '01.03 — 31.03', sent: '03.04', kpi: [['Посетители', '19 500', '+8%'], ['Заявки', '253', '+7%'], ['В топ-10', '114', '+9']] }
   ];
+  const PDF_ICON = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8l-5-5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3v5h5"/></svg>';
   document.querySelector('[data-portal-reports]').innerHTML =
-    '<div class="rounded-2xl border border-dashed border-zinc-300 p-4 lg:p-5 flex flex-col justify-between gap-4">' +
-      '<div class="flex items-center justify-between gap-3"><div><div class="text-sm font-medium">Июнь 2025</div><div class="text-xs text-zinc-500 mt-0.5">Готовим — пришлём до 05.07</div></div>' +
-      '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-zinc-100 text-zinc-600"><span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>В работе</span></div>' +
-    '</div>' +
+    '<article class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col gap-3">' +
+      '<div class="flex items-start justify-between gap-3"><div><div class="text-sm font-semibold tracking-tight">Июнь 2025</div><div class="text-xs text-zinc-500 mt-0.5">Готовим — пришлём до 05.07</div></div>' +
+      '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-zinc-100 text-zinc-600 shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>В работе</span></div>' +
+    '</article>' +
     REPORTS.map(r =>
-      '<article class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col gap-4">' +
-        '<div class="flex items-start justify-between gap-3"><div><div class="text-sm font-semibold tracking-tight">' + r.m + '</div><div class="text-xs text-zinc-500 mt-0.5 tabular-nums">' + r.period + ' · отправлен ' + r.sent + '</div></div>' +
-        '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Получен</span></div>' +
-        '<div class="grid grid-cols-3 gap-2">' + r.kpi.map(k =>
-          '<div class="rounded-xl bg-zinc-50 px-2.5 py-2 min-w-0"><div class="text-[11px] text-zinc-500 truncate">' + k[0] + '</div><div class="text-sm font-semibold tabular-nums">' + k[1] + '</div><div class="text-[11px] font-medium text-emerald-700 tabular-nums">' + k[2] + '</div></div>'
-        ).join('') + '</div>' +
-        '<div class="flex gap-2 mt-auto">' +
-          '<a href="report.html?month=' + r.key + '" class="flex-1 text-center px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Открыть</a>' +
-          '<button type="button" data-pdf="' + r.m + '" class="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-zinc-900 text-white text-sm font-medium hover:bg-zinc-800 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"/></svg>Скачать PDF</button>' +
+      '<article class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col gap-3">' +
+        '<div><div class="text-sm font-semibold tracking-tight">' + r.m + '</div>' +
+        '<div class="text-xs text-zinc-500 mt-0.5 tabular-nums">Согласован ' + r.sent + '</div></div>' +
+        '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 w-fit"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Принят клиентом</span>' +
+        '<div class="flex flex-wrap gap-2 mt-auto">' +
+          '<a href="report.html?month=' + r.key + '" class="h-8 px-3 rounded-full bg-zinc-100 text-xs font-medium hover:bg-zinc-200 transition inline-flex items-center">Веб-версия</a>' +
+          '<button type="button" data-pdf="' + r.m + '" class="h-8 px-3 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition inline-flex items-center gap-1.5">' + PDF_ICON + 'Скачать PDF</button>' +
         '</div>' +
       '</article>'
     ).join('');

@@ -98,7 +98,7 @@
               </ul>
             </section>
 
-            <section id="comments" data-comments class="bg-white rounded-2xl shadow-card overflow-hidden">
+            <section id="comments" data-comments class="bg-white rounded-2xl shadow-card overflow-hidden flex flex-col">
               <div class="px-4 lg:px-6 py-4 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
                 <div>
                   <h3 class="text-sm font-semibold tracking-tight">Комментарии <span data-comments-count class="ml-1 text-xs font-normal text-zinc-500 tabular-nums">0</span></h3>
@@ -110,9 +110,9 @@
                 </a>
               </div>
 
-              <ul data-feed class="max-h-[420px] overflow-y-auto overscroll-auto divide-y divide-zinc-100 border-t border-zinc-100 [scrollbar-width:thin]"></ul>
+              <ul data-feed data-comments-feed class="max-h-[380px] overflow-y-auto overscroll-contain pr-1 divide-y divide-zinc-100 border-t border-zinc-100 [scrollbar-width:thin]"></ul>
 
-              <div class="border-t border-zinc-100 bg-zinc-50/80 p-3 lg:p-4">
+              <div class="shrink-0 sticky bottom-0 z-10 border-t border-zinc-100 bg-zinc-50/95 backdrop-blur p-3 lg:p-4">
                 <div data-composer class="rounded-2xl border border-zinc-200 bg-white transition focus-within:ring-4 focus-within:ring-accent/15 focus-within:border-accent/40">
                   <div data-toolbar class="flex items-center gap-0.5 px-1.5 py-1 border-b border-zinc-100" role="toolbar" aria-label="Форматирование">
                     <button type="button" data-cmd="bold" title="Жирный (⌘B)" aria-label="Жирный" class="w-8 h-8 rounded-lg text-sm font-bold text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 transition">B</button>
@@ -510,10 +510,14 @@
         b.removeAttribute('aria-disabled');
         b.removeAttribute('title');
         delete b.dataset.tip;
-        if (!b.hasAttribute('data-deny-tip') || b.dataset.denyTip === 'Недоступно для вашей роли' || b.dataset.denyTip === 'Сейчас это действие недоступно') delete b.dataset.denyTip;
+        if (!b.hasAttribute('data-deny-tip') || b.dataset.denyTip === 'Недоступно для вашей роли' || b.dataset.denyTip === 'Сейчас это действие недоступно' || b.dataset.denyTip === 'Принять задачу может только её постановщик или руководитель') delete b.dataset.denyTip;
         return;
       }
-      const tip = roleOk ? 'Сейчас это действие недоступно' : 'Недоступно для вашей роли';
+      const tip = roleOk
+        ? 'Сейчас это действие недоступно'
+        : ((action === 'accept' || action === 'rework')
+          ? 'Принять задачу может только её постановщик или руководитель'
+          : 'Недоступно для вашей роли');
       b.setAttribute('aria-disabled', 'true');
       b.dataset.denyTip = tip;
       b.dataset.tip = tip;
