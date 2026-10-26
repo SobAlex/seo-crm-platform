@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SuperAdmin — SEO Control</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/app.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -34,7 +35,7 @@
     }
   </style>
 </head>
-<body class="bg-canvas text-ink antialiased overflow-x-hidden">
+<body class="bg-canvas text-ink antialiased overflow-x-hidden" data-modals="confirm">
   <div class="hidden bg-emerald-50 text-emerald-800 bg-emerald-500 bg-amber-50 text-amber-800 bg-amber-500 bg-red-50 text-red-700 bg-red-500 bg-blue-50 text-blue-700 bg-zinc-100 text-zinc-600 bg-zinc-400"></div>
 
   <div id="overlay" class="hidden fixed inset-0 z-40 bg-black/30 backdrop-blur-sm lg:hidden"></div>
@@ -47,7 +48,7 @@
       <button type="button" data-side-close aria-label="Закрыть меню" class="lg:hidden w-8 h-8 rounded-full hover:bg-black/5">×</button>
     </div>
     <div class="px-4 pb-3">
-      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 text-[11px] font-medium">👑 SuperAdmin Platform Dashboard</span>
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-zinc-900 text-white text-[11px] font-medium">SuperAdmin Platform</span>
     </div>
     <nav class="px-3 flex flex-col gap-0.5 text-sm">
       <a href="#metrics" class="px-3 py-2 rounded-xl text-zinc-900 bg-black/5 font-medium">Сводка</a>
@@ -288,7 +289,7 @@
         '<td data-label="Действия" class="px-4 py-3"><div class="flex flex-wrap gap-1.5">' +
           '<button type="button" data-act="impersonate" data-id="' + c.id + '" class="px-2.5 py-1 rounded-full bg-zinc-900 text-white text-xs font-medium hover:bg-zinc-800">Войти под компанией</button>' +
           '<button type="button" data-act="extend" data-id="' + c.id + '" class="px-2.5 py-1 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50">Продлить вручную</button>' +
-          '<button type="button" data-act="block" data-id="' + c.id + '" class="px-2.5 py-1 rounded-full bg-white border border-zinc-200 text-xs font-medium text-red-700 hover:bg-red-50">Заблокировать</button>' +
+          '<button type="button" data-act="block" data-id="' + c.id + '" data-confirm="Заблокировать компанию «' + esc(c.name) + '»?" data-confirm-text="Кабинет компании будет закрыт до разблокировки. Платежи и данные сохранятся." data-confirm-ok="Заблокировать" data-confirm-toast="Компания «' + esc(c.name) + '» заблокирована" class="px-2.5 py-1 rounded-full bg-white border border-zinc-200 text-xs font-medium text-red-700 hover:bg-red-50">Заблокировать</button>' +
         '</div></td></tr>';
     }).join('');
   }
@@ -309,9 +310,21 @@
   }
   function paint() { paintStats(); paintCompanies(); paintPayments(); }
 
+  function blockCompany(c) {
+    if (c.status === 'blocked') { toast('Уже заблокирована', c.name); return; }
+    leaveBucket(c);
+    c.status = 'blocked';
+    paint();
+  }
+  document.getElementById('company-rows').addEventListener('confirm:ok', e => {
+    const btn = e.target.closest('[data-act="block"]');
+    if (!btn) return;
+    const c = companies.find(x => x.id === btn.dataset.id);
+    if (c) blockCompany(c);
+  });
   document.getElementById('company-rows').addEventListener('click', e => {
     const btn = e.target.closest('[data-act]');
-    if (!btn) return;
+    if (!btn || btn.dataset.act === 'block') return;
     const c = companies.find(x => x.id === btn.dataset.id);
     if (!c) return;
     if (btn.dataset.act === 'impersonate') {
@@ -328,13 +341,7 @@
       stats.paid += 1;
       paint();
       toast('Подписка продлена', c.name + ' активна до 18.11');
-      return;
     }
-    if (c.status === 'blocked') { toast('Уже заблокирована', c.name); return; }
-    leaveBucket(c);
-    c.status = 'blocked';
-    paint();
-    toast('Компания заблокирована', c.name + ' · кабинет закрыт до разблокировки');
   });
 
   document.getElementById('sim-signup').addEventListener('click', () => {

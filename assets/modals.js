@@ -195,7 +195,7 @@
       grid(2,
         field('Название проекта', input('title', 'type="text" required placeholder="Интернет-магазин «Альфа»"'), { req: true }) +
         field('Сайт', input('site', 'type="text" required placeholder="alfa-shop.ru" inputmode="url"'), { req: true })) +
-      field('Клиент', select('client', option('', 'Выберите клиента') + clientOptions() + option('__new', '＋ Новый клиент…'), 'required data-dep-source="pclient"'), { req: true, hint: 'Ставка и контакты подтянутся из карточки клиента', hintAttr: 'data-client-info' }) +
+      field('Клиент', select('client', option('', 'Выберите клиента') + clientOptions() + option('__new', '+ Новый клиент...'), 'required data-dep-source="pclient"'), { req: true, hint: 'Ставка и контакты подтянутся из карточки клиента', hintAttr: 'data-client-info' }) +
       '<div data-show-when="pclient:__new" class="hidden">' + box(
         '<div class="text-xs font-medium text-zinc-900">Новый клиент</div>' +
         grid(2,
@@ -228,7 +228,13 @@
           : 'Показаны шаблоны выбранного типа';
       };
       m.addEventListener('change', paint);
-      m.addEventListener('modal:open', () => setTimeout(() => {
+      m.addEventListener('modal:open', e => setTimeout(() => {
+        const op = e.detail && e.detail.opener;
+        const pref = op && (op.dataset.prefillClient || op.getAttribute('data-prefill-client'));
+        if (pref) {
+          const sel = m.querySelector('[name="client"]');
+          if (sel) sel.value = pref;
+        }
         paint();
         syncProjectKpiChecks(m, KPI_DEFAULT);
       }));
@@ -263,7 +269,7 @@
       grid(2,
         field('Название проекта', input('title', 'type="text" required value="Интернет-магазин «Холод»"'), { req: true }) +
         field('Сайт', input('site', 'type="text" required value="holod-shop.ru" inputmode="url"'), { req: true })) +
-      field('Клиент', select('client', clientOptions('holod') + option('__new', '＋ Новый клиент…'), 'required data-dep-source="pclient"'), { req: true, hint: 'Ставка и контакты подтянутся из карточки клиента', hintAttr: 'data-client-info' }) +
+      field('Клиент', select('client', clientOptions('holod') + option('__new', '+ Новый клиент...'), 'required data-dep-source="pclient"'), { req: true, hint: 'Ставка и контакты подтянутся из карточки клиента', hintAttr: 'data-client-info' }) +
       '<div data-show-when="pclient:__new" class="hidden">' + box(
         '<div class="text-xs font-medium text-zinc-900">Новый клиент</div>' +
         grid(2,
@@ -576,8 +582,34 @@
   });
 
   /* ---------- Сотрудник: роль, отдел, норма ---------- */
+  const ROLE_BADGE = {
+    owner:      ['Владелец компании', 'bg-zinc-900 text-white'],
+    seo_head:   ['Руководитель SEO', 'bg-blue-50 text-blue-700'],
+    mgr_head:   ['Руководитель менеджеров', 'bg-violet-50 text-violet-700'],
+    pm:         ['Менеджер проекта', 'bg-amber-50 text-amber-700'],
+    employee:   ['SEO-специалист', 'bg-emerald-50 text-emerald-700'],
+    contractor: ['Подрядчик', 'bg-zinc-100 text-zinc-700'],
+    client:     ['Клиент', 'bg-cyan-50 text-cyan-700']
+  };
+  const ROLE_SHORT = {
+    owner: 'Owner', seo_head: 'SEO Head', mgr_head: 'Account Head', pm: 'PM',
+    employee: 'Специалист', contractor: 'Подрядчик', client: 'Клиент'
+  };
+  const EXTRA_USERS = {
+    krylova: { id: 'krylova', name: 'Елена Крылова', role: 'client', dept: '—', load: '0/40', projects: ['medlife'] }
+  };
+  const findMember = id => person(id) || EXTRA_USERS[id] || null;
+  const roleOptions = () =>
+    option('owner', 'Владелец компании (один на компанию)', { disabled: true }) +
+    option('seo_head', 'Руководитель SEO') +
+    option('mgr_head', 'Руководитель менеджеров') +
+    option('pm', 'Менеджер проекта (PM)') +
+    option('employee', 'SEO-специалист') +
+    option('contractor', 'Подрядчик') +
+    option('client', 'Клиент');
+
   App.registerModal('employee', {
-    title: 'Сотрудник', subtitle: 'Роль, отдел и норма часов', submit: 'Сохранить',
+    title: 'Карточка участника компании', subtitle: 'Роль, отдел и норма часов', submit: 'Сохранить',
     body: () =>
       '<div class="flex items-center gap-3"><span data-emp-avatar class="w-11 h-11 rounded-full bg-zinc-900 text-white text-xs font-semibold flex items-center justify-center shrink-0"></span><div class="min-w-0"><div data-emp-name class="text-sm font-semibold"></div><div data-emp-mail class="text-xs text-zinc-500"></div><div data-emp-phone class="text-xs text-zinc-500"></div></div></div>' +
       '<div class="rounded-2xl bg-canvas p-4">' +
@@ -587,9 +619,13 @@
         '<div class="mt-3 text-xs font-medium text-zinc-500">Задачи месяца</div>' +
         '<ul data-emp-tasks class="mt-1.5 space-y-1.5"></ul>' +
       '</div>' +
-      field('Роль', select('role', App.ROLES.map(r => option(r.id, r.label, { disabled: r.id === 'owner' })).join(''), 'data-can="change_roles" data-deny-tip="Менять роль может только владелец компании"'), { hint: 'Смена роли сразу меняет доступы человека' }) +
+      '<div class="mb-0">' +
+        '<label class="block text-xs font-medium text-zinc-500 mb-2">Роль в компании</label>' +
+        '<select name="user_role" data-can="change_roles" data-deny-tip="Только владелец компании может менять роли сотрудников" class="' + F + '"></select>' +
+        '<p data-role-hint class="text-[11px] text-zinc-400 mt-1">Роль определяет доступ к разделам, финансам и клиентским отчётам.</p>' +
+      '</div>' +
       grid(3,
-        field('Отдел', select('dept', option('SEO', 'SEO') + option('Менеджеры', 'Менеджеры') + option('Контент', 'Контент') + option('—', 'Без отдела'))) +
+        field('Отдел', select('dept', option('SEO', 'SEO') + option('Менеджеры', 'Менеджеры') + option('Аккаунтинг', 'Аккаунтинг') + option('Контент', 'Контент') + option('—', 'Без отдела'))) +
         field('Часов в неделю', input('week', 'type="number" min="1" max="60" required'), { req: true }) +
         field('Ставка, ₽/ч', input('rate', 'type="number" min="0" step="100"'), { attrs: 'data-can="see_finance"' })) +
       field('Проекты', '<div data-emp-projects class="flex flex-wrap gap-1.5"></div>'),
@@ -600,34 +636,99 @@
         morozov: { spent: 62, cap: 80, phone: '+7 495 120-11-03', mail: 'n.morozov@seo.ru', tasks: [['Согласование отчёта «Холод»', 28], ['Встреча с «Ремонт+»', 22], ['Передача на отпуск', 12]] },
         petrov: { spent: 176, cap: 160, phone: '+7 495 120-11-04', mail: 'alex@dev.ru', tasks: [['Индексация GSC «Холод»', 64], ['Ссылки «Ремонт+»', 58], ['Скорость «Стройтех»', 54]] },
         dronov: { spent: 108, cap: 160, phone: '+7 495 120-11-05', mail: 'ivan.d@seo.ru', tasks: [['Кластеризация «МедЛайф»', 42], ['Сниппеты «Холод»', 36], ['Мониторинг позиций', 30]] },
-        kim: { spent: 56, cap: 80, phone: '+7 495 120-11-06', mail: 'maria@copy.ru', tasks: [['Тексты категорий «Холод»', 24], ['Описания услуг «Ремонт+»', 18], ['Правки по замечаниям', 14]] }
+        kim: { spent: 56, cap: 80, phone: '+7 495 120-11-06', mail: 'maria@copy.ru', tasks: [['Тексты категорий «Холод»', 24], ['Описания услуг «Ремонт+»', 18], ['Правки по замечаниям', 14]] },
+        krylova: { spent: 0, cap: 40, phone: '+7 383 200-10-20', mail: 'e.krylova@medlife.ru', tasks: [] },
+        smirnov: { spent: 48, cap: 160, phone: '+7 495 120-11-00', mail: 'a.smirnov@romashka.ru', tasks: [['Стратегия агентства', 24], ['Тариф и биллинг', 12], ['Найм и роли', 12]] }
       };
-      const p = person(opener && opener.dataset.employee) || TEAM[1];
+      const id = opener && (opener.dataset.employee || opener.dataset.userId);
+      const p = findMember(id) || TEAM[1];
       const load = MONTH[p.id] || { spent: 0, cap: 160, phone: '', mail: p.id + '@romashka.ru', tasks: [] };
-      const rate = p.role === 'contractor' ? 1200 : 1800;
+      const rate = p.role === 'contractor' ? 1200 : (p.role === 'client' ? 0 : 1800);
       m.querySelector('[data-emp-name]').textContent = p.name;
       m.querySelector('[data-emp-mail]').textContent = load.mail;
       m.querySelector('[data-emp-phone]').textContent = load.phone;
       m.querySelector('[data-emp-hours]').textContent = load.spent + ' / ' + load.cap + ' ч';
       const bar = m.querySelector('[data-emp-bar]');
-      bar.style.width = Math.min(100, Math.round(load.spent / load.cap * 100)) + '%';
+      bar.style.width = Math.min(100, Math.round((load.spent / (load.cap || 1)) * 100)) + '%';
       bar.className = 'h-full rounded-full ' + (load.spent > load.cap ? 'bg-red-500' : 'bg-emerald-500');
       const rateEl = m.querySelector('[data-emp-rate]');
-      if (rateEl) rateEl.textContent = rate.toLocaleString('ru-RU') + ' ₽/ч';
-      m.querySelector('[data-emp-tasks]').innerHTML = load.tasks.map(t =>
-        '<li class="flex items-center justify-between gap-3 text-sm"><span class="min-w-0 truncate">' + esc(t[0]) + '</span><span class="text-xs text-zinc-500 tabular-nums shrink-0">' + t[1] + ' ч</span></li>').join('');
+      if (rateEl) rateEl.textContent = rate ? rate.toLocaleString('ru-RU') + ' ₽/ч' : '—';
+      m.querySelector('[data-emp-tasks]').innerHTML = load.tasks.length
+        ? load.tasks.map(t => '<li class="flex items-center justify-between gap-3 text-sm"><span class="min-w-0 truncate">' + esc(t[0]) + '</span><span class="text-xs text-zinc-500 tabular-nums shrink-0">' + t[1] + ' ч</span></li>').join('')
+        : '<li class="text-xs text-zinc-500">Нет активных задач</li>';
       m.querySelector('[data-emp-avatar]').textContent = p.name.split(' ').map(s => s[0]).join('');
       m.querySelector('[data-modal-title]').textContent = p.name;
-      m.querySelector('[name="role"]').value = p.role;
-      m.querySelector('[name="dept"]').value = p.dept;
-      m.querySelector('[name="week"]').value = p.load.split('/')[1];
-      m.querySelector('[name="rate"]').value = rate;
-      m.querySelector('[data-emp-projects]').innerHTML = p.projects.length
-        ? p.projects.map(id => '<span class="px-2.5 py-1 rounded-full bg-zinc-100 text-xs text-zinc-700">' + esc((PROJECTS.find(x => x.id === id) || {}).name) + '</span>').join('')
+      m.querySelector('[data-modal-subtitle]').textContent = 'Карточка участника компании';
+
+      const roleSel = m.querySelector('[name="user_role"]');
+      roleSel.innerHTML = roleOptions();
+      roleSel.value = p.role;
+      const hint = m.querySelector('[data-role-hint]');
+      const isOwnerSeat = p.role === 'owner';
+      const canChange = !!(App.can && App.can('change_roles'));
+      if (isOwnerSeat) {
+        roleSel.removeAttribute('data-can');
+        roleSel.setAttribute('data-tip', 'Владелец компании один');
+        roleSel.setAttribute('title', 'Владелец компании один');
+        roleSel.disabled = true;
+        if (hint) hint.textContent = 'Владелец компании один — роль изменить нельзя.';
+      } else {
+        roleSel.setAttribute('data-can', 'change_roles');
+        roleSel.setAttribute('data-deny-tip', 'Только владелец компании может менять роли сотрудников');
+        roleSel.removeAttribute('data-tip');
+        if (hint) hint.textContent = 'Роль определяет доступ к разделам, финансам и клиентским отчётам.';
+      }
+      if (App.applyPermissions) App.applyPermissions();
+      if (isOwnerSeat) {
+        roleSel.disabled = true;
+      } else {
+        roleSel.disabled = !canChange;
+        if (!canChange) {
+          roleSel.setAttribute('title', 'Только владелец компании может менять роли сотрудников');
+          roleSel.classList.add('opacity-50', 'cursor-not-allowed');
+        } else {
+          roleSel.removeAttribute('title');
+          roleSel.classList.remove('opacity-50', 'cursor-not-allowed');
+          delete roleSel.dataset.rbacOff;
+        }
+      }
+
+      m.querySelector('[name="dept"]').value = p.dept === 'Менеджеры' ? 'Аккаунтинг' : p.dept;
+      const week = (p.load || '40/40').split('/')[1] || '40';
+      m.querySelector('[name="week"]').value = week;
+      m.querySelector('[name="rate"]').value = rate || '';
+      m.querySelector('[data-emp-projects]').innerHTML = (p.projects || []).length
+        ? p.projects.map(pid => '<span class="px-2.5 py-1 rounded-full bg-zinc-100 text-xs text-zinc-700">' + esc((PROJECTS.find(x => x.id === pid) || {}).name || pid) + '</span>').join('')
         : '<span class="text-xs text-zinc-500">Нет назначенных проектов</span>';
       m.dataset.employee = p.id;
+      m.dataset.wasRole = p.role;
     },
-    onSubmit(m, d) { d.toast = 'Сохранено: ' + person(m.dataset.employee).name; }
+    onSubmit(m, d) {
+      const p = findMember(m.dataset.employee);
+      if (!p) { d.toast = 'Участник не найден'; return; }
+      const nextRole = val(m, 'user_role') || p.role;
+      const nextDept = val(m, 'dept') || p.dept;
+      const nextWeek = val(m, 'week') || '40';
+      if (p.role !== 'owner' && nextRole && nextRole !== 'owner') {
+        p.role = nextRole;
+      }
+      p.dept = nextDept;
+      if (p.load) p.load = (p.load.split('/')[0] || '0') + '/' + nextWeek;
+      const badge = ROLE_BADGE[p.role] || ROLE_BADGE.employee;
+      const short = ROLE_SHORT[p.role] || badge[0];
+      emit('employee:saved', {
+        id: p.id,
+        name: p.name,
+        role: p.role,
+        roleLabel: badge[0],
+        roleShort: short,
+        roleTone: badge[1],
+        dept: p.dept
+      });
+      d.toast = p.role !== m.dataset.wasRole
+        ? 'Роль пользователя ' + p.name + ' изменена на «' + badge[0] + '»'
+        : 'Сохранено: ' + p.name;
+    }
   });
 
   /* ---------- Отпуск ---------- */
@@ -1063,7 +1164,8 @@
         m.querySelectorAll('[data-wz-dot]').forEach(el => {
           const n = +el.dataset.wzDot;
           el.className = 'w-6 h-6 rounded-full flex items-center justify-center font-semibold tabular-nums shrink-0 transition ' + (n < step ? 'bg-emerald-500 text-white' : n === step ? 'bg-accent text-white' : 'bg-zinc-100 text-zinc-500');
-          el.textContent = n < step ? '✓' : n;
+          el.textContent = n < step ? '' : n;
+          if (n < step) el.setAttribute('aria-label', 'Шаг выполнен');
           m.querySelector('[data-wz-label="' + n + '"]').className = 'font-medium whitespace-nowrap ' + (n === step ? 'text-zinc-900' : 'text-zinc-500');
         });
         m.querySelector('[data-wz-back]').classList.toggle('hidden', step === 1);
@@ -1097,7 +1199,7 @@
           paint();
           if (authed && pendingOAuth) {
             const st = m.querySelector('[data-wz-oauth-state]');
-            st.innerHTML = '✓ Доступ разрешён · <b class="font-medium">' + pendingOAuth.account + '</b><div class="text-xs text-emerald-700 mt-0.5">Найдено источников: ' + s.bind.length + '</div>';
+            st.innerHTML = 'Доступ разрешён · <b class="font-medium">' + pendingOAuth.account + '</b><div class="text-xs text-emerald-700 mt-0.5">Найдено источников: ' + s.bind.length + '</div>';
             st.classList.remove('hidden');
             pendingOAuth = null;
           }
@@ -1136,7 +1238,7 @@
           const key = val(m, 'token'), st = m.querySelector('[data-wz-key-state]');
           keyOk = key.length >= 8;
           st.className = 'rounded-2xl px-4 py-3 text-sm ' + (keyOk ? 'bg-emerald-50 text-emerald-800' : 'bg-red-50 text-red-700');
-          st.textContent = keyOk ? '✓ Ключ действителен · найдено источников: ' + SERVICES[svc()].bind.length : 'Ключ не подошёл — проверьте, что скопировали его целиком';
+          st.textContent = keyOk ? 'Ключ действителен · найдено источников: ' + SERVICES[svc()].bind.length : 'Ключ не подошёл — проверьте, что скопировали его целиком';
           if (!keyOk) App.toast('Проверьте API-ключ');
         }
       });
@@ -1250,7 +1352,7 @@
             field('ИНН', '<input name="inn" type="text" value="7701234567" class="' + F + ' tabular-nums">') +
             field('Организация', '<input name="org" type="text" value="Ромашка Digital" class="' + F + '">')
           ) +
-          '<button type="button" data-checkout-invoice class="w-full h-10 px-4 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition inline-flex items-center justify-center gap-1.5">📥 Сформировать и скачать счёт на оплату (PDF)</button>' +
+          '<button type="button" data-checkout-invoice class="w-full h-10 px-4 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition inline-flex items-center justify-center gap-1.5">Сформировать и скачать счёт на оплату (PDF)</button>' +
         '</div>' +
         '<button type="button" data-checkout-pay-btn data-can="billing" class="w-full h-11 px-4 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition shadow-sm inline-flex items-center justify-center gap-2">' +
           '<span data-pay-label>Оплатить 9 900 ₽ (Тестовый платеж)</span>' +

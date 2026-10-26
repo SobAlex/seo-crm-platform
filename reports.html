@@ -24,7 +24,7 @@
         <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <button type="button" data-can="compose_reports" data-open-modal="report-create" class="h-8 sm:h-9 px-3 sm:px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm"><span class="sm:hidden">+ Создать</span><span class="hidden sm:inline">+ Создать отчёт</span></button>
           <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
-          <a href="settings.html" aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
+          <a href="profile.html" aria-label="Мой профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
         </div>
       </header>
         <div class="bg-white rounded-2xl shadow-card w-full max-w-full overflow-hidden p-4 space-y-3 mb-6">
@@ -49,13 +49,29 @@
               <option value="p:medlife">Клиника «МедЛайф»</option>
               <option value="p:stroytech">B2B портал «Стройтех»</option>
             </select>
-            <select data-report-month aria-label="Месяц" class="h-8 w-full lg:w-auto bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent">
-              <option value="all">Все месяцы</option>
-              <option value="2025-06">Июнь 2025</option>
-              <option value="2025-05" selected>Май 2025</option>
-              <option value="2025-04">Апрель 2025</option>
-              <option value="2025-03">Март 2025</option>
-            </select>
+            <div class="flex items-center gap-1.5 w-full lg:w-auto">
+              <select data-report-year aria-label="Год отчёта" class="h-8 flex-1 lg:flex-none bg-zinc-50 border border-zinc-200/80 rounded-xl px-2.5 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent">
+                <option value="all">Все годы</option>
+                <option value="2026">2026</option>
+                <option value="2025" selected>2025</option>
+                <option value="2024">2024</option>
+              </select>
+              <select data-report-month aria-label="Месяц отчёта" class="h-8 flex-1 lg:flex-none bg-zinc-50 border border-zinc-200/80 rounded-xl px-2.5 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent">
+                <option value="all">Все месяцы</option>
+                <option value="01">Январь</option>
+                <option value="02">Февраль</option>
+                <option value="03">Март</option>
+                <option value="04">Апрель</option>
+                <option value="05" selected>Май</option>
+                <option value="06">Июнь</option>
+                <option value="07">Июль</option>
+                <option value="08">Август</option>
+                <option value="09">Сентябрь</option>
+                <option value="10">Октябрь</option>
+                <option value="11">Ноябрь</option>
+                <option value="12">Декабрь</option>
+              </select>
+            </div>
             <div class="relative w-full sm:w-64 lg:ml-auto shrink-0">
               <input data-report-q type="search" placeholder="Поиск по проекту или клиенту..." aria-label="Поиск отчётов" class="h-8 w-full bg-zinc-50 border border-zinc-200/80 rounded-xl pl-8 pr-3 text-xs text-zinc-700 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-accent">
               <svg class="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-2.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg>
@@ -151,6 +167,7 @@
     stroytech: { name: 'B2B портал «Стройтех»', client: 'АО «Стройтех»', clientId: 'stroytech' }
   };
   const PEOPLE = { petrov: 'А. Петров', dronov: 'И. Дронов', kovalev: 'Д. Ковалёв' };
+  const MONTH_NAME = { '01': 'Январь', '02': 'Февраль', '03': 'Март', '04': 'Апрель', '05': 'Май', '06': 'Июнь', '07': 'Июль', '08': 'Август', '09': 'Сентябрь', '10': 'Октябрь', '11': 'Ноябрь', '12': 'Декабрь' };
   const MONTH = { '2025-06': 'Июнь 2025', '2025-05': 'Май 2025', '2025-04': 'Апрель 2025', '2025-03': 'Март 2025' };
   /* status: draft — черновик, review — на согласовании у менеджера, sent — отправлен клиенту */
   const REPORTS = [
@@ -218,20 +235,28 @@
   const tbody = document.querySelector('[data-report-rows]');
   tbody.innerHTML = REPORTS.map(row).join('');
 
+  const yearSelect = document.querySelector('[data-report-year]');
   const monthSelect = document.querySelector('[data-report-month]');
   const targetSelect = document.querySelector('[data-report-target]');
   const searchInput = document.querySelector('[data-report-q]');
   function applyFilters() {
+    const yVal = yearSelect.value;
     const mVal = monthSelect.value;
     const tVal = targetSelect.value;
     const qVal = searchInput.value.trim().toLowerCase();
     App.setTaskFilter(el => {
-      const matchMonth = (mVal === 'all' || el.dataset.month === mVal);
+      const parts = String(el.dataset.month || '').split('-');
+      const repYear = parts[0] || '';
+      const repMonth = parts[1] || '';
+      const matchYear = (yVal === 'all' || repYear === yVal);
+      const matchMonth = (mVal === 'all' || repMonth === mVal);
+      const matchPeriod = matchYear && matchMonth;
       const matchTarget = (!tVal || (tVal[0] === 'p' ? el.dataset.project : el.dataset.client) === tVal.slice(2));
       const matchQuery = (!qVal || el.dataset.q.includes(qVal));
-      return matchMonth && matchTarget && matchQuery;
+      return matchPeriod && matchTarget && matchQuery;
     });
   }
+  yearSelect.addEventListener('change', applyFilters);
   monthSelect.addEventListener('change', applyFilters);
   targetSelect.addEventListener('change', applyFilters);
   searchInput.addEventListener('input', applyFilters);
@@ -273,8 +298,12 @@
   document.querySelector('[data-export]').addEventListener('click', e => {
     if (e.currentTarget.disabled) return;
     const n = Array.from(tbody.querySelectorAll('[data-task]')).filter(r => r.dataset.match === '1').length;
+    const yVal = yearSelect.value;
     const mVal = monthSelect.value;
-    const period = mVal === 'all' ? 'все месяцы' : (MONTH[mVal] || mVal);
+    const period = (yVal === 'all' && mVal === 'all') ? 'все периоды'
+      : (yVal === 'all' ? (MONTH_NAME[mVal] || mVal) + ' · все годы'
+      : (mVal === 'all' ? yVal + ' · все месяцы'
+      : (MONTH_NAME[mVal] || mVal) + ' ' + yVal));
     App.toast('Реестр · ' + period + ' · выгружен в XLSX · ' + n + ' ' + App.plural(n, ['отчёт', 'отчёта', 'отчётов']), 'success');
   });
   applyFilters();

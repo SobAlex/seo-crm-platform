@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ru" class="overflow-x-hidden">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Мой профиль — SEO Control</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/app.js"></script>
+  <script src="assets/modals.js"></script>
+</head>
+<body class="bg-canvas text-ink antialiased overflow-x-hidden">
+<div class="min-h-screen overflow-x-hidden">
+
+  <div data-app-chrome="profile" data-roles="owner,seo_head,mgr_head,pm,employee,contractor,client"></div>
+
+  <div class="flex">
+
+    <main class="flex-1 min-w-0 lg:pl-64 px-4 lg:px-8 pt-6 pb-24 lg:pb-20 space-y-6">
+
+      <header class="sticky top-0 z-30 min-h-[3.5rem] h-auto py-2.5 bg-canvas/80 backdrop-blur-xl border-b border-black/5 -mx-4 lg:-mx-8 -mt-6 px-4 lg:px-8 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <a data-profile-home href="index.html" class="text-sm text-zinc-500 hover:text-zinc-900 transition shrink-0 inline-flex items-center gap-1">Назад</a>
+          <span class="text-zinc-300" aria-hidden="true">/</span>
+          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate">Мой профиль</h1>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <button type="button" data-profile-save class="h-9 px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shadow-sm">Сохранить изменения</button>
+          <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
+          <a href="profile.html" aria-label="Мой профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
+        </div>
+      </header>
+
+      <div class="max-w-4xl mx-auto space-y-6">
+
+        <section class="bg-white rounded-2xl shadow-card p-6 space-y-4">
+          <h2 class="text-sm font-semibold tracking-tight text-zinc-900">Основные данные</h2>
+          <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+            <span data-profile-avatar class="w-20 h-20 rounded-full bg-zinc-900 text-white text-xl font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></span>
+            <div class="flex flex-wrap items-center gap-2">
+              <button type="button" data-attach="image/png,image/jpeg" data-toast="Фото профиля обновлено" class="h-9 px-3.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Сменить фото</button>
+              <button type="button" data-profile-photo-remove class="h-9 px-3.5 rounded-full text-sm font-medium text-zinc-500 hover:text-red-600 hover:bg-red-50 transition">Удалить</button>
+              <p class="w-full text-xs text-zinc-400">PNG или JPG, до 5 МБ</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-medium text-zinc-500 mb-2">Имя и фамилия</label>
+              <input data-profile-name type="text" value="Александр Смирнов" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-medium text-zinc-500 mb-2">Системная роль</label>
+              <div class="flex flex-wrap items-center gap-2">
+                <span data-profile-role-badge class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-zinc-900 text-white">Владелец компании</span>
+                <span data-profile-role-desc class="text-xs text-zinc-500 leading-relaxed">Делает всё в компании, включая профиль, тариф, смену ролей и удаление компании.</span>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-zinc-500 mb-2">Рабочий Email</label>
+              <input data-profile-email type="email" value="alex@romashka.ru" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-zinc-500 mb-2">Телефон</label>
+              <input type="tel" value="+7 (999) 000-11-22" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm tabular-nums focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-medium text-zinc-500 mb-2">Ник в Telegram</label>
+              <input type="text" value="@alex_smirnov" placeholder="@username" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              <p class="text-xs text-zinc-400 mt-1.5">Нужен для уведомлений бота SEO Control</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-card p-6 space-y-4">
+          <h2 class="text-sm font-semibold tracking-tight text-zinc-900">Безопасность</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-medium text-zinc-500 mb-2">Текущий пароль</label>
+              <input data-pwd-current type="password" autocomplete="current-password" placeholder="••••••••" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-zinc-500 mb-2">Новый пароль</label>
+              <input data-pwd-new type="password" autocomplete="new-password" placeholder="Не менее 8 символов" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-zinc-500 mb-2">Повтор нового пароля</label>
+              <input data-pwd-repeat type="password" autocomplete="new-password" placeholder="Повторите новый пароль" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            </div>
+          </div>
+          <button type="button" data-pwd-update class="h-9 px-4 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Обновить пароль</button>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-card p-6 space-y-4">
+          <div>
+            <h2 class="text-sm font-semibold tracking-tight text-zinc-900">Уведомления</h2>
+            <p class="text-xs text-zinc-500 mt-1">Куда слать персональные оповещения</p>
+          </div>
+          <ul class="divide-y divide-zinc-100 -mx-6">
+            <li class="px-6 py-3.5 flex flex-col sm:flex-row sm:items-center gap-3">
+              <div class="min-w-0 flex-1 text-sm text-ink">Назначали исполнителем задачи</div>
+              <div class="flex items-center gap-4 text-sm text-zinc-600">
+                <label class="inline-flex items-center gap-2 cursor-pointer"><input type="checkbox" checked class="w-4 h-4 rounded border-zinc-300 accent-accent"><span>Email</span></label>
+                <label class="inline-flex items-center gap-2 cursor-pointer"><input type="checkbox" checked class="w-4 h-4 rounded border-zinc-300 accent-accent"><span>Telegram</span></label>
+              </div>
+            </li>
+            <li class="px-6 py-3.5 flex flex-col sm:flex-row sm:items-center gap-3">
+              <div class="min-w-0 flex-1 text-sm text-ink">Задачу вернули на доработку</div>
+              <div class="flex items-center gap-4 text-sm text-zinc-600">
+                <label class="inline-flex items-center gap-2 cursor-pointer"><input type="checkbox" checked class="w-4 h-4 rounded border-zinc-300 accent-accent"><span>Email</span></label>
+                <label class="inline-flex items-center gap-2 cursor-pointer"><input type="checkbox" checked class="w-4 h-4 rounded border-zinc-300 accent-accent"><span>Telegram</span></label>
+              </div>
+            </li>
+            <li class="px-6 py-3.5 flex flex-col sm:flex-row sm:items-center gap-3">
+              <div class="min-w-0 flex-1 text-sm text-ink">Готов отчёт за месяц</div>
+              <div class="flex items-center gap-4 text-sm text-zinc-600">
+                <label class="inline-flex items-center gap-2 cursor-pointer"><input type="checkbox" checked class="w-4 h-4 rounded border-zinc-300 accent-accent"><span>Email</span></label>
+                <label class="inline-flex items-center gap-2 cursor-pointer"><input type="checkbox" class="w-4 h-4 rounded border-zinc-300 accent-accent"><span>Telegram</span></label>
+              </div>
+            </li>
+            <li class="px-6 py-3.5 flex flex-col sm:flex-row sm:items-center gap-3">
+              <div class="min-w-0 flex-1 text-sm text-ink">Ежедневная сводка дедлайнов в 09:00</div>
+              <div class="flex items-center gap-4 text-sm text-zinc-600">
+                <label class="inline-flex items-center gap-2 cursor-pointer"><input type="checkbox" checked class="w-4 h-4 rounded border-zinc-300 accent-accent"><span>Email</span></label>
+                <label class="inline-flex items-center gap-2 cursor-pointer"><input type="checkbox" checked class="w-4 h-4 rounded border-zinc-300 accent-accent"><span>Telegram</span></label>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-card p-6 space-y-4">
+          <h2 class="text-sm font-semibold tracking-tight text-zinc-900">Сессии</h2>
+          <div class="rounded-2xl bg-zinc-50 border border-zinc-100 px-4 py-3 text-sm text-zinc-600">
+            <div class="font-medium text-ink">Текущая сессия</div>
+            <p class="text-xs text-zinc-500 mt-1">Chrome на macOS · Москва · IP 188.130.xxx.xx · активна сейчас</p>
+          </div>
+          <button type="button" data-profile-logout class="h-9 px-4 rounded-full bg-white border border-red-200 text-sm font-medium text-red-600 hover:bg-red-50 transition">Выйти из аккаунта</button>
+        </section>
+
+        <p data-profile-settings-hint class="text-xs text-zinc-400 text-center pb-2">
+          Настройки компании (тариф, интеграции, роли) — в разделе
+          <a href="settings.html" class="text-accent hover:underline">Настройки компании</a>
+        </p>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+(function () {
+  const App = window.SEOApp;
+  const EMAILS = {
+    owner: 'alex@romashka.ru',
+    seo_head: 'i.sidorov@romashka.ru',
+    mgr_head: 'o.vetrova@romashka.ru',
+    pm: 'n.morozov@romashka.ru',
+    employee: 'a.petrov@romashka.ru',
+    contractor: 'm.kim@contractor.ru',
+    client: 'e.krylova@holod.ru'
+  };
+
+  function currentRoleId() {
+    const sel = document.getElementById('role-switch');
+    if (sel && sel.value) return sel.value;
+    try { return localStorage.getItem('seo_control_role') || 'owner'; } catch (e) { return 'owner'; }
+  }
+
+  function paintRole() {
+    const id = currentRoleId();
+    const r = App.roleInfo ? App.roleInfo(id) : null;
+    if (!r) return;
+    const home = document.querySelector('[data-profile-home]');
+    if (home) home.href = id === 'client' ? 'portal.html' : (id === 'contractor' ? 'tasks.html' : 'index.html');
+    const name = document.querySelector('[data-profile-name]');
+    const email = document.querySelector('[data-profile-email]');
+    const badge = document.querySelector('[data-profile-role-badge]');
+    const desc = document.querySelector('[data-profile-role-desc]');
+    if (name && !name.dataset.touched) name.value = r.user;
+    if (email && !email.dataset.touched) email.value = EMAILS[r.id] || email.value;
+    if (badge) {
+      badge.className = 'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ' + (r.badge || 'bg-zinc-900 text-white');
+      badge.textContent = r.label;
+    }
+    if (desc) desc.textContent = r.desc || '';
+    const hint = document.querySelector('[data-profile-settings-hint]');
+    if (hint) hint.classList.toggle('hidden', id === 'client' || id === 'contractor');
+  }
+
+  document.querySelector('[data-profile-name]')?.addEventListener('input', e => { e.target.dataset.touched = '1'; });
+  document.querySelector('[data-profile-email]')?.addEventListener('input', e => { e.target.dataset.touched = '1'; });
+
+  document.querySelector('[data-profile-save]')?.addEventListener('click', () => {
+    App.toast('Профиль обновлён');
+  });
+
+  document.querySelector('[data-profile-photo-remove]')?.addEventListener('click', () => {
+    App.toast('Фото профиля удалено');
+  });
+
+  document.querySelector('[data-pwd-update]')?.addEventListener('click', () => {
+    const cur = document.querySelector('[data-pwd-current]')?.value || '';
+    const a = document.querySelector('[data-pwd-new]')?.value || '';
+    const b = document.querySelector('[data-pwd-repeat]')?.value || '';
+    if (!cur) return App.toast('Введите текущий пароль');
+    if (a.length < 8) return App.toast('Новый пароль — не менее 8 символов');
+    if (a !== b) return App.toast('Пароли не совпадают');
+    document.querySelector('[data-pwd-current]').value = '';
+    document.querySelector('[data-pwd-new]').value = '';
+    document.querySelector('[data-pwd-repeat]').value = '';
+    App.toast('Пароль успешно изменён');
+  });
+
+  document.querySelector('[data-profile-logout]')?.addEventListener('click', () => {
+    App.toast('Вы вышли из системы');
+    setTimeout(() => { location.href = 'login.html'; }, 700);
+  });
+
+  document.addEventListener('seo:ready', paintRole);
+  if (document.readyState !== 'loading') paintRole();
+  else document.addEventListener('DOMContentLoaded', paintRole);
+
+  const roleSwitch = document.getElementById('role-switch');
+  if (roleSwitch) roleSwitch.addEventListener('change', () => setTimeout(paintRole, 0));
+})();
+</script>
+</body>
+</html>

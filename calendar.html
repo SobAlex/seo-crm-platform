@@ -24,7 +24,7 @@
         <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <button data-open-modal="event" class="h-8 sm:h-9 px-3 sm:px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm"><span class="sm:hidden">+ Создать</span><span class="hidden sm:inline">+ Создать событие</span></button>
           <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
-          <a href="settings.html" aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
+          <a href="profile.html" aria-label="Мой профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
         </div>
       </header>
 
@@ -55,10 +55,10 @@
                     </button>
                   </div>
                   <div data-layers class="flex items-center gap-1.5 max-w-full overflow-x-auto no-scrollbar shrink-0" role="group" aria-label="Слои календаря">
-                    <button type="button" data-layer="deadline" aria-pressed="true" class="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ring-1 transition aria-[pressed=false]:opacity-40 aria-[pressed=false]:ring-zinc-200 aria-[pressed=false]:bg-white aria-[pressed=false]:text-zinc-500 bg-blue-50 text-blue-700 ring-blue-100">🚩 <span class="hidden sm:inline">Дедлайны</span></button>
-                    <button type="button" data-layer="report" aria-pressed="true" class="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ring-1 transition aria-[pressed=false]:opacity-40 aria-[pressed=false]:ring-zinc-200 aria-[pressed=false]:bg-white aria-[pressed=false]:text-zinc-500 bg-violet-50 text-violet-700 ring-violet-100">📊 <span class="hidden sm:inline">Отчёты</span></button>
-                    <button type="button" data-layer="vacation" aria-pressed="true" class="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ring-1 transition aria-[pressed=false]:opacity-40 aria-[pressed=false]:ring-zinc-200 aria-[pressed=false]:bg-white aria-[pressed=false]:text-zinc-500 bg-zinc-100 text-zinc-700 ring-zinc-200">🏖 <span class="hidden sm:inline">Отпуска</span></button>
-                    <button type="button" data-layer="payment" aria-pressed="true" class="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ring-1 transition aria-[pressed=false]:opacity-40 aria-[pressed=false]:ring-zinc-200 aria-[pressed=false]:bg-white aria-[pressed=false]:text-zinc-500 bg-emerald-50 text-emerald-700 ring-emerald-100">💰 <span class="hidden sm:inline">Оплаты</span></button>
+                    <button type="button" data-layer="deadline" aria-pressed="true" class="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ring-1 transition aria-[pressed=false]:opacity-40 aria-[pressed=false]:ring-zinc-200 aria-[pressed=false]:bg-white aria-[pressed=false]:text-zinc-500 bg-blue-50 text-blue-700 ring-blue-100"><span class="w-2 h-2 rounded-full bg-blue-500" aria-hidden="true"></span><span class="hidden sm:inline">Дедлайны</span></button>
+                    <button type="button" data-layer="report" aria-pressed="true" class="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ring-1 transition aria-[pressed=false]:opacity-40 aria-[pressed=false]:ring-zinc-200 aria-[pressed=false]:bg-white aria-[pressed=false]:text-zinc-500 bg-violet-50 text-violet-700 ring-violet-100"><span class="w-2 h-2 rounded-full bg-purple-500" aria-hidden="true"></span><span class="hidden sm:inline">Отчёты</span></button>
+                    <button type="button" data-layer="vacation" aria-pressed="true" class="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ring-1 transition aria-[pressed=false]:opacity-40 aria-[pressed=false]:ring-zinc-200 aria-[pressed=false]:bg-white aria-[pressed=false]:text-zinc-500 bg-zinc-100 text-zinc-700 ring-zinc-200"><span class="w-2 h-2 rounded-full bg-zinc-400" aria-hidden="true"></span><span class="hidden sm:inline">Отпуска</span></button>
+                    <button type="button" data-layer="payment" aria-pressed="true" class="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ring-1 transition aria-[pressed=false]:opacity-40 aria-[pressed=false]:ring-zinc-200 aria-[pressed=false]:bg-white aria-[pressed=false]:text-zinc-500 bg-emerald-50 text-emerald-700 ring-emerald-100"><span class="w-2 h-2 rounded-full bg-emerald-500" aria-hidden="true"></span><span class="hidden sm:inline">Оплаты</span></button>
                   </div>
                 </div>
 
@@ -422,7 +422,7 @@
     if (layers.report && isReport(date)) {
       const start = col === 0 || !isReport(prev) || date.slice(8) === '01';
       const end = col === 6 || !isReport(next);
-      out.push(bar('bg-violet-100 text-violet-800', start ? '📊 Отчёты клиентам' : '', start, end));
+      out.push(bar('bg-violet-100 text-violet-800', start ? '<span class="inline-flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-purple-500 shrink-0"></span>Отчёты клиентам</span>' : '', start, end));
       dots.push('bg-violet-500');
     } else if (layers.report && layers.vacation && vacationsOn(date).length && weekHasReport(date, col)) {
       out.push('<div class="h-5" aria-hidden="true"></div>');
@@ -430,15 +430,15 @@
     if (layers.vacation) vacationsOn(date).forEach(v => {
       const start = col === 0 || date === v.from;
       const end = col === 6 || date === v.to;
-      out.push(bar('bg-zinc-200/80 text-zinc-700', start ? '<span class="w-4 h-4 shrink-0 rounded-full bg-zinc-500 text-white text-[7px] font-semibold flex items-center justify-center">' + v.ini + '</span><span class="truncate">🏖 ' + v.who + '</span>' : '', start, end));
+      out.push(bar('bg-zinc-200/80 text-zinc-700', start ? '<span class="w-4 h-4 shrink-0 rounded-full bg-zinc-500 text-white text-[7px] font-semibold flex items-center justify-center">' + v.ini + '</span><span class="truncate">' + v.who + '</span>' : '', start, end));
       dots.push('bg-zinc-400');
     });
     if (layers.deadline) DEADLINES.filter(t => t.d === date).forEach(t => {
-      out.push('<a href="task.html" title="' + esc(t.title + ' · ' + t.p) + '" class="flex items-center gap-1 h-5 px-1 rounded-md text-[11px] text-blue-700 hover:bg-blue-50 transition min-w-0"><span aria-hidden="true">🚩</span><span class="truncate">' + esc(t.title) + '</span></a>');
+      out.push('<a href="task.html" title="' + esc(t.title + ' · ' + t.p) + '" class="flex items-center gap-1.5 h-5 px-1 rounded-md text-[11px] text-blue-700 hover:bg-blue-50 transition min-w-0"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" aria-hidden="true"></span><span class="truncate">' + esc(t.title) + '</span></a>');
       dots.push('bg-blue-600');
     });
     if (layers.payment) paymentsOn(date).forEach(p => {
-      out.push('<div title="Оплата: ' + esc(p.client) + (finance ? ' · ' + p.sum : '') + '" class="flex items-center gap-1 h-5 px-1 rounded-md text-[11px] font-medium text-emerald-700 bg-emerald-50 min-w-0"><span aria-hidden="true">💰</span><span class="truncate">' + esc(p.client) + (finance ? ' · ' + p.sum : '') + '</span></div>');
+      out.push('<div title="Оплата: ' + esc(p.client) + (finance ? ' · ' + p.sum : '') + '" class="flex items-center gap-1.5 h-5 px-1 rounded-md text-[11px] font-medium text-emerald-700 bg-emerald-50 min-w-0"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" aria-hidden="true"></span><span class="truncate">' + esc(p.client) + (finance ? ' · ' + p.sum : '') + '</span></div>');
       dots.push('bg-emerald-500');
     });
     return { out, dots };

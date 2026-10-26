@@ -46,13 +46,13 @@ tailwind.config = {
   const COMPANY = { name: 'Ромашка Digital', initials: 'Р', workspace: 'romashka.seo-control.app' };
 
   const ROLES = [
-    { id: 'owner',      label: 'Владелец компании',       user: 'Александр Смирнов', initials: 'АС', badge: 'bg-zinc-900 text-white',      desc: 'Делает всё в компании, включая профиль, тариф, смену ролей и удаление компании.' },
-    { id: 'seo_head',   label: 'Руководитель SEO',        user: 'Иван Сидоров',      initials: 'ИС', badge: 'bg-blue-50 text-blue-700',    desc: 'Полный доступ, кроме профиля компании, тарифа, смены ролей и удаления компании. Шаблоны и интеграции ему доступны.' },
-    { id: 'mgr_head',   label: 'Руководитель менеджеров', user: 'Ольга Ветрова',     initials: 'ОВ', badge: 'bg-violet-50 text-violet-700', desc: 'Тот же доступ, что у руководителя SEO: всё, кроме профиля, тарифа, смены ролей и удаления компании.' },
-    { id: 'pm',         label: 'Менеджер проекта',        user: 'Никита Морозов',    initials: 'НМ', badge: 'bg-amber-50 text-amber-700',  desc: 'Ведёт проекты, задачи, людей, отчёты и деньги. Не настраивает шаблоны и не подключает интеграции. Профиль компании закрыт.' },
-    { id: 'employee',   label: 'SEO-специалист',          user: 'Алексей Петров',    initials: 'АП', badge: 'bg-emerald-50 text-emerald-700', desc: 'Проекты, задачи и отчёты. Без создания клиентов и проектов, без шаблонов, интеграций и профиля компании.' },
-    { id: 'contractor', label: 'Подрядчик',               user: 'Мария Ким',         initials: 'МК', badge: 'bg-zinc-100 text-zinc-700',   desc: 'Видит и выполняет только назначенные задачи. Может комментировать их и вести свои часы.' },
-    { id: 'client',     label: 'Клиент',                  user: 'Елена Крылова',     initials: 'ЕК', badge: 'bg-cyan-50 text-cyan-700',    desc: 'Свой проект только для просмотра: результаты, дорожная карта и принятые отчёты.' }
+    { id: 'owner',      label: 'Владелец компании',       user: 'Александр Смирнов', email: 'alex@romashka.ru',        initials: 'АС', badge: 'bg-zinc-900 text-white',      desc: 'Делает всё в компании, включая профиль, тариф, смену ролей и удаление компании.' },
+    { id: 'seo_head',   label: 'Руководитель SEO',        user: 'Иван Сидоров',      email: 'sidorov@romashka.ru',     initials: 'ИС', badge: 'bg-blue-50 text-blue-700',    desc: 'Полный доступ, кроме профиля компании, тарифа, смены ролей и удаления компании. Шаблоны и интеграции ему доступны.' },
+    { id: 'mgr_head',   label: 'Руководитель менеджеров', user: 'Ольга Ветрова',     email: 'vetrova@romashka.ru',     initials: 'ОВ', badge: 'bg-violet-50 text-violet-700', desc: 'Тот же доступ, что у руководителя SEO: всё, кроме профиля, тарифа, смены ролей и удаления компании.' },
+    { id: 'pm',         label: 'Менеджер проекта',        user: 'Никита Морозов',    email: 'morozov@romashka.ru',     initials: 'НМ', badge: 'bg-amber-50 text-amber-700',  desc: 'Ведёт проекты, задачи, людей, отчёты и деньги. Не настраивает шаблоны и не подключает интеграции. Профиль компании закрыт.' },
+    { id: 'employee',   label: 'SEO-специалист',          user: 'Алексей Петров',    email: 'petrov@romashka.ru',      initials: 'АП', badge: 'bg-emerald-50 text-emerald-700', desc: 'Проекты, задачи и отчёты. Без создания клиентов и проектов, без шаблонов, интеграций и профиля компании.' },
+    { id: 'contractor', label: 'Подрядчик',               user: 'Мария Ким',         email: 'kim@romashka.ru',         initials: 'МК', badge: 'bg-zinc-100 text-zinc-700',   desc: 'Видит и выполняет только назначенные задачи. Может комментировать их и вести свои часы.' },
+    { id: 'client',     label: 'Клиент',                  user: 'Елена Крылова',     email: 'e.krylova@medlife.ru',    initials: 'ЕК', badge: 'bg-cyan-50 text-cyan-700',    desc: 'Свой проект только для просмотра: результаты, дорожная карта и принятые отчёты.' }
   ];
   const ROLE_IDS = ROLES.map(r => r.id);
   const INTERNAL = ['owner', 'seo_head', 'mgr_head', 'pm', 'employee', 'contractor'];
@@ -170,7 +170,9 @@ tailwind.config = {
     globe:    'M12 21a9 9 0 100-18 9 9 0 000 18zM3.5 12h17M12 3c2.5 2.8 3.8 6 3.8 9s-1.3 6.2-3.8 9c-2.5-2.8-3.8-6-3.8-9s1.3-6.2 3.8-9z',
     menu:     'M4 6h16M4 12h16M4 18h16',
     close:    'M6 18L18 6M6 6l12 12',
-    lock:     'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z'
+    lock:     'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z',
+    user:     'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z',
+    logout:   'M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1'
   };
   const svg = (name, cls) => '<svg class="' + (cls || 'w-5 h-5') + '" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="' + ICON[name] + '"/></svg>';
 
@@ -276,6 +278,110 @@ tailwind.config = {
           '<a href="' + homeFor(role) + '" class="inline-block px-5 py-2.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">На главную</a>' +
         '</div>' +
       '</div>';
+  }
+
+  function userMenuMarkup() {
+    const r = roleInfo(role);
+    const link = 'flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900 transition';
+    return '' +
+      '<div class="relative shrink-0" data-user-menu-container>' +
+        '<button type="button" data-user-menu-trigger aria-expanded="false" aria-haspopup="menu" aria-label="Меню пользователя" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center hover:ring-2 hover:ring-accent/30 transition focus:outline-none">' +
+          '<span data-user-initials>' + r.initials + '</span>' +
+        '</button>' +
+        '<div data-user-menu-dropdown role="menu" class="hidden absolute right-0 mt-2 w-64 rounded-2xl bg-white shadow-pop border border-black/5 py-2 z-50 text-left transform opacity-0 scale-95 transition-all duration-150 origin-top-right">' +
+          '<div class="px-4 py-2.5 border-b border-zinc-100">' +
+            '<div class="font-semibold text-sm text-zinc-900 truncate" data-user-menu-name>' + r.user + '</div>' +
+            '<div class="text-xs text-zinc-400 truncate mt-0.5" data-user-menu-email>' + (r.email || '') + '</div>' +
+            '<div class="mt-2"><span data-user-menu-badge class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium ' + r.badge + '">' + roleLabel() + '</span></div>' +
+          '</div>' +
+          '<div class="py-1">' +
+            '<a href="profile.html" role="menuitem" class="' + link + '">' + svg('user', 'w-4 h-4 text-zinc-400 shrink-0') + 'Мой профиль</a>' +
+            '<a href="settings.html" role="menuitem" data-can="company_profile" class="' + link + '">' + svg('sliders', 'w-4 h-4 text-zinc-400 shrink-0') + 'Настройки компании</a>' +
+          '</div>' +
+          '<div class="border-t border-zinc-100 pt-1 mt-1">' +
+            '<a href="login.html" role="menuitem" class="flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-red-600 hover:bg-red-50 transition">' + svg('logout', 'w-4 h-4 shrink-0') + 'Выйти из аккаунта</a>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function paintUserMenu(root) {
+    const r = roleInfo(role);
+    const scope = root || document;
+    scope.querySelectorAll('[data-user-menu-name]').forEach(el => { el.textContent = r.user; });
+    scope.querySelectorAll('[data-user-menu-email]').forEach(el => { el.textContent = r.email || ''; });
+    scope.querySelectorAll('[data-user-menu-badge]').forEach(el => {
+      el.className = 'inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium ' + r.badge;
+      el.textContent = roleLabel();
+    });
+  }
+
+  function closeUserMenu(container) {
+    const trigger = container.querySelector('[data-user-menu-trigger]');
+    const dd = container.querySelector('[data-user-menu-dropdown]');
+    if (!dd || dd.classList.contains('hidden')) return;
+    dd.classList.remove('opacity-100', 'scale-100');
+    dd.classList.add('opacity-0', 'scale-95');
+    if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    clearTimeout(dd._hideTimer);
+    dd._hideTimer = setTimeout(() => dd.classList.add('hidden'), 150);
+  }
+
+  function openUserMenu(container) {
+    const trigger = container.querySelector('[data-user-menu-trigger]');
+    const dd = container.querySelector('[data-user-menu-dropdown]');
+    if (!dd) return;
+    clearTimeout(dd._hideTimer);
+    dd.classList.remove('hidden');
+    requestAnimationFrame(() => {
+      dd.classList.remove('opacity-0', 'scale-95');
+      dd.classList.add('opacity-100', 'scale-100');
+    });
+    if (trigger) trigger.setAttribute('aria-expanded', 'true');
+  }
+
+  function mountUserMenus() {
+    document.querySelectorAll('a[href="profile.html"][aria-label="Мой профиль"]').forEach(a => {
+      if (a.closest('[data-user-menu-container]')) return;
+      const holder = document.createElement('div');
+      holder.innerHTML = userMenuMarkup();
+      a.replaceWith(holder.firstElementChild);
+    });
+    /* Шапка без аватара (например profile.html): добавить меню рядом с уведомлениями */
+    if (document.getElementById('sidebar')) {
+      document.querySelectorAll('main header .flex.items-center').forEach(bar => {
+        if (bar.querySelector('[data-user-menu-container]')) return;
+        if (!bar.querySelector('[aria-label="Уведомления"]')) return;
+        if (bar.querySelector('a[href="profile.html"]')) return;
+        const wrap = document.createElement('div');
+        wrap.innerHTML = userMenuMarkup();
+        bar.appendChild(wrap.firstElementChild);
+      });
+    }
+    paintUserMenu();
+  }
+
+  function initUserMenu() {
+    if (document.documentElement.dataset.userMenuReady === '1') return;
+    document.documentElement.dataset.userMenuReady = '1';
+    document.addEventListener('click', e => {
+      const trigger = e.target.closest('[data-user-menu-trigger]');
+      const container = e.target.closest('[data-user-menu-container]');
+      if (trigger && container) {
+        e.preventDefault();
+        const expanded = trigger.getAttribute('aria-expanded') === 'true';
+        document.querySelectorAll('[data-user-menu-container]').forEach(c => {
+          if (c === container) expanded ? closeUserMenu(c) : openUserMenu(c);
+          else closeUserMenu(c);
+        });
+        return;
+      }
+      if (!container) document.querySelectorAll('[data-user-menu-container]').forEach(closeUserMenu);
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+      document.querySelectorAll('[data-user-menu-container]').forEach(closeUserMenu);
+    });
   }
 
   function initChrome() {
@@ -418,6 +524,7 @@ tailwind.config = {
     document.querySelectorAll('[data-user-name]').forEach(el => { el.textContent = r.user.split(' ')[0]; });
     document.querySelectorAll('[data-user-full]').forEach(el => { el.textContent = r.user; });
     document.querySelectorAll('[data-user-initials]').forEach(el => { el.textContent = r.initials; });
+    paintUserMenu();
   }
 
   /* ---------- 4. Табы ---------- */
@@ -579,7 +686,7 @@ tailwind.config = {
           '<div class="p-5 sm:p-6 space-y-4" data-modal-body>' + body + '</div>' +
           '<div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col-reverse sm:flex-row gap-2 sm:items-center sm:justify-end sticky bottom-0 bg-white/95 backdrop-blur rounded-b-3xl">' +
             (o.footerNote ? '<div class="text-xs text-zinc-500 sm:mr-auto" data-modal-note>' + o.footerNote + '</div>' : '') +
-            '<button type="button" data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">' + (o.cancel || 'Отмена') + '</button>' +
+            '<button type="button" data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium text-zinc-700 hover:bg-zinc-50 transition">' + (o.cancel || 'Отмена') + '</button>' +
             submit +
           '</div>' +
         '</div>' +
@@ -762,7 +869,10 @@ tailwind.config = {
   let pendingConfirm = null;
   registerModal('confirm', {
     title: 'Подтвердите действие', size: 'sm', submit: 'Удалить', danger: true, reset: false,
-    body: '<p class="text-sm text-zinc-600" data-confirm-message></p>',
+    cancel: 'Отмена',
+    body:
+      '<p class="text-sm font-medium text-zinc-900" data-confirm-lead></p>' +
+      '<p class="text-sm text-zinc-600 mt-1.5" data-confirm-message></p>',
     onSubmit(modal, detail) {
       const btn = pendingConfirm;
       pendingConfirm = null;
@@ -782,12 +892,24 @@ tailwind.config = {
       const btn = e.target.closest('[data-confirm]');
       if (!btn || btn.disabled || btn.getAttribute('aria-disabled') === 'true') return;
       e.preventDefault();
+      e.stopPropagation();
       const modal = openModal('confirm');
       if (!modal) return;
       pendingConfirm = btn;
-      modal.querySelector('[data-modal-title]').textContent = btn.dataset.confirm;
-      modal.querySelector('[data-confirm-message]').textContent = btn.dataset.confirmText || 'Действие нельзя отменить.';
-      modal.querySelector('[data-modal-submit]').textContent = btn.dataset.confirmOk || 'Удалить';
+      modal.querySelector('[data-modal-title]').textContent = 'Подтвердите действие';
+      const lead = modal.querySelector('[data-confirm-lead]');
+      const msg = modal.querySelector('[data-confirm-message]');
+      if (lead) lead.textContent = btn.dataset.confirm || 'Подтвердите действие';
+      if (msg) msg.textContent = btn.dataset.confirmText || 'Действие нельзя отменить.';
+      const sub = modal.querySelector('[data-modal-submit]');
+      if (sub) {
+        sub.textContent = btn.dataset.confirmOk || 'Удалить';
+        sub.className = 'px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white text-sm font-medium transition';
+      }
+      modal.querySelectorAll('button[data-close-modal]').forEach(b => {
+        if (b.getAttribute('aria-label') === 'Закрыть') return;
+        b.className = 'px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium text-zinc-700 hover:bg-zinc-50 transition';
+      });
     });
   }
 
@@ -1608,6 +1730,8 @@ tailwind.config = {
   /* ---------- Старт ---------- */
   function start() {
     initChrome();
+    mountUserMenus();
+    initUserMenu();
     buildSharedModals();
     applyPermissions();
     applyProjectList();

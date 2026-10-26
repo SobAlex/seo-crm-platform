@@ -23,6 +23,8 @@
             <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[140px] sm:max-w-none">Проверить индексацию в GSC</h1>
           </div>
           <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            <button type="button" data-task-action="progress" class="h-8 sm:h-9 px-3.5 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition whitespace-nowrap">В работе</button>
+            <button type="button" data-task-action="wait_client" class="h-8 sm:h-9 px-3.5 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition whitespace-nowrap">Ждёт клиента</button>
             <button type="button" data-task-action="submit" data-assignee="kim" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 transition whitespace-nowrap">Отправить на проверку</button>
             <button type="button" data-task-action="finish" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 transition whitespace-nowrap">Завершить задачу</button>
             <button type="button" data-task-action="rework" data-accept-item data-creator="petrov" data-acceptor="petrov" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-amber-500 text-white text-xs font-medium hover:bg-amber-600 transition whitespace-nowrap">На доработку</button>
@@ -32,7 +34,7 @@
               <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>Принимает А. Петров
             </span>
             <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
-            <a href="settings.html" aria-label="Профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
+            <a href="profile.html" aria-label="Мой профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
           </div>
       </header>
 
@@ -45,7 +47,7 @@
           </div>
           <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight">Проверить индексацию в GSC</h2>
 
-          <ol data-lifecycle aria-label="Этапы задачи" class="mt-5 grid grid-cols-4 gap-1 sm:gap-2 max-w-xl"></ol>
+          <ol data-lifecycle aria-label="Этапы задачи" class="mt-5 grid grid-cols-2 sm:grid-cols-5 gap-1 sm:gap-2 max-w-2xl"></ol>
           <div data-return-note class="hidden mt-4 max-w-xl"></div>
         </div>
 
@@ -144,7 +146,7 @@
 
                 <div class="mt-3 flex flex-col sm:flex-row sm:items-center gap-3">
                   <label class="inline-flex items-center gap-1.5 shrink-0 text-sm text-zinc-600" title="Списать время вместе с комментарием">
-                    <span aria-hidden="true">⏱</span>Время:
+                    Время:
                     <input data-hours data-can="track_time" type="text" inputmode="decimal" placeholder="+2,5" aria-label="Списать часов" class="w-16 px-2.5 py-1 rounded-lg border border-zinc-200 bg-white text-sm text-center tabular-nums focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40 disabled:opacity-40">
                     <span class="text-zinc-500">ч</span>
                   </label>
@@ -152,7 +154,7 @@
                   <label class="inline-flex items-center gap-2.5 cursor-pointer select-none">
                     <input type="checkbox" data-report-toggle data-can="compose_reports" data-deny-tip="Включить комментарий в отчёт может сотрудник компании. Подрядчик пишет текст — его включит менеджер проекта." class="peer sr-only">
                     <span class="relative w-9 h-5 shrink-0 rounded-full bg-zinc-200 transition peer-checked:bg-emerald-500 peer-disabled:opacity-50 peer-focus-visible:ring-4 peer-focus-visible:ring-accent/20 after:absolute after:left-0.5 after:top-0.5 after:w-4 after:h-4 after:rounded-full after:bg-white after:shadow-sm after:transition peer-checked:after:translate-x-4"></span>
-                    <span class="text-sm text-zinc-700 peer-disabled:text-zinc-400">📄 Включить в отчёт клиенту</span>
+                    <span class="text-sm text-zinc-700 peer-disabled:text-zinc-400">Включить в отчёт клиенту</span>
                   </label>
                   <div class="sm:ml-auto flex items-center gap-3">
                     <span class="hidden sm:inline text-[11px] text-zinc-400">⌘↵ — отправить</span>
@@ -172,7 +174,7 @@
                 <h3 class="text-sm font-semibold tracking-tight">Учёт времени</h3>
                 <span data-time-state class="text-[11px] font-medium px-2 py-0.5 rounded-full"></span>
               </div>
-              <div class="text-sm text-zinc-600">⏱ Затрачено: <span data-time-spent class="font-semibold text-zinc-900 tabular-nums"></span> из <span data-time-estimate class="tabular-nums"></span> <span data-time-left class="text-zinc-500 tabular-nums"></span></div>
+              <div class="text-sm text-zinc-600">Затрачено: <span data-time-spent class="font-semibold text-zinc-900 tabular-nums"></span> из <span data-time-estimate class="tabular-nums"></span> <span data-time-left class="text-zinc-500 tabular-nums"></span></div>
               <div class="mt-3 h-2 rounded-full bg-zinc-100 overflow-hidden" role="progressbar" aria-label="Затрачено от оценки" aria-valuemin="0" aria-valuemax="100" data-time-bar-wrap>
                 <div data-time-bar class="h-full rounded-full transition-all duration-500"></div>
               </div>
@@ -181,7 +183,7 @@
                 <input type="checkbox" checked data-can="edit_time" data-deny-tip="Лимит часов задаёт сотрудник компании" class="w-4 h-4 rounded border-zinc-300">
                 Входит в лимит часов проекта
               </label>
-              <p class="mt-2 text-[11px] text-zinc-400">Время списывается в комментарии — поле «⏱ Время» под редактором.</p>
+              <p class="mt-2 text-[11px] text-zinc-400">Время списывается в комментарии — поле «Время» под редактором.</p>
             </section>
 
             <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
@@ -403,8 +405,8 @@
             '<span class="text-sm font-medium">' + esc(c.author) + '</span>' +
             (c.role ? '<span class="text-xs text-zinc-500">' + esc(c.role) + '</span>' : '') +
             (c.remark ? '<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-50 text-amber-700 ring-1 ring-amber-200">Замечание к приёмке</span>' : '') +
-            (c.report ? '<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200">📄 В отчёте</span>' : '') +
-            (c.hours ? '<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-zinc-100 text-zinc-700 tabular-nums" title="Списано времени">⏱ ' + fmtH(c.hours) + '</span>' : '') +
+            (c.report ? '<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200">В отчёте</span>' : '') +
+            (c.hours ? '<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-zinc-100 text-zinc-700 tabular-nums" title="Списано времени">' + fmtH(c.hours) + '</span>' : '') +
             '<span class="ml-auto flex items-center gap-2">' +
               (canReport ? '<button type="button" data-flip="' + c.id + '" class="text-[11px] text-zinc-400 hover:text-zinc-900 transition">' + (c.report ? 'Убрать из отчёта' : 'В отчёт') + '</button>' : '') +
               '<span class="text-xs text-zinc-500 tabular-nums">' + esc(c.time) + '</span>' +
@@ -453,34 +455,40 @@
       '<li class="flex items-center gap-2"><span class="text-zinc-600 truncate">' + esc(n) + '</span><span class="flex-1 border-b border-dotted border-zinc-200"></span><span class="tabular-nums text-zinc-900 font-medium">' + fmtH(people[n]) + '</span></li>').join('');
   }
 
-  /* ---------- Жизненный цикл: Запланирована → В работе → На проверке / На доработке → Принята ---------- */
+  /* ---------- Жизненный цикл: Запланирована → В работе → Ждёт клиента → На проверке / На доработке → Принята ---------- */
   const STATUS = {
-    review: { label: 'На проверке', badge: 'bg-amber-50 text-amber-700', dot: 'bg-amber-600' },
-    rework: { label: '↩ На доработке', badge: 'bg-amber-500 text-white', dot: 'bg-white' },
-    done:   { label: 'Принята', badge: 'bg-emerald-50 text-emerald-700', dot: 'bg-emerald-600' }
+    progress: { label: 'В работе', badge: 'bg-blue-50 text-blue-700', dot: 'bg-blue-600' },
+    WAITING_CLIENT: { label: 'Ждёт клиента', badge: 'bg-sky-50 text-sky-700', dot: 'bg-sky-600' },
+    review:   { label: 'На проверке', badge: 'bg-amber-50 text-amber-700', dot: 'bg-amber-600' },
+    rework:   { label: 'На доработке', badge: 'bg-amber-500 text-white', dot: 'bg-white' },
+    done:     { label: 'Принята', badge: 'bg-emerald-50 text-emerald-700', dot: 'bg-emerald-600' }
   };
   function paintLifecycle() {
-    const st = STATUS[task.status];
+    const st = STATUS[task.status] || STATUS.progress;
     document.querySelector('[data-task-status]').className = 'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium ' + st.badge;
     document.querySelector('[data-task-status]').innerHTML = '<span class="w-1.5 h-1.5 rounded-full ' + st.dot + '"></span>' + st.label;
     const rework = task.status === 'rework';
+    const waiting = task.status === 'WAITING_CLIENT';
+    const progress = task.status === 'progress';
+    const review = task.status === 'review';
     const done = task.status === 'done';
     const last = task.returns[task.returns.length - 1];
+    const afterWait = review || rework || done;
     const steps = [
       { label: 'Запланирована', date: task.dates.planned, state: 'past' },
-      { label: 'В работе', date: task.dates.progress, state: 'past' },
-      rework ? { label: '↩ На доработке', date: last.date, state: 'rework' }
-             : { label: 'На проверке', date: task.dates.review, state: done ? 'past' : 'current', returns: task.returns.length },
+      { label: 'В работе', date: task.dates.progress, state: progress ? 'current' : (waiting || afterWait ? 'past' : 'next') },
+      { label: 'Ждёт клиента', date: task.dates.waiting || '—', state: waiting ? 'waiting' : (afterWait ? 'past' : 'next') },
+      { label: rework ? 'На доработке' : 'На проверке', date: rework && last ? last.date : (task.dates.review || '—'), state: rework ? 'rework' : (review ? 'current' : (done ? 'past' : 'next')), returns: afterWait ? task.returns.length : 0 },
       { label: 'Принята', date: task.dates.done || '—', state: done ? 'done' : 'next' }
     ];
-    const BAR = { past: done ? 'bg-emerald-500' : 'bg-zinc-900', current: 'bg-amber-500', rework: 'bg-amber-500', done: 'bg-emerald-500', next: 'bg-zinc-200' };
-    const TXT = { past: 'text-zinc-900', current: 'text-amber-700', rework: 'text-amber-800', done: 'text-emerald-700', next: 'text-zinc-500' };
+    const BAR = { past: done ? 'bg-emerald-500' : 'bg-zinc-900', current: 'bg-amber-500', waiting: 'bg-sky-500', rework: 'bg-amber-500', done: 'bg-emerald-500', next: 'bg-zinc-200' };
+    const TXT = { past: 'text-zinc-900', current: 'text-amber-700', waiting: 'text-sky-700', rework: 'text-amber-800', done: 'text-emerald-700', next: 'text-zinc-500' };
     document.querySelector('[data-lifecycle]').innerHTML = steps.map(x =>
-      '<li' + (x.state === 'current' || x.state === 'rework' ? ' aria-current="step"' : '') + '>' +
+      '<li' + (x.state === 'current' || x.state === 'rework' || x.state === 'waiting' ? ' aria-current="step"' : '') + '>' +
         '<div class="h-1 rounded-full ' + BAR[x.state] + '"></div>' +
         '<div class="mt-2 text-[11px] sm:text-xs font-medium ' + TXT[x.state] + '">' + x.label + '</div>' +
         '<div class="flex flex-wrap items-center gap-1 text-[11px] text-zinc-500 tabular-nums">' + x.date +
-          (x.returns ? '<span class="px-1.5 rounded bg-amber-50 text-amber-700 ring-1 ring-amber-200 font-medium" title="Возвратов на доработку">↩ ' + x.returns + '</span>' : '') +
+          (x.returns ? '<span class="px-1.5 rounded bg-amber-50 text-amber-700 ring-1 ring-amber-200 font-medium" title="Возвратов на доработку">' + x.returns + '</span>' : '') +
         '</div>' +
       '</li>').join('');
     const note = document.querySelector('[data-return-note]');
@@ -524,14 +532,17 @@
       b.dataset.tip = tip;
       b.title = tip;
     };
+    showAction('progress', execOnly || setter || both, open && task.status !== 'progress' && task.status !== 'review');
+    showAction('wait_client', execOnly || setter || both, open && task.status !== 'WAITING_CLIENT' && task.status !== 'review' && task.status !== 'done');
     showAction('submit', execOnly, task.status !== 'review' && open);
     showAction('finish', both, open);
     showAction('accept', setter, task.status === 'review' && open);
     showAction('rework', setter, task.status === 'review' && open);
     const sn = document.querySelector('[data-status-note]');
     const waitingReview = execOnly && task.status === 'review';
-    sn.classList.toggle('hidden', task.status === 'review' && !waitingReview);
-    sn.className = (task.status === 'review' && !waitingReview ? 'hidden ' : '') + 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap ' + (waitingReview ? 'bg-amber-50 text-amber-700' : st.badge);
+    const hideNote = (task.status === 'review' && !waitingReview) || progress || waiting;
+    sn.classList.toggle('hidden', hideNote);
+    sn.className = (hideNote ? 'hidden ' : '') + 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap ' + (waitingReview ? 'bg-amber-50 text-amber-700' : st.badge);
     sn.innerHTML = '<span class="w-1.5 h-1.5 rounded-full ' + (waitingReview ? 'bg-amber-600' : st.dot) + '"></span>' + (waitingReview ? 'На проверке у А. Петрова' : rework ? 'Ждём исправлений от М. Кима' : 'Принята ' + task.dates.done);
   }
   function addHistory(text, tone) {
@@ -545,6 +556,24 @@
     if (btn.disabled || btn.getAttribute('aria-disabled') === 'true' || btn.classList.contains('hidden')) return;
     const who = shortName(me.user);
     const action = btn.dataset.taskAction;
+    if (action === 'progress') {
+      if (task.status === 'done' || task.status === 'review') return;
+      task.status = 'progress';
+      task.dates.progress = task.dates.progress || '18.06';
+      events.push({ id: 'e' + Date.now(), system: true, text: esc(who) + ' вернул задачу в работу · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });
+      addHistory(who + ' перевёл задачу в работу', 'bg-blue-500');
+      paint(true); paintLifecycle();
+      return App.toast('Задача снова в работе', 'success');
+    }
+    if (action === 'wait_client') {
+      if (task.status === 'done' || task.status === 'review') return;
+      task.status = 'WAITING_CLIENT';
+      task.dates.waiting = '18.06';
+      events.push({ id: 'e' + Date.now(), system: true, text: esc(who) + ' поставил задачу в ожидание клиента · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });
+      addHistory(who + ' перевёл задачу в ожидание клиента', 'bg-sky-500');
+      paint(true); paintLifecycle();
+      return App.toast('Статус: ждёт клиента · срок не считается просроченным', 'success');
+    }
     if (action === 'submit') {
       if (task.status === 'review' || task.status === 'done') return;
       task.status = 'review';
