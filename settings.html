@@ -120,7 +120,7 @@
         <!-- ИНТЕГРАЦИИ -->
         <div data-tab-panel="integrations" data-can="int_seo,int_client" class="hidden">
           <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <p class="text-sm text-zinc-500">Подключите аккаунты, чтобы метрики приходили в проекты и отчёты автоматически</p>
+            <p class="text-sm text-zinc-500">Подключите аккаунты, чтобы метрики приходили в проекты и отчёты автоматически. Без интеграций можно вести факт вручную.</p>
             <button type="button" data-can="int_seo,int_client" data-open-modal="integration" class="shrink-0 self-start sm:self-auto px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">+ Подключить сервис</button>
           </div>
 
@@ -134,15 +134,10 @@
                     <div class="text-xs text-zinc-500 mt-0.5">Метрика и Вебмастер</div>
                   </div>
                 </div>
-                <span data-int-state class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shrink-0">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Подключён
-                </span>
+                <span data-int-state class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Подключён</span>
               </div>
-              <p class="text-xs text-zinc-500">Аккаунт: <span class="text-zinc-900 font-medium">direct@romashka.ru</span> · подключён 12.05.2025</p>
-              <div class="mt-auto flex flex-wrap items-center gap-2">
-                <button type="button" data-can="int_seo" data-roles="owner,seo_head" data-deny-tip="SEO-интеграции доступны владельцу и руководителю SEO" data-open-modal="integration" data-prefill-service="yandex" data-reconnect="1" class="h-9 px-3.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">Переподключить</button>
-                <button type="button" data-can="int_seo" data-roles="owner,seo_head" data-deny-tip="SEO-интеграции доступны владельцу и руководителю SEO" data-confirm="Отключить Яндекс?" data-confirm-text="Метрики перестанут обновляться во всех проектах. Уже загруженные данные останутся в отчётах." data-confirm-ok="Отключить" data-confirm-toast="Яндекс отключён" class="h-9 px-3.5 rounded-full text-xs font-medium text-zinc-500 hover:text-red-600 hover:bg-red-50 transition">Отключить</button>
-              </div>
+              <p data-int-info class="text-xs text-zinc-500">Аккаунт: <span class="text-zinc-900 font-medium">direct@romashka.ru</span> · синхронизировано 12 проектов</p>
+              <div data-int-actions class="mt-auto flex flex-wrap items-center gap-2"></div>
             </section>
 
             <section data-integration="google" data-can="int_seo" data-roles="owner,seo_head" data-deny-tip="SEO-интеграции доступны владельцу и руководителю SEO" class="bg-white rounded-2xl shadow-card p-5 flex flex-col gap-4">
@@ -154,15 +149,10 @@
                     <div class="text-xs text-zinc-500 mt-0.5">Показы, клики и индексация</div>
                   </div>
                 </div>
-                <span data-int-state class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 shrink-0">
-                  <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>Требует переподключения
-                </span>
+                <span data-int-state class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Токен истёк</span>
               </div>
-              <p class="text-xs text-zinc-500">Аккаунт: <span class="text-zinc-900 font-medium">marketing@romashka.ru</span> · токен истёк 15.06.2025</p>
-              <div class="mt-auto flex flex-wrap items-center gap-2">
-                <button type="button" data-can="int_seo" data-roles="owner,seo_head" data-deny-tip="SEO-интеграции доступны владельцу и руководителю SEO" data-open-modal="integration" data-prefill-service="google" data-reconnect="1" class="h-9 px-3.5 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition">Переподключить</button>
-                <button type="button" data-can="int_seo" data-roles="owner,seo_head" data-deny-tip="SEO-интеграции доступны владельцу и руководителю SEO" data-confirm="Отключить Google Search Console?" data-confirm-text="Метрики перестанут обновляться во всех проектах. Уже загруженные данные останутся в отчётах." data-confirm-ok="Отключить" data-confirm-toast="Google Search Console отключён" class="h-9 px-3.5 rounded-full text-xs font-medium text-zinc-500 hover:text-red-600 hover:bg-red-50 transition">Отключить</button>
-              </div>
+              <p data-int-info class="text-xs text-zinc-500">Аккаунт: <span class="text-zinc-900 font-medium">marketing@romashka.ru</span> · требуется переподключение</p>
+              <div data-int-actions class="mt-auto flex flex-wrap items-center gap-2"></div>
             </section>
 
             <section data-integration="callibri" data-can="int_client" data-roles="owner,mgr_head" data-deny-tip="CRM и телефония доступны владельцу и руководителю менеджеров" class="bg-white rounded-2xl shadow-card p-5 flex flex-col gap-4">
@@ -174,15 +164,10 @@
                     <div class="text-xs text-zinc-500 mt-0.5">Коллтрекинг</div>
                   </div>
                 </div>
-                <span data-int-state class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shrink-0">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Подключён
-                </span>
+                <span data-int-state class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-600 shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>Не подключён</span>
               </div>
-              <p class="text-xs text-zinc-500">API-ключ: <span class="text-zinc-900 font-medium font-mono">clb_●●●●●●</span> · подключён 15.05.2025</p>
-              <div class="mt-auto flex flex-wrap items-center gap-2">
-                <button type="button" data-can="int_client" data-roles="owner,mgr_head" data-deny-tip="CRM и телефония доступны владельцу и руководителю менеджеров" data-open-modal="integration" data-prefill-service="callibri" data-reconnect="1" class="h-9 px-3.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition">Переподключить</button>
-                <button type="button" data-can="int_client" data-roles="owner,mgr_head" data-deny-tip="CRM и телефония доступны владельцу и руководителю менеджеров" data-confirm="Отключить Callibri?" data-confirm-text="Метрики перестанут обновляться во всех проектах. Уже загруженные данные останутся в отчётах." data-confirm-ok="Отключить" data-confirm-toast="Callibri отключён" class="h-9 px-3.5 rounded-full text-xs font-medium text-zinc-500 hover:text-red-600 hover:bg-red-50 transition">Отключить</button>
-              </div>
+              <p data-int-info class="text-xs text-zinc-500">Подключите API-ключ, чтобы звонки попадали в отчёты по проектам</p>
+              <div data-int-actions class="mt-auto flex flex-wrap items-center gap-2"></div>
             </section>
 
             <section data-integration="amocrm" data-can="int_client" data-roles="owner,mgr_head" data-deny-tip="CRM и телефония доступны владельцу и руководителю менеджеров" class="bg-white rounded-2xl shadow-card p-5 flex flex-col gap-4">
@@ -194,20 +179,16 @@
                     <div class="text-xs text-zinc-500 mt-0.5">Лиды из CRM</div>
                   </div>
                 </div>
-                <span data-int-state class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700 shrink-0">
-                  <span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>Не подключён
-                </span>
+                <span data-int-state class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-600 shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>Не подключён</span>
               </div>
-              <p class="text-xs text-zinc-500">Лиды из CRM подтягиваются в отчёты по проектам</p>
-              <div class="mt-auto">
-                <button type="button" data-can="int_client" data-roles="owner,mgr_head" data-deny-tip="CRM и телефония доступны владельцу и руководителю менеджеров" data-open-modal="integration" data-prefill-service="amocrm" class="h-9 px-3.5 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition">Подключить</button>
-              </div>
+              <p data-int-info class="text-xs text-zinc-500">Лиды из CRM подтягиваются в отчёты по проектам</p>
+              <div data-int-actions class="mt-auto flex flex-wrap items-center gap-2"></div>
             </section>
           </div>
 
           <div class="bg-white rounded-2xl border border-dashed border-zinc-300 p-4 lg:p-5">
             <div class="text-xs text-zinc-500">
-              После подключения аккаунтов вы сможете привязывать счётчики и домены к конкретным проектам — в разделе «Источники» внутри каждого проекта.
+              После подключения аккаунтов вы сможете привязывать счётчики и домены к конкретным проектам — в разделе «Источники» внутри каждого проекта. Если интеграция отключена, проекты автоматически переходят на ручной ввод факта.
             </div>
           </div>
         </div>
@@ -444,103 +425,94 @@
         <!-- БИЛЛИНГ -->
         <div data-tab-panel="billing" data-can="billing" class="hidden">
 
-          <section class="bg-white rounded-2xl shadow-card p-6 space-y-4 mb-6">
+          <section class="bg-white rounded-2xl shadow-card p-6 space-y-5 mb-6">
             <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
               <div class="min-w-0">
-                <div class="text-xs font-medium text-zinc-500 mb-1">Подписка</div>
+                <div class="text-xs font-medium text-zinc-500 mb-1">Текущий тариф</div>
                 <div class="flex flex-wrap items-center gap-2">
-                  <span class="text-2xl font-semibold tracking-tight">Agency Pro</span>
-                  <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-accent/10 text-accent"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span>Пробный период · 14 дней</span>
+                  <span class="text-2xl font-semibold tracking-tight">Тариф Про (Агентство)</span>
+                  <span data-sub-badge class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-800"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Активен пробный период · осталось 9 дней</span>
                 </div>
-                <div class="text-sm text-zinc-500 mt-1">Бесплатно до 02.07.2025, затем <span class="tabular-nums text-zinc-900 font-medium">$139/мес</span> — база $79 + 5 проектов × $12</div>
+                <div class="mt-2 text-sm text-zinc-700"><span class="text-xl font-semibold tracking-tight tabular-nums text-ink">9 900</span> <span class="text-zinc-500">₽ / месяц</span> <span class="text-xs text-zinc-400">· при оплате за год — 7 920 ₽ / мес</span></div>
+                <p class="text-xs text-zinc-500 mt-1.5">Лимит: до 25 проектов и 10 сотрудников (занято 4 проекта, 6 сотрудников)</p>
               </div>
-              <div class="flex gap-2 shrink-0">
-                <button type="button" data-can="billing" data-deny-tip="Тариф и счета доступны только владельцу компании" data-open-modal="tariff" data-prefill-plan="agencypro" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Оформить подписку</button>
+              <div class="flex flex-col sm:flex-row gap-2 shrink-0">
+                <button type="button" data-can="billing" data-deny-tip="Тариф и счета доступны только владельцу компании" data-open-modal="checkout" class="h-9 px-4 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition shadow-sm inline-flex items-center justify-center gap-1.5">💳 Продлить / Оплатить подписку</button>
+                <button type="button" data-can="billing" data-deny-tip="Тариф и счета доступны только владельцу компании" data-open-modal="tariff-change" class="h-9 px-4 rounded-full bg-white border border-zinc-200 text-sm font-medium text-zinc-700 hover:bg-zinc-50 transition inline-flex items-center justify-center">Сменить тариф</button>
               </div>
             </div>
-            <div class="mt-5">
-              <div class="flex items-center justify-between text-xs text-zinc-500 mb-1.5"><span>Осталось 14 из 14 дней</span><span class="tabular-nums">18.06 — 02.07</span></div>
-              <div class="h-1.5 bg-zinc-100 rounded-full overflow-hidden"><div class="h-full bg-accent rounded-full w-full"></div></div>
+
+            <div class="rounded-2xl bg-zinc-50 border border-zinc-100 p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div class="min-w-0">
+                <div class="text-xs font-medium text-zinc-500 mb-1">Платёжный метод</div>
+                <div data-card-label class="text-sm font-medium text-ink">МИР •••• 4242 <span class="text-zinc-400 font-normal">(истекает 12/28)</span></div>
+              </div>
+              <div class="flex flex-wrap items-center gap-3">
+                <button type="button" data-auto-renew aria-pressed="true" class="inline-flex items-center gap-2 h-8 px-3 rounded-full bg-emerald-50 text-emerald-800 text-xs font-medium border border-emerald-100 hover:bg-emerald-100 transition">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  <span data-auto-renew-label>Автопродление: включено</span>
+                </button>
+                <button type="button" data-can="billing" data-toast="Откроем форму привязки карты в следующем релизе" class="h-8 px-3 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition">Привязать другую карту</button>
+              </div>
             </div>
-            <dl class="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
-              <div class="rounded-xl bg-zinc-50 px-3 py-2.5"><dt class="text-xs text-zinc-500">Активных проектов</dt><dd class="font-semibold tabular-nums mt-0.5">5</dd></div>
-              <div class="rounded-xl bg-zinc-50 px-3 py-2.5"><dt class="text-xs text-zinc-500">Пользователей</dt><dd class="font-semibold tabular-nums mt-0.5">9 · без лимита</dd></div>
-              <div class="rounded-xl bg-zinc-50 px-3 py-2.5"><dt class="text-xs text-zinc-500">Следующее списание</dt><dd class="font-semibold tabular-nums mt-0.5">02.07.2025</dd></div>
-              <div class="rounded-xl bg-zinc-50 px-3 py-2.5"><dt class="text-xs text-zinc-500">Карта</dt><dd class="font-semibold tabular-nums mt-0.5">Visa •• 4417</dd></div>
-            </dl>
           </section>
 
           <div class="mb-3 flex items-end justify-between gap-3">
             <h3 class="text-sm font-semibold tracking-tight">Тарифы</h3>
-            <span class="text-xs text-zinc-500">При оплате за год — скидка 15%</span>
+            <span class="text-xs text-zinc-500">При оплате за год — скидка 20%</span>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-6 pt-2">
-            <div class="relative bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col gap-4"><div><div class="text-sm font-semibold">Solo</div><div class="text-xs text-zinc-500 mt-0.5">До 3 проектов</div></div><div><span class="text-2xl font-semibold tracking-tight tabular-nums">$19</span><span class="text-xs text-zinc-500"> /мес</span></div><ul class="space-y-2 text-xs text-zinc-600 flex-1"><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>2 пользователя</span></li><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Отчёты и дорожные карты</span></li><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Интеграция с Яндексом</span></li></ul><button type="button" data-can="billing" data-deny-tip="Тариф и счета доступны только владельцу компании" data-open-modal="tariff" data-prefill-plan="solo" class="w-full px-3.5 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Выбрать</button></div>
-            <div class="relative bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col gap-4"><div><div class="text-sm font-semibold">Agency</div><div class="text-xs text-zinc-500 mt-0.5">Для растущих команд</div></div><div><span class="text-2xl font-semibold tracking-tight tabular-nums">$49</span><span class="text-xs text-zinc-500"> + $15 за проект</span></div><ul class="space-y-2 text-xs text-zinc-600 flex-1"><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Без лимита пользователей</span></li><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Портал клиента</span></li><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Все SEO-интеграции</span></li></ul><button type="button" data-can="billing" data-deny-tip="Тариф и счета доступны только владельцу компании" data-open-modal="tariff" data-prefill-plan="agency" class="w-full px-3.5 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Выбрать</button></div>
-            <div class="relative bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col gap-4 ring-2 ring-accent"><span class="absolute -top-2.5 left-4 px-2 py-0.5 rounded-full bg-accent text-white text-[11px] font-medium">Ваш тариф</span><div><div class="text-sm font-semibold">Agency Pro</div><div class="text-xs text-zinc-500 mt-0.5">Для агентств с отделом продаж</div></div><div><span class="text-2xl font-semibold tracking-tight tabular-nums">$79</span><span class="text-xs text-zinc-500"> + $12 за проект</span></div><ul class="space-y-2 text-xs text-zinc-600 flex-1"><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>ИИ-аудит сайтов</span></li><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>White-label портал и отчёты</span></li><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Коллтрекинг и CRM</span></li></ul><button type="button" disabled class="w-full px-3.5 py-2 rounded-full bg-accent/10 text-accent text-sm font-medium cursor-default">Текущий · триал</button></div>
-            <div class="relative bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col gap-4"><div><div class="text-sm font-semibold">Business</div><div class="text-xs text-zinc-500 mt-0.5">Для сетей агентств</div></div><div><span class="text-2xl font-semibold tracking-tight tabular-nums">$149</span><span class="text-xs text-zinc-500"> + $10 за проект</span></div><ul class="space-y-2 text-xs text-zinc-600 flex-1"><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>SSO и аудит действий</span></li><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Открытый API</span></li><li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Выделенный менеджер</span></li></ul><button type="button" data-can="billing" data-deny-tip="Тариф и счета доступны только владельцу компании" data-open-modal="tariff" data-prefill-plan="business" class="w-full px-3.5 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Выбрать</button></div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4 mb-6 pt-2">
+            <div class="relative bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col gap-4">
+              <div><div class="text-sm font-semibold">Старт</div><div class="text-xs text-zinc-500 mt-0.5">Небольшие команды</div></div>
+              <div><span class="text-2xl font-semibold tracking-tight tabular-nums">4 900</span><span class="text-xs text-zinc-500"> ₽/мес</span></div>
+              <ul class="space-y-2 text-xs text-zinc-600 flex-1">
+                <li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>До 5 проектов</span></li>
+                <li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Задачи, приёмка и отчёты</span></li>
+                <li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Базовые шаблоны карт</span></li>
+              </ul>
+              <button type="button" data-can="billing" data-open-modal="tariff-change" data-prefill-plan="start" class="w-full px-3.5 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Выбрать</button>
+            </div>
+            <div class="relative bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col gap-4 ring-2 ring-accent">
+              <span class="absolute -top-2.5 left-4 px-2 py-0.5 rounded-full bg-accent text-white text-[11px] font-medium">Ваш тариф</span>
+              <div><div class="text-sm font-semibold">Про / Агентство</div><div class="text-xs text-zinc-500 mt-0.5">Для агентств с отделом</div></div>
+              <div><span class="text-2xl font-semibold tracking-tight tabular-nums">9 900</span><span class="text-xs text-zinc-500"> ₽/мес</span></div>
+              <ul class="space-y-2 text-xs text-zinc-600 flex-1">
+                <li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>До 25 проектов · 10 сотрудников</span></li>
+                <li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Портал клиентов и брендированные отчёты</span></li>
+                <li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Дорожные карты и планы месяца</span></li>
+              </ul>
+              <button type="button" data-can="billing" data-open-modal="checkout" class="w-full px-3.5 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Продлить / Оплатить</button>
+            </div>
+            <div class="relative bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col gap-4">
+              <div><div class="text-sm font-semibold">Enterprise</div><div class="text-xs text-zinc-500 mt-0.5">Сети и in-house</div></div>
+              <div><span class="text-2xl font-semibold tracking-tight tabular-nums">39 900</span><span class="text-xs text-zinc-500"> ₽/мес</span></div>
+              <ul class="space-y-2 text-xs text-zinc-600 flex-1">
+                <li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Проекты без лимита</span></li>
+                <li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>SSO, API и интеграции</span></li>
+                <li class="flex items-start gap-2"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Выделенная поддержка</span></li>
+              </ul>
+              <button type="button" data-can="billing" data-open-modal="tariff-change" data-prefill-plan="ent" class="w-full px-3.5 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Выбрать</button>
+            </div>
           </div>
 
           <section class="bg-white rounded-2xl shadow-card overflow-hidden">
             <div class="px-4 lg:px-6 py-4 flex items-center justify-between gap-3">
               <h3 class="text-sm font-semibold tracking-tight">История платежей</h3>
-              <button type="button" data-toast="Акт сверки за 2025 год скачивается" class="text-xs text-zinc-500 hover:text-zinc-900 transition">Акт сверки</button>
+              <button type="button" data-toast="Акт сверки за 2026 год скачивается" class="text-xs text-zinc-500 hover:text-zinc-900 transition">Акт сверки</button>
             </div>
             <div class="overflow-x-auto border-t border-zinc-100">
-              <table class="w-full text-sm min-w-[560px]">
+              <table class="w-full text-sm min-w-[720px]">
                 <thead>
-                  <tr class="text-left text-xs text-zinc-500 border-b border-zinc-100">
-                    <th class="px-4 lg:px-6 py-2.5 font-medium">Дата</th>
-                    <th class="px-4 py-2.5 font-medium">Описание</th>
-                    <th class="px-4 py-2.5 font-medium text-right">Сумма</th>
-                    <th class="px-4 py-2.5 font-medium">Статус</th>
-                    <th class="px-4 lg:px-6 py-2.5 font-medium text-right">Счёт</th>
+                  <tr class="text-left text-[11px] font-medium text-zinc-400 uppercase tracking-wider border-b border-zinc-100">
+                    <th class="px-4 lg:px-6 py-2.5">Дата платежа</th>
+                    <th class="px-4 py-2.5">Назначение</th>
+                    <th class="px-4 py-2.5 text-right">Сумма</th>
+                    <th class="px-4 py-2.5">Способ оплаты</th>
+                    <th class="px-4 py-2.5">Статус</th>
+                    <th class="px-4 lg:px-6 py-2.5 text-right">Документы</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-zinc-50">
-                <tr class="hover:bg-zinc-50/50 transition">
-                  <td class="px-4 lg:px-6 py-3 tabular-nums text-zinc-500 whitespace-nowrap">18.06.2025</td>
-                  <td class="px-4 py-3">Agency Pro · пробный период 14 дней</td>
-                  <td class="px-4 py-3 text-right tabular-nums font-medium whitespace-nowrap">$0.00</td>
-                  <td class="px-4 py-3"><span class="inline-flex px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-accent/10 text-accent">Триал</span></td>
-                  <td class="px-4 lg:px-6 py-3 text-right"><span class="text-xs text-zinc-400">—</span></td>
-                </tr>
-                <tr class="hover:bg-zinc-50/50 transition">
-                  <td class="px-4 lg:px-6 py-3 tabular-nums text-zinc-500 whitespace-nowrap">01.06.2025</td>
-                  <td class="px-4 py-3">Agency · июнь, 5 проектов</td>
-                  <td class="px-4 py-3 text-right tabular-nums font-medium whitespace-nowrap">$124.00</td>
-                  <td class="px-4 py-3"><span class="inline-flex px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">Оплачено</span></td>
-                  <td class="px-4 lg:px-6 py-3 text-right"><button type="button" data-toast="Счёт № 0106-25 скачивается" class="text-xs text-accent hover:underline whitespace-nowrap">PDF</button></td>
-                </tr>
-                <tr class="hover:bg-zinc-50/50 transition">
-                  <td class="px-4 lg:px-6 py-3 tabular-nums text-zinc-500 whitespace-nowrap">01.05.2025</td>
-                  <td class="px-4 py-3">Agency · май, 5 проектов</td>
-                  <td class="px-4 py-3 text-right tabular-nums font-medium whitespace-nowrap">$124.00</td>
-                  <td class="px-4 py-3"><span class="inline-flex px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">Оплачено</span></td>
-                  <td class="px-4 lg:px-6 py-3 text-right"><button type="button" data-toast="Счёт № 0105-25 скачивается" class="text-xs text-accent hover:underline whitespace-nowrap">PDF</button></td>
-                </tr>
-                <tr class="hover:bg-zinc-50/50 transition">
-                  <td class="px-4 lg:px-6 py-3 tabular-nums text-zinc-500 whitespace-nowrap">03.04.2025</td>
-                  <td class="px-4 py-3">Agency · апрель, 4 проекта · повторное списание</td>
-                  <td class="px-4 py-3 text-right tabular-nums font-medium whitespace-nowrap">$109.00</td>
-                  <td class="px-4 py-3"><span class="inline-flex px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">Оплачено</span></td>
-                  <td class="px-4 lg:px-6 py-3 text-right"><button type="button" data-toast="Счёт № 0304-25 скачивается" class="text-xs text-accent hover:underline whitespace-nowrap">PDF</button></td>
-                </tr>
-                <tr class="hover:bg-zinc-50/50 transition">
-                  <td class="px-4 lg:px-6 py-3 tabular-nums text-zinc-500 whitespace-nowrap">01.04.2025</td>
-                  <td class="px-4 py-3">Agency · апрель, 4 проекта</td>
-                  <td class="px-4 py-3 text-right tabular-nums font-medium whitespace-nowrap">$109.00</td>
-                  <td class="px-4 py-3"><span class="inline-flex px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-red-50 text-red-700">Отклонено банком</span></td>
-                  <td class="px-4 lg:px-6 py-3 text-right"><span class="text-xs text-zinc-400">—</span></td>
-                </tr>
-                <tr class="hover:bg-zinc-50/50 transition">
-                  <td class="px-4 lg:px-6 py-3 tabular-nums text-zinc-500 whitespace-nowrap">01.03.2025</td>
-                  <td class="px-4 py-3">Agency · март, 4 проекта</td>
-                  <td class="px-4 py-3 text-right tabular-nums font-medium whitespace-nowrap">$109.00</td>
-                  <td class="px-4 py-3"><span class="inline-flex px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap bg-emerald-50 text-emerald-700">Оплачено</span></td>
-                  <td class="px-4 lg:px-6 py-3 text-right"><button type="button" data-toast="Счёт № 0103-25 скачивается" class="text-xs text-accent hover:underline whitespace-nowrap">PDF</button></td>
-                </tr>
-                </tbody>
+                <tbody data-payment-rows class="divide-y divide-zinc-50"></tbody>
               </table>
             </div>
           </section>
@@ -552,15 +524,187 @@
 </div>
 
 <script>
-document.addEventListener('integration:connected', e => {
-  const sec = document.querySelector('[data-integration="' + e.detail.service + '"]');
-  if (!sec) return;
-  const st = sec.querySelector('[data-int-state]');
-  st.className = 'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shrink-0';
-  st.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Подключён';
-  const info = sec.querySelector('.border-t .text-xs');
-  if (info) info.innerHTML = 'Аккаунт: <span class="text-zinc-900 font-medium">' + e.detail.account + '</span> · подключён 18.06.2025 · ' + e.detail.projects + ' ' + window.SEOApp.plural(e.detail.projects, ['проект', 'проекта', 'проектов']);
-});
+(function () {
+  const App = window.SEOApp;
+  const META = {
+    yandex:   { title: 'Яндекс', can: 'int_seo', roles: 'owner,seo_head', tip: 'SEO-интеграции доступны владельцу и руководителю SEO', auth: 'oauth' },
+    google:   { title: 'Google Search Console', can: 'int_seo', roles: 'owner,seo_head', tip: 'SEO-интеграции доступны владельцу и руководителю SEO', auth: 'oauth' },
+    callibri: { title: 'Callibri', can: 'int_client', roles: 'owner,mgr_head', tip: 'CRM и телефония доступны владельцу и руководителю менеджеров', auth: 'key' },
+    amocrm:   { title: 'amoCRM', can: 'int_client', roles: 'owner,mgr_head', tip: 'CRM и телефония доступны владельцу и руководителю менеджеров', auth: 'key' }
+  };
+  const btnBase = 'h-9 px-3.5 rounded-full text-xs font-medium transition';
+
+  function stateHtml(status) {
+    if (status === 'connected') return '<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Подключён';
+    if (status === 'expired') return '<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Токен истёк';
+    return '<span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>Не подключён';
+  }
+  function stateClass(status) {
+    if (status === 'connected') return 'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shrink-0';
+    if (status === 'expired') return 'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-800 shrink-0';
+    return 'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-600 shrink-0';
+  }
+  function infoHtml(id, row) {
+    if (row.status === 'connected') {
+      const acc = row.account || '—';
+      const extra = id === 'callibri' || id === 'amocrm'
+        ? 'API · обновлено только что'
+        : (row.just ? 'обновлено только что' : ('синхронизировано ' + (row.projects || 0) + ' ' + App.plural(row.projects || 0, ['проект', 'проекта', 'проектов'])));
+      return 'Аккаунт: <span class="text-zinc-900 font-medium">' + acc + '</span> · ' + extra;
+    }
+    if (row.status === 'expired') {
+      return 'Аккаунт: <span class="text-zinc-900 font-medium">' + (row.account || '—') + '</span> · требуется переподключение';
+    }
+    if (id === 'callibri') return 'Подключите API-ключ, чтобы звонки попадали в отчёты по проектам';
+    if (id === 'amocrm') return 'Лиды из CRM подтягиваются в отчёты по проектам';
+    return 'Не подключён — проекты работают в ручном режиме факта';
+  }
+  function actionsHtml(id, row) {
+    const m = META[id];
+    const attrs = ' data-can="' + m.can + '" data-roles="' + m.roles + '" data-deny-tip="' + m.tip + '"';
+    if (row.status === 'off') {
+      const label = m.auth === 'key' ? 'Подключить по API' : 'Подключить';
+      return '<button type="button"' + attrs + ' data-open-modal="integration-oauth" data-prefill-service="' + id + '" class="' + btnBase + ' bg-accent text-white hover:bg-accent-hover">' + label + '</button>';
+    }
+    if (row.status === 'expired') {
+      return '<button type="button"' + attrs + ' data-open-modal="integration-oauth" data-prefill-service="' + id + '" data-reconnect="1" class="' + btnBase + ' bg-accent text-white hover:bg-accent-hover">Обновить токен</button>' +
+        '<button type="button"' + attrs + ' data-int-disconnect="' + id + '" data-confirm="Отключить ' + m.title + '?" data-confirm-text="Метрики перестанут обновляться автоматически, проекты перейдут на ручной ввод факта." data-confirm-ok="Отключить" data-confirm-toast="' + m.title + ' отключён" class="' + btnBase + ' text-zinc-500 hover:text-red-600 hover:bg-red-50">Отключить</button>';
+    }
+    return '<button type="button"' + attrs + ' data-open-modal="integration-oauth" data-prefill-service="' + id + '" data-reconnect="1" class="' + btnBase + ' bg-white border border-zinc-200 hover:bg-zinc-50">Переподключить</button>' +
+      '<button type="button"' + attrs + ' data-int-disconnect="' + id + '" data-confirm="Отключить ' + m.title + '?" data-confirm-text="Метрики перестанут обновляться автоматически, проекты перейдут на ручной ввод факта." data-confirm-ok="Отключить" data-confirm-toast="' + m.title + ' отключён" class="' + btnBase + ' text-zinc-500 hover:text-red-600 hover:bg-red-50">Отключить</button>';
+  }
+  function paintCard(id) {
+    const map = App.readIntegrations ? App.readIntegrations() : {};
+    const row = map[id] || { status: 'off' };
+    const sec = document.querySelector('[data-integration="' + id + '"]');
+    if (!sec) return;
+    const st = sec.querySelector('[data-int-state]');
+    const info = sec.querySelector('[data-int-info]');
+    const actions = sec.querySelector('[data-int-actions]');
+    st.className = stateClass(row.status);
+    st.innerHTML = stateHtml(row.status);
+    info.innerHTML = infoHtml(id, row);
+    actions.innerHTML = actionsHtml(id, row);
+    if (App.applyPermissions) App.applyPermissions();
+  }
+  function paintAll() {
+    Object.keys(META).forEach(paintCard);
+  }
+
+  document.addEventListener('integration:connected', e => {
+    const id = e.detail.service;
+    const map = App.readIntegrations();
+    map[id] = {
+      status: 'connected',
+      account: e.detail.account,
+      projects: e.detail.projects != null ? e.detail.projects : (map[id] && map[id].projects) || 0,
+      just: true
+    };
+    App.writeIntegrations(map);
+    paintCard(id);
+  });
+
+  document.addEventListener('confirm:ok', e => {
+    const btn = e.target.closest('[data-int-disconnect]');
+    if (!btn) return;
+    const id = btn.dataset.intDisconnect;
+    const map = App.readIntegrations();
+    map[id] = { status: 'off', account: '', projects: 0 };
+    App.writeIntegrations(map);
+    paintCard(id);
+    document.dispatchEvent(new CustomEvent('integration:disconnected', { detail: { service: id } }));
+  });
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', paintAll);
+  else paintAll();
+  document.addEventListener('seo:ready', paintAll);
+})();
+
+(function () {
+  const App = window.SEOApp;
+  const fmt = n => n.toLocaleString('ru-RU') + ' ₽';
+  const tbody = document.querySelector('[data-payment-rows]');
+  const badge = document.querySelector('[data-sub-badge]');
+  let actN = 1042;
+
+  const payments = [
+    { date: '18.10.2026', purpose: 'Подписка «Про» на 1 месяц', amount: 9900, method: 'Карта •••• 4242', ok: true, doc: 'А-1041' },
+    { date: '18.09.2026', purpose: 'Подписка «Про» на 1 месяц', amount: 9900, method: 'Карта •••• 4242', ok: true, doc: 'А-1038' },
+    { date: '01.09.2026', purpose: 'Подписка «Про» на 1 месяц', amount: 9900, method: 'Безналичный расчёт', ok: true, doc: 'А-1032' },
+    { date: '16.08.2026', purpose: 'Старт пробного периода · Тариф «Про»', amount: 0, method: '—', ok: 'trial', doc: null }
+  ];
+
+  function statusCell(ok) {
+    if (ok === 'trial') return '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-accent/10 text-accent whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span>Триал</span>';
+    if (ok) return '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Оплачено</span>';
+    return '<span class="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-700 whitespace-nowrap">Отклонено</span>';
+  }
+
+  function docCell(row) {
+    if (!row.doc || !row.ok || row.ok === 'trial') return '<span class="text-xs text-zinc-400">—</span>';
+    return '<button type="button" data-act="' + row.doc + '" class="inline-flex items-center gap-1 text-xs text-accent hover:underline whitespace-nowrap">📄 Акт / Чек</button>';
+  }
+
+  function rowHtml(row) {
+    return '<tr class="hover:bg-zinc-50/50 transition">' +
+      '<td class="px-4 lg:px-6 py-3 tabular-nums text-zinc-500 whitespace-nowrap">' + row.date + '</td>' +
+      '<td class="px-4 py-3">' + row.purpose + '</td>' +
+      '<td class="px-4 py-3 text-right tabular-nums font-medium whitespace-nowrap">' + (row.amount ? fmt(row.amount) : '0 ₽') + '</td>' +
+      '<td class="px-4 py-3 text-zinc-600 whitespace-nowrap">' + row.method + '</td>' +
+      '<td class="px-4 py-3">' + statusCell(row.ok) + '</td>' +
+      '<td class="px-4 lg:px-6 py-3 text-right">' + docCell(row) + '</td></tr>';
+  }
+
+  function render() {
+    if (!tbody) return;
+    tbody.innerHTML = payments.map(rowHtml).join('');
+  }
+
+  function todayRu() {
+    const d = new Date();
+    return String(d.getDate()).padStart(2, '0') + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + d.getFullYear();
+  }
+
+  if (tbody) {
+    render();
+    tbody.addEventListener('click', e => {
+      const btn = e.target.closest('[data-act]');
+      if (!btn) return;
+      App.toast('Формирование акта № ' + btn.dataset.act + ' и скачивание PDF');
+    });
+  }
+
+  const renewBtn = document.querySelector('[data-auto-renew]');
+  if (renewBtn) {
+    renewBtn.addEventListener('click', () => {
+      const on = renewBtn.getAttribute('aria-pressed') !== 'true';
+      renewBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      renewBtn.className = on
+        ? 'inline-flex items-center gap-2 h-8 px-3 rounded-full bg-emerald-50 text-emerald-800 text-xs font-medium border border-emerald-100 hover:bg-emerald-100 transition'
+        : 'inline-flex items-center gap-2 h-8 px-3 rounded-full bg-zinc-100 text-zinc-600 text-xs font-medium border border-zinc-200 hover:bg-zinc-200/70 transition';
+      renewBtn.innerHTML = '<span class="w-1.5 h-1.5 rounded-full ' + (on ? 'bg-emerald-500' : 'bg-zinc-400') + '"></span><span data-auto-renew-label>Автопродление: ' + (on ? 'включено' : 'выключено') + '</span>';
+      App.toast(on ? 'Автопродление включено' : 'Автопродление отключено');
+    });
+  }
+
+  document.addEventListener('billing:paid', e => {
+    const d = e.detail || {};
+    if (badge) {
+      badge.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-800';
+      badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Подписка активна до ' + (d.until || '26.11.2026');
+    }
+    const doc = 'А-' + (++actN);
+    payments.unshift({
+      date: todayRu(),
+      purpose: d.purpose || 'Подписка «Про» на 1 месяц',
+      amount: d.amount || 9900,
+      method: d.method === 'invoice' ? 'Безналичный расчёт' : 'Карта •••• 4242',
+      ok: true,
+      doc: doc
+    });
+    render();
+  });
+})();
 </script>
 </body>
 </html>

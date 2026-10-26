@@ -719,7 +719,10 @@
         field('Трафик, визиты', input('traffic', 'type="number" min="0" step="1" required'), { req: true, hint: '', hintAttr: 'data-plan-hint="traffic"' }) +
         field('Лиды', input('leads', 'type="number" min="0" step="1" required'), { req: true, hint: '', hintAttr: 'data-plan-hint="leads"' }) +
         field('% в ТОП-10', input('top10', 'type="number" min="0" max="100" step="0.1" required'), { req: true, hint: '', hintAttr: 'data-plan-hint="top10"' })) +
-      field('Источник цифр', select('source', option('manual', 'Ручной ввод') + option('metrika', 'Сверка с Яндекс.Метрикой') + option('crm', 'Данные клиента из CRM'))) +
+      field('Источник цифр', select('source',
+        option('manual', 'Ручной ввод данных', { selected: true }) +
+        option('metrika', 'Сверка с Яндекс.Метрикой') +
+        option('crm', 'Данные клиента из CRM'))) +
       field('Комментарий', textarea('comment', 'placeholder="Например: часть лидов пришла по телефону, учтено вручную"'), { opt: 'опционально' }) +
       check('to_report', 'Показать в отчёте клиенту за этот месяц', { checked: true }),
     init(m) {
@@ -741,6 +744,8 @@
         const project = m.querySelector('[name="project"]');
         project.disabled = !!App.metrics;
         project.classList.toggle('bg-zinc-50', !!App.metrics);
+        const src = m.querySelector('[name="source"]');
+        if (src) src.value = 'manual';
         setTimeout(fill);
       });
     },
@@ -851,13 +856,167 @@
     emit('team:removed', { row: btn.closest('li') });
   });
 
-  /* ---------- Интеграции компании: мастер «Сервис → Авторизация → Проекты» ---------- */
-  const SERVICES = {
-    yandex:   { name: 'Яндекс (Метрика и Вебмастер)', short: 'Яндекс', logo: 'Я', tone: 'bg-red-50 text-red-600', auth: 'oauth', btn: 'Войти через Яндекс ID', account: 'direct@romashka.ru', bind: ['Метрика 48 213 907', 'Метрика 51 604 112', 'Метрика 39 877 450'] },
-    google:   { name: 'Google Search Console', short: 'Google', logo: 'G', tone: 'bg-blue-50 text-blue-600', auth: 'oauth', btn: 'Войти через Google', account: 'marketing@romashka.ru', bind: ['sc-domain:holod-shop.ru', 'sc-domain:remont-plus.ru', 'https://stroytech.ru/'] },
-    callibri: { name: 'Callibri — коллтрекинг', short: 'Callibri', logo: 'C', tone: 'bg-amber-50 text-amber-600', auth: 'key', host: 'romashka.callibri.ru', bind: ['Сайт #2231 · 6 номеров', 'Сайт #2240 · 2 номера', 'Сайт #2318 · 3 номера'] },
-    amocrm:   { name: 'amoCRM — лиды', short: 'amoCRM', logo: 'A', tone: 'bg-emerald-50 text-emerald-700', auth: 'key', host: 'romashka.amocrm.ru', bind: ['Воронка «SEO-заявки»', 'Воронка «Опт»', 'Воронка «Сервис»'] }
+  /* ---------- Интеграции компании ---------- */
+  const INT_STORE = 'seo_company_integrations';
+  const INT_DEFAULT = {
+    yandex:   { status: 'connected', account: 'direct@romashka.ru', projects: 12 },
+    google:   { status: 'expired', account: 'marketing@romashka.ru', projects: 0 },
+    callibri: { status: 'off', account: '', projects: 0 },
+    amocrm:   { status: 'off', account: '', projects: 0 }
   };
+  function readIntegrations() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(INT_STORE) || 'null');
+      return Object.assign({}, INT_DEFAULT, raw || {});
+    } catch (e) { return Object.assign({}, INT_DEFAULT); }
+  }
+  function writeIntegrations(map) {
+    localStorage.setItem(INT_STORE, JSON.stringify(map));
+    App.integrations = map;
+  }
+  App.integrations = readIntegrations();
+  App.readIntegrations = readIntegrations;
+  App.writeIntegrations = writeIntegrations;
+
+  const SERVICES = {
+    yandex:   {
+      name: 'Яндекс (Метрика и Вебмастер)', short: 'Яндекс', logo: 'Я', tone: 'bg-red-50 text-red-600',
+      auth: 'oauth', btn: 'Войти через Яндекс ID', account: 'agency-master@yandex.ru',
+      accounts: ['agency-master@yandex.ru', 'direct@romashka.ru', 'seo@romashka.ru'],
+      perms: ['Просмотр данных счётчиков Яндекс.Метрики', 'Чтение поисковых запросов и индексации в Вебмастере', 'Управление доступом к статистике проектов'],
+      bind: ['Метрика 48 213 907', 'Метрика 51 604 112', 'Метрика 39 877 450']
+    },
+    google:   {
+      name: 'Google Search Console', short: 'Google Search Console', logo: 'G', tone: 'bg-blue-50 text-blue-600',
+      auth: 'oauth', btn: 'Войти через Google', account: 'agency-master@gmail.com',
+      accounts: ['agency-master@gmail.com', 'marketing@romashka.ru', 'seo@romashka.ru'],
+      perms: ['Просмотр данных Search Console', 'Чтение поисковых запросов и индексации', 'Управление доступом к статистике проектов'],
+      bind: ['sc-domain:holod-shop.ru', 'sc-domain:remont-plus.ru', 'https://stroytech.ru/']
+    },
+    callibri: {
+      name: 'Callibri — коллтрекинг', short: 'Callibri', logo: 'C', tone: 'bg-amber-50 text-amber-600',
+      auth: 'key', host: 'romashka.callibri.ru', account: 'romashka.callibri.ru',
+      perms: ['Чтение статистики звонков и заявок', 'Доступ к номерам коллтрекинга проектов', 'Управление доступом к статистике проектов'],
+      bind: ['Сайт #2231 · 6 номеров', 'Сайт #2240 · 2 номера', 'Сайт #2318 · 3 номера']
+    },
+    amocrm:   {
+      name: 'amoCRM — лиды', short: 'amoCRM', logo: 'A', tone: 'bg-emerald-50 text-emerald-700',
+      auth: 'key', host: 'romashka.amocrm.ru', account: 'romashka.amocrm.ru',
+      perms: ['Чтение сделок и контактов', 'Доступ к воронкам SEO-заявок', 'Управление доступом к статистике проектов'],
+      bind: ['Воронка «SEO-заявки»', 'Воронка «Опт»', 'Воронка «Сервис»']
+    }
+  };
+
+  /* Окно симуляции OAuth / API-разрешений (нативный вид Яндекс/Google) */
+  App.registerModal('integration-oauth', {
+    title: 'Подключение сервиса',
+    subtitle: 'Яндекс',
+    submit: false,
+    cancel: 'Отмена',
+    size: 'md',
+    body: () =>
+      '<div class="space-y-5" data-oauth-root>' +
+        '<div class="flex items-center justify-center gap-3 py-2">' +
+          '<span data-oauth-logo class="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center text-lg font-bold shadow-sm">Я</span>' +
+          '<svg class="w-5 h-5 text-zinc-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M8 12h8m0 0l-3-3m3 3l-3 3"/></svg>' +
+          '<span class="w-12 h-12 rounded-2xl bg-zinc-900 text-white flex items-center justify-center text-sm font-semibold shadow-sm">РМ</span>' +
+        '</div>' +
+        '<p class="text-center text-sm text-zinc-600"><span data-oauth-svc class="font-medium text-ink">Яндекс</span> запрашивает доступ для <span class="font-medium text-ink">Ромашка Digital</span></p>' +
+        '<ul data-oauth-perms class="rounded-2xl border border-zinc-200 divide-y divide-zinc-100 text-sm text-zinc-700"></ul>' +
+        '<div data-oauth-account-wrap>' +
+          field('Сервисный аккаунт', select('oauth_account', '')) +
+        '</div>' +
+        '<div data-oauth-key-wrap class="hidden space-y-3">' +
+          field('Адрес аккаунта', input('oauth_domain', 'type="text" placeholder="romashka.callibri.ru"')) +
+          field('API-ключ', input('oauth_token', 'type="password" autocomplete="off" placeholder="Вставьте ключ из настроек сервиса"')) +
+        '</div>' +
+        '<button type="button" data-oauth-allow class="w-full h-11 px-4 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition shadow-sm inline-flex items-center justify-center gap-2">' +
+          '<span data-oauth-allow-label>Разрешить доступ</span>' +
+          '<svg data-oauth-spin class="hidden w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>' +
+        '</button>' +
+        '<p class="text-[11px] text-zinc-400 text-center">Sandbox OAuth · пароль сервису не передаётся</p>' +
+      '</div>',
+    init(m) {
+      let current = 'yandex';
+      const logo = m.querySelector('[data-oauth-logo]');
+      const svcEl = m.querySelector('[data-oauth-svc]');
+      const perms = m.querySelector('[data-oauth-perms]');
+      const accWrap = m.querySelector('[data-oauth-account-wrap]');
+      const keyWrap = m.querySelector('[data-oauth-key-wrap]');
+      const allowBtn = m.querySelector('[data-oauth-allow]');
+      const allowLabel = m.querySelector('[data-oauth-allow-label]');
+      const spin = m.querySelector('[data-oauth-spin]');
+      const accSel = m.querySelector('[name="oauth_account"]');
+
+      const paint = (id) => {
+        current = id;
+        const s = SERVICES[id] || SERVICES.yandex;
+        m.querySelector('[data-modal-subtitle]').textContent = s.short;
+        logo.className = 'w-12 h-12 rounded-2xl flex items-center justify-center text-lg font-bold shadow-sm ' + s.tone;
+        logo.textContent = s.logo;
+        svcEl.textContent = s.short;
+        perms.innerHTML = (s.perms || []).map(p =>
+          '<li class="px-4 py-2.5 flex items-start gap-2.5"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>' + p + '</span></li>'
+        ).join('');
+        const isKey = s.auth === 'key';
+        accWrap.classList.toggle('hidden', isKey);
+        keyWrap.classList.toggle('hidden', !isKey);
+        allowLabel.textContent = isKey ? 'Подключить по API' : 'Разрешить доступ';
+        if (!isKey && s.accounts) {
+          accSel.innerHTML = s.accounts.map((a, i) => option(a, a, { selected: i === 0 })).join('');
+        }
+        if (isKey && s.host) m.querySelector('[name="oauth_domain"]').value = s.host;
+      };
+
+      let deferPersist = false;
+      let returnOpener = null;
+      m.addEventListener('modal:open', e => {
+        const op = e.detail.opener;
+        returnOpener = op;
+        deferPersist = !!(op && op.dataset.oauthDefer === '1');
+        const id = (op && (op.dataset.prefillService || op.dataset.oauthService)) || 'yandex';
+        paint(id);
+        allowBtn.disabled = false;
+        spin.classList.add('hidden');
+      });
+
+      allowBtn.addEventListener('click', () => {
+        if (allowBtn.disabled) return;
+        const s = SERVICES[current];
+        const isKey = s.auth === 'key';
+        let account = s.account;
+        if (isKey) {
+          const token = val(m, 'oauth_token');
+          if (token.length < 8) return App.toast('Вставьте API-ключ (не меньше 8 символов)');
+          account = val(m, 'oauth_domain') || s.host || s.short;
+        } else {
+          account = val(m, 'oauth_account') || s.account;
+        }
+        allowBtn.disabled = true;
+        spin.classList.remove('hidden');
+        allowLabel.textContent = 'Проверяем доступ…';
+        setTimeout(() => {
+          spin.classList.add('hidden');
+          allowBtn.disabled = false;
+          allowLabel.textContent = isKey ? 'Подключить по API' : 'Разрешить доступ';
+          if (deferPersist) {
+            emit('integration:oauth-ok', { service: current, account: account, projects: (s.bind || []).length });
+            App.closeModals();
+            if (returnOpener && returnOpener.dataset.oauthReturn === 'integration') {
+              setTimeout(() => App.openModal('integration', returnOpener), 40);
+            }
+            return;
+          }
+          const map = readIntegrations();
+          map[current] = { status: 'connected', account: account, projects: s.bind ? s.bind.length : 0 };
+          writeIntegrations(map);
+          App.toast('Интеграция с ' + s.short + ' успешно подключена для компании');
+          emit('integration:connected', { service: current, account: account, projects: map[current].projects, via: 'oauth' });
+          App.closeModals();
+        }, 1000);
+      });
+    }
+  });
   const WZ_PROJECTS = PROJECTS.filter(p => ['holod', 'remont', 'stroytech'].indexOf(p.id) !== -1).map(p => [p.id, p.name]);
   const WZ_STEPS = ['Сервис', 'Авторизация', 'Проекты'];
   App.registerModal('integration', {
@@ -895,7 +1054,7 @@
       '</div>' +
       '<button type="button" data-wz-back class="hidden text-xs text-zinc-500 hover:text-zinc-900 transition">← Назад</button>',
     init(m) {
-      let step = 1, authed = false, keyOk = false;
+      let step = 1, authed = false, keyOk = false, pendingOAuth = null;
       const svc = () => (m.querySelector('[name="service"]:checked') || {}).value || 'yandex';
       const sub = m.querySelector('[data-modal-submit]');
       const paint = () => {
@@ -919,14 +1078,30 @@
       };
       m.addEventListener('modal:open', e => {
         const op = e.detail.opener;
-        authed = false; keyOk = false;
-        step = op && op.dataset.prefillService ? 2 : 1;
+        keyOk = false;
+        if (pendingOAuth && pendingOAuth.service === ((op && op.dataset.prefillService) || svc())) {
+          authed = true;
+          SERVICES[pendingOAuth.service].account = pendingOAuth.account;
+          step = 2;
+        } else {
+          authed = false;
+          pendingOAuth = null;
+          step = op && op.dataset.prefillService ? 2 : 1;
+        }
         m.querySelector('[data-wz-oauth-state]').classList.add('hidden');
         m.querySelector('[data-wz-key-state]').classList.add('hidden');
         m.querySelector('[data-modal-title]').textContent = op && op.dataset.reconnect ? 'Переподключить интеграцию' : 'Подключить интеграцию';
         const s = SERVICES[svc()];
         if (s.host) m.querySelector('[name="domain"]').value = s.host;
-        setTimeout(paint);
+        setTimeout(() => {
+          paint();
+          if (authed && pendingOAuth) {
+            const st = m.querySelector('[data-wz-oauth-state]');
+            st.innerHTML = '✓ Доступ разрешён · <b class="font-medium">' + pendingOAuth.account + '</b><div class="text-xs text-emerald-700 mt-0.5">Найдено источников: ' + s.bind.length + '</div>';
+            st.classList.remove('hidden');
+            pendingOAuth = null;
+          }
+        });
       });
       m.addEventListener('change', e => {
         if (e.target.name !== 'service') return;
@@ -942,15 +1117,19 @@
         if (e.target.closest('[data-wz-back]')) { step = Math.max(1, step - 1); paint(); return; }
         const ob = e.target.closest('[data-wz-oauth]');
         if (ob) {
-          const s = SERVICES[svc()];
-          ob.disabled = true;
-          ob.innerHTML = '<span class="w-4 h-4 rounded-full border-2 border-current border-r-transparent animate-spin"></span>Ждём подтверждения в окне ' + s.short + '…';
-          setTimeout(() => {
-            ob.disabled = false; authed = true; paint();
-            const st = m.querySelector('[data-wz-oauth-state]');
-            st.innerHTML = '✓ Доступ разрешён · <b class="font-medium">' + s.account + '</b><div class="text-xs text-emerald-700 mt-0.5">Найдено источников: ' + s.bind.length + '</div>';
-            st.classList.remove('hidden');
-          }, 900);
+          const id = svc();
+          const opener = document.createElement('button');
+          opener.dataset.prefillService = id;
+          opener.dataset.oauthDefer = '1';
+          opener.dataset.oauthReturn = 'integration';
+          const onOk = e2 => {
+            if (e2.detail.service !== id) return;
+            document.removeEventListener('integration:oauth-ok', onOk);
+            pendingOAuth = { service: id, account: e2.detail.account };
+            SERVICES[id].account = e2.detail.account;
+          };
+          document.addEventListener('integration:oauth-ok', onOk);
+          App.openModal('integration-oauth', opener);
           return;
         }
         if (e.target.closest('[data-wz-check]')) {
@@ -973,44 +1152,167 @@
         if (step < 3) { e.preventDefault(); step++; paint(); return; }
         const n = m.querySelectorAll('[data-wz-bind] input:checked').length;
         if (!n) { e.preventDefault(); return App.toast('Выберите хотя бы один проект'); }
+        const account = s.account || s.host || val(m, 'domain');
+        const map = readIntegrations();
+        map[svc()] = { status: 'connected', account: account, projects: n };
+        writeIntegrations(map);
         e.detail.toast = s.short + ' подключён · ' + n + ' ' + App.plural(n, ['проект', 'проекта', 'проектов']);
-        emit('integration:connected', { service: svc(), account: s.account || s.host, projects: n });
+        emit('integration:connected', { service: svc(), account: account, projects: n, via: 'wizard' });
       });
     }
   });
 
-  /* ---------- Тариф ---------- */
-  const PLANS = [
-    { id: 'solo',      name: 'Solo',       base: 19,  per: 0,  note: 'До 3 проектов, 2 пользователя' },
-    { id: 'agency',    name: 'Agency',     base: 49,  per: 15, note: 'Без лимита пользователей, портал клиента' },
-    { id: 'agencypro', name: 'Agency Pro', base: 79,  per: 12, note: 'ИИ-аудит, white-label портал, коллтрекинг' },
-    { id: 'business',  name: 'Business',   base: 149, per: 10, note: 'SSO, API, выделенный менеджер' }
+  /* ---------- Тарифы и Sandbox-оплата ---------- */
+  const RUB_PLANS = [
+    { id: 'start', name: 'Старт',           price: 4900,  projects: 5,  seats: 3,  note: 'Небольшие команды и соло-специалисты' },
+    { id: 'pro',   name: 'Про / Агентство', price: 9900,  projects: 25, seats: 10, note: 'Хит продаж для агентств с отделом' },
+    { id: 'ent',   name: 'Enterprise',      price: 39900, projects: 0,  seats: 0,  note: 'Сети агентств и in-house отделы' }
   ];
-  const ACTIVE = 5;
-  App.registerModal('tariff', {
-    title: 'Сменить тариф', subtitle: 'Сейчас: Agency Pro (пробный период) · ' + ACTIVE + ' активных проектов', submit: 'Перейти на тариф', submitCan: 'billing',
+  const fmtRub = n => n.toLocaleString('ru-RU') + ' ₽';
+  const YEAR_FACTOR = 0.8;
+
+  const tariffChangeDef = {
+    title: 'Сменить тариф',
+    subtitle: 'Сейчас: Тариф Про (Агентство) · пробный период',
+    submit: 'Перейти на тариф',
+    submitCan: 'billing',
+    size: 'lg',
     body: () =>
-      '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">' + PLANS.map(p =>
+      '<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">' + RUB_PLANS.map(p =>
         '<label class="relative rounded-2xl border border-zinc-200 p-4 cursor-pointer hover:bg-zinc-50 has-[:checked]:border-accent has-[:checked]:ring-4 has-[:checked]:ring-accent/15 transition">' +
-        '<input type="radio" name="plan" value="' + p.id + '"' + (p.id === 'agencypro' ? ' checked' : '') + ' class="sr-only">' +
+        '<input type="radio" name="plan" value="' + p.id + '"' + (p.id === 'pro' ? ' checked' : '') + ' class="sr-only">' +
         '<div class="text-sm font-semibold">' + p.name + '</div>' +
-        '<div class="text-xl font-semibold tracking-tight mt-1 tabular-nums">$' + p.base + '<span class="text-xs font-normal text-zinc-500">/мес' + (p.per ? ' + $' + p.per + ' за проект' : '') + '</span></div>' +
-        '<div class="text-xs text-zinc-500 mt-2">' + p.note + '</div></label>').join('') + '</div>' +
-      field('Оплата', select('period', option('month', 'Помесячно') + option('year', 'За год — скидка 15%'))) +
+        '<div class="text-xl font-semibold tracking-tight mt-1 tabular-nums">' + fmtRub(p.price) + '<span class="text-xs font-normal text-zinc-500">/мес</span></div>' +
+        '<div class="text-xs text-zinc-500 mt-2">' + p.note + '</div>' +
+        '<div class="text-xs text-zinc-400 mt-1">' + (p.projects ? 'До ' + p.projects + ' проектов' : 'Без лимита проектов') +
+        (p.seats ? ' · до ' + p.seats + ' сотрудников' : '') + '</div></label>').join('') + '</div>' +
+      field('Период оплаты', select('period', option('month', 'Помесячно') + option('year', 'За год — скидка 20%'))) +
       '<div data-tariff-total class="rounded-2xl bg-zinc-50 px-4 py-3 text-sm"></div>',
     init(m) {
       const paint = () => {
-        const p = PLANS.find(x => x.id === (m.querySelector('[name="plan"]:checked') || {}).value) || PLANS[2];
+        const p = RUB_PLANS.find(x => x.id === (m.querySelector('[name="plan"]:checked') || {}).value) || RUB_PLANS[1];
         const year = val(m, 'period') === 'year';
-        const sum = (p.base + p.per * ACTIVE) * (year ? 0.85 : 1);
-        m.querySelector('[data-tariff-total]').innerHTML = 'Итого за ' + ACTIVE + ' проектов: <span class="font-semibold tabular-nums">$' + Math.round(sum) + '/мес</span>' + (year ? ' · $' + Math.round(sum * 12) + ' за год' : '') + (p.id === 'solo' ? '<div class="text-xs text-red-700 mt-1">На Solo доступно 3 проекта — два придётся архивировать</div>' : '');
+        const monthly = Math.round(p.price * (year ? YEAR_FACTOR : 1));
+        m.querySelector('[data-tariff-total]').innerHTML =
+          'Итого: <span class="font-semibold tabular-nums">' + fmtRub(monthly) + '/мес</span>' +
+          (year ? ' · <span class="tabular-nums">' + fmtRub(monthly * 12) + '</span> за год' : '') +
+          (p.id === 'start' ? '<div class="text-xs text-amber-700 mt-1">На «Старте» лимит 5 проектов — лишние придётся архивировать</div>' : '');
       };
       m.addEventListener('change', paint);
       m.addEventListener('modal:open', () => setTimeout(paint));
     },
     onSubmit(m, d) {
-      const p = PLANS.find(x => x.id === m.querySelector('[name="plan"]:checked').value);
-      d.toast = p.id === 'agencypro' ? 'Подписка Agency Pro оформлена · первое списание 02.07' : 'Тариф изменится на ' + p.name + ' с 02.07 — после пробного периода';
+      const p = RUB_PLANS.find(x => x.id === m.querySelector('[name="plan"]:checked').value) || RUB_PLANS[1];
+      if (p.id === 'pro') {
+        d.toast = 'Тариф «Про» сохранён — оформите оплату в окне Checkout';
+        setTimeout(() => App.openModal('checkout'), 280);
+        return;
+      }
+      d.toast = 'Заявка на смену тарифа на «' + p.name + '» отправлена · менеджер свяжется в течение дня';
+    }
+  };
+  App.registerModal('tariff-change', tariffChangeDef);
+  App.registerModal('tariff', tariffChangeDef);
+
+  App.registerModal('checkout', {
+    title: 'Оплата подписки SEO Control',
+    subtitle: 'Тариф «Про»',
+    submit: false,
+    cancel: 'Закрыть',
+    size: 'lg',
+    body: () =>
+      '<div data-seg-scope class="space-y-4">' +
+        '<div>' +
+          '<div class="text-xs font-medium text-zinc-500 mb-2">Период</div>' +
+          '<div data-segmented data-checkout-period class="inline-flex flex-wrap bg-zinc-100 rounded-full p-1 gap-0.5" role="group">' +
+            '<button type="button" data-seg="month" aria-pressed="true" class="px-3.5 py-1.5 rounded-full text-sm font-medium">На 1 месяц · 9 900 ₽</button>' +
+            '<button type="button" data-seg="year" aria-pressed="false" class="px-3.5 py-1.5 rounded-full text-sm font-medium">На 1 год · 95 040 ₽ (−20%)</button>' +
+          '</div>' +
+        '</div>' +
+        '<div>' +
+          '<div class="text-xs font-medium text-zinc-500 mb-2">Способ оплаты</div>' +
+          '<div data-segmented data-checkout-pay class="inline-flex bg-zinc-100 rounded-full p-1" role="group">' +
+            '<button type="button" data-seg="card" aria-pressed="true" class="px-3.5 py-1.5 rounded-full text-sm font-medium">Банковская карта</button>' +
+            '<button type="button" data-seg="invoice" aria-pressed="false" class="px-3.5 py-1.5 rounded-full text-sm font-medium">Счёт на оплату</button>' +
+          '</div>' +
+        '</div>' +
+        '<div data-seg-panel="card" class="space-y-3">' +
+          '<p class="text-xs text-zinc-500">Для физлиц и самозанятых · Sandbox Test</p>' +
+          field('Номер карты', '<input name="card_number" type="text" inputmode="numeric" placeholder="4242 •••• •••• 4242" value="4242 •••• •••• 4242" class="' + F + ' tabular-nums">') +
+          grid(2,
+            field('Срок', '<input name="card_exp" type="text" inputmode="numeric" placeholder="MM/YY" value="12/28" class="' + F + ' tabular-nums">') +
+            field('CVC', '<input name="card_cvc" type="password" inputmode="numeric" placeholder="•••" value="123" maxlength="4" class="' + F + ' tabular-nums">')
+          ) +
+        '</div>' +
+        '<div data-seg-panel="invoice" class="hidden space-y-3">' +
+          '<p class="text-xs text-zinc-500">Для юрлиц и ИП · данные подставлены из профиля компании</p>' +
+          grid(2,
+            field('ИНН', '<input name="inn" type="text" value="7701234567" class="' + F + ' tabular-nums">') +
+            field('Организация', '<input name="org" type="text" value="Ромашка Digital" class="' + F + '">')
+          ) +
+          '<button type="button" data-checkout-invoice class="w-full h-10 px-4 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition inline-flex items-center justify-center gap-1.5">📥 Сформировать и скачать счёт на оплату (PDF)</button>' +
+        '</div>' +
+        '<button type="button" data-checkout-pay-btn data-can="billing" class="w-full h-11 px-4 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition shadow-sm inline-flex items-center justify-center gap-2">' +
+          '<span data-pay-label>Оплатить 9 900 ₽ (Тестовый платеж)</span>' +
+          '<svg data-pay-spin class="hidden w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>' +
+        '</button>' +
+        '<p class="text-[11px] text-zinc-400 text-center">Sandbox Checkout · деньги не списываются</p>' +
+      '</div>',
+    init(m) {
+      let period = 'month';
+      let payMethod = 'card';
+      const payBtn = m.querySelector('[data-checkout-pay-btn]');
+      const payLabel = m.querySelector('[data-pay-label]');
+      const spin = m.querySelector('[data-pay-spin]');
+      const amountOf = () => period === 'year' ? 95040 : 9900;
+      const syncPay = () => {
+        payLabel.textContent = 'Оплатить ' + fmtRub(amountOf()) + ' (Тестовый платеж)';
+        payBtn.classList.toggle('hidden', payMethod === 'invoice');
+      };
+      m.querySelector('[data-checkout-period]').addEventListener('seg:change', e => {
+        period = e.detail.value;
+        syncPay();
+      });
+      m.querySelector('[data-checkout-pay]').addEventListener('seg:change', e => {
+        payMethod = e.detail.value;
+        syncPay();
+      });
+      m.querySelector('[data-checkout-invoice]').addEventListener('click', () => {
+        const org = val(m, 'org') || 'Ромашка Digital';
+        App.toast('Счёт № СЧ-' + amountOf() + ' для «' + org + '» сформирован · PDF скачивается');
+      });
+      payBtn.addEventListener('click', () => {
+        if (payBtn.disabled) return;
+        payBtn.disabled = true;
+        spin.classList.remove('hidden');
+        payLabel.textContent = 'Обработка платежа…';
+        setTimeout(() => {
+          spin.classList.add('hidden');
+          payBtn.disabled = false;
+          syncPay();
+          const amt = amountOf();
+          const isYear = period === 'year';
+          App.toast('Оплата успешно проведена! Тариф «Про» активен на ' + (isYear ? '365 дней' : '30 дней'));
+          emit('billing:paid', {
+            amount: amt,
+            period: period,
+            method: 'card',
+            purpose: isYear ? 'Подписка «Про» на 1 год' : 'Подписка «Про» на 1 месяц',
+            until: '26.11.2026'
+          });
+          App.closeModals();
+        }, 1000);
+      });
+      m.addEventListener('modal:open', () => {
+        period = 'month';
+        payMethod = 'card';
+        if (App.segment) {
+          App.segment(m.querySelector('[data-checkout-period]'), 'month');
+          App.segment(m.querySelector('[data-checkout-pay]'), 'card');
+        }
+        syncPay();
+      });
     }
   });
+
 })();

@@ -662,6 +662,49 @@
 
         <!-- ИСТОЧНИКИ -->
         <div data-tab-panel="sources" data-deny="contractor" class="hidden mt-0 pt-0 space-y-6">
+
+          <div data-sources-manual class="hidden rounded-2xl border border-amber-200 bg-amber-50/70 px-4 py-4 sm:px-5 flex flex-col sm:flex-row sm:items-center gap-3">
+            <div class="min-w-0 flex-1">
+              <div class="text-sm font-medium text-amber-950">Автоматический сбор данных не настроен</div>
+              <p class="text-xs text-amber-900/80 mt-1 leading-relaxed">Вы можете вносить фактические показатели вручную в разделе аналитики проекта.</p>
+            </div>
+            <button type="button" data-can="edit_project" data-open-modal="fact" class="shrink-0 h-9 px-4 rounded-full bg-white border border-amber-200 text-sm font-medium text-amber-950 hover:bg-amber-100/60 transition inline-flex items-center justify-center gap-1.5">✍️ Внести факт за месяц</button>
+          </div>
+
+          <section data-sources-bound class="bg-white rounded-2xl shadow-card overflow-hidden">
+            <div class="px-4 lg:px-6 py-4 flex flex-col sm:flex-row sm:items-center gap-3">
+              <div class="flex items-center gap-3 flex-1 min-w-0">
+                <span class="w-2 h-2 rounded-full bg-blue-600 shrink-0"></span>
+                <div class="min-w-0">
+                  <h3 class="text-sm font-semibold tracking-tight">Привязанные счётчики</h3>
+                  <p class="text-xs text-zinc-500 mt-0.5">Источники данных проекта «Холод»</p>
+                </div>
+              </div>
+              <button type="button" data-source-sync data-can="link_counter" class="shrink-0 h-9 px-3.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition inline-flex items-center gap-1.5">
+                <svg data-sync-icon class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                Синхронизировать данные
+              </button>
+            </div>
+            <ul data-source-counters class="border-t border-zinc-100 divide-y divide-zinc-100">
+              <li data-counter="metrika" class="px-4 lg:px-6 py-4 flex flex-col sm:flex-row sm:items-center gap-3">
+                <span class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center font-bold shrink-0">Я</span>
+                <div class="min-w-0 flex-1">
+                  <div class="text-sm font-medium">Яндекс.Метрика</div>
+                  <div class="text-xs text-zinc-500 mt-0.5 tabular-nums">ID счётчика <span class="text-zinc-800 font-medium">94512367</span> · последняя выгрузка: сегодня в 04:15</div>
+                </div>
+                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Активен</span>
+              </li>
+              <li data-counter="webmaster" class="px-4 lg:px-6 py-4 flex flex-col sm:flex-row sm:items-center gap-3">
+                <span class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center font-bold shrink-0">В</span>
+                <div class="min-w-0 flex-1">
+                  <div class="text-sm font-medium">Яндекс.Вебмастер</div>
+                  <div class="text-xs text-zinc-500 mt-0.5">Сайт holod-shop.ru · индексация и запросы</div>
+                </div>
+                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Активен</span>
+              </li>
+            </ul>
+          </section>
+
           <section class="bg-white rounded-2xl shadow-card overflow-hidden">
             <div class="px-4 lg:px-6 py-4 flex items-center gap-3">
               <span class="w-2 h-2 rounded-full bg-blue-600 shrink-0"></span>
@@ -683,9 +726,9 @@
                 <tbody data-source-rows="seo" class="divide-y divide-zinc-100 block md:table-row-group">
                   <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
                     <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm font-medium col-span-2 md:col-span-1">Трафик</td>
-                    <td data-label="Источник" class="md:px-3 md:py-3 lg:py-4 text-sm text-zinc-500 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">Метрика · счётчик 12345678</td>
+                    <td data-label="Источник" class="md:px-3 md:py-3 lg:py-4 text-sm text-zinc-500 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">Метрика · счётчик 94512367</td>
                     <td data-label="Значение" class="md:px-3 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">24 380</td>
-                    <td data-label="Обновлено" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm text-zinc-500 tabular-nums whitespace-nowrap min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">сегодня 06:00</td>
+                    <td data-label="Обновлено" data-src-updated class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm text-zinc-500 tabular-nums whitespace-nowrap min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">сегодня 04:15</td>
                   </tr>
                   <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
                     <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm font-medium col-span-2 md:col-span-1">Топ-10</td>
@@ -693,7 +736,7 @@
                     <td data-label="Значение" class="md:px-3 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">148</td>
                     <td data-label="Обновлено" class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right text-sm text-zinc-500 tabular-nums whitespace-nowrap min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">вчера 22:15</td>
                   </tr>
-                  <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                  <tr data-src-gsc class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
                     <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm font-medium col-span-2 md:col-span-1">Показы</td>
                     <td data-label="Источник" class="md:px-3 md:py-3 lg:py-4 text-sm text-zinc-500 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">GSC · holod-shop.ru</td>
                     <td data-label="Значение" class="md:px-3 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">12 400</td>
@@ -704,7 +747,7 @@
             </div>
           </section>
 
-          <section class="bg-white rounded-2xl shadow-card overflow-hidden">
+          <section data-sources-client class="bg-white rounded-2xl shadow-card overflow-hidden">
             <div class="px-4 lg:px-6 py-4 flex items-center gap-3">
               <span class="w-2 h-2 rounded-full bg-amber-600 shrink-0"></span>
               <div class="flex-1 min-w-0">
@@ -723,7 +766,7 @@
                   </tr>
                 </thead>
                 <tbody data-source-rows="client" class="divide-y divide-zinc-100 block md:table-row-group">
-                  <tr class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+                  <tr data-src-callibri class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
                     <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 text-sm font-medium col-span-2 md:col-span-1">Лиды из звонков</td>
                     <td data-label="Источник" class="md:px-3 md:py-3 lg:py-4 text-sm text-zinc-500 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">Callibri · holod-shop</td>
                     <td data-label="Значение" class="md:px-3 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">87</td>
@@ -731,6 +774,9 @@
                   </tr>
                 </tbody>
               </table>
+            </div>
+            <div data-sources-client-empty class="hidden px-4 lg:px-6 py-5 text-sm text-zinc-500 border-t border-zinc-100">
+              Callibri не подключён на уровне компании — лиды из звонков можно внести вручную через «Внести факт».
             </div>
           </section>
 
@@ -1123,7 +1169,51 @@
     tr.children[3].textContent = 'только что';
     tr.classList.add('bg-accent/5');
     rows.appendChild(tr);
+    paintSourcesMode();
   });
+
+  /* Режим Источников: авто / ручной fallback по CompanyIntegration */
+  function paintSourcesMode() {
+    const map = (window.SEOApp && SEOApp.readIntegrations) ? SEOApp.readIntegrations() : { yandex: { status: 'connected' }, callibri: { status: 'off' }, google: { status: 'expired' } };
+    const yandexOn = map.yandex && map.yandex.status === 'connected';
+    const callibriOn = map.callibri && map.callibri.status === 'connected';
+    const googleOn = map.google && map.google.status === 'connected';
+    const manual = document.querySelector('[data-sources-manual]');
+    const bound = document.querySelector('[data-sources-bound]');
+    const clientEmpty = document.querySelector('[data-sources-client-empty]');
+    const callibriRow = document.querySelector('[data-src-callibri]');
+    const gscRow = document.querySelector('[data-src-gsc]');
+    if (manual) manual.classList.toggle('hidden', yandexOn);
+    if (bound) bound.classList.toggle('hidden', !yandexOn);
+    if (callibriRow) callibriRow.classList.toggle('hidden', !callibriOn);
+    if (clientEmpty) clientEmpty.classList.toggle('hidden', callibriOn);
+    if (gscRow) {
+      const src = gscRow.querySelector('[data-label="Источник"]') || gscRow.children[1];
+      if (src && !googleOn) src.textContent = map.google && map.google.status === 'expired' ? 'GSC · токен истёк' : 'GSC · не подключён';
+    }
+  }
+  paintSourcesMode();
+  document.addEventListener('integration:connected', paintSourcesMode);
+  document.addEventListener('integration:disconnected', paintSourcesMode);
+  document.addEventListener('seo:ready', paintSourcesMode);
+
+  const syncBtn = document.querySelector('[data-source-sync]');
+  if (syncBtn) {
+    syncBtn.addEventListener('click', () => {
+      const icon = syncBtn.querySelector('[data-sync-icon]');
+      if (syncBtn.disabled) return;
+      syncBtn.disabled = true;
+      if (icon) icon.classList.add('animate-spin');
+      setTimeout(() => {
+        syncBtn.disabled = false;
+        if (icon) icon.classList.remove('animate-spin');
+        document.querySelectorAll('[data-src-updated]').forEach(el => { el.textContent = 'только что'; });
+        const meta = document.querySelector('[data-counter="metrika"] .text-xs');
+        if (meta) meta.innerHTML = 'ID счётчика <span class="text-zinc-800 font-medium">94512367</span> · последняя выгрузка: только что';
+        SEOApp.toast('Данные за май успешно обновлены из Яндекс.Метрики');
+      }, 900);
+    });
+  }
 </script>
 </body>
 </html>

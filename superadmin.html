@@ -182,7 +182,7 @@
 
 <script>
 (function () {
-  const PLANS = { start: ['Старт', 'bg-zinc-100 text-zinc-700', 4900], pro: ['Про', 'bg-blue-50 text-blue-700', 14900], ent: ['Enterprise', 'bg-zinc-900 text-white', 39900] };
+  const PLANS = { start: ['Старт', 'bg-zinc-100 text-zinc-700', 4900], pro: ['Про', 'bg-blue-50 text-blue-700', 9900], ent: ['Enterprise', 'bg-zinc-900 text-white', 39900] };
   const fmt = n => Number(n).toLocaleString('ru-RU');
   function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
   function daysWord(n) {
@@ -212,10 +212,10 @@
     { id: 'legal', name: 'Смирнов и партнёры', city: 'Москва', domain: 'smirnov.legal', owner: 'Андрей Смирнов', email: 'a@smirnov.ru', phone: '+7 916 555-12-34', plan: 'ent', status: 'overdue', until: '', days: 0, projects: 18, people: 11, ltv: 956000 }
   ];
   let payments = [
-    { date: '12.10.2026', company: 'Ромашка Digital', amount: 14900, plan: 'pro', method: 'Карта', ok: true },
+    { date: '12.10.2026', company: 'Ромашка Digital', amount: 9900, plan: 'pro', method: 'Карта', ok: true },
     { date: '01.10.2026', company: 'Альфа Продвижение', amount: 39900, plan: 'ent', method: 'Счёт', ok: true },
-    { date: '28.09.2026', company: 'МедиаЛайт', amount: 14900, plan: 'pro', method: 'Карта', ok: false },
-    { date: '15.09.2026', company: 'Холод Маркетинг', amount: 14900, plan: 'pro', method: 'Карта', ok: true },
+    { date: '28.09.2026', company: 'МедиаЛайт', amount: 9900, plan: 'pro', method: 'Карта', ok: false },
+    { date: '15.09.2026', company: 'Холод Маркетинг', amount: 9900, plan: 'pro', method: 'Карта', ok: true },
     { date: '03.09.2026', company: 'СтройТех SEO', amount: 4900, plan: 'start', method: 'Карта', ok: true },
     { date: '20.08.2026', company: 'Смирнов и партнёры', amount: 39900, plan: 'ent', method: 'Счёт', ok: false }
   ];
