@@ -22,19 +22,12 @@
             <a href="tasks.html" class="text-sm text-zinc-500 hover:text-zinc-900 transition shrink-0">← Назад</a>
             <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[140px] sm:max-w-none">Проверить индексацию в GSC</h1>
           </div>
-          <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-            <button type="button" data-task-action="progress" class="h-8 sm:h-9 px-3.5 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition whitespace-nowrap">В работе</button>
-            <button type="button" data-task-action="wait_client" class="h-8 sm:h-9 px-3.5 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition whitespace-nowrap">Ждёт клиента</button>
-            <button type="button" data-task-action="submit" data-assignee="kim" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 transition whitespace-nowrap">Отправить на проверку</button>
-            <button type="button" data-task-action="finish" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 transition whitespace-nowrap">Завершить задачу</button>
-            <button type="button" data-task-action="rework" data-accept-item data-creator="petrov" data-acceptor="petrov" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-amber-500 text-white text-xs font-medium hover:bg-amber-600 transition whitespace-nowrap">На доработку</button>
-            <button type="button" data-task-action="accept" data-accept-item data-creator="petrov" data-acceptor="petrov" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 transition whitespace-nowrap">Принять</button>
-            <span data-status-note class="hidden inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap"></span>
-            <span data-accept-deny data-creator="petrov" data-acceptor="petrov" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 text-amber-700 text-xs font-medium whitespace-nowrap">
-              <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>Принимает А. Петров
-            </span>
-            <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
-            <a href="profile.html" aria-label="Мой профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
+          <div class="flex items-center gap-2 shrink-0 flex-wrap justify-end">
+            <button type="button" data-task-action="wait_client" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition whitespace-nowrap">Ждёт клиента</button>
+            <button type="button" data-task-action="submit" data-assignee="kim" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition whitespace-nowrap">Сдать на проверку</button>
+            <button type="button" data-task-action="rework" data-accept-item data-creator="petrov" data-acceptor="petrov" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition whitespace-nowrap">На доработку</button>
+            <button type="button" data-task-action="accept" data-accept-item data-creator="petrov" data-acceptor="petrov" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-zinc-900 text-white text-xs font-medium hover:bg-zinc-800 transition whitespace-nowrap">Принять</button>
+            <span data-status-note class="hidden inline-flex items-center gap-1.5 h-9 px-3 rounded-full text-xs font-medium whitespace-nowrap"></span>
           </div>
       </header>
 
@@ -47,7 +40,7 @@
           </div>
           <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight">Проверить индексацию в GSC</h2>
 
-          <ol data-lifecycle aria-label="Этапы задачи" class="mt-5 grid grid-cols-2 sm:grid-cols-5 gap-1 sm:gap-2 max-w-2xl"></ol>
+          <ol data-lifecycle aria-label="Этапы задачи" class="mt-4 flex flex-wrap items-center gap-1.5"></ol>
           <div data-return-note class="hidden mt-4 max-w-xl"></div>
         </div>
 
@@ -475,21 +468,22 @@
     const last = task.returns[task.returns.length - 1];
     const afterWait = review || rework || done;
     const steps = [
-      { label: 'Запланирована', date: task.dates.planned, state: 'past' },
-      { label: 'В работе', date: task.dates.progress, state: progress ? 'current' : (waiting || afterWait ? 'past' : 'next') },
-      { label: 'Ждёт клиента', date: task.dates.waiting || '—', state: waiting ? 'waiting' : (afterWait ? 'past' : 'next') },
-      { label: rework ? 'На доработке' : 'На проверке', date: rework && last ? last.date : (task.dates.review || '—'), state: rework ? 'rework' : (review ? 'current' : (done ? 'past' : 'next')), returns: afterWait ? task.returns.length : 0 },
-      { label: 'Принята', date: task.dates.done || '—', state: done ? 'done' : 'next' }
+      { label: 'Запланирована', state: 'past' },
+      { label: 'В работе', state: (progress || waiting) ? 'current' : (afterWait ? 'past' : 'next') },
+      { label: rework ? 'На доработке' : 'На проверке', state: rework ? 'rework' : (review ? 'current' : (done ? 'past' : 'next')) },
+      { label: 'Принята', state: done ? 'done' : 'next' }
     ];
-    const BAR = { past: done ? 'bg-emerald-500' : 'bg-zinc-900', current: 'bg-amber-500', waiting: 'bg-sky-500', rework: 'bg-amber-500', done: 'bg-emerald-500', next: 'bg-zinc-200' };
-    const TXT = { past: 'text-zinc-900', current: 'text-amber-700', waiting: 'text-sky-700', rework: 'text-amber-800', done: 'text-emerald-700', next: 'text-zinc-500' };
+    const PILL = {
+      past: 'bg-zinc-900 text-white',
+      current: 'bg-accent text-white',
+      rework: 'bg-amber-500 text-white',
+      done: 'bg-emerald-600 text-white',
+      next: 'bg-white border border-zinc-200 text-zinc-500'
+    };
     document.querySelector('[data-lifecycle]').innerHTML = steps.map(x =>
-      '<li' + (x.state === 'current' || x.state === 'rework' || x.state === 'waiting' ? ' aria-current="step"' : '') + '>' +
-        '<div class="h-1 rounded-full ' + BAR[x.state] + '"></div>' +
-        '<div class="mt-2 text-[11px] sm:text-xs font-medium ' + TXT[x.state] + '">' + x.label + '</div>' +
-        '<div class="flex flex-wrap items-center gap-1 text-[11px] text-zinc-500 tabular-nums">' + x.date +
-          (x.returns ? '<span class="px-1.5 rounded bg-amber-50 text-amber-700 ring-1 ring-amber-200 font-medium" title="Возвратов на доработку">' + x.returns + '</span>' : '') +
-        '</div>' +
+      '<li' + (x.state === 'current' || x.state === 'rework' ? ' aria-current="step"' : '') +
+        ' class="inline-flex items-center h-7 px-3 rounded-full text-[11px] font-medium whitespace-nowrap ' + PILL[x.state] + '">' +
+        x.label +
       '</li>').join('');
     const note = document.querySelector('[data-return-note]');
     note.classList.toggle('hidden', !last || done);
@@ -532,12 +526,19 @@
       b.dataset.tip = tip;
       b.title = tip;
     };
-    showAction('progress', execOnly || setter || both, open && task.status !== 'progress' && task.status !== 'review');
-    showAction('wait_client', execOnly || setter || both, open && task.status !== 'WAITING_CLIENT' && task.status !== 'review' && task.status !== 'done');
-    showAction('submit', execOnly, task.status !== 'review' && open);
-    showAction('finish', both, open);
-    showAction('accept', setter, task.status === 'review' && open);
-    showAction('rework', setter, task.status === 'review' && open);
+    showAction('wait_client', execOnly || both, open && task.status !== 'WAITING_CLIENT' && task.status !== 'review' && task.status !== 'done');
+    showAction('submit', execOnly || both, task.status !== 'review' && open);
+    showAction('accept', setter || both, task.status === 'review' && open);
+    showAction('rework', setter || both, task.status === 'review' && open);
+    /* Скрыть кнопки чужой роли полностью */
+    ['wait_client', 'submit'].forEach(a => {
+      const b = document.querySelector('[data-task-action="' + a + '"]');
+      if (b) b.classList.toggle('hidden', !(execOnly || both));
+    });
+    ['accept', 'rework'].forEach(a => {
+      const b = document.querySelector('[data-task-action="' + a + '"]');
+      if (b) b.classList.toggle('hidden', !(setter || both));
+    });
     const sn = document.querySelector('[data-status-note]');
     const waitingReview = execOnly && task.status === 'review';
     const hideNote = (task.status === 'review' && !waitingReview) || progress || waiting;

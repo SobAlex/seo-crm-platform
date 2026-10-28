@@ -21,10 +21,6 @@
         <div class="flex items-center gap-3 min-w-0">
           <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[140px] sm:max-w-none">Мой проект</h1>
         </div>
-        <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-          <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
-          <a href="profile.html" aria-label="Мой профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>ЕК</span></a>
-        </div>
       </header>
 
       <div class="mb-6">
@@ -36,17 +32,11 @@
       <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
         <div class="xl:col-span-2 space-y-6">
 
-        <!-- Нужно от вас -->
-        <section id="approve" data-seg-scope class="scroll-mt-20">
-          <div class="mb-3 flex flex-wrap items-center justify-between gap-3">
-            <h3 class="text-sm font-semibold tracking-tight">Нужно от вас</h3>
-            <div data-segmented role="group" aria-label="Что нужно от вас">
-              <button type="button" data-seg="approve" aria-pressed="true" class="shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap">Задачи на согласовании <span data-approve-count class="tabular-nums text-zinc-400">3</span></button>
-              <button type="button" data-seg="other" class="shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium text-zinc-500 transition whitespace-nowrap">Бриф и доступы <span class="tabular-nums text-zinc-400">2</span></button>
+          <div data-portal-panel="approve" class="space-y-4">
+            <div class="flex items-center justify-between gap-3">
+              <h3 class="text-sm font-semibold tracking-tight">Согласование результатов</h3>
+              <span class="text-xs text-zinc-500">Ожидают решения: <span data-approve-count class="tabular-nums font-medium text-zinc-700">3</span></span>
             </div>
-          </div>
-
-          <div data-seg-panel="approve">
             <div data-approve-list class="flex flex-col gap-3"></div>
             <div data-approve-empty class="hidden bg-white rounded-2xl shadow-card px-4 py-10 text-center">
               <div class="w-10 h-10 mx-auto rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></div>
@@ -55,142 +45,75 @@
             </div>
           </div>
 
-          <div data-seg-panel="other" class="hidden flex flex-col gap-3">
-            <a href="brief-form.html" class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 hover:bg-zinc-50 transition">
-              <div class="flex items-start gap-3 min-w-0">
-                <span class="w-2 h-2 rounded-full bg-blue-500 mt-2 shrink-0"></span>
-                <div class="min-w-0">
-                  <div class="text-sm font-medium">Заполнить бриф</div>
-                  <div class="text-xs text-zinc-500 mt-1">3 вопроса · нужно, чтобы команда начала работу</div>
+          <div data-portal-panel="reports" class="hidden space-y-4">
+            <div class="flex items-center justify-between gap-3">
+              <h3 class="text-sm font-semibold tracking-tight">Отчёты проекта</h3>
+              <span class="text-xs text-zinc-500">Присылаем до 5 числа следующего месяца</span>
+            </div>
+            <div class="bg-white rounded-2xl shadow-card overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                  <thead>
+                    <tr class="border-b border-zinc-100 text-[11px] font-medium text-zinc-400 uppercase tracking-wider">
+                      <th class="px-4 lg:px-6 py-3">Период</th>
+                      <th class="px-4 py-3">Статус</th>
+                      <th class="px-4 py-3">Согласован</th>
+                      <th class="px-4 lg:px-6 py-3 text-right">Действия</th>
+                    </tr>
+                  </thead>
+                  <tbody data-portal-reports class="divide-y divide-zinc-100 text-sm"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div data-portal-panel="brief" class="hidden space-y-4">
+            <div>
+              <h3 class="text-sm font-semibold tracking-tight">Бриф и доступы</h3>
+              <p class="text-xs text-zinc-500 mt-1">Сводка ответов клиента и статус доступов для команды</p>
+            </div>
+            <section class="bg-white rounded-2xl shadow-card p-5 sm:p-6 space-y-3">
+              <div class="flex items-center justify-between gap-3">
+                <h4 class="text-sm font-semibold tracking-tight">Ответы на бриф</h4>
+                <a href="brief.html" class="text-xs font-medium text-accent hover:underline">Открыть полностью</a>
+              </div>
+              <div class="space-y-3 text-sm">
+                <div>
+                  <div class="text-xs font-medium text-zinc-500 mb-1">Главная цель на 3 месяца</div>
+                  <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 text-sm font-medium">Рост органического трафика</div>
+                </div>
+                <div>
+                  <div class="text-xs font-medium text-zinc-500 mb-1">Сезонность и ассортимент</div>
+                  <p class="text-zinc-700 leading-relaxed">Пик продаж — май–июль. Упор на промышленные чиллеры и морозильные лари к сезону.</p>
                 </div>
               </div>
-              <span class="text-sm font-medium text-accent shrink-0">Открыть</span>
-            </a>
-            <div class="bg-white rounded-2xl shadow-card p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div class="flex items-start gap-3 min-w-0">
-                <span class="w-2 h-2 rounded-full bg-violet-500 mt-2 shrink-0"></span>
-                <div class="min-w-0">
-                  <div class="text-sm font-medium">Предоставить доступ к Google Search Console</div>
-                  <div class="text-xs text-zinc-500 mt-1">Нужен, чтобы видеть позиции и индексацию. Ответить до 20.06</div>
-                </div>
+            </section>
+            <section class="bg-white rounded-2xl shadow-card p-5 sm:p-6 space-y-3">
+              <h4 class="text-sm font-semibold tracking-tight">Доступы</h4>
+              <ul class="space-y-2.5 text-sm">
+                <li class="flex items-center justify-between gap-3">
+                  <span class="font-medium text-zinc-900">Яндекс Метрика</span>
+                  <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Выдан</span>
+                </li>
+                <li class="flex items-center justify-between gap-3">
+                  <span class="font-medium text-zinc-900">Google Search Console</span>
+                  <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium bg-amber-50 text-amber-700"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Нужен до 20.06</span>
+                </li>
+                <li class="flex items-center justify-between gap-3">
+                  <span class="font-medium text-zinc-900">Админка сайта</span>
+                  <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Выдан</span>
+                </li>
+              </ul>
+              <div class="pt-2 flex flex-wrap gap-2">
+                <button data-toast="Спасибо! Менеджер получил уведомление" class="h-9 px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition">Доступ в GSC выдан</button>
+                <a href="brief-form.html" class="h-9 px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition inline-flex items-center">Дополнить бриф</a>
               </div>
-              <div class="flex gap-2 shrink-0">
-                <button data-toast="Спасибо! Менеджер получил уведомление" class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Доступ выдан</button>
-                <a href="mailto:n.morozov@romashka.ru?subject=Доступ к Search Console" class="flex-1 sm:flex-none text-center px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Написать менеджеру</a>
-              </div>
-            </div>
+            </section>
           </div>
-        </section>
-
-        <!-- Результаты -->
-        <section>
-          <div class="mb-3 flex items-end justify-between gap-3">
-            <h3 class="text-sm font-semibold tracking-tight">Результаты</h3>
-            <span class="text-xs text-zinc-500">Данные на 18.06</span>
-          </div>
-          <div data-portal-kpi-cards class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
-            <div data-portal-kpi="traffic" class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
-              <div class="text-xs font-medium text-zinc-500 mb-2">Посетители сайта</div>
-              <div class="flex items-baseline gap-1.5">
-                <span class="text-2xl font-semibold tracking-tight tabular-nums">24 380</span>
-                <span class="text-xs text-zinc-500 tabular-nums">из 26 000</span>
-              </div>
-              <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
-                <div class="h-full bg-amber-500 rounded-full w-[94%]"></div>
-              </div>
-              <div class="text-xs font-medium tabular-nums text-amber-700 mt-1.5">94% от цели</div>
-            </div>
-            <div data-portal-kpi="leads" class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
-              <div class="text-xs font-medium text-zinc-500 mb-2">Заявки и звонки</div>
-              <div class="flex items-baseline gap-1.5">
-                <span class="text-2xl font-semibold tracking-tight tabular-nums">312</span>
-                <span class="text-xs text-zinc-500 tabular-nums">из 290</span>
-              </div>
-              <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
-                <div class="h-full bg-emerald-500 rounded-full w-full"></div>
-              </div>
-              <div class="text-xs font-medium tabular-nums text-emerald-700 mt-1.5">108% от цели</div>
-            </div>
-            <div data-portal-kpi="top10" class="bg-white rounded-2xl shadow-card p-4 lg:p-5">
-              <div class="text-xs font-medium text-zinc-500 mb-2">Запросы в топ-10</div>
-              <div class="flex items-baseline gap-1.5">
-                <span class="text-2xl font-semibold tracking-tight tabular-nums">148</span>
-                <span class="text-xs text-zinc-500 tabular-nums">из 130</span>
-              </div>
-              <div class="mt-3 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
-                <div class="h-full bg-emerald-500 rounded-full w-full"></div>
-              </div>
-              <div class="text-xs font-medium tabular-nums text-emerald-700 mt-1.5">114% от цели</div>
-            </div>
-          </div>
-
-          <div data-metric-chart class="bg-white rounded-2xl shadow-card p-4 lg:p-6 mt-3 lg:mt-4">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-              <div>
-                <h4 class="text-sm font-medium">Динамика ключевых показателей</h4>
-                <p class="text-xs text-zinc-500 mt-0.5">Январь–июнь 2025 · пунктир — согласованный план</p>
-              </div>
-              <div data-portal-chart-tabs data-segmented role="group" aria-label="Показатель" class="inline-flex bg-zinc-100 rounded-full p-1 max-w-full overflow-x-auto no-scrollbar"></div>
-            </div>
-            <div data-chart-stats class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4"></div>
-            <div class="w-full overflow-x-auto">
-              <div data-chart-svg></div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Ежемесячные отчёты -->
-        <section id="reports" class="bg-white rounded-2xl shadow-card overflow-hidden scroll-mt-20">
-          <div class="px-4 lg:px-6 py-4 flex items-center justify-between border-b border-zinc-100 gap-3">
-            <h3 class="text-sm font-semibold tracking-tight">Ежемесячные отчёты</h3>
-            <span class="text-xs text-zinc-500 shrink-0">Присылаем до 5 числа следующего месяца</span>
-          </div>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-              <thead>
-                <tr class="border-b border-zinc-100 text-[11px] font-medium text-zinc-400 uppercase tracking-wider">
-                  <th class="px-4 lg:px-6 py-3">Период</th>
-                  <th class="px-4 py-3">Статус</th>
-                  <th class="px-4 py-3">Согласован</th>
-                  <th class="px-4 lg:px-6 py-3 text-right">Действия</th>
-                </tr>
-              </thead>
-              <tbody data-portal-reports class="divide-y divide-zinc-100 text-sm">
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <!-- Дорожная карта -->
-        <section>
-          <h3 class="text-sm font-semibold tracking-tight mb-3">Дорожная карта</h3>
-          <div class="bg-white rounded-2xl shadow-card overflow-hidden">
-            <ul class="divide-y divide-zinc-100">
-              <li class="px-4 lg:px-6 py-4">
-                <div class="flex items-center justify-between gap-3 mb-2"><span class="text-sm font-medium">Аудит сайта</span><span class="text-xs text-zinc-500 tabular-nums">3 из 4 работ</span></div>
-                <div class="h-1.5 bg-zinc-100 rounded-full overflow-hidden"><div class="h-full bg-zinc-900 rounded-full w-[75%]"></div></div>
-              </li>
-              <li class="px-4 lg:px-6 py-4">
-                <div class="flex items-center justify-between gap-3 mb-2"><span class="text-sm font-medium">Семантика</span><span class="text-xs text-zinc-500 tabular-nums">1 из 4 работ</span></div>
-                <div class="h-1.5 bg-zinc-100 rounded-full overflow-hidden"><div class="h-full bg-zinc-900 rounded-full w-[25%]"></div></div>
-              </li>
-              <li class="px-4 lg:px-6 py-4">
-                <div class="flex items-center justify-between gap-3 mb-2"><span class="text-sm font-medium">Внутренняя оптимизация</span><span class="text-xs text-zinc-500 tabular-nums">2 из 6 работ</span></div>
-                <div class="h-1.5 bg-zinc-100 rounded-full overflow-hidden"><div class="h-full bg-zinc-900 rounded-full w-[33%]"></div></div>
-              </li>
-              <li class="px-4 lg:px-6 py-4">
-                <div class="flex items-center justify-between gap-3 mb-2"><span class="text-sm font-medium">Внешняя оптимизация</span><span class="text-xs text-zinc-500 tabular-nums">2 из 5 работ</span></div>
-                <div class="h-1.5 bg-zinc-100 rounded-full overflow-hidden"><div class="h-full bg-zinc-900 rounded-full w-[40%]"></div></div>
-              </li>
-            </ul>
-          </div>
-          <p class="text-xs text-zinc-500 mt-3">Показан общий прогресс по направлениям. В этом месяце в работе: индексация, сбор семантики, перелинковка.</p>
-        </section>
-
-        <p class="text-xs text-zinc-500">Остались вопросы? Напишите менеджеру — ответим в течение рабочего дня.</p>
 
         </div>
-        <div class="xl:col-span-1 space-y-6">
+
+        <div class="xl:col-span-1 space-y-6 sticky top-20 self-start">
           <div class="flex items-center gap-3 bg-white rounded-2xl shadow-card px-4 py-3">
             <span class="w-9 h-9 rounded-full bg-zinc-900 text-white text-[11px] font-semibold flex items-center justify-center shrink-0">НМ</span>
             <div class="min-w-0">
@@ -198,10 +121,11 @@
               <div class="text-xs text-zinc-500">Ваш менеджер · n.morozov@romashka.ru</div>
             </div>
           </div>
-          <div class="bg-white rounded-2xl shadow-card p-4 space-y-2">
-            <a href="#approve" class="block text-sm text-zinc-600 hover:text-zinc-900 transition">Согласование</a>
-            <a href="#reports" class="block text-sm text-zinc-600 hover:text-zinc-900 transition">Отчёты</a>
-          </div>
+          <nav class="bg-white rounded-2xl shadow-card p-2 space-y-1" aria-label="Разделы портала" data-portal-tabs>
+            <button type="button" data-portal-tab="approve" aria-pressed="true" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium bg-black/5 text-zinc-900 transition">Согласование результатов</button>
+            <button type="button" data-portal-tab="reports" aria-pressed="false" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium text-zinc-600 hover:bg-black/5 hover:text-zinc-900 transition">Отчёты проекта</button>
+            <button type="button" data-portal-tab="brief" aria-pressed="false" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium text-zinc-600 hover:bg-black/5 hover:text-zinc-900 transition">Бриф и доступы</button>
+          </nav>
         </div>
       </div>
     </main>
@@ -236,8 +160,8 @@
       '<div class="mt-4 flex flex-col sm:flex-row sm:items-center gap-3">' +
         '<button type="button" data-toast="Файл «' + esc(t.file) + '» скачивается" class="inline-flex items-center gap-1.5 text-xs text-zinc-600 hover:text-zinc-900 transition min-w-0"><svg class="w-4 h-4 shrink-0 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg><span class="truncate">' + esc(t.file) + '</span></button>' +
         '<div data-approval-actions class="flex flex-wrap gap-2 sm:ml-auto">' +
-          '<button type="button" data-approve class="h-8 px-3 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium transition">Утвердить результат</button>' +
-          '<button type="button" data-remarks class="h-8 px-3 rounded-full bg-white border border-zinc-200 text-zinc-700 text-xs font-medium hover:bg-zinc-50 transition">Есть замечания</button>' +
+          '<button type="button" data-approve class="h-9 px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition">Утвердить результат</button>' +
+          '<button type="button" data-remarks class="h-9 px-4 rounded-full bg-white border border-zinc-200 text-zinc-700 text-xs font-medium hover:bg-zinc-50 transition">Есть замечания</button>' +
         '</div>' +
       '</div>' +
     '</article>';
@@ -330,49 +254,27 @@
   ).join('');
   document.querySelector('[data-portal-reports]').innerHTML = rowsHtml;
 
-  /* График и плашки: только метрики, включённые в проекте (по умолчанию traffic + leads) */
-  document.addEventListener('seo:ready', () => {
-    const active = (App.getProjectKpis && App.getProjectKpis()) || ['traffic', 'leads'];
-    const TAB_LABELS = { traffic: 'Трафик', leads: 'Лиды', top10: '% в ТОП-10' };
-    const ALL_SERIES = {
-      traffic: { label: 'Трафик', color: '#0071e3', fact: [14200, 16100, 18300, 20500, 22600, 24380], plan: [15000, 17000, 19000, 21500, 24000, 26000] },
-      leads:   { label: 'Лиды', color: '#059669', fact: [168, 196, 228, 256, 287, 312], plan: [180, 200, 220, 245, 270, 290] },
-      top10:   { label: '% в ТОП-10', color: '#7c3aed', suffix: '%', fact: [18.5, 22.1, 25.7, 28.6, 32.4, 35.2], plan: [20, 22, 25, 27, 29, 31] }
-    };
-
-    document.querySelectorAll('[data-portal-kpi]').forEach(card => {
-      card.classList.toggle('hidden', active.indexOf(card.dataset.portalKpi) === -1);
+  /* Табы правой колонки → панели слева */
+  const tabRoot = document.querySelector('[data-portal-tabs]');
+  function showPortalTab(id) {
+    document.querySelectorAll('[data-portal-panel]').forEach(p => {
+      p.classList.toggle('hidden', p.dataset.portalPanel !== id);
     });
-    const cardsGrid = document.querySelector('[data-portal-kpi-cards]');
-    if (cardsGrid) {
-      const n = active.length;
-      cardsGrid.className = 'grid gap-3 lg:gap-4 grid-cols-1' +
-        (n >= 2 ? ' sm:grid-cols-2' : '') +
-        (n >= 3 ? ' lg:grid-cols-3' : '');
-    }
-
-    const root = document.querySelector('[data-metric-chart]');
-    if (!root || !App.metricChart) return;
-    const tabs = root.querySelector('[data-portal-chart-tabs]');
-    if (tabs) {
-      if (active.length <= 1) {
-        tabs.classList.add('hidden');
-        tabs.innerHTML = '';
-      } else {
-        tabs.classList.remove('hidden');
-        tabs.innerHTML = active.map((id, i) =>
-          '<button type="button" data-seg="' + id + '"' + (i === 0 ? ' aria-pressed="true"' : '') +
-            ' class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition shrink-0' +
-            (id === 'top10' ? ' whitespace-nowrap' : '') + '">' + TAB_LABELS[id] + '</button>'
-        ).join('');
-        if (App.segment) App.segment(tabs, active[0]);
-      }
-    }
-    const series = {};
-    active.forEach(id => { if (ALL_SERIES[id]) series[id] = ALL_SERIES[id]; });
-    const chart = App.metricChart(root, { months: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн'], series: series });
-    chart.show(active[0]);
-  });
+    if (!tabRoot) return;
+    tabRoot.querySelectorAll('[data-portal-tab]').forEach(btn => {
+      const on = btn.dataset.portalTab === id;
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.className = 'w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium transition ' +
+        (on ? 'bg-black/5 text-zinc-900' : 'text-zinc-600 hover:bg-black/5 hover:text-zinc-900');
+    });
+  }
+  if (tabRoot) {
+    tabRoot.addEventListener('click', e => {
+      const btn = e.target.closest('[data-portal-tab]');
+      if (!btn) return;
+      showPortalTab(btn.dataset.portalTab);
+    });
+  }
 })();
 </script>
 </body>

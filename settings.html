@@ -22,8 +22,7 @@
           <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[140px] sm:max-w-none">Настройки компании</h1>
         </div>
         <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-          <a href="calendar.html" aria-label="Уведомления" class="h-9 w-9 rounded-full text-zinc-600 hover:bg-black/5 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></a>
-          <a href="profile.html" aria-label="Мой профиль" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>АС</span></a>
+          <button type="button" data-can="company_profile" data-toast="Настройки сохранены" class="h-9 px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition">Сохранить настройки</button>
         </div>
       </header>
 
@@ -32,7 +31,6 @@
           <div class="inline-flex bg-zinc-100 rounded-full p-1 max-w-full overflow-x-auto no-scrollbar shrink-0" role="tablist" aria-label="Настройки компании">
             <button data-can="company_profile" data-tab="general" class="tab-btn shrink-0 whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition">Общие</button>
             <button data-can="int_seo,int_client" data-tab="integrations" class="tab-btn shrink-0 whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition">Интеграции</button>
-            <button data-can="hire_seo,hire_managers,invite_contractors,invite_clients" data-tab="users" class="tab-btn shrink-0 whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition">Пользователи</button>
             <button data-roles="owner,seo_head,mgr_head" data-tab="roles" class="tab-btn shrink-0 whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition">Роли и доступ</button>
             <button data-can="billing" data-tab="billing" class="tab-btn shrink-0 whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition">Биллинг</button>
           </div>
@@ -193,217 +191,10 @@
           </div>
         </div>
 
-        <!-- ПОЛЬЗОВАТЕЛИ -->
-        <div data-tab-panel="users" data-can="hire_seo,hire_managers,invite_contractors,invite_clients" class="hidden">
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
-            <p class="text-sm text-zinc-500">Сотрудники, подрядчики и клиенты компании</p>
-            <button data-open-modal="invite" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">+ Пригласить</button>
-          </div>
-
-          <section class="bg-white rounded-2xl shadow-card p-6 space-y-4 mb-4 lg:mb-6">
-            <div data-seat-hired class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <div class="min-w-0">
-                <h3 class="text-sm font-semibold tracking-tight">Руководитель SEO — Иван Сидоров</h3>
-                <p class="text-xs text-zinc-500 mt-1">Отдел ведёт приглашённый руководитель. Владелец управляет компанией.</p>
-              </div>
-              <button type="button" data-seat-action="self" data-roles="owner" data-deny-tip="Кто ведёт SEO-отдел, решает только владелец компании" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition shrink-0">Вести отдел самому</button>
-            </div>
-            <div data-seat-self class="!hidden flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <div class="min-w-0">
-                <h3 class="text-sm font-semibold tracking-tight">Руководитель SEO — владелец компании</h3>
-                <p class="text-xs text-zinc-500 mt-1">Отдельный руководитель не приглашён, поэтому SEO-отдел ведёт владелец.</p>
-              </div>
-              <button type="button" data-seat-action="hire" data-roles="owner" data-deny-tip="Пригласить руководителя SEO может только владелец компании" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition shrink-0">Пригласить руководителя</button>
-            </div>
-          </section>
-
-          <section class="bg-white rounded-2xl shadow-card overflow-hidden mb-6">
-            <div class="overflow-x-auto">
-              <table class="w-full min-w-full block md:table md:table-fixed">
-                <thead class="hidden md:table-header-group">
-                  <tr class="border-b border-zinc-100">
-                    <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-4 lg:px-6 py-3 md:w-[34%]">Пользователь</th>
-                    <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3 md:w-[18%]">Роль</th>
-                    <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3 md:w-[12%]">Отдел</th>
-                    <th class="text-right text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3 md:w-[10%]">Проектов</th>
-                    <th class="text-left text-xs font-medium text-zinc-500 whitespace-nowrap px-3 py-3 md:w-[14%]">Статус</th>
-                    <th class="px-4 lg:px-6 py-3 whitespace-nowrap md:w-[12%]"></th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-zinc-100 block md:table-row-group">
-                  <tr data-member="smirnov" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                      <div class="flex items-center gap-3">
-                        <span class="w-9 h-9 rounded-full bg-zinc-900 text-white text-[11px] font-semibold flex items-center justify-center shrink-0">АС</span>
-                        <div>
-                          <div class="text-sm font-medium">Александр Смирнов</div>
-                          <div class="text-xs text-zinc-500 mt-0.5">a.smirnov@romashka.ru</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td data-label="Роль" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                      <span class="inline-flex items-center gap-1.5"><span data-role-badge class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-900 text-white">Владелец компании</span><span data-seat-self class="!hidden inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">Руководитель SEO</span></span>
-                    </td>
-                    <td data-label="Отдел" class="md:px-3 md:py-3 lg:py-4 text-sm text-zinc-500 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">—</td>
-                    <td data-label="Проектов" class="md:px-3 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">Все</td>
-                    <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Активен
-                      </span>
-                    </td>
-                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right col-span-2 md:col-span-1"><span class="text-xs text-zinc-400 px-3">Владелец</span></td>
-                  </tr>
-                  <tr data-member="sidorov" data-seat-hired class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                      <div class="flex items-center gap-3">
-                        <span class="w-9 h-9 rounded-full bg-zinc-900 text-white text-[11px] font-semibold flex items-center justify-center shrink-0">ИС</span>
-                        <div>
-                          <div class="text-sm font-medium">Иван Сидоров</div>
-                          <div class="text-xs text-zinc-500 mt-0.5">ivan@romashka.ru</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td data-label="Роль" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                      <span data-role-badge class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">Руководитель SEO</span>
-                    </td>
-                    <td data-label="Отдел" data-member-dept class="md:px-3 md:py-3 lg:py-4 text-sm text-zinc-500 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">SEO</td>
-                    <td data-label="Проектов" class="md:px-3 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">Все</td>
-                    <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Активен
-                      </span>
-                    </td>
-                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right col-span-2 md:col-span-1"><button type="button" data-open-modal="employee" data-employee="sidorov" data-can="change_roles" data-deny-tip="Смена ролей доступна только владельцу компании" class="h-8 px-3 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition">Изменить роль</button></td>
-                  </tr>
-                  <tr data-member="vetrova" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                      <div class="flex items-center gap-3">
-                        <span class="w-9 h-9 rounded-full bg-zinc-900 text-white text-[11px] font-semibold flex items-center justify-center shrink-0">ОВ</span>
-                        <div>
-                          <div class="text-sm font-medium">Ольга Ветрова</div>
-                          <div class="text-xs text-zinc-500 mt-0.5">olga@romashka.ru</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td data-label="Роль" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                      <span data-role-badge class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-violet-50 text-violet-700">Руководитель менеджеров</span>
-                    </td>
-                    <td data-label="Отдел" data-member-dept class="md:px-3 md:py-3 lg:py-4 text-sm text-zinc-500 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">Аккаунтинг</td>
-                    <td data-label="Проектов" class="md:px-3 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">Все</td>
-                    <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Активен
-                      </span>
-                    </td>
-                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right col-span-2 md:col-span-1"><button type="button" data-open-modal="employee" data-employee="vetrova" data-can="change_roles" data-deny-tip="Смена ролей доступна только владельцу компании" class="h-8 px-3 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition">Изменить роль</button></td>
-                  </tr>
-                  <tr data-member="morozov" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                      <div class="flex items-center gap-3">
-                        <span class="w-9 h-9 rounded-full bg-zinc-900 text-white text-[11px] font-semibold flex items-center justify-center shrink-0">НМ</span>
-                        <div>
-                          <div class="text-sm font-medium">Никита Морозов</div>
-                          <div class="text-xs text-zinc-500 mt-0.5">n.morozov@romashka.ru</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td data-label="Роль" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                      <span data-role-badge class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700">Менеджер проекта</span>
-                    </td>
-                    <td data-label="Отдел" data-member-dept class="md:px-3 md:py-3 lg:py-4 text-sm text-zinc-500 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">Аккаунтинг</td>
-                    <td data-label="Проектов" class="md:px-3 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">3</td>
-                    <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Активен
-                      </span>
-                    </td>
-                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right col-span-2 md:col-span-1"><button type="button" data-open-modal="employee" data-employee="morozov" data-can="change_roles" data-deny-tip="Смена ролей доступна только владельцу компании" class="h-8 px-3 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition">Изменить роль</button></td>
-                  </tr>
-                  <tr data-member="petrov" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                      <div class="flex items-center gap-3">
-                        <span class="w-9 h-9 rounded-full bg-zinc-900 text-white text-[11px] font-semibold flex items-center justify-center shrink-0">АП</span>
-                        <div>
-                          <div class="text-sm font-medium">Алексей Петров</div>
-                          <div class="text-xs text-zinc-500 mt-0.5">alex@romashka.ru</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td data-label="Роль" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                      <span data-role-badge class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">SEO-специалист</span>
-                    </td>
-                    <td data-label="Отдел" data-member-dept class="md:px-3 md:py-3 lg:py-4 text-sm text-zinc-500 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">SEO</td>
-                    <td data-label="Проектов" class="md:px-3 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">4</td>
-                    <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Активен
-                      </span>
-                    </td>
-                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right col-span-2 md:col-span-1"><button type="button" data-open-modal="employee" data-employee="petrov" data-can="change_roles" data-deny-tip="Смена ролей доступна только владельцу компании" class="h-8 px-3 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition">Изменить роль</button></td>
-                  </tr>
-                  <tr data-member="kim" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                      <div class="flex items-center gap-3">
-                        <span class="w-9 h-9 rounded-full bg-zinc-200 text-zinc-500 text-[11px] font-semibold flex items-center justify-center shrink-0">МК</span>
-                        <div>
-                          <div class="text-sm font-medium">Мария Ким</div>
-                          <div class="text-xs text-zinc-500 mt-0.5">maria@copy.ru</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td data-label="Роль" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                      <span data-role-badge class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700">Подрядчик</span>
-                    </td>
-                    <td data-label="Отдел" data-member-dept class="md:px-3 md:py-3 lg:py-4 text-sm text-zinc-500 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">—</td>
-                    <td data-label="Проектов" class="md:px-3 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">3</td>
-                    <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
-                        <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>Приглашён
-                      </span>
-                    </td>
-                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right col-span-2 md:col-span-1"><button type="button" data-open-modal="employee" data-employee="kim" data-can="change_roles" data-deny-tip="Смена ролей доступна только владельцу компании" class="h-8 px-3 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition">Изменить роль</button></td>
-                  </tr>
-                  <tr data-member="krylova" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
-                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
-                      <div class="flex items-center gap-3">
-                        <span class="w-9 h-9 rounded-full bg-zinc-200 text-zinc-500 text-[11px] font-semibold flex items-center justify-center shrink-0">ЕК</span>
-                        <div>
-                          <div class="text-sm font-medium">Елена Крылова</div>
-                          <div class="text-xs text-zinc-500 mt-0.5">e.krylova@medlife.ru</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td data-label="Роль" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                      <span data-role-badge class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-cyan-50 text-cyan-700">Клиент</span>
-                    </td>
-                    <td data-label="Отдел" data-member-dept class="md:px-3 md:py-3 lg:py-4 text-sm text-zinc-500 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">—</td>
-                    <td data-label="Проектов" class="md:px-3 md:py-3 lg:py-4 md:text-right text-sm tabular-nums min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">1</td>
-                    <td data-label="Статус" class="md:px-3 md:py-3 lg:py-4 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Активен
-                      </span>
-                    </td>
-                    <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 md:text-right col-span-2 md:col-span-1"><button type="button" data-open-modal="employee" data-user-id="krylova" data-can="change_roles" data-deny-tip="Смена ролей доступна только владельцу компании" class="h-8 px-3 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition">Изменить роль</button></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <div class="bg-white rounded-2xl border border-dashed border-zinc-300 p-4 lg:p-5">
-            <div class="text-xs text-zinc-500">
-              <strong class="text-zinc-900">SEO-специалист и менеджер проекта</strong> видят все проекты. Шаблоны и интеграции им закрыты.
-              <strong class="text-zinc-900">Подрядчики</strong> видят только назначенные задачи.
-              <strong class="text-zinc-900">Клиенты</strong> смотрят результаты, дорожную карту и принятые отчёты своего проекта.
-            </div>
-          </div>
-        </div>
-
         <!-- РОЛИ И ДОСТУП -->
         <div data-tab-panel="roles" data-roles="owner,seo_head,mgr_head" class="hidden">
           <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <p class="text-sm text-zinc-500">Кто и что может делать в рабочем пространстве компании. Права меняет только владелец.</p>
-            <button data-can="change_roles" data-toast="Редактор прав появится на этапе разработки" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition shrink-0">Изменить права</button>
+            <p class="text-sm text-zinc-500">Регламент безопасности компании: зелёная точка — право разрешено, серый прочерк — запрещено. Команду и приглашения ведите в разделе «Сотрудники».</p>
           </div>
 
           <ul data-role-cards class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6"></ul>

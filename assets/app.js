@@ -172,7 +172,8 @@ tailwind.config = {
     close:    'M6 18L18 6M6 6l12 12',
     lock:     'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z',
     user:     'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z',
-    logout:   'M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1'
+    logout:   'M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1',
+    bell:     'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9'
   };
   const svg = (name, cls) => '<svg class="' + (cls || 'w-5 h-5') + '" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="' + ICON[name] + '"/></svg>';
 
@@ -188,7 +189,7 @@ tailwind.config = {
     { group: 'Команда', roles: STAFF },
     { id: 'executors', href: 'executors.html', label: 'Сотрудники',   icon: 'team',     roles: STAFF },
     { id: 'templates', href: 'templates.html', label: 'Шаблоны',      icon: 'layers',   roles: LEADS },
-    { id: 'guide',     href: 'guide.html',     label: 'Как устроено', icon: 'layers',   roles: STAFF.concat(['contractor']) }
+    { id: 'guide',     href: 'how-it-works.html', label: 'Как устроено', icon: 'layers',   roles: STAFF.concat(['contractor']) }
   ];
   const NAV_FOOT = [
     { id: 'portal', href: 'portal.html', label: 'Портал клиента', icon: 'eye', roles: STAFF },
@@ -216,6 +217,7 @@ tailwind.config = {
     const foot = NAV_FOOT.filter(i => covers(role, i.roles)).map(i => navLink(i, active)).join('');
     const r = roleInfo(role);
     const options = ROLES.filter(x => !(ownerLeadsSeo && x.id === 'seo_head')).map(x => '<option value="' + x.id + '"' + (x.id === role ? ' selected' : '') + '>' + x.label + '</option>').join('');
+    const linkCls = 'flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900 transition';
 
     return '' +
       '<div id="sidebar-overlay" class="hidden fixed inset-0 z-40 bg-black/30 backdrop-blur-sm lg:hidden"></div>' +
@@ -229,15 +231,36 @@ tailwind.config = {
           '<button type="button" data-menu-close aria-label="Закрыть меню" class="lg:hidden w-9 h-9 rounded-full hover:bg-black/5 flex items-center justify-center shrink-0">' + svg('close', 'w-4 h-4') + '</button>' +
         '</div>' +
         '<nav class="px-3 pt-2 flex flex-col gap-0.5 overflow-y-auto flex-1">' + nav + '</nav>' +
-        '<div class="px-3 pt-2 pb-3 border-t border-black/5 flex flex-col gap-0.5">' + foot +
+        '<div class="px-3 pt-2 border-t border-black/5 flex flex-col gap-0.5">' + foot +
           '<div class="mt-2 rounded-2xl bg-black/[0.03] p-3">' +
-            '<div class="flex items-center gap-3">' +
-              '<span class="w-9 h-9 rounded-full bg-zinc-900 text-white text-[11px] font-semibold flex items-center justify-center shrink-0">' + r.initials + '</span>' +
-              '<div class="min-w-0"><div class="text-sm font-medium truncate">' + r.user + '</div><div class="text-xs text-zinc-500 truncate">' + roleLabel() + '</div></div>' +
-            '</div>' +
-            '<label class="block text-[11px] font-medium text-zinc-500 mt-3 mb-1" for="role-switch">Демо: смотреть как</label>' +
+            '<label class="block text-[11px] font-medium text-zinc-500 mb-1" for="role-switch">Демо: смотреть как</label>' +
             '<select id="role-switch" class="w-full px-3 py-1.5 rounded-lg border border-black/10 bg-white text-xs focus:outline-none focus:ring-4 focus:ring-accent/15">' + options + '</select>' +
             (role === 'owner' ? '<a href="superadmin.html" class="mt-2 flex items-center justify-center px-3 py-1.5 rounded-full bg-white border border-black/10 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition">Кабинет платформы</a>' : '') +
+          '</div>' +
+        '</div>' +
+        '<div class="p-3 border-t border-black/5 bg-canvas/40 mt-auto relative" data-user-menu-container>' +
+          '<div class="flex items-center gap-2.5">' +
+            '<span class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>' + r.initials + '</span></span>' +
+            '<div class="min-w-0 flex-1">' +
+              '<div class="text-xs font-semibold text-zinc-900 truncate" data-user-menu-name>' + r.user + '</div>' +
+              '<div class="text-[10px] text-zinc-400 truncate" data-user-menu-badge>' + roleLabel() + '</div>' +
+            '</div>' +
+            '<a href="calendar.html" aria-label="Уведомления" class="h-8 w-8 rounded-full text-zinc-500 hover:bg-black/5 flex items-center justify-center shrink-0">' + svg('bell', 'w-4 h-4') + '</a>' +
+            '<button type="button" data-user-menu-trigger aria-expanded="false" aria-haspopup="menu" aria-label="Меню пользователя" class="h-8 w-8 rounded-full text-zinc-500 hover:bg-black/5 flex items-center justify-center shrink-0">' +
+              '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M19 9l-7 7-7-7"/></svg>' +
+            '</button>' +
+          '</div>' +
+          '<div data-user-menu-dropdown role="menu" class="hidden absolute bottom-full mb-2 left-3 right-3 w-auto bg-white rounded-2xl shadow-pop border border-black/5 py-2 z-50 text-left transform opacity-0 scale-95 transition-all duration-150 origin-bottom">' +
+            '<div class="px-4 py-2 border-b border-zinc-100">' +
+              '<div class="text-xs text-zinc-400 truncate" data-user-menu-email>' + (r.email || '') + '</div>' +
+            '</div>' +
+            '<div class="py-1">' +
+              '<a href="profile.html" role="menuitem" class="' + linkCls + '">' + svg('user', 'w-4 h-4 text-zinc-400 shrink-0') + 'Мой профиль</a>' +
+              '<a href="settings.html" role="menuitem" data-can="company_profile" class="' + linkCls + '">' + svg('sliders', 'w-4 h-4 text-zinc-400 shrink-0') + 'Настройки компании</a>' +
+            '</div>' +
+            '<div class="border-t border-zinc-100 pt-1 mt-1">' +
+              '<a href="login.html" role="menuitem" class="flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-red-600 hover:bg-red-50 transition">' + svg('logout', 'w-4 h-4 shrink-0') + 'Выйти из аккаунта</a>' +
+            '</div>' +
           '</div>' +
         '</div>' +
       '</aside>';
@@ -280,40 +303,13 @@ tailwind.config = {
       '</div>';
   }
 
-  function userMenuMarkup() {
-    const r = roleInfo(role);
-    const link = 'flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900 transition';
-    return '' +
-      '<div class="relative shrink-0" data-user-menu-container>' +
-        '<button type="button" data-user-menu-trigger aria-expanded="false" aria-haspopup="menu" aria-label="Меню пользователя" class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center hover:ring-2 hover:ring-accent/30 transition focus:outline-none">' +
-          '<span data-user-initials>' + r.initials + '</span>' +
-        '</button>' +
-        '<div data-user-menu-dropdown role="menu" class="hidden absolute right-0 mt-2 w-64 rounded-2xl bg-white shadow-pop border border-black/5 py-2 z-50 text-left transform opacity-0 scale-95 transition-all duration-150 origin-top-right">' +
-          '<div class="px-4 py-2.5 border-b border-zinc-100">' +
-            '<div class="font-semibold text-sm text-zinc-900 truncate" data-user-menu-name>' + r.user + '</div>' +
-            '<div class="text-xs text-zinc-400 truncate mt-0.5" data-user-menu-email>' + (r.email || '') + '</div>' +
-            '<div class="mt-2"><span data-user-menu-badge class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium ' + r.badge + '">' + roleLabel() + '</span></div>' +
-          '</div>' +
-          '<div class="py-1">' +
-            '<a href="profile.html" role="menuitem" class="' + link + '">' + svg('user', 'w-4 h-4 text-zinc-400 shrink-0') + 'Мой профиль</a>' +
-            '<a href="settings.html" role="menuitem" data-can="company_profile" class="' + link + '">' + svg('sliders', 'w-4 h-4 text-zinc-400 shrink-0') + 'Настройки компании</a>' +
-          '</div>' +
-          '<div class="border-t border-zinc-100 pt-1 mt-1">' +
-            '<a href="login.html" role="menuitem" class="flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-red-600 hover:bg-red-50 transition">' + svg('logout', 'w-4 h-4 shrink-0') + 'Выйти из аккаунта</a>' +
-          '</div>' +
-        '</div>' +
-      '</div>';
-  }
-
   function paintUserMenu(root) {
     const r = roleInfo(role);
     const scope = root || document;
     scope.querySelectorAll('[data-user-menu-name]').forEach(el => { el.textContent = r.user; });
     scope.querySelectorAll('[data-user-menu-email]').forEach(el => { el.textContent = r.email || ''; });
-    scope.querySelectorAll('[data-user-menu-badge]').forEach(el => {
-      el.className = 'inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium ' + r.badge;
-      el.textContent = roleLabel();
-    });
+    scope.querySelectorAll('[data-user-menu-badge]').forEach(el => { el.textContent = roleLabel(); });
+    scope.querySelectorAll('[data-user-initials]').forEach(el => { el.textContent = r.initials; });
   }
 
   function closeUserMenu(container) {
@@ -340,24 +336,16 @@ tailwind.config = {
     if (trigger) trigger.setAttribute('aria-expanded', 'true');
   }
 
-  function mountUserMenus() {
-    document.querySelectorAll('a[href="profile.html"][aria-label="Мой профиль"]').forEach(a => {
-      if (a.closest('[data-user-menu-container]')) return;
-      const holder = document.createElement('div');
-      holder.innerHTML = userMenuMarkup();
-      a.replaceWith(holder.firstElementChild);
+  function stripHeaderChrome() {
+    document.querySelectorAll('main header a[aria-label="Уведомления"], main header a[aria-label="Мой профиль"], main header [data-user-menu-container]').forEach(el => el.remove());
+    document.querySelectorAll('main header .flex.items-center.gap-1\\.5, main header .flex.items-center.gap-2, main header .flex.items-center.gap-2\\.5').forEach(bar => {
+      if (bar.closest('[data-user-menu-container]')) return;
+      if (!bar.children.length && !bar.textContent.trim()) bar.remove();
     });
-    /* Шапка без аватара (например profile.html): добавить меню рядом с уведомлениями */
-    if (document.getElementById('sidebar')) {
-      document.querySelectorAll('main header .flex.items-center').forEach(bar => {
-        if (bar.querySelector('[data-user-menu-container]')) return;
-        if (!bar.querySelector('[aria-label="Уведомления"]')) return;
-        if (bar.querySelector('a[href="profile.html"]')) return;
-        const wrap = document.createElement('div');
-        wrap.innerHTML = userMenuMarkup();
-        bar.appendChild(wrap.firstElementChild);
-      });
-    }
+  }
+
+  function mountUserMenus() {
+    stripHeaderChrome();
     paintUserMenu();
   }
 
@@ -1355,8 +1343,8 @@ tailwind.config = {
   const mark = v => {
     if (v === 'own') return '<span class="text-xs font-medium text-amber-700">свои</span>';
     if (v === 'limited') return '<span class="text-xs font-medium text-amber-700">огран.</span>';
-    if (v) return '<svg class="w-[18px] h-[18px] mx-auto text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-label="Да"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>';
-    return '<span class="text-zinc-300" aria-label="Нет">—</span>';
+    if (v) return '<span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 align-middle" aria-label="Разрешено"></span>';
+    return '<span class="text-zinc-300" aria-label="Запрещено">—</span>';
   };
   const newBadge = '<span class="ml-2 px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 text-[10px] font-medium align-middle">новое</span>';
   const changedBadge = '<span class="ml-2 px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 text-[10px] font-medium align-middle">изменено</span>';

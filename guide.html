@@ -1,76 +1,12 @@
 <!DOCTYPE html>
-<html lang="ru" class="overflow-x-hidden">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="0; url=how-it-works.html">
   <title>Как устроено — SEO Control</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="assets/app.js"></script>
-  <script src="assets/modals.js"></script>
+  <script>location.replace('how-it-works.html');</script>
 </head>
-<body class="bg-canvas text-ink antialiased overflow-x-hidden">
-<div class="min-h-screen overflow-x-hidden">
-  <div data-app-chrome="guide" data-roles="owner,seo_head,mgr_head,pm,employee,contractor"></div>
-  <div class="flex">
-    <main class="flex-1 min-w-0 lg:pl-64 pt-6 pb-24 lg:pb-20">
-      <div class="sticky top-0 z-30 bg-canvas/80 backdrop-blur-xl border-b border-black/5">
-        <header class="px-4 lg:px-8 h-14 flex items-center">
-          <h1 class="text-base font-semibold tracking-tight truncate max-w-[140px] sm:max-w-none">Как устроено</h1>
-        </header>
-      </div>
-      <div class="px-4 lg:px-8 py-6 lg:py-8 max-w-3xl">
-        <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight mb-6">Короткий сценарий</h2>
-
-        <nav class="bg-white rounded-2xl shadow-card p-4 lg:p-6 mb-8">
-          <ol class="space-y-2 text-sm">
-            <li><a href="#company" class="hover:underline">1. Компания</a></li>
-            <li><a href="#people" class="hover:underline">2. Люди</a></li>
-            <li><a href="#template" class="hover:underline">3. Шаблон</a></li>
-            <li><a href="#project" class="hover:underline">4. Проект</a></li>
-            <li><a href="#task" class="hover:underline">5. Задача</a></li>
-            <li><a href="#accept" class="hover:underline">6. Приёмка</a></li>
-            <li><a href="#report" class="hover:underline">7. Отчёт</a></li>
-            <li><a href="#portal" class="hover:underline">8. Портал клиента</a></li>
-          </ol>
-        </nav>
-
-        <article class="space-y-8 text-sm leading-relaxed text-zinc-700">
-          <section id="company" class="bg-zinc-100/80 rounded-2xl p-4 lg:p-6">
-            <h3 class="text-base font-semibold text-zinc-900 tracking-tight mb-2">Компания</h3>
-            <p>Владелец создаёт компанию. Данные агентств не смешиваются. В профиле — название, реквизиты и тексты публичной посадочной: title, description и текст для соцсетей. Тариф и удаление компании доступны только владельцу.</p>
-          </section>
-          <section id="people" class="bg-zinc-100/80 rounded-2xl p-4 lg:p-6">
-            <h3 class="text-base font-semibold text-zinc-900 tracking-tight mb-2">Люди</h3>
-            <p>Владелец и руководители приглашают сотрудников, подрядчиков и клиентов. Сотрудник видит проекты, в команде которых он состоит. Подрядчик видит только назначенные задачи. Отпуск видят все: даты ставит владелец или руководитель, сотрудник выбирает, кому передать проекты на этот срок.</p>
-          </section>
-          <section id="template" class="bg-zinc-100/80 rounded-2xl p-4 lg:p-6">
-            <h3 class="text-base font-semibold text-zinc-900 tracking-tight mb-2">Шаблон</h3>
-            <p>Руководитель собирает библиотеку: дорожная карта, план месяца, статусы бизнес-процесса по каждому направлению и вопросы брифа. Сотрудник библиотеку не меняет. При создании проекта карта, план и вопросы копируются в этот проект.</p>
-          </section>
-          <section id="project" class="bg-zinc-100/80 rounded-2xl p-4 lg:p-6">
-            <h3 class="text-base font-semibold text-zinc-900 tracking-tight mb-2">Проект</h3>
-            <p>«Редактировать карту» и «Добавить работу» меняют уже этот проект, не шаблон. Метрики показывают факт и план, отдельный статус по ним не ставится. Задачи направления смотрят в общем списке. ИИ-аудит запускается по домену проекта.</p>
-          </section>
-          <section id="task" class="bg-zinc-100/80 rounded-2xl p-4 lg:p-6">
-            <h3 class="text-base font-semibold text-zinc-900 tracking-tight mb-2">Задача</h3>
-            <p>Задачу ищут по проекту, направлению и статусу процесса. Описание и критерии приёмки — один блок «Описание задачи». Комментарии — единая лента: отметка «В отчёт» отправляет текст со списками, ссылками и скриншотами в отчёт клиенту. Подзадача — такая же страница задачи со связью «родитель». Её часы и текст «для отчёта» входят в отчёт периода родителя. Соисполнитель делает эту задачу вместе с исполнителем.</p>
-          </section>
-          <section id="accept" class="bg-zinc-100/80 rounded-2xl p-4 lg:p-6">
-            <h3 class="text-base font-semibold text-zinc-900 tracking-tight mb-2">Приёмка</h3>
-            <p>На главной две очереди: «На приёмке» и «Требует внимания». Порученную задачу принимает постановщик. Если постановщик и исполнитель один человек, он принимает сам. Чужую постановку исполнитель не принимает. Владелец и руководители принимают любую. Подрядчик и клиент приёмку не делают.</p>
-          </section>
-          <section id="report" class="bg-zinc-100/80 rounded-2xl p-4 lg:p-6">
-            <h3 class="text-base font-semibold text-zinc-900 tracking-tight mb-2">Отчёт</h3>
-            <p>Отчёт создаётся из проекта, не из общего списка. Черновик собирается из блоков «для отчёта» в задачах и блока метрик. План следующего месяца — список задач. Автор сохраняет и передаёт на проверку. Владелец и руководитель принимают, возвращают и отправляют клиенту. Автор свой отчёт не принимает.</p>
-          </section>
-          <section id="portal" class="bg-zinc-100/80 rounded-2xl p-4 lg:p-6">
-            <h3 class="text-base font-semibold text-zinc-900 tracking-tight mb-2">Портал клиента</h3>
-            <p>Клиент видит свои проекты, отвечает на бриф и задаёт вопросы. Внутренние задачи, часы, ставки и черновики отчётов ему закрыты. Отправленный отчёт выглядит в портале и на странице PDF из одного шаблона.</p>
-          </section>
-        </article>
-      </div>
-    </main>
-  </div>
-</div>
+<body class="bg-canvas text-ink antialiased p-8 text-sm text-zinc-500">
+  Перенаправление на <a class="text-accent underline" href="how-it-works.html">how-it-works.html</a>…
 </body>
 </html>
