@@ -32,6 +32,16 @@
       <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
         <div class="xl:col-span-2 space-y-6">
 
+          <div class="rounded-2xl bg-zinc-50 border border-zinc-200/80 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="min-w-0">
+              <div class="text-sm font-medium text-zinc-900">Текущий спринт: Июнь 2025 · Выполнено 85% плановых работ · Отчёт будет готов 30 июня</div>
+            </div>
+            <a href="https://t.me/nmorozov_seo" target="_blank" rel="noopener noreferrer" class="h-8 px-3 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-800 hover:bg-zinc-100 transition inline-flex items-center gap-1.5 shrink-0">
+              <svg class="w-3.5 h-3.5 text-sky-500" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.04 15.47l-.37 5.2c.53 0 .76-.23 1.04-.5l2.5-2.4 5.18 3.8c.95.53 1.63.25 1.89-.88l3.42-16.06h.01c.3-1.41-.51-1.96-1.44-1.62L1.84 9.3C.47 9.83.49 10.6 1.6 10.94l5.45 1.7L19.14 5.4c.62-.41 1.19-.18.72.23"/></svg>
+              Написать менеджеру в Telegram
+            </a>
+          </div>
+
           <div data-portal-panel="approve" class="space-y-4">
             <div class="flex items-center justify-between gap-3">
               <h3 class="text-sm font-semibold tracking-tight">Согласование результатов</h3>
@@ -174,7 +184,17 @@
     const st = el.querySelector('[data-approval-state]');
     st.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium ' + (tone === 'ok' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700');
     st.innerHTML = '<span class="w-1.5 h-1.5 rounded-full ' + (tone === 'ok' ? 'bg-emerald-500' : 'bg-amber-500') + '"></span>' + label;
-    el.querySelector('[data-approval-actions]').innerHTML = '<span class="text-xs text-zinc-500">' + (tone === 'ok' ? 'Утверждено 18.06 — команда продолжает работу' : 'Замечания отправлены 18.06 — менеджер ответит в течение дня') + '</span>';
+    if (tone === 'ok') {
+      el.querySelector('[data-approval-actions]').innerHTML =
+        '<span class="inline-flex items-center gap-1 text-xs font-medium text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">Согласовано вами только что</span>';
+      setTimeout(() => {
+        el.style.transition = 'opacity .25s';
+        el.style.opacity = '0';
+        setTimeout(() => { el.remove(); recount(); }, 250);
+      }, 2200);
+      return;
+    }
+    el.querySelector('[data-approval-actions]').innerHTML = '<span class="text-xs text-zinc-500">Замечания отправлены 18.06 — менеджер ответит в течение дня</span>';
     el.classList.add('opacity-70');
     setTimeout(() => {
       el.style.opacity = '0';

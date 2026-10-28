@@ -199,8 +199,10 @@ tailwind.config = {
   const navLink = (item, active) => {
     const on = item.id === active;
     return '<a href="' + item.href + '" data-nav-id="' + item.id + '"' + (on ? ' aria-current="page"' : '') +
-      ' class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition ' +
-      (on ? 'bg-black/5 text-zinc-900 font-medium' : 'text-zinc-600 hover:text-zinc-900 hover:bg-black/5') + '">' +
+      ' class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs transition ' +
+      (on
+        ? 'font-semibold bg-black/5 text-zinc-900'
+        : 'text-zinc-600 hover:text-zinc-900 hover:bg-black/5') + '">' +
       svg(item.icon, 'w-[18px] h-[18px] shrink-0') + '<span>' + item.label + '</span></a>';
   };
 
@@ -764,8 +766,8 @@ tailwind.config = {
       '<button type="button" data-modal-submit' +
       (o.submitCan ? ' data-can="' + o.submitCan + '"' : '') +
       (o.submitToast ? ' data-submit-toast="' + o.submitToast + '"' : '') +
-      ' class="px-4 py-2 rounded-full ' + (o.danger ? 'bg-red-600 hover:bg-red-700' : 'bg-accent hover:bg-accent-hover') +
-      ' text-white text-sm font-medium transition">' + (o.submit || 'Сохранить') + '</button>';
+      ' class="h-9 px-4 rounded-full ' + (o.danger ? 'bg-red-600 hover:bg-red-700' : 'bg-accent hover:bg-accent-hover') +
+      ' text-white text-xs font-medium transition shadow-sm">' + (o.submit || 'Сохранить') + '</button>';
     el.innerHTML =
       '<div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>' +
       '<div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">' +
@@ -776,9 +778,9 @@ tailwind.config = {
             '<button type="button" data-close-modal aria-label="Закрыть" class="w-8 h-8 shrink-0 rounded-full hover:bg-zinc-100 flex items-center justify-center">' + ICON_CLOSE + '</button>' +
           '</div>' +
           '<div class="p-5 sm:p-6 space-y-4" data-modal-body>' + body + '</div>' +
-          '<div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col-reverse sm:flex-row gap-2 sm:items-center sm:justify-end sticky bottom-0 bg-white/95 backdrop-blur rounded-b-3xl">' +
+          '<div class="sticky bottom-0 bg-white/95 backdrop-blur-sm border-t border-zinc-100 py-3 px-5 sm:px-6 flex flex-col-reverse sm:flex-row gap-2 sm:items-center sm:justify-end rounded-b-3xl z-10">' +
             (o.footerNote ? '<div class="text-xs text-zinc-500 sm:mr-auto" data-modal-note>' + o.footerNote + '</div>' : '') +
-            '<button type="button" data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium text-zinc-700 hover:bg-zinc-50 transition">' + (o.cancel || 'Отмена') + '</button>' +
+            '<button type="button" data-close-modal class="h-9 px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition">' + (o.cancel || 'Отмена') + '</button>' +
             submit +
           '</div>' +
         '</div>' +
@@ -894,6 +896,16 @@ tailwind.config = {
     allModals().forEach(m => m.classList.add('hidden'));
     document.body.classList.remove('overflow-hidden');
   }
+  function focusFirstField(modal) {
+    const field = modal.querySelector(
+      '[data-modal-body] input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([disabled]),' +
+      '[data-modal-body] select:not([disabled]),' +
+      '[data-modal-body] textarea:not([disabled])'
+    );
+    if (!field) return;
+    requestAnimationFrame(() => { try { field.focus(); if (field.select && field.type === 'text') field.select(); } catch (err) { /* ignore */ } });
+  }
+
   function openModal(name, opener) {
     const modal = ensureModal(name);
     if (!modal) return null;
@@ -907,6 +919,7 @@ tailwind.config = {
     document.body.classList.add('overflow-hidden');
     const scroller = modal.querySelector('.overflow-y-auto');
     if (scroller) scroller.scrollTop = 0;
+    focusFirstField(modal);
     return modal;
   }
 
@@ -945,7 +958,16 @@ tailwind.config = {
       }
       if (e.target.closest('[data-close-modal]')) closeModals();
     });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModals(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { closeModals(); return; }
+      if (!(e.key === 'Enter' && (e.metaKey || e.ctrlKey))) return;
+      const modal = e.target.closest && e.target.closest('[id$="-modal"]:not(.hidden)');
+      if (!modal) return;
+      const sub = modal.querySelector('[data-modal-submit]');
+      if (!sub || sub.disabled || sub.getAttribute('aria-disabled') === 'true') return;
+      e.preventDefault();
+      submitModal(sub);
+    });
     document.addEventListener('input', e => { if (e.target.hasAttribute && e.target.hasAttribute('aria-invalid')) clearInvalid(e.target); });
     document.addEventListener('change', e => {
       const t = e.target;
@@ -959,49 +981,66 @@ tailwind.config = {
      data-confirm-remove="li" — после подтверждения удалить ближайший предок; data-confirm-toast — текст тоста.
      На кнопке — событие confirm:ok для страничных скриптов. */
   let pendingConfirm = null;
+  const CONFIRM_DEFAULT_TEXT = 'Это действие необратимо. Связанные данные будут удалены или переведены в архив.';
+  const CONFIRM_BTN_CANCEL = 'h-9 px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition';
+  const CONFIRM_BTN_OK = 'h-9 px-4 rounded-full bg-red-600 hover:bg-red-700 text-white text-xs font-medium transition shadow-sm';
+  function confirmOnSubmit(modal, detail) {
+    const btn = pendingConfirm;
+    pendingConfirm = null;
+    if (!btn) return;
+    detail.toast = btn.dataset.confirmToast || 'Удалено';
+    btn.dispatchEvent(new CustomEvent('confirm:ok', { bubbles: true }));
+    const target = btn.dataset.confirmRemove && btn.closest(btn.dataset.confirmRemove);
+    if (target) {
+      target.style.transition = 'opacity .2s';
+      target.style.opacity = '0';
+      setTimeout(() => target.remove(), 200);
+    }
+  }
   registerModal('confirm', {
-    title: 'Подтвердите действие', size: 'sm', submit: 'Удалить', danger: true, reset: false,
+    title: 'Подтвердите действие', size: 'sm', submit: 'Подтвердить', danger: true, reset: false,
     cancel: 'Отмена',
     body:
       '<p class="text-sm font-medium text-zinc-900" data-confirm-lead></p>' +
       '<p class="text-sm text-zinc-600 mt-1.5" data-confirm-message></p>',
-    onSubmit(modal, detail) {
-      const btn = pendingConfirm;
-      pendingConfirm = null;
-      if (!btn) return;
-      detail.toast = btn.dataset.confirmToast || 'Удалено';
-      btn.dispatchEvent(new CustomEvent('confirm:ok', { bubbles: true }));
-      const target = btn.dataset.confirmRemove && btn.closest(btn.dataset.confirmRemove);
-      if (target) {
-        target.style.transition = 'opacity .2s';
-        target.style.opacity = '0';
-        setTimeout(() => target.remove(), 200);
-      }
-    }
+    onSubmit: confirmOnSubmit
   });
+  /* Алиас единой деструктивной модалки (confirm-sheet) */
+  registerModal('confirm-sheet', {
+    title: 'Подтвердите действие', size: 'sm', submit: 'Подтвердить', danger: true, reset: false,
+    cancel: 'Отмена',
+    body:
+      '<p class="text-sm font-medium text-zinc-900" data-confirm-lead></p>' +
+      '<p class="text-sm text-zinc-600 mt-1.5" data-confirm-message></p>',
+    onSubmit: confirmOnSubmit
+  });
+  function paintConfirmSheet(modal, btn) {
+    modal.querySelector('[data-modal-title]').textContent = 'Подтвердите действие';
+    const lead = modal.querySelector('[data-confirm-lead]');
+    const msg = modal.querySelector('[data-confirm-message]');
+    if (lead) lead.textContent = (btn && btn.dataset.confirm) || 'Подтвердите действие';
+    if (msg) msg.textContent = (btn && btn.dataset.confirmText) || CONFIRM_DEFAULT_TEXT;
+    const sub = modal.querySelector('[data-modal-submit]');
+    if (sub) {
+      sub.textContent = (btn && btn.dataset.confirmOk) || 'Подтвердить';
+      sub.className = CONFIRM_BTN_OK;
+    }
+    modal.querySelectorAll('button[data-close-modal]').forEach(b => {
+      if (b.getAttribute('aria-label') === 'Закрыть') return;
+      b.className = CONFIRM_BTN_CANCEL;
+    });
+  }
   function initConfirm() {
     document.addEventListener('click', e => {
       const btn = e.target.closest('[data-confirm]');
       if (!btn || btn.disabled || btn.getAttribute('aria-disabled') === 'true') return;
       e.preventDefault();
       e.stopPropagation();
-      const modal = openModal('confirm');
+      const name = btn.dataset.openModal === 'confirm-sheet' ? 'confirm-sheet' : 'confirm';
+      const modal = openModal(name);
       if (!modal) return;
       pendingConfirm = btn;
-      modal.querySelector('[data-modal-title]').textContent = 'Подтвердите действие';
-      const lead = modal.querySelector('[data-confirm-lead]');
-      const msg = modal.querySelector('[data-confirm-message]');
-      if (lead) lead.textContent = btn.dataset.confirm || 'Подтвердите действие';
-      if (msg) msg.textContent = btn.dataset.confirmText || 'Действие нельзя отменить.';
-      const sub = modal.querySelector('[data-modal-submit]');
-      if (sub) {
-        sub.textContent = btn.dataset.confirmOk || 'Удалить';
-        sub.className = 'px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white text-sm font-medium transition';
-      }
-      modal.querySelectorAll('button[data-close-modal]').forEach(b => {
-        if (b.getAttribute('aria-label') === 'Закрыть') return;
-        b.className = 'px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium text-zinc-700 hover:bg-zinc-50 transition';
-      });
+      paintConfirmSheet(modal, btn);
     });
   }
 

@@ -27,7 +27,7 @@
       </header>
 
       <div class="w-full max-w-full space-y-6">
-        <div class="bg-white rounded-2xl shadow-card w-full max-w-full overflow-hidden p-3 sm:p-4 space-y-3 mb-6">
+        <div class="bg-white rounded-2xl shadow-card w-full max-w-full overflow-hidden p-4 space-y-3">
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 w-full min-w-0">
             <div data-focus-switch class="inline-flex bg-zinc-100 rounded-full p-1 max-w-full overflow-x-auto no-scrollbar shrink-0 min-w-0" role="group" aria-label="Фокус">
               <button type="button" data-focus="all" data-deny="contractor" data-deny-tip="Подрядчик видит только задачи, где он исполнитель" class="shrink-0 whitespace-nowrap px-3 py-1 text-xs rounded-full font-medium text-zinc-500 transition">Все задачи<span data-focus-count="all" class="ml-1.5 text-xs tabular-nums opacity-60">0</span></button>
@@ -50,46 +50,46 @@
               <svg class="w-4 h-4 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg>
               <input data-filter="q" type="search" placeholder="Поиск по названию…" aria-label="Поиск по названию" class="h-9 sm:h-8 w-full bg-zinc-50 border border-zinc-200/80 rounded-xl pl-8 pr-3 text-xs text-zinc-700 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-accent">
             </label>
+            <span data-flag-chip class="hidden inline-flex items-center gap-1 pl-2.5 pr-1 h-8 rounded-full bg-accent/10 text-accent text-xs font-medium shrink-0">
+              <span data-flag-label></span>
+              <button type="button" data-flag-clear aria-label="Сбросить фильтр" class="w-5 h-5 rounded-full hover:bg-accent/15 flex items-center justify-center">×</button>
+            </span>
+            <button type="button" data-reset data-reset-filters class="hidden h-8 px-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-xs font-medium text-zinc-700 transition shrink-0">Сбросить фильтры</button>
           </div>
         </div>
-        <div class="flex flex-wrap items-center gap-x-3 gap-y-2 min-h-[28px]">
-          <p data-context class="text-xs text-zinc-500"></p>
-          <span data-flag-chip class="hidden inline-flex items-center gap-1 pl-2.5 pr-1 py-0.5 rounded-full bg-accent/10 text-accent text-xs font-medium">
-            <span data-flag-label></span>
-            <button type="button" data-flag-clear aria-label="Сбросить фильтр" class="w-5 h-5 rounded-full hover:bg-accent/15 flex items-center justify-center">×</button>
-          </span>
-          <button type="button" data-reset class="hidden ml-auto text-xs font-medium text-accent hover:underline">Сбросить фильтры</button>
-        </div>
 
-        <div data-board class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4 lg:mx-0 lg:px-0 lg:grid lg:grid-cols-5 lg:gap-4 no-scrollbar"></div>
-
-        <div data-list class="hidden">
-          <section class="bg-white rounded-2xl shadow-card overflow-hidden">
-            <div class="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0 max-w-full">
-              <table class="w-full min-w-[960px] text-sm">
+        <div data-tasks-viewport class="w-full">
+          <div data-board class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4 lg:mx-0 lg:px-0 lg:grid lg:grid-cols-5 lg:gap-4 no-scrollbar"></div>
+          <section data-list hidden class="bg-white rounded-2xl shadow-card overflow-hidden">
+            <div class="overflow-x-auto w-full">
+              <table class="w-full text-sm">
                 <thead>
-                  <tr class="border-b border-zinc-100 text-left text-xs font-medium text-zinc-500">
-                    <th class="pl-4 lg:pl-6 pr-2 py-3 w-[88px]">
-                      <label class="inline-flex items-center gap-2 cursor-pointer"><input type="checkbox" data-select-all class="w-4 h-4 rounded border-zinc-300 accent-[#0071e3]" aria-label="Выбрать все">ID</label>
+                  <tr class="border-b border-zinc-100 text-[11px] font-medium text-zinc-400 uppercase tracking-wider bg-zinc-50/50">
+                    <th class="pl-4 lg:pl-6 pr-2 py-3 w-[88px] text-left">
+                      <label class="inline-flex items-center gap-2 cursor-pointer normal-case tracking-normal"><input type="checkbox" data-select-all class="w-4 h-4 rounded border-zinc-300 accent-[#0071e3]" aria-label="Выбрать все">ID</label>
                     </th>
-                    <th class="px-3 py-3">Задача</th>
-                    <th class="px-3 py-3">Проект</th>
-                    <th class="px-3 py-3">Направление · Этап</th>
-                    <th class="px-3 py-3">Статус</th>
-                    <th class="px-3 py-3">Исполнитель</th>
-                    <th class="px-3 py-3">Дедлайн</th>
+                    <th class="px-3 py-3 text-left">Задача</th>
+                    <th class="px-3 py-3 text-left">Проект</th>
+                    <th class="px-3 py-3 text-left">Направление и этап</th>
+                    <th class="px-3 py-3 text-left">Статус</th>
+                    <th class="px-3 py-3 text-left">Исполнитель</th>
+                    <th class="px-3 py-3 text-left">Дедлайн</th>
                     <th class="pl-3 pr-4 lg:pr-6 py-3 text-center">В отчёт</th>
                   </tr>
                 </thead>
-                <tbody data-list-body></tbody>
+                <tbody id="tasks-table-body" data-list-body></tbody>
               </table>
             </div>
-            <div data-list-empty class="hidden px-4 lg:px-6 py-12 text-center">
-              <div class="text-sm text-zinc-500" data-empty-text>Задач по выбранным фильтрам нет</div>
+            <div data-list-empty class="hidden px-4 lg:px-6 py-14 text-center">
+              <div class="mx-auto w-12 h-12 rounded-2xl bg-zinc-100 text-zinc-400 flex items-center justify-center mb-3">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg>
+              </div>
+              <h3 class="text-sm font-semibold text-zinc-900">Ничего не найдено</h3>
+              <p class="text-xs text-zinc-500 mt-1" data-empty-text>Попробуйте изменить параметры поиска или сбросить фильтры</p>
+              <button type="button" data-reset data-reset-filters class="mt-4 h-8 px-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-xs font-medium text-zinc-700 transition">Сбросить фильтры</button>
             </div>
           </section>
-
-          <div data-bulk class="hidden sticky bottom-24 lg:bottom-6 z-20 mt-4 mx-auto w-fit max-w-full flex items-center gap-2 pl-4 pr-2 py-2 rounded-2xl sm:rounded-full bg-white/90 backdrop-blur-xl shadow-pop ring-1 ring-black/5 text-sm">
+          <div data-bulk hidden class="sticky bottom-24 lg:bottom-6 z-20 mt-4 mx-auto w-fit max-w-full flex items-center gap-2 pl-4 pr-2 py-2 rounded-2xl sm:rounded-full bg-white/90 backdrop-blur-xl shadow-pop ring-1 ring-black/5 text-sm">
             <span class="font-medium whitespace-nowrap">Выбрано <span data-bulk-count class="tabular-nums">0</span></span>
             <select data-bulk-status aria-label="Перевести в статус" class="min-w-0 px-3 py-1.5 rounded-full border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
               <option value="">Перевести в статус…</option>
@@ -315,7 +315,7 @@
   function row(t) {
     const dd = due(t);
     const extra = t.status === 'review' && t.reviewDays ? t.reviewDays + ' дн.' : '';
-    return '<tr data-row="' + t.id + '" class="border-t border-zinc-100 hover:bg-zinc-50/60 transition' + (state.selected.has(t.id) ? ' bg-accent/5' : '') + '">' +
+    return '<tr data-row="' + t.id + '" class="border-b border-zinc-100 hover:bg-zinc-50/60 transition' + (state.selected.has(t.id) ? ' bg-accent/5' : '') + '">' +
       '<td class="pl-4 lg:pl-6 pr-2 py-3"><label class="inline-flex items-center gap-2 cursor-pointer text-xs text-zinc-500 tabular-nums"><input type="checkbox" data-select="' + t.id + '"' + (state.selected.has(t.id) ? ' checked' : '') + ' class="w-4 h-4 rounded border-zinc-300 accent-[#0071e3]" aria-label="Выбрать задачу ' + t.id + '">#' + t.id + '</label></td>' +
       '<td class="px-3 py-3"><div class="flex flex-wrap items-center gap-x-2 gap-y-1"><a href="task.html" class="font-medium hover:underline">' + esc(t.title) + '</a>' + tags(t) + '</div></td>' +
       '<td class="px-3 py-3 whitespace-nowrap"><a href="tasks.html?project=' + t.project + '" class="hover:underline">' + PROJECTS[t.project] + '</a></td>' +
@@ -332,13 +332,16 @@
       const items = list.filter(t => t.status === s.id);
       if (!items.length) return '';
       const open = !state.collapsed.has(s.id);
-      return '<tr><td colspan="8" class="p-0' + (s.id === STATUSES[0].id ? '' : ' border-t border-zinc-100') + '">' +
-        '<button type="button" data-group="' + s.id + '" aria-expanded="' + open + '" class="w-full flex items-center gap-2 px-4 lg:px-6 py-2.5 bg-zinc-50/80 hover:bg-zinc-100/70 text-left transition">' +
-          '<span class="' + (open ? 'rotate-90 ' : '') + 'inline-flex transition">' + CHEVRON + '</span>' +
-          '<span class="w-2 h-2 rounded-full ' + s.dot + '"></span>' +
-          '<span class="text-sm font-semibold tracking-tight">' + (s.board || s.name) + '</span>' +
-          '<span class="text-xs text-zinc-500 tabular-nums">' + items.length + '</span>' +
-        '</button></td></tr>' + (open ? items.map(row).join('') : '');
+      return '<tr class="border-b border-zinc-100">' +
+        '<td colspan="8" class="bg-zinc-50/80 px-4 py-2 font-semibold text-xs text-zinc-700">' +
+          '<button type="button" data-group="' + s.id + '" aria-expanded="' + open + '" class="w-full flex items-center gap-2 text-left hover:text-zinc-900 transition">' +
+            '<span class="' + (open ? 'rotate-90 ' : '') + 'inline-flex transition">' + CHEVRON + '</span>' +
+            '<span class="w-2 h-2 rounded-full ' + s.dot + '"></span>' +
+            '<span>' + (s.board || s.name) + '</span>' +
+            '<span class="font-medium text-zinc-500 tabular-nums">' + items.length + '</span>' +
+          '</button>' +
+        '</td>' +
+      '</tr>' + (open ? items.map(row).join('') : '');
     }).join('');
     document.querySelector('[data-list-empty]').classList.toggle('hidden', list.length > 0);
     paintBulk();
@@ -348,7 +351,9 @@
     const ids = current().map(t => t.id);
     Array.from(state.selected).forEach(id => { if (ids.indexOf(id) === -1) state.selected.delete(id); });
     const n = state.selected.size;
-    document.querySelector('[data-bulk]').classList.toggle('hidden', n === 0);
+    const bulk = document.querySelector('[data-bulk]');
+    bulk.hidden = n === 0;
+    bulk.classList.toggle('hidden', n === 0);
     document.querySelector('[data-bulk-count]').textContent = n;
     const all = document.querySelector('[data-select-all]');
     all.checked = n > 0 && n === ids.length;
@@ -379,22 +384,14 @@
   }
 
   function paintContext() {
-    const d = DIRS[state.direction];
-    const ctx = document.querySelector('[data-context]');
-    if (state.mode === 'board' && d) {
-      ctx.innerHTML = 'Процесс «' + d.name + '»: ' + d.steps.map((s, i) => '<span class="text-zinc-700">' + s + '</span>').join(' → ') +
-        ' · в «В работе» задача встаёт на первый этап, финальный этап отправляет её на приёмку' +
-        (App.can('project_types') ? ' · <a href="templates.html" class="text-accent hover:underline">Настроить процесс</a>' : '');
-    } else if (state.mode === 'board') {
-      ctx.textContent = 'Глобальный воркфлоу: колонки — этапы жизненного цикла. Выберите направление, чтобы увидеть его локальные этапы.';
-    } else {
-      ctx.textContent = 'Группы по глобальному статусу — нажмите на заголовок, чтобы свернуть или развернуть.';
-    }
     const chip = document.querySelector('[data-flag-chip]');
     chip.classList.toggle('hidden', !state.flag);
     if (state.flag) document.querySelector('[data-flag-label]').textContent = FLAGS[state.flag][0];
-    const dirty = state.project || state.direction || state.assignee || state.q || state.flag;
-    document.querySelector('[data-reset]').classList.toggle('hidden', !dirty);
+    const dirty = !!(state.project || state.direction || state.assignee || state.q || state.flag);
+    document.querySelectorAll('[data-reset]').forEach(btn => {
+      if (btn.closest('[data-list-empty]')) return;
+      btn.classList.toggle('hidden', !dirty);
+    });
   }
 
   const EMPTY = {
@@ -437,8 +434,14 @@
       assigneeSel.dataset.tip = tip;
     }
     document.querySelectorAll('[data-focus-count]').forEach(c => { c.textContent = TASKS.filter(t => matches(t, c.dataset.focusCount)).length; });
-    board.classList.toggle('hidden', state.mode !== 'board');
-    document.querySelector('[data-list]').classList.toggle('hidden', state.mode !== 'list');
+    const showBoard = state.mode === 'board';
+    board.classList.toggle('hidden', !showBoard);
+    board.hidden = !showBoard;
+    board.style.display = showBoard ? '' : 'none';
+    const listEl = document.querySelector('[data-list]');
+    listEl.classList.toggle('hidden', showBoard);
+    listEl.hidden = showBoard;
+    listEl.style.display = showBoard ? 'none' : '';
     document.querySelector('[data-empty-text]').textContent = EMPTY[state.focus];
     paintContext();
     if (state.mode === 'board') renderBoard(list); else renderList(list);
@@ -565,12 +568,13 @@
   const search = document.querySelector('[data-filter="q"]');
   search.addEventListener('input', () => { state.q = search.value.trim().toLowerCase(); render(); });
   document.querySelector('[data-flag-clear]').addEventListener('click', () => { state.flag = ''; render(); });
-  document.querySelector('[data-reset]').addEventListener('click', () => {
+  function resetFilters() {
     Object.assign(state, { project: '', direction: '', assignee: '', q: '', flag: '' });
     search.value = '';
     fillSelects();
     render();
-  });
+  }
+  document.querySelectorAll('[data-reset]').forEach(btn => btn.addEventListener('click', resetFilters));
 
   body.addEventListener('click', e => {
     const g = e.target.closest('[data-group]');

@@ -20,10 +20,10 @@
       <header class="sticky top-0 z-30 min-h-[3.5rem] h-auto py-2.5 bg-canvas/80 backdrop-blur-xl border-b border-black/5 -mx-4 lg:-mx-8 -mt-6 px-4 lg:px-8 flex flex-wrap items-center justify-between gap-3">
           <div class="flex items-center gap-3 min-w-0">
             <a href="tasks.html" class="text-sm text-zinc-500 hover:text-zinc-900 transition shrink-0">← Назад</a>
-            <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[140px] sm:max-w-none">Проверить индексацию в GSC</h1>
+            <h1 title="Проверить индексацию в GSC" class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[200px]">Проверить индексацию в GSC</h1>
           </div>
           <div class="flex items-center gap-2 shrink-0 flex-wrap justify-end">
-            <button type="button" data-task-action="wait_client" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition whitespace-nowrap">Ждёт клиента</button>
+            <button type="button" data-task-action="wait_client" class="h-9 px-3.5 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition whitespace-nowrap">Ждёт клиента</button>
             <button type="button" data-task-action="submit" data-assignee="kim" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition whitespace-nowrap">Сдать на проверку</button>
             <button type="button" data-task-action="rework" data-accept-item data-creator="petrov" data-acceptor="petrov" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition whitespace-nowrap">На доработку</button>
             <button type="button" data-task-action="accept" data-accept-item data-creator="petrov" data-acceptor="petrov" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-zinc-900 text-white text-xs font-medium hover:bg-zinc-800 transition whitespace-nowrap">Принять</button>
@@ -41,12 +41,22 @@
           <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight">Проверить индексацию в GSC</h2>
 
           <ol data-lifecycle aria-label="Этапы задачи" class="mt-4 flex flex-wrap items-center gap-1.5"></ol>
-          <div data-return-note class="hidden mt-4 max-w-xl"></div>
         </div>
 
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
 
           <div class="xl:col-span-2 space-y-6">
+
+            <div data-rework-alert class="hidden rounded-2xl bg-amber-50 border border-amber-200/80 p-4 flex items-start gap-3">
+              <span class="w-9 h-9 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+              </span>
+              <div class="min-w-0 flex-1">
+                <div class="text-sm font-semibold text-amber-900">Задача возвращена на доработку постановщиком: <span class="font-medium" data-rework-reason>Причина замечания</span></div>
+                <button type="button" data-task-action="submit" data-assignee="kim" data-rework-resubmit class="mt-3 h-8 px-3.5 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition">Исправлено, сдать на проверку</button>
+              </div>
+            </div>
+            <div data-return-note class="hidden"></div>
 
             <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
               <h3 class="text-sm font-semibold tracking-tight mb-3">Описание задачи</h3>
@@ -388,17 +398,18 @@
 
   function message(c) {
     if (c.system) return '<li class="px-4 lg:px-5 py-3 flex items-center justify-center gap-2 text-xs ' + (c.tone === 'amber' ? 'text-amber-700' : c.tone === 'green' ? 'text-emerald-700' : 'text-zinc-500') + '"><span class="w-1.5 h-1.5 rounded-full ' + (c.tone === 'amber' ? 'bg-amber-500' : c.tone === 'green' ? 'bg-emerald-500' : 'bg-zinc-300') + '"></span><span>' + c.text + '</span></li>';
-    const tone = c.report ? 'bg-emerald-50/50 border-emerald-500' : (c.remark ? 'bg-amber-50/40 border-amber-400' : 'border-transparent');
+    const border = c.report ? 'border-l-2 border-emerald-500' : (c.remark ? 'border-l-2 border-amber-400' : 'border-l-2 border-transparent');
+    const bg = c.report ? 'bg-emerald-50/40' : (c.remark ? 'bg-amber-50/30' : '');
     const images = (c.files || []).filter(f => f.url);
-    return '<li data-msg="' + c.id + '" class="p-4 lg:p-5 border-l-[3px] ' + tone + ' transition-colors">' +
+    return '<li data-msg="' + c.id + '" class="relative p-4 lg:p-5 ' + border + ' ' + bg + ' transition-colors">' +
+      (c.report ? '<span class="absolute top-3 right-3 sm:top-4 sm:right-4 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">В отчёте клиенту</span>' : '') +
       '<div class="flex gap-3">' +
         '<span class="w-8 h-8 shrink-0 rounded-full ' + (c.dark ? 'bg-zinc-900 text-white' : 'bg-zinc-200 text-zinc-700') + ' text-[10px] font-semibold flex items-center justify-center">' + esc(c.initials) + '</span>' +
-        '<div class="flex-1 min-w-0">' +
+        '<div class="flex-1 min-w-0 ' + (c.report ? 'pr-28' : '') + '">' +
           '<div class="flex flex-wrap items-center gap-x-2 gap-y-1 mb-1">' +
             '<span class="text-sm font-medium">' + esc(c.author) + '</span>' +
             (c.role ? '<span class="text-xs text-zinc-500">' + esc(c.role) + '</span>' : '') +
             (c.remark ? '<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-50 text-amber-700 ring-1 ring-amber-200">Замечание к приёмке</span>' : '') +
-            (c.report ? '<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200">В отчёте</span>' : '') +
             (c.hours ? '<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-zinc-100 text-zinc-700 tabular-nums" title="Списано времени">' + fmtH(c.hours) + '</span>' : '') +
             '<span class="ml-auto flex items-center gap-2">' +
               (canReport ? '<button type="button" data-flip="' + c.id + '" class="text-[11px] text-zinc-400 hover:text-zinc-900 transition">' + (c.report ? 'Убрать из отчёта' : 'В отчёт') + '</button>' : '') +
@@ -426,12 +437,13 @@
   }
 
   /* ---------- Учёт времени (сайдбар) ---------- */
-  function paintTime(msgs) {
+  function paintTime(msgs, draftHours) {
     const people = {};
     msgs.forEach(c => { if (c.hours) people[c.author] = (people[c.author] || 0) + c.hours; });
-    const spent = Object.values(people).reduce((a, b) => a + b, 0);
+    const spent = Object.values(people).reduce((a, b) => a + b, 0) + (draftHours > 0 ? draftHours : 0);
     const pct = spent / ESTIMATE * 100;
     const over = spent > ESTIMATE;
+    const warn = !over && pct >= 80;
     const q = sel => document.querySelector(sel);
     q('[data-time-spent]').textContent = fmtH(spent);
     q('[data-time-estimate]').textContent = fmtH(ESTIMATE);
@@ -439,11 +451,11 @@
     q('[data-time-left]').className = (over ? 'text-red-600 font-medium' : 'text-zinc-500') + ' tabular-nums';
     const bar = q('[data-time-bar]');
     bar.style.width = Math.min(100, pct) + '%';
-    bar.className = 'h-full rounded-full transition-all duration-500 ' + (over ? 'bg-red-500' : pct >= 85 ? 'bg-amber-500' : 'bg-accent');
+    bar.className = 'h-full rounded-full transition-all duration-500 ' + (over ? 'bg-red-500' : warn ? 'bg-amber-500' : 'bg-emerald-500');
     q('[data-time-bar-wrap]').setAttribute('aria-valuenow', Math.round(pct));
     const st = q('[data-time-state]');
-    st.textContent = over ? 'Перерасход' : pct >= 85 ? 'Почти исчерпано' : Math.round(pct) + '%';
-    st.className = 'text-[11px] font-medium px-2 py-0.5 rounded-full tabular-nums ' + (over ? 'bg-red-50 text-red-700' : pct >= 85 ? 'bg-amber-50 text-amber-700' : 'bg-zinc-100 text-zinc-600');
+    st.textContent = over ? 'Перерасход' : warn ? 'Почти исчерпано' : Math.round(pct) + '%';
+    st.className = 'text-[11px] font-medium px-2 py-0.5 rounded-full tabular-nums ' + (over ? 'bg-red-50 text-red-700' : warn ? 'bg-amber-50 text-amber-700' : 'bg-emerald-50 text-emerald-700');
     q('[data-time-people]').innerHTML = Object.keys(people).sort((a, b) => people[b] - people[a]).map(n =>
       '<li class="flex items-center gap-2"><span class="text-zinc-600 truncate">' + esc(n) + '</span><span class="flex-1 border-b border-dotted border-zinc-200"></span><span class="tabular-nums text-zinc-900 font-medium">' + fmtH(people[n]) + '</span></li>').join('');
   }
@@ -469,32 +481,44 @@
     const afterWait = review || rework || done;
     const steps = [
       { label: 'Запланирована', state: 'past' },
-      { label: 'В работе', state: (progress || waiting) ? 'current' : (afterWait ? 'past' : 'next') },
+      { label: 'В работе', state: progress ? 'current' : ((waiting || afterWait) ? 'past' : 'next') },
+      { label: 'Ждёт клиента', state: waiting ? 'waiting' : (afterWait ? 'past' : 'next') },
       { label: rework ? 'На доработке' : 'На проверке', state: rework ? 'rework' : (review ? 'current' : (done ? 'past' : 'next')) },
       { label: 'Принята', state: done ? 'done' : 'next' }
     ];
     const PILL = {
       past: 'bg-zinc-900 text-white',
       current: 'bg-accent text-white',
+      waiting: 'bg-sky-500 text-white',
       rework: 'bg-amber-500 text-white',
       done: 'bg-emerald-600 text-white',
       next: 'bg-white border border-zinc-200 text-zinc-500'
     };
     document.querySelector('[data-lifecycle]').innerHTML = steps.map(x =>
-      '<li' + (x.state === 'current' || x.state === 'rework' ? ' aria-current="step"' : '') +
+      '<li' + (x.state === 'current' || x.state === 'rework' || x.state === 'waiting' ? ' aria-current="step"' : '') +
         ' class="inline-flex items-center h-7 px-3 rounded-full text-[11px] font-medium whitespace-nowrap ' + PILL[x.state] + '">' +
         x.label +
       '</li>').join('');
+    const alert = document.querySelector('[data-rework-alert]');
     const note = document.querySelector('[data-return-note]');
-    note.classList.toggle('hidden', !last || done);
-    if (last && !done) note.innerHTML =
-      '<div class="flex gap-3 rounded-2xl px-3.5 py-3 ' + (rework ? 'bg-amber-50 ring-1 ring-amber-200' : 'bg-white ring-1 ring-black/5') + '">' +
-        '<span class="mt-0.5 shrink-0 inline-flex items-center px-1.5 py-0.5 h-fit rounded-md text-[10px] font-semibold bg-amber-500 text-white">REWORK</span>' +
-        '<div class="min-w-0 text-sm">' +
-          '<div class="' + (rework ? 'font-medium text-amber-900' : 'text-zinc-700') + '">' + (rework ? 'Возвращена на доработку' : 'Возвращалась на доработку') + ' · <span class="tabular-nums">' + last.date + '</span> · ' + esc(last.who) + '</div>' +
-          '<div class="text-xs mt-0.5 ' + (rework ? 'text-amber-800' : 'text-zinc-500') + '">Причина: ' + esc(last.reason) + '</div>' +
-        '</div>' +
-      '</div>';
+    if (alert) {
+      alert.classList.toggle('hidden', !rework || !last);
+      if (rework && last) {
+        const reason = alert.querySelector('[data-rework-reason]');
+        if (reason) reason.textContent = last.reason;
+      }
+    }
+    if (note) {
+      note.classList.toggle('hidden', !last || done || rework);
+      if (last && !done && !rework) note.innerHTML =
+        '<div class="flex gap-3 rounded-2xl px-3.5 py-3 bg-white ring-1 ring-black/5">' +
+          '<span class="mt-0.5 shrink-0 inline-flex items-center px-1.5 py-0.5 h-fit rounded-md text-[10px] font-semibold bg-amber-500 text-white">REWORK</span>' +
+          '<div class="min-w-0 text-sm">' +
+            '<div class="text-zinc-700">Возвращалась на доработку · <span class="tabular-nums">' + last.date + '</span> · ' + esc(last.who) + '</div>' +
+            '<div class="text-xs mt-0.5 text-zinc-500">Причина: ' + esc(last.reason) + '</div>' +
+          '</div>' +
+        '</div>';
+    }
     const meId = App.me;
     const both = meId === 'petrov' && meId === 'kim';
     const execOnly = meId === 'kim';
@@ -502,29 +526,30 @@
     const setter = !execOnly && !both && (meId === 'petrov' || !!App.isLead || App.role === 'pm');
     const open = task.status !== 'done';
     const showAction = (action, roleOk, stateOk) => {
-      const b = document.querySelector('[data-task-action="' + action + '"]');
-      if (!b || b.dataset.rbacOff === '1') return;
-      b.classList.remove('hidden');
-      const enabled = roleOk && stateOk;
-      b.disabled = !enabled;
-      b.classList.toggle('opacity-50', !enabled);
-      b.classList.toggle('cursor-not-allowed', !enabled);
-      if (enabled) {
-        b.removeAttribute('aria-disabled');
-        b.removeAttribute('title');
-        delete b.dataset.tip;
-        if (!b.hasAttribute('data-deny-tip') || b.dataset.denyTip === 'Недоступно для вашей роли' || b.dataset.denyTip === 'Сейчас это действие недоступно' || b.dataset.denyTip === 'Принять задачу может только её постановщик или руководитель') delete b.dataset.denyTip;
-        return;
-      }
-      const tip = roleOk
-        ? 'Сейчас это действие недоступно'
-        : ((action === 'accept' || action === 'rework')
-          ? 'Принять задачу может только её постановщик или руководитель'
-          : 'Недоступно для вашей роли');
-      b.setAttribute('aria-disabled', 'true');
-      b.dataset.denyTip = tip;
-      b.dataset.tip = tip;
-      b.title = tip;
+      document.querySelectorAll('[data-task-action="' + action + '"]').forEach(b => {
+        if (b.dataset.rbacOff === '1') return;
+        b.classList.remove('hidden');
+        const enabled = roleOk && stateOk;
+        b.disabled = !enabled;
+        b.classList.toggle('opacity-50', !enabled);
+        b.classList.toggle('cursor-not-allowed', !enabled);
+        if (enabled) {
+          b.removeAttribute('aria-disabled');
+          b.removeAttribute('title');
+          delete b.dataset.tip;
+          if (!b.hasAttribute('data-deny-tip') || b.dataset.denyTip === 'Недоступно для вашей роли' || b.dataset.denyTip === 'Сейчас это действие недоступно' || b.dataset.denyTip === 'Принять задачу может только её постановщик или руководитель') delete b.dataset.denyTip;
+          return;
+        }
+        const tip = roleOk
+          ? 'Сейчас это действие недоступно'
+          : ((action === 'accept' || action === 'rework')
+            ? 'Принять задачу может только её постановщик или руководитель'
+            : 'Недоступно для вашей роли');
+        b.setAttribute('aria-disabled', 'true');
+        b.dataset.denyTip = tip;
+        b.dataset.tip = tip;
+        b.title = tip;
+      });
     };
     showAction('wait_client', execOnly || both, open && task.status !== 'WAITING_CLIENT' && task.status !== 'review' && task.status !== 'done');
     showAction('submit', execOnly || both, task.status !== 'review' && open);
@@ -532,12 +557,19 @@
     showAction('rework', setter || both, task.status === 'review' && open);
     /* Скрыть кнопки чужой роли полностью */
     ['wait_client', 'submit'].forEach(a => {
-      const b = document.querySelector('[data-task-action="' + a + '"]');
-      if (b) b.classList.toggle('hidden', !(execOnly || both));
+      document.querySelectorAll('[data-task-action="' + a + '"]').forEach(b => {
+        b.classList.toggle('hidden', !(execOnly || both));
+      });
     });
     ['accept', 'rework'].forEach(a => {
-      const b = document.querySelector('[data-task-action="' + a + '"]');
-      if (b) b.classList.toggle('hidden', !(setter || both));
+      document.querySelectorAll('[data-task-action="' + a + '"]').forEach(b => {
+        b.classList.toggle('hidden', !(setter || both));
+      });
+    });
+    /* Кнопка в плашке REWORK — только в статусе rework у исполнителя */
+    document.querySelectorAll('[data-rework-resubmit]').forEach(b => {
+      const show = rework && (execOnly || both) && open;
+      b.classList.toggle('hidden', !show);
     });
     const sn = document.querySelector('[data-status-note]');
     const waitingReview = execOnly && task.status === 'review';
@@ -573,7 +605,7 @@
       events.push({ id: 'e' + Date.now(), system: true, text: esc(who) + ' поставил задачу в ожидание клиента · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });
       addHistory(who + ' перевёл задачу в ожидание клиента', 'bg-sky-500');
       paint(true); paintLifecycle();
-      return App.toast('Статус: ждёт клиента · срок не считается просроченным', 'success');
+      return App.toast('Задача переведена в статус: Ждёт ответа клиента', 'warning');
     }
     if (action === 'submit') {
       if (task.status === 'review' || task.status === 'done') return;
@@ -750,9 +782,10 @@
   function paintPending() {
     pendingBox.classList.toggle('hidden', !pending.length);
     pendingBox.innerHTML = pending.map(f => f.url
-      ? '<span class="relative group" data-file="' + f.id + '"><img src="' + f.url + '" alt="' + esc(f.name) + '" class="h-20 w-auto max-w-[160px] rounded-xl object-cover ring-1 ring-black/10">' +
-        '<button type="button" data-remove="' + f.id + '" aria-label="Убрать скриншот" class="absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full bg-zinc-900 text-white text-sm leading-none flex items-center justify-center shadow-pop ring-2 ring-white hover:bg-red-600 transition">×</button>' +
-        '<span class="absolute left-1.5 bottom-1.5 px-1.5 py-0.5 rounded bg-black/55 text-white text-[10px] tabular-nums">' + fmtSize(f.size) + '</span></span>'
+      ? '<span class="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 p-1.5 pr-2" data-file="' + f.id + '">' +
+          '<span class="relative shrink-0"><img src="' + f.url + '" alt="' + esc(f.name) + '" class="h-12 w-12 rounded-lg object-cover ring-1 ring-black/10">' +
+          '<button type="button" data-remove="' + f.id + '" aria-label="Убрать скриншот" class="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-zinc-900 text-white text-xs leading-none flex items-center justify-center shadow-pop ring-2 ring-white hover:bg-red-600 transition">×</button></span>' +
+          '<span class="text-[11px] text-zinc-600 font-medium">Скриншот прикреплен</span></span>'
       : chip(f, true)).join('');
   }
   pendingBox.addEventListener('click', e => {
@@ -791,6 +824,16 @@
     document.querySelector('[data-report-hint]').classList.toggle('hidden', !on);
   }
   toggle.addEventListener('change', paintToggle);
+
+  const hoursInputLive = document.querySelector('[data-hours]');
+  if (hoursInputLive) {
+    const previewTime = () => {
+      const raw = hoursInputLive.value.trim().replace(/^\+/, '').replace(',', '.');
+      const draft = raw ? Number(raw) : 0;
+      paintTime(all().filter(c => !c.system), draft > 0 && draft <= 24 ? draft : 0);
+    };
+    hoursInputLive.addEventListener('input', previewTime);
+  }
 
   /* ---------- Отправка ---------- */
   function send() {

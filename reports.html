@@ -74,6 +74,7 @@
               <input data-report-q type="search" placeholder="Поиск по проекту или клиенту..." aria-label="Поиск отчётов" class="h-8 w-full bg-zinc-50 border border-zinc-200/80 rounded-xl pl-8 pr-3 text-xs text-zinc-700 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-accent">
               <svg class="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-2.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg>
             </div>
+            <button type="button" data-reset-filters class="hidden h-8 px-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-xs font-medium text-zinc-700 transition shrink-0">Сбросить фильтры</button>
           </div>
         </div>
 
@@ -92,7 +93,14 @@
               <tbody data-task-group data-report-rows class="divide-y divide-zinc-100 block md:table-row-group"></tbody>
             </table>
           </div>
-          <div data-task-empty data-empty-filter="За выбранный период отчётов по выбранному проекту нет" class="hidden px-4 lg:px-6 py-10 text-center text-sm text-zinc-500">Отчётов по выбранным условиям нет.</div>
+          <div data-task-empty data-empty-filter="За выбранный период отчётов по выбранному проекту нет" class="hidden px-4 lg:px-6 py-14 text-center">
+            <div class="mx-auto w-12 h-12 rounded-2xl bg-zinc-100 text-zinc-400 flex items-center justify-center mb-3">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg>
+            </div>
+            <h3 class="text-sm font-semibold text-zinc-900">Ничего не найдено</h3>
+            <p class="text-xs text-zinc-500 mt-1">Попробуйте изменить параметры поиска или сбросить фильтры</p>
+            <button type="button" data-reset-filters class="mt-4 h-8 px-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-xs font-medium text-zinc-700 transition">Сбросить фильтры</button>
+          </div>
         </section>
         <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
           <div class="flex items-start justify-between gap-4">
@@ -237,6 +245,9 @@
   const monthSelect = document.querySelector('[data-report-month]');
   const targetSelect = document.querySelector('[data-report-target]');
   const searchInput = document.querySelector('[data-report-q]');
+  function filtersDirty() {
+    return yearSelect.value !== '2025' || monthSelect.value !== '05' || !!targetSelect.value || !!searchInput.value.trim();
+  }
   function applyFilters() {
     const yVal = yearSelect.value;
     const mVal = monthSelect.value;
@@ -253,11 +264,25 @@
       const matchQuery = (!qVal || el.dataset.q.includes(qVal));
       return matchPeriod && matchTarget && matchQuery;
     });
+    document.querySelectorAll('[data-reset-filters]').forEach(btn => {
+      if (btn.closest('[data-task-empty]')) return;
+      btn.classList.toggle('hidden', !filtersDirty());
+    });
+  }
+  function resetReportFilters() {
+    yearSelect.value = 'all';
+    monthSelect.value = 'all';
+    targetSelect.value = '';
+    searchInput.value = '';
+    const allView = document.querySelector('[data-view="all"]');
+    if (allView) allView.click();
+    applyFilters();
   }
   yearSelect.addEventListener('change', applyFilters);
   monthSelect.addEventListener('change', applyFilters);
   targetSelect.addEventListener('change', applyFilters);
   searchInput.addEventListener('input', applyFilters);
+  document.querySelectorAll('[data-reset-filters]').forEach(btn => btn.addEventListener('click', resetReportFilters));
 
   function replace(i) {
     const old = tbody.querySelector('[data-report="' + i + '"]');

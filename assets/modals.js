@@ -231,15 +231,26 @@
       m.addEventListener('modal:open', e => setTimeout(() => {
         const op = e.detail && e.detail.opener;
         const pref = op && (op.dataset.prefillClient || op.getAttribute('data-prefill-client'));
-        if (pref) {
-          const sel = m.querySelector('[name="client"]');
-          if (sel) sel.value = pref;
+        const sel = m.querySelector('[name="client"]');
+        if (sel) {
+          if (pref) {
+            sel.value = pref;
+            sel.disabled = true;
+            sel.classList.add('bg-zinc-50', 'text-zinc-700', 'cursor-not-allowed');
+            sel.setAttribute('aria-readonly', 'true');
+          } else {
+            sel.disabled = false;
+            sel.classList.remove('bg-zinc-50', 'text-zinc-700', 'cursor-not-allowed');
+            sel.removeAttribute('aria-readonly');
+          }
         }
         paint();
         syncProjectKpiChecks(m, KPI_DEFAULT);
       }));
     },
     onSubmit(m, d, e) {
+      const sel = m.querySelector('[name="client"]');
+      if (sel && sel.disabled) sel.disabled = false;
       const kpis = readProjectKpis(m, e, d);
       if (!kpis) return;
       const c = val(m, 'client') === '__new' ? val(m, 'new_client') : label(m, 'client');
@@ -628,7 +639,10 @@
         field('Отдел', select('dept', option('SEO', 'SEO') + option('Менеджеры', 'Менеджеры') + option('Аккаунтинг', 'Аккаунтинг') + option('Контент', 'Контент') + option('—', 'Без отдела'))) +
         field('Часов в неделю', input('week', 'type="number" min="1" max="60" required'), { req: true }) +
         field('Ставка, ₽/ч', input('rate', 'type="number" min="0" step="100"'), { attrs: 'data-can="see_finance"' })) +
-      field('Проекты', '<div data-emp-projects class="flex flex-wrap gap-1.5"></div>'),
+      field('Проекты', '<div data-emp-projects class="flex flex-wrap gap-1.5"></div>') +
+      '<div class="pt-2 border-t border-zinc-100 flex justify-end">' +
+        '<button type="button" data-can="change_roles" data-deny-tip="Блокировка участников доступна только владельцу компании" data-confirm="Заблокировать участника?" data-confirm-text="Это действие необратимо. Связанные данные будут удалены или переведены в архив." data-confirm-ok="Подтвердить" data-confirm-toast="Участник заблокирован" data-close-modal class="h-9 px-4 rounded-full bg-white border border-red-200 text-xs font-medium text-red-600 hover:bg-red-50 transition">Заблокировать</button>' +
+      '</div>',
     onOpen(m, opener) {
       const MONTH = {
         sidorov: { spent: 116, cap: 160, phone: '+7 495 120-11-01', mail: 'ivan@seo.ru', tasks: [['Аудит семантики «Холод»', 40], ['План на июль «Ремонт+»', 36], ['Технический контроль «Стройтех»', 40]] },

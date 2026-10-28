@@ -44,6 +44,7 @@
               <svg class="w-4 h-4 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg>
               <input data-project-q type="search" placeholder="Поиск" aria-label="Поиск проектов" class="h-9 sm:h-8 w-full bg-zinc-50 border border-zinc-200/80 rounded-xl pl-8 pr-3 text-xs text-zinc-700 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-accent">
             </label>
+            <button type="button" data-reset-filters class="hidden h-8 px-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-xs font-medium text-zinc-700 transition shrink-0">Сбросить фильтры</button>
           </div>
         </div>
 
@@ -243,6 +244,14 @@
               </tbody>
             </table>
           </div>
+          <div data-project-empty class="hidden px-4 lg:px-6 py-14 text-center">
+            <div class="mx-auto w-12 h-12 rounded-2xl bg-zinc-100 text-zinc-400 flex items-center justify-center mb-3">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+            </div>
+            <h3 class="text-sm font-semibold text-zinc-900">Ничего не найдено</h3>
+            <p class="text-xs text-zinc-500 mt-1">Попробуйте изменить параметры поиска или сбросить фильтры</p>
+            <button type="button" data-reset-filters class="mt-4 h-8 px-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-xs font-medium text-zinc-700 transition">Сбросить фильтры</button>
+          </div>
           <div class="px-4 lg:px-6 py-4 border-t border-zinc-100 flex flex-wrap items-center justify-between gap-3">
             <div data-project-summary class="text-sm text-zinc-500">Показано <span class="tabular-nums text-zinc-900 font-medium">1–5</span> из <span class="tabular-nums text-zinc-900 font-medium">5</span></div>
             <div class="flex items-center gap-2 text-sm text-zinc-500">
@@ -301,14 +310,42 @@
   });
 
   let projectScope = 'all';
+  const qInput = document.querySelector('[data-project-q]');
+  const fromInput = document.querySelector('[data-date-from]');
+  const toInput = document.querySelector('[data-date-to]');
+  function filtersDirty() {
+    return !!(qInput.value.trim() || projectScope !== 'all' || (fromInput && fromInput.value) || (toInput && toInput.value));
+  }
   function syncProjectToolbar() {
-    const q = (document.querySelector('[data-project-q]').value || '').trim().toLowerCase();
+    const q = (qInput.value || '').trim().toLowerCase();
     const mine = (window.SEOApp && SEOApp.myProjects) || [];
     document.querySelectorAll('[data-project-row]').forEach(el => {
       el.dataset.mineOut = projectScope === 'mine' && mine.indexOf(el.dataset.projectRow) === -1 ? '1' : '0';
       el.dataset.qOut = q && el.textContent.toLowerCase().indexOf(q) === -1 ? '1' : '0';
     });
     if (window.SEOApp && SEOApp.paintDateRange) SEOApp.paintDateRange();
+    const visible = Array.from(document.querySelectorAll('[data-project-row]')).filter(el => !el.classList.contains('!hidden'));
+    const empty = document.querySelector('[data-project-empty]');
+    if (empty) empty.classList.toggle('hidden', visible.length > 0);
+    document.querySelectorAll('[data-reset-filters]').forEach(btn => {
+      if (btn.closest('[data-project-empty]')) return;
+      btn.classList.toggle('hidden', !filtersDirty());
+    });
+  }
+  function resetProjectFilters() {
+    projectScope = 'all';
+    qInput.value = '';
+    if (fromInput) fromInput.value = '';
+    if (toInput) toInput.value = '';
+    document.querySelectorAll('[data-project-scope] [data-scope]').forEach(btn => {
+      const on = btn.dataset.scope === 'all';
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.classList.toggle('bg-white', on);
+      btn.classList.toggle('text-ink', on);
+      btn.classList.toggle('shadow-sm', on);
+      btn.classList.toggle('text-zinc-500', !on);
+    });
+    syncProjectToolbar();
   }
   document.querySelector('[data-project-scope]').addEventListener('click', e => {
     const b = e.target.closest('[data-scope]');
@@ -324,8 +361,10 @@
     });
     syncProjectToolbar();
   });
-  document.querySelector('[data-project-q]').addEventListener('input', syncProjectToolbar);
+  qInput.addEventListener('input', syncProjectToolbar);
   document.addEventListener('daterange:change', syncProjectToolbar);
+  document.querySelectorAll('[data-reset-filters]').forEach(btn => btn.addEventListener('click', resetProjectFilters));
+  syncProjectToolbar();
 })();
 </script>
 </body>
