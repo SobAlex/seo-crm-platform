@@ -183,18 +183,16 @@ tailwind.config = {
     { id: 'tasks',     href: 'tasks.html',     label: 'Задачи',       icon: 'check',    roles: INTERNAL },
     { id: 'reports',   href: 'reports.html',   label: 'Отчёты',       icon: 'report',   roles: STAFF },
     { id: 'clients',   href: 'clients.html',   label: 'Клиенты',      icon: 'users',    roles: STAFF },
+    { id: 'executors', href: 'executors.html', label: 'Сотрудники',   icon: 'team',     roles: STAFF },
     { id: 'calendar',  href: 'calendar.html',  label: 'Календарь',    icon: 'calendar', roles: STAFF },
+    { id: 'templates', href: 'templates.html', label: 'Шаблоны',      icon: 'layers',   roles: LEADS },
     { id: 'portal',    href: 'portal.html',    label: 'Мой проект',   icon: 'home',     roles: ['client'] },
     { id: 'brief',     href: 'brief-form.html', label: 'Бриф',         icon: 'check',    roles: ['client'] },
-    { group: 'Команда', roles: STAFF },
-    { id: 'executors', href: 'executors.html', label: 'Сотрудники',   icon: 'team',     roles: STAFF },
-    { id: 'templates', href: 'templates.html', label: 'Шаблоны',      icon: 'layers',   roles: LEADS },
     { id: 'guide',     href: 'how-it-works.html', label: 'Как устроено', icon: 'layers',   roles: STAFF.concat(['contractor']) }
   ];
   const NAV_FOOT = [
     { id: 'portal', href: 'portal.html', label: 'Портал клиента', icon: 'eye', roles: STAFF },
-    { id: 'landing', href: 'landing.html', label: 'Сайт продукта', icon: 'globe', roles: STAFF },
-    { id: 'settings', href: 'settings.html', label: 'Настройки компании', icon: 'sliders', roles: STAFF }
+    { id: 'landing', href: 'landing.html', label: 'Сайт продукта', icon: 'globe', roles: STAFF }
   ];
   const BOTTOM = ['index', 'projects', 'tasks', 'calendar'];
 
@@ -205,6 +203,49 @@ tailwind.config = {
       (on ? 'bg-black/5 text-zinc-900 font-medium' : 'text-zinc-600 hover:text-zinc-900 hover:bg-black/5') + '">' +
       svg(item.icon, 'w-[18px] h-[18px] shrink-0') + '<span>' + item.label + '</span></a>';
   };
+
+  function notificationMarkup() {
+    return '' +
+      '<div data-notification-dropdown class="hidden fixed lg:absolute left-4 right-4 bottom-20 lg:left-[calc(100%+12px)] lg:right-auto lg:bottom-0 w-auto lg:w-80 bg-white rounded-2xl shadow-pop border border-black/5 overflow-hidden z-50 text-left">' +
+        '<div class="px-4 py-3 bg-zinc-50/80 border-b border-zinc-100 flex items-center justify-between">' +
+          '<span class="text-xs font-semibold text-zinc-900">Уведомления</span>' +
+          '<button type="button" data-mark-all-read class="text-[11px] text-accent hover:underline font-medium">Прочитать все</button>' +
+        '</div>' +
+        '<div data-notification-list>' +
+          '<a href="task.html" class="block p-3 hover:bg-zinc-50 border-b border-zinc-100/80 transition">' +
+            '<div class="flex items-start gap-2.5">' +
+              '<span class="w-2 h-2 rounded-full bg-blue-500 mt-1.5 shrink-0"></span>' +
+              '<div class="text-xs min-w-0">' +
+                '<p class="font-medium text-zinc-900">Вам назначена задача</p>' +
+                '<p class="text-zinc-500 text-[11px] line-clamp-1">Новые заголовки и описания для раздела «Холодильники»</p>' +
+                '<p class="text-zinc-400 text-[10px] mt-0.5">15 минут назад · Интернет-магазин «Холод»</p>' +
+              '</div>' +
+            '</div>' +
+          '</a>' +
+          '<a href="task.html" class="block p-3 hover:bg-zinc-50 border-b border-zinc-100/80 transition">' +
+            '<div class="flex items-start gap-2.5">' +
+              '<span class="w-2 h-2 rounded-full bg-amber-500 mt-1.5 shrink-0"></span>' +
+              '<div class="text-xs min-w-0">' +
+                '<p class="font-medium text-zinc-900">Задача возвращена на доработку</p>' +
+                '<p class="text-zinc-500 text-[11px] line-clamp-1">Причина: Уточнить частотность в кластере</p>' +
+                '<p class="text-zinc-400 text-[10px] mt-0.5">2 часа назад · Никита Морозов</p>' +
+              '</div>' +
+            '</div>' +
+          '</a>' +
+          '<a href="report.html" class="block p-3 hover:bg-zinc-50 transition">' +
+            '<div class="flex items-start gap-2.5">' +
+              '<span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 shrink-0"></span>' +
+              '<div class="text-xs min-w-0">' +
+                '<p class="font-medium text-zinc-900">Сформирован отчёт за Май 2025</p>' +
+                '<p class="text-zinc-500 text-[11px] line-clamp-1">Отчёт ожидает проверки руководителя</p>' +
+                '<p class="text-zinc-400 text-[10px] mt-0.5">Вчера в 18:30 · Интернет-магазин «Холод»</p>' +
+              '</div>' +
+            '</div>' +
+          '</a>' +
+        '</div>' +
+        '<div data-notification-empty class="hidden px-4 py-6 text-center text-[11px] text-zinc-400">Все прочитано</div>' +
+      '</div>';
+  }
 
   function buildSidebar(active) {
     let nav = '';
@@ -221,47 +262,53 @@ tailwind.config = {
 
     return '' +
       '<div id="sidebar-overlay" class="hidden fixed inset-0 z-40 bg-black/30 backdrop-blur-sm lg:hidden"></div>' +
-      '<aside id="sidebar" aria-label="Основное меню" class="fixed inset-y-0 left-0 z-50 w-72 lg:w-64 -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-out bg-white/90 lg:bg-white/70 backdrop-blur-2xl border-r border-black/5 flex flex-col">' +
-        '<div class="px-4 pt-4 pb-2 flex items-center justify-between gap-2">' +
-          '<a href="' + homeFor(role) + '" class="flex items-center gap-3 min-w-0 p-1.5 -m-1.5 rounded-xl hover:bg-black/5 transition">' +
-            '<span class="w-9 h-9 rounded-xl bg-zinc-900 text-white text-sm font-semibold flex items-center justify-center shrink-0">' + COMPANY.initials + '</span>' +
-            '<span class="min-w-0"><span class="block text-sm font-semibold tracking-tight truncate">' + COMPANY.name + '</span>' +
-            '<span class="block text-[11px] text-zinc-500 truncate">SEO Control</span></span>' +
-          '</a>' +
-          '<button type="button" data-menu-close aria-label="Закрыть меню" class="lg:hidden w-9 h-9 rounded-full hover:bg-black/5 flex items-center justify-center shrink-0">' + svg('close', 'w-4 h-4') + '</button>' +
-        '</div>' +
-        '<nav class="px-3 pt-2 flex flex-col gap-0.5 overflow-y-auto flex-1">' + nav + '</nav>' +
-        '<div class="px-3 pt-2 border-t border-black/5 flex flex-col gap-0.5">' + foot +
-          '<div class="mt-2 rounded-2xl bg-black/[0.03] p-3">' +
+      '<aside id="sidebar" aria-label="Основное меню" class="fixed inset-y-0 left-0 z-50 w-72 lg:w-64 -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-out bg-canvas border-r border-black/5 flex flex-col justify-between">' +
+        '<div class="flex-1 overflow-y-auto px-3 py-4 space-y-4 min-h-0">' +
+          '<div class="flex items-center justify-between gap-2 px-1">' +
+            '<a href="' + homeFor(role) + '" class="flex items-center gap-3 min-w-0 p-1.5 -m-1.5 rounded-xl hover:bg-black/5 transition">' +
+              '<span class="w-9 h-9 rounded-xl bg-zinc-900 text-white text-sm font-semibold flex items-center justify-center shrink-0">' + COMPANY.initials + '</span>' +
+              '<span class="min-w-0"><span class="block text-sm font-semibold tracking-tight truncate">' + COMPANY.name + '</span>' +
+              '<span class="block text-[11px] text-zinc-500 truncate">SEO Control</span></span>' +
+            '</a>' +
+            '<button type="button" data-menu-close aria-label="Закрыть меню" class="lg:hidden w-9 h-9 rounded-full hover:bg-black/5 flex items-center justify-center shrink-0">' + svg('close', 'w-4 h-4') + '</button>' +
+          '</div>' +
+          '<nav class="flex flex-col gap-0.5">' + nav + '</nav>' +
+          (foot
+            ? '<div class="pt-2 border-t border-black/5 flex flex-col gap-0.5">' + foot + '</div>'
+            : '') +
+          '<div class="rounded-2xl bg-black/[0.03] p-3">' +
             '<label class="block text-[11px] font-medium text-zinc-500 mb-1" for="role-switch">Демо: смотреть как</label>' +
             '<select id="role-switch" class="w-full px-3 py-1.5 rounded-lg border border-black/10 bg-white text-xs focus:outline-none focus:ring-4 focus:ring-accent/15">' + options + '</select>' +
             (role === 'owner' ? '<a href="superadmin.html" class="mt-2 flex items-center justify-center px-3 py-1.5 rounded-full bg-white border border-black/10 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition">Кабинет платформы</a>' : '') +
           '</div>' +
         '</div>' +
-        '<div class="p-3 border-t border-black/5 bg-canvas/40 mt-auto relative" data-user-menu-container>' +
-          '<div class="flex items-center gap-2.5">' +
-            '<span class="h-9 w-9 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center shrink-0"><span data-user-initials>' + r.initials + '</span></span>' +
-            '<div class="min-w-0 flex-1">' +
+        '<div class="m-3 p-2 rounded-2xl bg-white border border-black/5 shadow-sm hover:border-black/10 transition relative flex items-center justify-between gap-2 shrink-0" data-user-menu-container>' +
+          '<button type="button" data-user-menu-trigger aria-expanded="false" aria-haspopup="menu" aria-label="Меню пользователя" class="flex items-center gap-2.5 min-w-0 flex-1 text-left p-1 rounded-xl hover:bg-zinc-50 transition focus:outline-none">' +
+            '<span class="h-9 w-9 rounded-full bg-zinc-900 text-white text-xs font-semibold flex items-center justify-center shrink-0">' +
+              '<span data-user-initials>' + r.initials + '</span>' +
+            '</span>' +
+            '<span class="min-w-0 flex-1">' +
+              '<span class="block text-xs font-semibold text-zinc-900 truncate leading-tight" data-user-menu-name>' + r.user + '</span>' +
+              '<span class="block text-[11px] text-zinc-400 truncate mt-0.5" data-user-menu-badge>' + roleLabel() + '</span>' +
+            '</span>' +
+          '</button>' +
+          '<button type="button" data-notification-trigger aria-expanded="false" aria-label="Уведомления" class="relative h-8 w-8 rounded-full text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 flex items-center justify-center shrink-0 transition focus:outline-none">' +
+            svg('bell', 'w-4 h-4') +
+            '<span data-notification-dot class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-accent"></span>' +
+          '</button>' +
+          '<div data-user-menu-dropdown role="menu" class="hidden absolute bottom-[calc(100%+8px)] left-0 right-0 bg-white rounded-2xl shadow-pop border border-black/5 py-2 z-50 text-left">' +
+            '<div class="px-4 py-2.5">' +
               '<div class="text-xs font-semibold text-zinc-900 truncate" data-user-menu-name>' + r.user + '</div>' +
-              '<div class="text-[10px] text-zinc-400 truncate" data-user-menu-badge>' + roleLabel() + '</div>' +
+              '<div class="text-[11px] text-zinc-400 truncate mt-0.5" data-user-menu-email>' + (r.email || '') + '</div>' +
+              '<div class="mt-2"><span data-user-menu-role-badge class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium ' + r.badge + '">' + roleLabel() + '</span></div>' +
             '</div>' +
-            '<a href="calendar.html" aria-label="Уведомления" class="h-8 w-8 rounded-full text-zinc-500 hover:bg-black/5 flex items-center justify-center shrink-0">' + svg('bell', 'w-4 h-4') + '</a>' +
-            '<button type="button" data-user-menu-trigger aria-expanded="false" aria-haspopup="menu" aria-label="Меню пользователя" class="h-8 w-8 rounded-full text-zinc-500 hover:bg-black/5 flex items-center justify-center shrink-0">' +
-              '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M19 9l-7 7-7-7"/></svg>' +
-            '</button>' +
+            '<div class="border-t border-zinc-100 my-1"></div>' +
+            '<a href="profile.html" role="menuitem" class="' + linkCls + '">' + svg('user', 'w-4 h-4 text-zinc-400 shrink-0') + 'Мой профиль</a>' +
+            '<a href="settings.html" role="menuitem" data-can="company_profile" class="' + linkCls + '">' + svg('sliders', 'w-4 h-4 text-zinc-400 shrink-0') + 'Настройки компании</a>' +
+            '<div class="border-t border-zinc-100 my-1"></div>' +
+            '<a href="login.html" role="menuitem" class="flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-red-600 hover:bg-red-50 transition">' + svg('logout', 'w-4 h-4 shrink-0') + 'Выйти из аккаунта</a>' +
           '</div>' +
-          '<div data-user-menu-dropdown role="menu" class="hidden absolute bottom-full mb-2 left-3 right-3 w-auto bg-white rounded-2xl shadow-pop border border-black/5 py-2 z-50 text-left transform opacity-0 scale-95 transition-all duration-150 origin-bottom">' +
-            '<div class="px-4 py-2 border-b border-zinc-100">' +
-              '<div class="text-xs text-zinc-400 truncate" data-user-menu-email>' + (r.email || '') + '</div>' +
-            '</div>' +
-            '<div class="py-1">' +
-              '<a href="profile.html" role="menuitem" class="' + linkCls + '">' + svg('user', 'w-4 h-4 text-zinc-400 shrink-0') + 'Мой профиль</a>' +
-              '<a href="settings.html" role="menuitem" data-can="company_profile" class="' + linkCls + '">' + svg('sliders', 'w-4 h-4 text-zinc-400 shrink-0') + 'Настройки компании</a>' +
-            '</div>' +
-            '<div class="border-t border-zinc-100 pt-1 mt-1">' +
-              '<a href="login.html" role="menuitem" class="flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-red-600 hover:bg-red-50 transition">' + svg('logout', 'w-4 h-4 shrink-0') + 'Выйти из аккаунта</a>' +
-            '</div>' +
-          '</div>' +
+          notificationMarkup() +
         '</div>' +
       '</aside>';
   }
@@ -309,31 +356,64 @@ tailwind.config = {
     scope.querySelectorAll('[data-user-menu-name]').forEach(el => { el.textContent = r.user; });
     scope.querySelectorAll('[data-user-menu-email]').forEach(el => { el.textContent = r.email || ''; });
     scope.querySelectorAll('[data-user-menu-badge]').forEach(el => { el.textContent = roleLabel(); });
+    scope.querySelectorAll('[data-user-menu-role-badge]').forEach(el => {
+      el.className = 'inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium ' + r.badge;
+      el.textContent = roleLabel();
+    });
     scope.querySelectorAll('[data-user-initials]').forEach(el => { el.textContent = r.initials; });
   }
 
+  function setTriggersExpanded(container, selector, expanded) {
+    container.querySelectorAll(selector).forEach(el => el.setAttribute('aria-expanded', expanded ? 'true' : 'false'));
+  }
+
   function closeUserMenu(container) {
-    const trigger = container.querySelector('[data-user-menu-trigger]');
     const dd = container.querySelector('[data-user-menu-dropdown]');
     if (!dd || dd.classList.contains('hidden')) return;
-    dd.classList.remove('opacity-100', 'scale-100');
-    dd.classList.add('opacity-0', 'scale-95');
-    if (trigger) trigger.setAttribute('aria-expanded', 'false');
-    clearTimeout(dd._hideTimer);
-    dd._hideTimer = setTimeout(() => dd.classList.add('hidden'), 150);
+    dd.classList.add('hidden');
+    setTriggersExpanded(container, '[data-user-menu-trigger]', false);
   }
 
   function openUserMenu(container) {
-    const trigger = container.querySelector('[data-user-menu-trigger]');
     const dd = container.querySelector('[data-user-menu-dropdown]');
     if (!dd) return;
-    clearTimeout(dd._hideTimer);
+    closeNotifications(container);
     dd.classList.remove('hidden');
-    requestAnimationFrame(() => {
-      dd.classList.remove('opacity-0', 'scale-95');
-      dd.classList.add('opacity-100', 'scale-100');
-    });
-    if (trigger) trigger.setAttribute('aria-expanded', 'true');
+    setTriggersExpanded(container, '[data-user-menu-trigger]', true);
+  }
+
+  function closeNotifications(container) {
+    const dd = container.querySelector('[data-notification-dropdown]');
+    if (!dd || dd.classList.contains('hidden')) return;
+    dd.classList.add('hidden');
+    setTriggersExpanded(container, '[data-notification-trigger]', false);
+  }
+
+  function openNotifications(container) {
+    const dd = container.querySelector('[data-notification-dropdown]');
+    if (!dd) return;
+    closeUserMenu(container);
+    dd.classList.remove('hidden');
+    setTriggersExpanded(container, '[data-notification-trigger]', true);
+  }
+
+  function markAllNotificationsRead(container) {
+    const dot = container.querySelector('[data-notification-dot]');
+    if (dot) dot.remove();
+    const list = container.querySelector('[data-notification-list]');
+    const empty = container.querySelector('[data-notification-empty]');
+    if (list) list.classList.add('hidden');
+    if (empty) {
+      empty.classList.remove('hidden');
+      empty.textContent = 'Все прочитано';
+    }
+    const markBtn = container.querySelector('[data-mark-all-read]');
+    if (markBtn) {
+      markBtn.textContent = 'Все прочитано';
+      markBtn.classList.remove('text-accent', 'hover:underline');
+      markBtn.classList.add('text-zinc-400', 'pointer-events-none');
+      markBtn.disabled = true;
+    }
   }
 
   function stripHeaderChrome() {
@@ -353,22 +433,46 @@ tailwind.config = {
     if (document.documentElement.dataset.userMenuReady === '1') return;
     document.documentElement.dataset.userMenuReady = '1';
     document.addEventListener('click', e => {
-      const trigger = e.target.closest('[data-user-menu-trigger]');
       const container = e.target.closest('[data-user-menu-container]');
+      const markAll = e.target.closest('[data-mark-all-read]');
+      if (markAll && container) {
+        e.preventDefault();
+        markAllNotificationsRead(container);
+        return;
+      }
+      const notifTrigger = e.target.closest('[data-notification-trigger]');
+      if (notifTrigger && container) {
+        e.preventDefault();
+        const open = notifTrigger.getAttribute('aria-expanded') === 'true';
+        document.querySelectorAll('[data-user-menu-container]').forEach(c => {
+          if (c === container) open ? closeNotifications(c) : openNotifications(c);
+          else { closeUserMenu(c); closeNotifications(c); }
+        });
+        return;
+      }
+      const trigger = e.target.closest('[data-user-menu-trigger]');
       if (trigger && container) {
         e.preventDefault();
         const expanded = trigger.getAttribute('aria-expanded') === 'true';
         document.querySelectorAll('[data-user-menu-container]').forEach(c => {
           if (c === container) expanded ? closeUserMenu(c) : openUserMenu(c);
-          else closeUserMenu(c);
+          else { closeUserMenu(c); closeNotifications(c); }
         });
         return;
       }
-      if (!container) document.querySelectorAll('[data-user-menu-container]').forEach(closeUserMenu);
+      if (!container) {
+        document.querySelectorAll('[data-user-menu-container]').forEach(c => {
+          closeUserMenu(c);
+          closeNotifications(c);
+        });
+      }
     });
     document.addEventListener('keydown', e => {
       if (e.key !== 'Escape') return;
-      document.querySelectorAll('[data-user-menu-container]').forEach(closeUserMenu);
+      document.querySelectorAll('[data-user-menu-container]').forEach(c => {
+        closeUserMenu(c);
+        closeNotifications(c);
+      });
     });
   }
 
