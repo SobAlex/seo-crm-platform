@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Составить бриф — SEO Control</title>
+  <title>Бриф — SEO Control</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/app.js"></script>
   <script src="assets/modals.js"></script>
@@ -11,7 +11,7 @@
 <body class="bg-canvas text-ink antialiased overflow-x-hidden">
 <div class="min-h-screen overflow-x-hidden">
 
-  <div data-app-chrome="projects" data-roles="owner,seo_head,mgr_head,pm,employee"></div>
+  <div data-app-chrome="brief" data-roles="owner,seo_head,mgr_head,pm,employee,client"></div>
 
   <div class="flex">
 
@@ -19,63 +19,104 @@
 
       <header class="sticky top-0 z-30 min-h-[3.5rem] h-auto py-2.5 bg-canvas/80 backdrop-blur-xl border-b border-black/5 -mx-4 lg:-mx-8 -mt-6 px-4 lg:px-8 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-3 min-w-0">
-          <a href="project.html" class="text-sm text-zinc-500 hover:text-zinc-900 transition shrink-0">← Проект «Холод»</a>
-          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[140px] sm:max-w-none">Бриф для клиента</h1>
+          <a data-brief-back href="portal.html" class="text-sm text-zinc-500 hover:text-zinc-900 transition shrink-0">← Мой проект</a>
+          <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[140px] sm:max-w-none">Бриф</h1>
         </div>
         <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-          <button type="submit" form="brief-form" data-toast="Бриф сохранён" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition">Сохранить</button>
+          <button type="submit" form="brief-form" data-brief-submit class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition">Отправить бриф</button>
         </div>
       </header>
 
       <div class="max-w-4xl mx-auto space-y-6">
 
         <div>
-          <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight">Бриф для клиента</h2>
+          <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight">Бриф проекта</h2>
+          <p class="text-sm text-zinc-500 mt-1">Интернет-магазин «Холод» · ответы нужны команде, чтобы начать работу</p>
         </div>
 
         <form id="brief-form" class="flex flex-col gap-4 lg:gap-6" onsubmit="return false">
 
           <section class="bg-white rounded-2xl shadow-card p-6 space-y-4">
-            <h3 class="text-sm font-semibold tracking-tight mb-5">Вопрос 1</h3>
-            <label class="block text-xs font-medium text-zinc-500 mb-2" for="q1">Формулировка</label>
-            <input id="q1" type="text" value="Какая главная цель на ближайшие 3 месяца?" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-            <p class="text-xs text-zinc-500 mt-3 mb-2">Варианты ответа</p>
-            <div class="space-y-2">
-              <input type="text" value="Рост органического трафика" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-              <input type="text" value="Заявки из поиска" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-              <input type="text" value="Выход в топ по категориям" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+            <h3 class="text-sm font-semibold tracking-tight">1. Какая главная цель на ближайшие 3 месяца?</h3>
+            <div class="space-y-2" role="radiogroup" aria-label="Главная цель">
+              <label class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl border border-zinc-200 hover:bg-zinc-50 cursor-pointer transition">
+                <input type="radio" name="goal" value="traffic" class="accent-[var(--accent,#0071e3)]" checked>
+                <span class="text-sm text-zinc-800">Рост органического трафика</span>
+              </label>
+              <label class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl border border-zinc-200 hover:bg-zinc-50 cursor-pointer transition">
+                <input type="radio" name="goal" value="leads" class="accent-[var(--accent,#0071e3)]">
+                <span class="text-sm text-zinc-800">Заявки из поиска</span>
+              </label>
+              <label class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl border border-zinc-200 hover:bg-zinc-50 cursor-pointer transition">
+                <input type="radio" name="goal" value="top" class="accent-[var(--accent,#0071e3)]">
+                <span class="text-sm text-zinc-800">Выход в топ по категориям</span>
+              </label>
             </div>
           </section>
 
           <section class="bg-white rounded-2xl shadow-card p-6 space-y-4">
-            <h3 class="text-sm font-semibold tracking-tight mb-5">Вопрос 2</h3>
-            <label class="block text-xs font-medium text-zinc-500 mb-2" for="q2">Формулировка</label>
-            <input id="q2" type="text" value="Какие доступы уже есть у команды?" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-            <p class="text-xs text-zinc-500 mt-3 mb-2">Варианты ответа, можно выбрать несколько</p>
+            <h3 class="text-sm font-semibold tracking-tight">2. Какие доступы уже есть у команды?</h3>
+            <p class="text-xs text-zinc-500">Можно выбрать несколько</p>
             <div class="space-y-2">
-              <input type="text" value="Яндекс Метрика" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-              <input type="text" value="Google Search Console" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-              <input type="text" value="Админка сайта" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
+              <label class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl border border-zinc-200 hover:bg-zinc-50 cursor-pointer transition">
+                <input type="checkbox" name="access" value="metrica" class="accent-[var(--accent,#0071e3)]" checked>
+                <span class="text-sm text-zinc-800">Яндекс Метрика</span>
+              </label>
+              <label class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl border border-zinc-200 hover:bg-zinc-50 cursor-pointer transition">
+                <input type="checkbox" name="access" value="gsc" class="accent-[var(--accent,#0071e3)]">
+                <span class="text-sm text-zinc-800">Google Search Console</span>
+              </label>
+              <label class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl border border-zinc-200 hover:bg-zinc-50 cursor-pointer transition">
+                <input type="checkbox" name="access" value="cms" class="accent-[var(--accent,#0071e3)]" checked>
+                <span class="text-sm text-zinc-800">Админка сайта</span>
+              </label>
             </div>
           </section>
 
           <section class="bg-white rounded-2xl shadow-card p-6 space-y-4">
-            <h3 class="text-sm font-semibold tracking-tight mb-5">Вопрос 3</h3>
-            <label class="block text-xs font-medium text-zinc-500 mb-2" for="q3">Формулировка</label>
-            <input id="q3" type="text" value="Что важно учесть по ассортименту и сезонности?" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
-            <p class="text-xs text-zinc-500 mt-3">Клиент ответит свободным текстом.</p>
+            <h3 class="text-sm font-semibold tracking-tight">3. Что важно учесть по ассортименту и сезонности?</h3>
+            <label class="block text-xs font-medium text-zinc-500 mb-2" for="season">Ваш комментарий</label>
+            <textarea id="season" name="season" rows="4" placeholder="Например: пик продаж, приоритетные категории, ограничения" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm resize-y focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">Пик продаж холодильного оборудования приходится на май–июль. Важно сделать упор на категорию промышленных чиллеров и морозильных ларей к началу сезона.</textarea>
           </section>
-
-          <button type="button" data-toast="Новый вопрос добавится в редакторе брифа" class="w-full px-4 py-3 rounded-2xl border border-dashed border-zinc-300 text-sm text-zinc-500 hover:text-zinc-900 hover:border-zinc-400 transition">+ Добавить вопрос</button>
 
           <div class="flex flex-col sm:flex-row gap-2 sm:justify-end">
-            <a href="project.html" class="h-9 px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition text-center inline-flex items-center justify-center">Отмена</a>
-            <button type="submit" data-toast="Бриф сохранён" class="h-9 px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition">Сохранить</button>
+            <a data-brief-cancel href="portal.html" class="h-9 px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition text-center inline-flex items-center justify-center">Отмена</a>
+            <button type="submit" data-brief-submit class="h-9 px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition">Отправить бриф</button>
           </div>
         </form>
       </div>
     </main>
   </div>
 </div>
+<script>
+(function () {
+  const App = window.SEOApp;
+  const isClient = App && App.role === 'client';
+
+  document.querySelectorAll('[data-brief-back], [data-brief-cancel]').forEach(el => {
+    if (isClient) {
+      el.href = 'portal.html';
+      if (el.hasAttribute('data-brief-back')) el.textContent = '← Мой проект';
+    } else {
+      el.href = 'project.html';
+      if (el.hasAttribute('data-brief-back')) el.textContent = '← Проект «Холод»';
+    }
+  });
+
+  function submitBrief(e) {
+    if (e) e.preventDefault();
+    if (App && App.toast) {
+      App.toast('Бриф успешно отправлен в команду агентства', 'success');
+    }
+    setTimeout(() => { location.href = isClient ? 'portal.html' : 'project.html'; }, 700);
+  }
+
+  const form = document.getElementById('brief-form');
+  if (form) form.addEventListener('submit', submitBrief);
+  document.querySelectorAll('[data-brief-submit]').forEach(btn => {
+    btn.addEventListener('click', submitBrief);
+  });
+})();
+</script>
 </body>
 </html>
