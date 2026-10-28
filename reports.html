@@ -22,10 +22,11 @@
           <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[140px] sm:max-w-none">Отчёты</h1>
         </div>
         <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-          <button type="button" data-can="compose_reports" data-open-modal="report-create" class="h-8 sm:h-9 px-3 sm:px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm"><span class="sm:hidden">+ Создать</span><span class="hidden sm:inline">+ Создать отчёт</span></button>
+          <button type="button" data-can="compose_reports" data-open-modal="report-create" class="h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm active:scale-[0.98]"><span class="sm:hidden">+ Создать</span><span class="hidden sm:inline">+ Создать отчёт</span></button>
         </div>
       </header>
-        <div class="bg-white rounded-2xl shadow-card w-full max-w-full overflow-hidden p-4 space-y-3 mb-6">
+      <div class="w-full max-w-full space-y-6">
+        <div class="bg-white rounded-2xl shadow-card w-full max-w-full overflow-hidden p-3 sm:p-4 space-y-3">
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
             <div data-view-switch class="inline-flex bg-zinc-100 rounded-full p-1 shrink-0 overflow-x-auto no-scrollbar max-w-full" role="group" aria-label="Статус отчётов">
               <button type="button" data-view="all" data-filter="all" class="px-3 py-1 rounded-full text-xs font-medium bg-white text-ink shadow-sm whitespace-nowrap shrink-0">Все отчёты<span data-view-count="all" class="ml-1.5 tabular-nums opacity-60">0</span></button>
@@ -33,14 +34,14 @@
               <button type="button" data-view="review" data-filter="review" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap shrink-0">На согласовании<span data-view-count="review" class="ml-1.5 tabular-nums opacity-60">0</span></button>
               <button type="button" data-view="sent" data-filter="sent" class="px-3 py-1 rounded-full text-xs font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap shrink-0">Отправлены клиенту<span data-view-count="sent" class="ml-1.5 tabular-nums opacity-60">0</span></button>
             </div>
-            <button type="button" data-can="view_reports" data-export class="h-8 px-3.5 rounded-xl border border-zinc-200 bg-white text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition inline-flex items-center gap-1.5 shrink-0 self-end sm:self-auto">
+            <button type="button" data-can="view_reports" data-export class="h-9 px-4 rounded-xl bg-white border border-black/10 text-xs font-medium text-zinc-800 hover:bg-zinc-50 hover:border-black/15 transition shadow-sm active:scale-[0.98] inline-flex items-center gap-1.5 shrink-0 self-end sm:self-auto">
               <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
               <span>Экспорт реестра</span>
             </button>
           </div>
           <div class="border-t border-zinc-100"></div>
           <div class="flex flex-col lg:flex-row lg:items-center gap-2 w-full">
-            <select data-report-target aria-label="Проект / Клиент" class="h-8 w-full lg:w-auto bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent">
+            <select data-report-target aria-label="Проект / Клиент" class="h-8 w-full lg:w-auto bg-zinc-50 border border-black/10 rounded-xl focus:outline-none focus:bg-white focus:border-accent focus:ring-4 focus:ring-accent/15 transition duration-150 px-3 text-xs text-zinc-700 ">
               <option value="">Все проекты и клиенты</option>
               <option value="p:holod">Интернет-магазин «Холод»</option>
               <option value="p:remont">Сайт услуг «Ремонт+»</option>
@@ -48,13 +49,13 @@
               <option value="p:stroytech">B2B портал «Стройтех»</option>
             </select>
             <div class="flex items-center gap-1.5 w-full lg:w-auto">
-              <select data-report-year aria-label="Год отчёта" class="h-8 flex-1 lg:flex-none bg-zinc-50 border border-zinc-200/80 rounded-xl px-2.5 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent">
+              <select data-report-year aria-label="Год отчёта" class="h-8 flex-1 lg:flex-none bg-zinc-50 border border-black/10 rounded-xl focus:outline-none focus:bg-white focus:border-accent focus:ring-4 focus:ring-accent/15 transition duration-150 px-2.5 text-xs text-zinc-700 ">
                 <option value="all">Все годы</option>
                 <option value="2026">2026</option>
                 <option value="2025" selected>2025</option>
                 <option value="2024">2024</option>
               </select>
-              <select data-report-month aria-label="Месяц отчёта" class="h-8 flex-1 lg:flex-none bg-zinc-50 border border-zinc-200/80 rounded-xl px-2.5 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent">
+              <select data-report-month aria-label="Месяц отчёта" class="h-8 flex-1 lg:flex-none bg-zinc-50 border border-black/10 rounded-xl focus:outline-none focus:bg-white focus:border-accent focus:ring-4 focus:ring-accent/15 transition duration-150 px-2.5 text-xs text-zinc-700 ">
                 <option value="all">Все месяцы</option>
                 <option value="01">Январь</option>
                 <option value="02">Февраль</option>
@@ -71,26 +72,25 @@
               </select>
             </div>
             <div class="relative w-full sm:w-64 lg:ml-auto shrink-0">
-              <input data-report-q type="search" placeholder="Поиск по проекту или клиенту..." aria-label="Поиск отчётов" class="h-8 w-full bg-zinc-50 border border-zinc-200/80 rounded-xl pl-8 pr-3 text-xs text-zinc-700 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-accent">
+              <input data-report-q type="search" placeholder="Поиск по проекту или клиенту..." aria-label="Поиск отчётов" class="h-8 w-full bg-zinc-50 border border-black/10 rounded-xl focus:outline-none focus:bg-white focus:border-accent focus:ring-4 focus:ring-accent/15 transition duration-150 pl-8 pr-3 text-xs text-zinc-700 placeholder:text-zinc-400 ">
               <svg class="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-2.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg>
             </div>
             <button type="button" data-reset-filters class="hidden h-8 px-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-xs font-medium text-zinc-700 transition shrink-0">Сбросить фильтры</button>
           </div>
         </div>
 
-      <div class="w-full space-y-6">
         <section data-task-region data-count-source class="bg-white rounded-2xl shadow-card overflow-hidden">
-          <div class="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0 max-w-full">
+          <div class="overflow-x-auto w-full">
             <table class="w-full block md:table">
               <thead class="hidden md:table-header-group">
-                <tr class="border-b border-zinc-100 text-[11px] font-medium text-zinc-400 uppercase tracking-wider">
+                <tr class="border-b border-black/[0.04] text-[11px] font-medium text-zinc-400 uppercase tracking-wider bg-zinc-50/50">
                   <th class="text-left py-3 px-4 lg:px-6">Проект и клиент</th>
-                  <th class="text-left py-3 px-3">Период и автор</th>
-                  <th class="text-left py-3 px-3">Статус отчёта</th>
+                  <th class="text-left py-3 px-4">Период и автор</th>
+                  <th class="text-left py-3 px-4">Статус отчёта</th>
                   <th class="text-right py-3 px-4 lg:px-6">Действия</th>
                 </tr>
               </thead>
-              <tbody data-task-group data-report-rows class="divide-y divide-zinc-100 block md:table-row-group"></tbody>
+              <tbody data-task-group data-report-rows class="divide-y divide-black/[0.04] block md:table-row-group"></tbody>
             </table>
           </div>
           <div data-task-empty data-empty-filter="За выбранный период отчётов по выбранному проекту нет" class="hidden px-4 lg:px-6 py-14 text-center">
@@ -108,10 +108,9 @@
               <h3 class="text-sm font-semibold tracking-tight">Автоматическое создание черновиков</h3>
               <p class="text-xs text-zinc-500 mt-1">1-го числа каждого месяца система соберёт метрики, принятые работы и план на следующий месяц.</p>
             </div>
-            <label class="relative inline-flex items-center cursor-pointer shrink-0">
-              <input type="checkbox" checked data-can="send_reports" class="peer sr-only" aria-label="Автосоздание отчётов">
-              <span class="w-11 h-6 rounded-full bg-zinc-200 peer-checked:bg-emerald-500 transition"></span>
-              <span class="absolute left-0.5 top-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition peer-checked:translate-x-5"></span>
+            <label class="relative inline-flex items-center cursor-pointer select-none shrink-0">
+              <input type="checkbox" checked data-can="send_reports" class="sr-only peer" aria-label="Автосоздание отчётов">
+              <div class="relative w-10 h-6 bg-zinc-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-accent/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all after:shadow-sm peer-checked:bg-accent transition-colors"></div>
             </label>
           </div>
         </section>
@@ -123,24 +122,24 @@
 
 <!-- МОДАЛКА: Создать отчёт -->
 <div id="report-create-modal" class="fixed inset-0 z-50 hidden">
-  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>
-  <div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
-    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-y-auto">
-      <div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
+  <div class="absolute inset-0 bg-black/25 backdrop-blur-md transition-opacity" data-close-modal></div>
+  <div class="absolute inset-0 flex items-end sm:items-center justify-center p-4 pointer-events-none">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop border border-black/5 w-full max-w-lg pointer-events-auto max-h-[90vh] overflow-hidden flex flex-col">
+      <div class="px-6 py-4 border-b border-black/5 flex items-center justify-between shrink-0">
         <h3 class="text-sm font-semibold tracking-tight">Создать отчёт за месяц</h3>
-        <button data-close-modal aria-label="Закрыть" class="w-8 h-8 rounded-full hover:bg-zinc-100 flex items-center justify-center">
+        <button data-close-modal aria-label="Закрыть" class="h-7 w-7 rounded-full text-zinc-400 hover:text-zinc-600 hover:bg-black/5 flex items-center justify-center transition">
           <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
-      <div class="p-5 sm:p-6 space-y-4">
+      <div class="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-medium text-zinc-500 mb-2">Проект</label>
-            <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"><option>Холод</option><option>Ремонт+</option><option>МедЛайф</option><option>Стройтех</option></select>
+            <select class="w-full h-9 px-3.5 rounded-xl border border-black/10 bg-zinc-50 text-xs text-ink focus:outline-none focus:bg-white focus:border-accent focus:ring-4 focus:ring-accent/15 transition duration-150"><option>Холод</option><option>Ремонт+</option><option>МедЛайф</option><option>Стройтех</option></select>
           </div>
           <div>
             <label class="block text-xs font-medium text-zinc-500 mb-2">Отчётный месяц</label>
-            <select class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40"><option>Июнь 2025</option><option>Май 2025</option><option>Апрель 2025</option></select>
+            <select class="w-full h-9 px-3.5 rounded-xl border border-black/10 bg-zinc-50 text-xs text-ink focus:outline-none focus:bg-white focus:border-accent focus:ring-4 focus:ring-accent/15 transition duration-150"><option>Июнь 2025</option><option>Май 2025</option><option>Апрель 2025</option></select>
           </div>
         </div>
         <div>
@@ -155,9 +154,9 @@
           <p class="text-xs text-zinc-500">Черновик соберётся автоматически. Перед отправкой клиенту его проверит менеджер проекта.</p>
         </div>
       </div>
-      <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row gap-2 sm:justify-end sticky bottom-0 bg-white rounded-b-3xl">
-        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-        <a href="report.html" class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition text-center">Создать черновик</a>
+      <div class="px-6 py-3.5 bg-zinc-50/70 border-t border-black/5 flex flex-col sm:flex-row gap-2.5 sm:justify-end sticky bottom-0 shrink-0">
+        <button data-close-modal class="h-9 px-4 rounded-xl bg-white border border-black/10 text-xs font-medium text-zinc-800 hover:bg-zinc-50 hover:border-black/15 transition shadow-sm active:scale-[0.98] inline-flex items-center justify-center">Отмена</button>
+        <a href="report.html" class="h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shadow-sm active:scale-[0.98] inline-flex items-center justify-center text-center">Создать черновик</a>
       </div>
     </div>
   </div>
@@ -216,7 +215,7 @@
     }
     if (r.status === 'review') {
       return '<a href="report.html?month=' + r.m + '" class="h-8 px-3 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition inline-flex items-center">Проверить</a>' +
-        '<button type="button" data-send-report="' + i + '" data-can="send_reports" class="h-8 px-3.5 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition inline-flex items-center shadow-sm">Отправить клиенту</button>';
+        '<button type="button" data-send-report="' + i + '" data-can="send_reports" class="h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shadow-sm active:scale-[0.98] inline-flex items-center shadow-sm">Отправить клиенту</button>';
     }
     return '<a href="report.html?month=' + r.m + '" data-can="compose_reports" class="h-8 px-3 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition inline-flex items-center">Редактировать</a>' +
       '<button type="button" data-submit-report="' + i + '" data-can="compose_reports" class="h-8 px-3 rounded-full bg-zinc-900 text-white text-xs font-medium hover:bg-zinc-800 transition inline-flex items-center shadow-sm">На согласование</button>';

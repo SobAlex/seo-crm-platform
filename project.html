@@ -23,7 +23,7 @@
             <h1 title="Интернет-магазин «Холод»" class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[200px]">Интернет-магазин «Холод»</h1>
           </div>
           <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-            <button type="button" data-can="edit_project" data-open-modal="project-edit" class="h-8 sm:h-9 px-3 sm:px-3.5 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition inline-flex items-center gap-1.5 shrink-0">
+            <button type="button" data-can="edit_project" data-open-modal="project-edit" class="h-9 px-4 rounded-xl bg-white border border-black/10 text-xs font-medium text-zinc-800 hover:bg-zinc-50 hover:border-black/15 transition shadow-sm active:scale-[0.98] inline-flex items-center gap-1.5 shrink-0">
               <svg class="w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
               <span class="sm:hidden">Настройки</span><span class="hidden sm:inline">Настройки проекта</span>
             </button>
@@ -113,7 +113,7 @@
                   <button type="button" data-seg="traffic" class="px-3 lg:px-4 py-1.5 rounded-full text-xs lg:text-sm font-medium text-zinc-500 hover:text-zinc-900 transition">Трафик</button>
                   <button type="button" data-seg="top10" class="px-3 lg:px-4 py-1.5 rounded-full text-xs lg:text-sm font-medium text-zinc-500 hover:text-zinc-900 transition whitespace-nowrap">% в ТОП-10</button>
                 </div>
-                <button type="button" data-can="edit_project" data-open-modal="fact" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition whitespace-nowrap">Внести факт за месяц</button>
+                <button type="button" data-can="edit_project" data-open-modal="fact" class="h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shadow-sm active:scale-[0.98] whitespace-nowrap">Внести факт за месяц</button>
               </div>
             </div>
             <div class="w-full overflow-x-auto">
@@ -131,17 +131,17 @@
           <div class="flex items-center gap-2 shrink-0 ml-auto">
             <div data-tab-actions="roadmap" class="flex items-center gap-2">
               <button type="button" data-can="edit_project" data-open-modal="roadmap-edit" class="h-8 lg:h-9 px-3.5 lg:px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition shrink-0">Редактировать карту</button>
-              <button type="button" data-can="edit_project" data-open-modal="work" class="h-8 lg:h-9 px-3.5 lg:px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm">+ Работа</button>
+              <button type="button" data-can="edit_project" data-open-modal="work" class="h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm active:scale-[0.98]">+ Работа</button>
             </div>
             <div data-tab-actions="month" class="hidden items-center gap-2">
               <button type="button" data-can="edit_project" data-open-modal="template" class="h-8 lg:h-9 px-3.5 lg:px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition shrink-0">Загрузить шаблон</button>
-              <a data-can="create_tasks" href="task-form.html" class="h-8 lg:h-9 px-3.5 lg:px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm">+ Задача</a>
+              <a data-can="create_tasks" href="task-form.html" class="h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm active:scale-[0.98]">+ Задача</a>
             </div>
             <div data-tab-actions="reports" class="hidden items-center gap-2">
-              <a data-can="compose_reports" href="report.html" class="h-8 lg:h-9 px-3.5 lg:px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm">+ Отчёт</a>
+              <a data-can="compose_reports" href="report.html" class="h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm active:scale-[0.98]">+ Отчёт</a>
             </div>
             <div data-tab-actions="sources" class="hidden items-center gap-2">
-              <button type="button" data-can="int_seo,int_client" data-open-modal="source" class="h-8 lg:h-9 px-3.5 lg:px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm">+ Источник</button>
+              <button type="button" data-can="int_seo,int_client" data-open-modal="source" class="h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm active:scale-[0.98]">+ Источник</button>
             </div>
           </div>
         </div>
@@ -884,8 +884,8 @@
         </div>
       </div>
       <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row gap-2 sm:justify-end sticky bottom-0 bg-white rounded-b-3xl">
-        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-        <button type="button" data-modal-submit data-submit-toast="Задача создана в плане месяца" class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Создать задачу</button>
+        <button data-close-modal class="h-9 px-4 rounded-xl bg-white border border-black/10 text-xs font-medium text-zinc-800 hover:bg-zinc-50 hover:border-black/15 transition shadow-sm active:scale-[0.98] inline-flex items-center justify-center">Отмена</button>
+        <button type="button" data-modal-submit data-submit-toast="Задача создана в плане месяца" class="h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shadow-sm active:scale-[0.98] inline-flex items-center justify-center">Создать задачу</button>
       </div>
     </div>
   </div>
@@ -920,8 +920,8 @@
         </div>
       </div>
       <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sticky bottom-0 bg-white rounded-b-3xl">
-        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-        <button type="button" data-modal-submit data-submit-toast="Дорожная карта сохранена" class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Сохранить</button>
+        <button data-close-modal class="h-9 px-4 rounded-xl bg-white border border-black/10 text-xs font-medium text-zinc-800 hover:bg-zinc-50 hover:border-black/15 transition shadow-sm active:scale-[0.98] inline-flex items-center justify-center">Отмена</button>
+        <button type="button" data-modal-submit data-submit-toast="Дорожная карта сохранена" class="h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shadow-sm active:scale-[0.98] inline-flex items-center justify-center">Сохранить</button>
       </div>
     </div>
   </div>
@@ -968,8 +968,8 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <a data-can="roadmap_template" href="templates.html" class="text-xs text-zinc-500 hover:text-zinc-900 transition text-center sm:text-left">Управлять шаблонами →</a>
           <div class="flex gap-2">
-            <button data-close-modal class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-            <button type="button" data-modal-submit class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Загрузить</button>
+            <button data-close-modal class="flex-1 sm:flex-none h-9 px-4 rounded-xl bg-white border border-black/10 text-xs font-medium text-zinc-800 hover:bg-zinc-50 hover:border-black/15 transition shadow-sm active:scale-[0.98] inline-flex items-center justify-center">Отмена</button>
+            <button type="button" data-modal-submit class="flex-1 sm:flex-none h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shadow-sm active:scale-[0.98] inline-flex items-center justify-center">Загрузить</button>
           </div>
         </div>
       </div>
@@ -1090,7 +1090,7 @@
   const MONTH_IN = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
   const monthState = {
     4: { sub: '12 задач · все приняты · месяц закрыт', html: '<div class="text-sm font-medium">Май закрыт</div><div class="text-xs text-zinc-500 mt-1">12 задач принято · 94 ч из 96 · отчёт отправлен клиенту 03.06</div><a href="report.html" class="inline-flex mt-4 px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Открыть отчёт за май</a>' },
-    6: { sub: 'План ещё не собран', html: '<div class="text-sm font-medium">План на июль ещё не собран</div><div class="text-xs text-zinc-500 mt-1">По дорожной карте на месяц 3 — 7 работ, ≈ 64 ч</div><button type="button" data-can="edit_project" data-open-modal="template" class="mt-4 px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Собрать из шаблона</button>' },
+    6: { sub: 'План ещё не собран', html: '<div class="text-sm font-medium">План на июль ещё не собран</div><div class="text-xs text-zinc-500 mt-1">По дорожной карте на месяц 3 — 7 работ, ≈ 64 ч</div><button type="button" data-can="edit_project" data-open-modal="template" class="mt-4 h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shadow-sm active:scale-[0.98]">Собрать из шаблона</button>' },
     7: { sub: 'План ещё не собран', html: '<div class="text-sm font-medium">Август — после плана июля</div><div class="text-xs text-zinc-500 mt-1">Соберите сначала план на июль, затем на август</div>' }
   };
   const monthDefaultSub = monthSub.textContent;

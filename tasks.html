@@ -22,7 +22,7 @@
           <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[140px] sm:max-w-none">Задачи</h1>
         </div>
         <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-          <button type="button" data-can="create_tasks" data-deny="contractor" data-deny-tip="Подрядчик не может создавать задачи другим участникам" data-go="task-form.html" class="h-8 sm:h-9 px-3 sm:px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm"><span class="sm:hidden">+ Задача</span><span class="hidden sm:inline">+ Создать задачу</span></button>
+          <button type="button" data-can="create_tasks" data-deny="contractor" data-deny-tip="Подрядчик не может создавать задачи другим участникам" data-go="task-form.html" class="h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm active:scale-[0.98]"><span class="sm:hidden">+ Задача</span><span class="hidden sm:inline">+ Создать задачу</span></button>
         </div>
       </header>
 
@@ -42,13 +42,13 @@
           <div class="border-t border-zinc-100"></div>
           <div class="flex flex-col sm:flex-row sm:items-center gap-2 w-full">
             <div class="flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:w-auto sm:flex-1 min-w-0">
-              <select data-filter="project" aria-label="Проект" class="h-9 sm:h-8 w-full sm:w-auto bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent"></select>
-              <select data-filter="direction" aria-label="Направление" class="h-9 sm:h-8 w-full sm:w-auto bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent"></select>
-              <select data-filter="assignee" aria-label="Исполнитель" class="h-9 sm:h-8 w-full sm:w-auto bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent disabled:opacity-50 disabled:cursor-not-allowed"></select>
+              <select data-filter="project" aria-label="Проект" class="h-9 sm:h-8 w-full sm:w-auto bg-zinc-50 border border-black/10 rounded-xl focus:outline-none focus:bg-white focus:border-accent focus:ring-4 focus:ring-accent/15 transition duration-150 px-3 text-xs text-zinc-700 "></select>
+              <select data-filter="direction" aria-label="Направление" class="h-9 sm:h-8 w-full sm:w-auto bg-zinc-50 border border-black/10 rounded-xl focus:outline-none focus:bg-white focus:border-accent focus:ring-4 focus:ring-accent/15 transition duration-150 px-3 text-xs text-zinc-700 "></select>
+              <select data-filter="assignee" aria-label="Исполнитель" class="h-9 sm:h-8 w-full sm:w-auto bg-zinc-50 border border-black/10 rounded-xl focus:outline-none focus:bg-white focus:border-accent focus:ring-4 focus:ring-accent/15 transition duration-150 px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent disabled:opacity-50 disabled:cursor-not-allowed"></select>
             </div>
             <label class="relative block w-full sm:w-64 shrink-0">
               <svg class="w-4 h-4 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg>
-              <input data-filter="q" type="search" placeholder="Поиск по названию…" aria-label="Поиск по названию" class="h-9 sm:h-8 w-full bg-zinc-50 border border-zinc-200/80 rounded-xl pl-8 pr-3 text-xs text-zinc-700 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-accent">
+              <input data-filter="q" type="search" placeholder="Поиск по названию…" aria-label="Поиск по названию" class="h-9 sm:h-8 w-full bg-zinc-50 border border-black/10 rounded-xl focus:outline-none focus:bg-white focus:border-accent focus:ring-4 focus:ring-accent/15 transition duration-150 pl-8 pr-3 text-xs text-zinc-700 placeholder:text-zinc-400 ">
             </label>
             <span data-flag-chip class="hidden inline-flex items-center gap-1 pl-2.5 pr-1 h-8 rounded-full bg-accent/10 text-accent text-xs font-medium shrink-0">
               <span data-flag-label></span>
@@ -64,17 +64,17 @@
             <div class="overflow-x-auto w-full">
               <table class="w-full text-sm">
                 <thead>
-                  <tr class="border-b border-zinc-100 text-[11px] font-medium text-zinc-400 uppercase tracking-wider bg-zinc-50/50">
-                    <th class="pl-4 lg:pl-6 pr-2 py-3 w-[88px] text-left">
+                  <tr class="border-b border-black/[0.04] text-[11px] font-medium text-zinc-400 uppercase tracking-wider bg-zinc-50/50">
+                    <th class="px-4 py-3 w-[88px] text-left">
                       <label class="inline-flex items-center gap-2 cursor-pointer normal-case tracking-normal"><input type="checkbox" data-select-all class="w-4 h-4 rounded border-zinc-300 accent-[#0071e3]" aria-label="Выбрать все">ID</label>
                     </th>
-                    <th class="px-3 py-3 text-left">Задача</th>
-                    <th class="px-3 py-3 text-left">Проект</th>
-                    <th class="px-3 py-3 text-left">Направление и этап</th>
-                    <th class="px-3 py-3 text-left">Статус</th>
-                    <th class="px-3 py-3 text-left">Исполнитель</th>
-                    <th class="px-3 py-3 text-left">Дедлайн</th>
-                    <th class="pl-3 pr-4 lg:pr-6 py-3 text-center">В отчёт</th>
+                    <th class="px-4 py-3 text-left">Задача</th>
+                    <th class="px-4 py-3 text-left">Проект</th>
+                    <th class="px-4 py-3 text-left">Направление и этап</th>
+                    <th class="px-4 py-3 text-left">Статус</th>
+                    <th class="px-4 py-3 text-left">Исполнитель</th>
+                    <th class="px-4 py-3 text-left">Дедлайн</th>
+                    <th class="px-4 py-3 text-center">В отчёт</th>
                   </tr>
                 </thead>
                 <tbody id="tasks-table-body" data-list-body></tbody>
@@ -315,15 +315,15 @@
   function row(t) {
     const dd = due(t);
     const extra = t.status === 'review' && t.reviewDays ? t.reviewDays + ' дн.' : '';
-    return '<tr data-row="' + t.id + '" class="border-b border-zinc-100 hover:bg-zinc-50/60 transition' + (state.selected.has(t.id) ? ' bg-accent/5' : '') + '">' +
-      '<td class="pl-4 lg:pl-6 pr-2 py-3"><label class="inline-flex items-center gap-2 cursor-pointer text-xs text-zinc-500 tabular-nums"><input type="checkbox" data-select="' + t.id + '"' + (state.selected.has(t.id) ? ' checked' : '') + ' class="w-4 h-4 rounded border-zinc-300 accent-[#0071e3]" aria-label="Выбрать задачу ' + t.id + '">#' + t.id + '</label></td>' +
-      '<td class="px-3 py-3"><div class="flex flex-wrap items-center gap-x-2 gap-y-1"><a href="task.html" class="font-medium hover:underline">' + esc(t.title) + '</a>' + tags(t) + '</div></td>' +
-      '<td class="px-3 py-3 whitespace-nowrap"><a href="tasks.html?project=' + t.project + '" class="hover:underline">' + PROJECTS[t.project] + '</a></td>' +
-      '<td class="px-3 py-3">' + dirBadge(t) + '</td>' +
-      '<td class="px-3 py-3 whitespace-nowrap">' + statusChip(t.status, extra) + '</td>' +
-      '<td class="px-3 py-3"><span class="flex items-center gap-2">' + avatars(t) + '<span class="whitespace-nowrap">' + esc(name(t.assignee)) + '</span>' + (t.co.length ? '<span class="text-xs text-zinc-500 tabular-nums">+' + t.co.length + '</span>' : '') + '</span></td>' +
-      '<td class="px-3 py-3 whitespace-nowrap tabular-nums"><div class="' + dd.cls + ' font-medium">' + dd.text + '</div>' + (dd.sub ? '<div class="text-xs ' + dd.cls + '">' + dd.sub + '</div>' : '') + '</td>' +
-      '<td class="pl-3 pr-4 lg:pr-6 py-3 text-center">' + reportMark(t) + '</td>' +
+    return '<tr data-row="' + t.id + '" class="border-b border-black/[0.04] hover:bg-black/[0.015] transition-colors duration-100' + (state.selected.has(t.id) ? ' bg-accent/5' : '') + '">' +
+      '<td class="px-4 py-3.5 text-xs text-ink align-middle"><label class="inline-flex items-center gap-2 cursor-pointer text-xs text-zinc-500 tabular-nums"><input type="checkbox" data-select="' + t.id + '"' + (state.selected.has(t.id) ? ' checked' : '') + ' class="w-4 h-4 rounded border-zinc-300 accent-[#0071e3]" aria-label="Выбрать задачу ' + t.id + '">#' + t.id + '</label></td>' +
+      '<td class="px-4 py-3.5 text-xs text-ink align-middle"><div class="flex flex-wrap items-center gap-x-2 gap-y-1"><a href="task.html" class="font-medium hover:underline">' + esc(t.title) + '</a>' + tags(t) + '</div></td>' +
+      '<td class="px-4 py-3.5 text-xs text-ink align-middle whitespace-nowrap"><a href="tasks.html?project=' + t.project + '" class="hover:underline">' + PROJECTS[t.project] + '</a></td>' +
+      '<td class="px-4 py-3.5 text-xs text-ink align-middle">' + dirBadge(t) + '</td>' +
+      '<td class="px-4 py-3.5 text-xs text-ink align-middle whitespace-nowrap">' + statusChip(t.status, extra) + '</td>' +
+      '<td class="px-4 py-3.5 text-xs text-ink align-middle"><span class="flex items-center gap-2">' + avatars(t) + '<span class="whitespace-nowrap">' + esc(name(t.assignee)) + '</span>' + (t.co.length ? '<span class="text-xs text-zinc-500 tabular-nums">+' + t.co.length + '</span>' : '') + '</span></td>' +
+      '<td class="px-4 py-3.5 text-xs text-ink align-middle whitespace-nowrap tabular-nums"><div class="' + dd.cls + ' font-medium">' + dd.text + '</div>' + (dd.sub ? '<div class="text-[11px] ' + dd.cls + '">' + dd.sub + '</div>' : '') + '</td>' +
+      '<td class="px-4 py-3.5 text-xs text-ink align-middle text-center">' + reportMark(t) + '</td>' +
     '</tr>';
   }
 

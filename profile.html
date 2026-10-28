@@ -24,7 +24,7 @@
           <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate">Мой профиль</h1>
         </div>
         <div class="flex items-center gap-2 shrink-0">
-          <button type="button" data-profile-save class="h-9 px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shadow-sm">Сохранить изменения</button>
+          <button type="button" data-profile-save class="h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shadow-sm active:scale-[0.98] shadow-sm">Сохранить изменения</button>
         </div>
       </header>
 
@@ -84,7 +84,7 @@
               <input data-pwd-repeat type="password" autocomplete="new-password" placeholder="Повторите новый пароль" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40">
             </div>
           </div>
-          <button type="button" data-pwd-update class="h-9 px-4 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Обновить пароль</button>
+          <button type="button" data-pwd-update class="h-9 px-4 rounded-xl bg-white border border-black/10 text-xs font-medium text-zinc-800 hover:bg-zinc-50 hover:border-black/15 transition shadow-sm active:scale-[0.98]">Обновить пароль</button>
         </section>
 
         <section class="bg-white rounded-2xl shadow-card p-6 space-y-4">
@@ -96,29 +96,29 @@
             <li class="px-6 py-3.5 flex flex-col sm:flex-row sm:items-center gap-3">
               <div class="min-w-0 flex-1 text-sm text-ink">Назначали исполнителем задачи</div>
               <div class="flex items-center gap-4 text-sm text-zinc-600">
-                <label class="inline-flex items-center gap-2 cursor-pointer"><input type="checkbox" checked class="w-4 h-4 rounded border-zinc-300 accent-accent"><span>Email</span></label>
-                <label class="inline-flex items-center gap-2 cursor-pointer"><input type="checkbox" checked class="w-4 h-4 rounded border-zinc-300 accent-accent"><span>Telegram</span></label>
+                <label class="relative inline-flex items-center gap-2 cursor-pointer select-none"><input type="checkbox" checked class="sr-only peer"><div class="relative w-10 h-6 bg-zinc-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-accent/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all after:shadow-sm peer-checked:bg-accent transition-colors"></div><span class="text-xs text-zinc-600">Email</span></label>
+                <label class="relative inline-flex items-center gap-2 cursor-pointer select-none"><input type="checkbox" checked class="sr-only peer"><div class="relative w-10 h-6 bg-zinc-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-accent/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all after:shadow-sm peer-checked:bg-accent transition-colors"></div><span class="text-xs text-zinc-600">Telegram</span></label>
               </div>
             </li>
             <li class="px-6 py-3.5 flex flex-col sm:flex-row sm:items-center gap-3">
               <div class="min-w-0 flex-1 text-sm text-ink">Задачу вернули на доработку</div>
               <div class="flex items-center gap-4 text-sm text-zinc-600">
-                <label class="inline-flex items-center gap-2 cursor-pointer"><input type="checkbox" checked class="w-4 h-4 rounded border-zinc-300 accent-accent"><span>Email</span></label>
-                <label class="inline-flex items-center gap-2 cursor-pointer"><input type="checkbox" checked class="w-4 h-4 rounded border-zinc-300 accent-accent"><span>Telegram</span></label>
+                <label class="relative inline-flex items-center gap-2 cursor-pointer select-none"><input type="checkbox" checked class="sr-only peer"><div class="relative w-10 h-6 bg-zinc-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-accent/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all after:shadow-sm peer-checked:bg-accent transition-colors"></div><span class="text-xs text-zinc-600">Email</span></label>
+                <label class="relative inline-flex items-center gap-2 cursor-pointer select-none"><input type="checkbox" checked class="sr-only peer"><div class="relative w-10 h-6 bg-zinc-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-accent/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all after:shadow-sm peer-checked:bg-accent transition-colors"></div><span class="text-xs text-zinc-600">Telegram</span></label>
               </div>
             </li>
             <li class="px-6 py-3.5 flex flex-col sm:flex-row sm:items-center gap-3">
               <div class="min-w-0 flex-1 text-sm text-ink">Готов отчёт за месяц</div>
               <div class="flex items-center gap-4 text-sm text-zinc-600">
-                <label class="inline-flex items-center gap-2 cursor-pointer"><input type="checkbox" checked class="w-4 h-4 rounded border-zinc-300 accent-accent"><span>Email</span></label>
-                <label class="inline-flex items-center gap-2 cursor-pointer"><input type="checkbox" class="w-4 h-4 rounded border-zinc-300 accent-accent"><span>Telegram</span></label>
+                <label class="relative inline-flex items-center gap-2 cursor-pointer select-none"><input type="checkbox" checked class="sr-only peer"><div class="relative w-10 h-6 bg-zinc-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-accent/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all after:shadow-sm peer-checked:bg-accent transition-colors"></div><span class="text-xs text-zinc-600">Email</span></label>
+                <label class="relative inline-flex items-center gap-2 cursor-pointer select-none"><input type="checkbox" class="sr-only peer"><div class="relative w-10 h-6 bg-zinc-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-accent/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all after:shadow-sm peer-checked:bg-accent transition-colors"></div><span class="text-xs text-zinc-600">Telegram</span></label>
               </div>
             </li>
             <li class="px-6 py-3.5 flex flex-col sm:flex-row sm:items-center gap-3">
               <div class="min-w-0 flex-1 text-sm text-ink">Ежедневная сводка дедлайнов в 09:00</div>
               <div class="flex items-center gap-4 text-sm text-zinc-600">
-                <label class="inline-flex items-center gap-2 cursor-pointer"><input type="checkbox" checked class="w-4 h-4 rounded border-zinc-300 accent-accent"><span>Email</span></label>
-                <label class="inline-flex items-center gap-2 cursor-pointer"><input type="checkbox" checked class="w-4 h-4 rounded border-zinc-300 accent-accent"><span>Telegram</span></label>
+                <label class="relative inline-flex items-center gap-2 cursor-pointer select-none"><input type="checkbox" checked class="sr-only peer"><div class="relative w-10 h-6 bg-zinc-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-accent/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all after:shadow-sm peer-checked:bg-accent transition-colors"></div><span class="text-xs text-zinc-600">Email</span></label>
+                <label class="relative inline-flex items-center gap-2 cursor-pointer select-none"><input type="checkbox" checked class="sr-only peer"><div class="relative w-10 h-6 bg-zinc-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-accent/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all after:shadow-sm peer-checked:bg-accent transition-colors"></div><span class="text-xs text-zinc-600">Telegram</span></label>
               </div>
             </li>
           </ul>

@@ -22,7 +22,7 @@
           <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[140px] sm:max-w-none">Сотрудники</h1>
         </div>
         <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-          <button type="button" data-can="hire_seo,hire_managers,invite_contractors" data-open-modal="invite" class="h-8 sm:h-9 px-3 sm:px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm"><span class="sm:hidden">+ Пригласить</span><span class="hidden sm:inline">+ Пригласить сотрудника</span></button>
+          <button type="button" data-can="hire_seo,hire_managers,invite_contractors" data-open-modal="invite" class="h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm active:scale-[0.98]"><span class="sm:hidden">+ Пригласить</span><span class="hidden sm:inline">+ Пригласить сотрудника</span></button>
         </div>
       </header>
 
@@ -35,7 +35,7 @@
           </div>
           <div class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 w-full sm:w-auto sm:ml-auto">
             <span class="!hidden"></span>
-            <select data-team-role aria-label="Роль" class="h-9 sm:h-8 w-full sm:w-auto bg-zinc-50 border border-zinc-200/80 rounded-xl px-3 text-xs text-zinc-700 focus:outline-none focus:ring-1 focus:ring-accent">
+            <select data-team-role aria-label="Роль" class="h-9 sm:h-8 w-full sm:w-auto bg-zinc-50 border border-black/10 rounded-xl focus:outline-none focus:bg-white focus:border-accent focus:ring-4 focus:ring-accent/15 transition duration-150 px-3 text-xs text-zinc-700 ">
               <option value="">Все роли</option>
               <option>Руководитель SEO</option>
               <option>Руководитель менеджеров</option>
@@ -45,7 +45,7 @@
             </select>
             <label class="relative block w-full sm:w-64 shrink-0">
               <svg class="w-4 h-4 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg>
-              <input data-team-q type="search" placeholder="Поиск" aria-label="Поиск сотрудников" class="h-9 sm:h-8 w-full bg-zinc-50 border border-zinc-200/80 rounded-xl pl-8 pr-3 text-xs text-zinc-700 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-accent">
+              <input data-team-q type="search" placeholder="Поиск" aria-label="Поиск сотрудников" class="h-9 sm:h-8 w-full bg-zinc-50 border border-black/10 rounded-xl focus:outline-none focus:bg-white focus:border-accent focus:ring-4 focus:ring-accent/15 transition duration-150 pl-8 pr-3 text-xs text-zinc-700 placeholder:text-zinc-400 ">
             </label>
           </div>
         </div>
@@ -63,7 +63,7 @@
             </div>
             <div class="flex flex-wrap gap-2">
               <button type="button" data-roles="owner,seo_head,mgr_head" data-open-modal="vacation" data-prefill-employee="petrov" data-prefill-from="2025-07-14" data-prefill-to="2025-07-28" data-prefill-substitute="morozov" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Изменить</button>
-              <button type="button" data-roles="employee" data-open-modal="vacation" data-prefill-employee="petrov" data-prefill-from="2025-07-14" data-prefill-to="2025-07-28" data-prefill-substitute="morozov" class="px-3.5 py-1.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Кому передать</button>
+              <button type="button" data-roles="employee" data-open-modal="vacation" data-prefill-employee="petrov" data-prefill-from="2025-07-14" data-prefill-to="2025-07-28" data-prefill-substitute="morozov" class="h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shadow-sm active:scale-[0.98]">Кому передать</button>
             </div>
           </div>
           </div>

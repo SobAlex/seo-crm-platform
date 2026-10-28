@@ -23,10 +23,10 @@
             <h1 title="Проверить индексацию в GSC" class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[200px]">Проверить индексацию в GSC</h1>
           </div>
           <div class="flex items-center gap-2 shrink-0 flex-wrap justify-end">
-            <button type="button" data-task-action="wait_client" class="h-9 px-3.5 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition whitespace-nowrap">Ждёт клиента</button>
-            <button type="button" data-task-action="submit" data-assignee="kim" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition whitespace-nowrap">Сдать на проверку</button>
-            <button type="button" data-task-action="rework" data-accept-item data-creator="petrov" data-acceptor="petrov" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition whitespace-nowrap">На доработку</button>
-            <button type="button" data-task-action="accept" data-accept-item data-creator="petrov" data-acceptor="petrov" class="h-9 px-4 inline-flex items-center justify-center rounded-full bg-zinc-900 text-white text-xs font-medium hover:bg-zinc-800 transition whitespace-nowrap">Принять</button>
+            <button type="button" data-task-action="wait_client" class="h-9 px-4 rounded-xl bg-white border border-black/10 text-xs font-medium text-zinc-800 hover:bg-zinc-50 hover:border-black/15 transition shadow-sm active:scale-[0.98] whitespace-nowrap">Ждёт клиента</button>
+            <button type="button" data-task-action="submit" data-assignee="kim" class="h-9 px-4 inline-flex items-center justify-center rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shadow-sm active:scale-[0.98] whitespace-nowrap">Сдать на проверку</button>
+            <button type="button" data-task-action="rework" data-accept-item data-creator="petrov" data-acceptor="petrov" class="h-9 px-4 inline-flex items-center justify-center rounded-xl bg-white border border-black/10 text-xs font-medium text-zinc-800 hover:bg-zinc-50 hover:border-black/15 transition shadow-sm active:scale-[0.98] whitespace-nowrap">На доработку</button>
+            <button type="button" data-task-action="accept" data-accept-item data-creator="petrov" data-acceptor="petrov" class="h-9 px-4 inline-flex items-center justify-center rounded-xl bg-zinc-900 text-white text-xs font-medium hover:bg-zinc-800 transition shadow-sm active:scale-[0.98] whitespace-nowrap">Принять</button>
             <span data-status-note class="hidden inline-flex items-center gap-1.5 h-9 px-3 rounded-full text-xs font-medium whitespace-nowrap"></span>
           </div>
       </header>
@@ -53,7 +53,7 @@
               </span>
               <div class="min-w-0 flex-1">
                 <div class="text-sm font-semibold text-amber-900">Задача возвращена на доработку постановщиком: <span class="font-medium" data-rework-reason>Причина замечания</span></div>
-                <button type="button" data-task-action="submit" data-assignee="kim" data-rework-resubmit class="mt-3 h-8 px-3.5 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition">Исправлено, сдать на проверку</button>
+                <button type="button" data-task-action="submit" data-assignee="kim" data-rework-resubmit class="mt-3 h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shadow-sm active:scale-[0.98]">Исправлено, сдать на проверку</button>
               </div>
             </div>
             <div data-return-note class="hidden"></div>
@@ -150,18 +150,18 @@
                 <div class="mt-3 flex flex-col sm:flex-row sm:items-center gap-3">
                   <label class="inline-flex items-center gap-1.5 shrink-0 text-sm text-zinc-600" title="Списать время вместе с комментарием">
                     Время:
-                    <input data-hours data-can="track_time" type="text" inputmode="decimal" placeholder="+2,5" aria-label="Списать часов" class="w-16 px-2.5 py-1 rounded-lg border border-zinc-200 bg-white text-sm text-center tabular-nums focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40 disabled:opacity-40">
+                    <input data-hours data-can="track_time" type="text" inputmode="decimal" placeholder="+2,5" aria-label="Списать часов" class="w-16 h-8 px-2.5 rounded-xl border border-black/10 bg-zinc-50 text-xs text-center tabular-nums focus:outline-none focus:bg-white focus:border-accent focus:ring-4 focus:ring-accent/15 transition duration-150 disabled:opacity-40">
                     <span class="text-zinc-500">ч</span>
                   </label>
                   <span class="hidden sm:block w-px h-5 bg-zinc-200" aria-hidden="true"></span>
-                  <label class="inline-flex items-center gap-2.5 cursor-pointer select-none">
-                    <input type="checkbox" data-report-toggle data-can="compose_reports" data-deny-tip="Включить комментарий в отчёт может сотрудник компании. Подрядчик пишет текст — его включит менеджер проекта." class="peer sr-only">
-                    <span class="relative w-9 h-5 shrink-0 rounded-full bg-zinc-200 transition peer-checked:bg-emerald-500 peer-disabled:opacity-50 peer-focus-visible:ring-4 peer-focus-visible:ring-accent/20 after:absolute after:left-0.5 after:top-0.5 after:w-4 after:h-4 after:rounded-full after:bg-white after:shadow-sm after:transition peer-checked:after:translate-x-4"></span>
+                  <label class="relative inline-flex items-center gap-2.5 cursor-pointer select-none">
+                    <input type="checkbox" data-report-toggle data-can="compose_reports" data-deny-tip="Включить комментарий в отчёт может сотрудник компании. Подрядчик пишет текст — его включит менеджер проекта." class="sr-only peer">
+                    <div class="relative w-10 h-6 bg-zinc-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-accent/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all after:shadow-sm peer-checked:bg-accent peer-disabled:opacity-50 transition-colors"></div>
                     <span class="text-sm text-zinc-700 peer-disabled:text-zinc-400">Включить в отчёт клиенту</span>
                   </label>
                   <div class="sm:ml-auto flex items-center gap-3">
                     <span class="hidden sm:inline text-[11px] text-zinc-400">⌘↵ — отправить</span>
-                    <button type="button" data-send data-can="own_tasks" class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Отправить</button>
+                    <button type="button" data-send data-can="own_tasks" class="flex-1 sm:flex-none h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shadow-sm active:scale-[0.98] inline-flex items-center justify-center">Отправить</button>
                   </div>
                 </div>
                 <p data-report-hint class="hidden mt-2 text-xs text-emerald-700">Текст со списками, жирным, ссылками и изображениями попадёт в отчёт «Холод · Июнь 2025» в том же виде.</p>
@@ -327,8 +327,8 @@
         </div>
       </div>
       <div class="px-5 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row gap-2 sm:justify-end sticky bottom-0 bg-white rounded-b-3xl">
-        <button data-close-modal class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">Отмена</button>
-        <button data-close-modal data-toast="Запрос отправлен клиенту" class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Отправить запрос</button>
+        <button data-close-modal class="h-9 px-4 rounded-xl bg-white border border-black/10 text-xs font-medium text-zinc-800 hover:bg-zinc-50 hover:border-black/15 transition shadow-sm active:scale-[0.98] inline-flex items-center justify-center">Отмена</button>
+        <button data-close-modal data-toast="Запрос отправлен клиенту" class="h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shadow-sm active:scale-[0.98] inline-flex items-center justify-center">Отправить запрос</button>
       </div>
     </div>
   </div>

@@ -26,7 +26,7 @@
           <button type="button" data-can="create_client" data-deny-tip="Управление клиентами доступно менеджерам и руководству" data-open-modal="brief-send" data-prefill-client="holod" class="hidden sm:inline-flex h-8 sm:h-9 px-3 sm:px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition items-center justify-center shrink-0">Отправить бриф</button>
           <button type="button" data-can="invite_clients" data-open-modal="client-invite" data-prefill-client="holod" class="hidden md:inline-flex h-8 sm:h-9 px-3 sm:px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition items-center justify-center shrink-0">Пригласить в портал</button>
           <button type="button" data-can="create_client" data-deny-tip="Управление клиентами доступно менеджерам и руководству" data-open-modal="client-edit" class="h-8 sm:h-9 px-3 sm:px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium hover:bg-zinc-50 transition inline-flex items-center justify-center shrink-0"><span class="sm:hidden">Изменить</span><span class="hidden sm:inline">Редактировать</span></button>
-          <button type="button" data-can="create_project" data-deny-tip="Создание проектов доступно менеджеру или руководству" data-open-modal="project-create" data-prefill-client="holod" class="h-8 sm:h-9 px-3 sm:px-4 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm">+ Проект</button>
+          <button type="button" data-can="create_project" data-deny-tip="Создание проектов доступно менеджеру или руководству" data-open-modal="project-create" data-prefill-client="holod" class="h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition flex items-center justify-center shrink-0 shadow-sm active:scale-[0.98]">+ Проект</button>
         </div>
       </header>
 
@@ -67,7 +67,7 @@
                   <h3 class="text-sm font-semibold tracking-tight">Проекты клиента</h3>
                   <p class="text-xs text-zinc-500 mt-0.5">2 сайта</p>
                 </div>
-                <button type="button" data-can="create_project" data-open-modal="project-create" data-prefill-client="holod" class="h-8 px-3.5 rounded-full bg-accent text-white text-xs font-medium hover:bg-accent-hover transition inline-flex items-center gap-1.5 shadow-sm shrink-0">+ Новый проект</button>
+                <button type="button" data-can="create_project" data-open-modal="project-create" data-prefill-client="holod" class="h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shadow-sm active:scale-[0.98] inline-flex items-center gap-1.5 shadow-sm shrink-0">+ Новый проект</button>
               </div>
               <div class="overflow-x-auto border-t border-zinc-100">
                 <table class="w-full block md:table">
@@ -183,7 +183,7 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
                     Прикрепить файл
                   </button>
-                  <button type="button" data-thread-send class="px-4 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">Отправить</button>
+                  <button type="button" data-thread-send class="h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shadow-sm active:scale-[0.98] inline-flex items-center justify-center">Отправить</button>
                 </div>
               </div>
             </section>

@@ -280,8 +280,8 @@ tailwind.config = {
             : '') +
           '<div class="rounded-2xl bg-black/[0.03] p-3">' +
             '<label class="block text-[11px] font-medium text-zinc-500 mb-1" for="role-switch">Демо: смотреть как</label>' +
-            '<select id="role-switch" class="w-full px-3 py-1.5 rounded-lg border border-black/10 bg-white text-xs focus:outline-none focus:ring-4 focus:ring-accent/15">' + options + '</select>' +
-            (role === 'owner' ? '<a href="superadmin.html" class="mt-2 flex items-center justify-center px-3 py-1.5 rounded-full bg-white border border-black/10 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition">Кабинет платформы</a>' : '') +
+            '<select id="role-switch" class="w-full h-8 px-3 pr-8 rounded-xl border border-black/10 bg-zinc-50 text-xs text-ink focus:outline-none focus:bg-white focus:border-accent focus:ring-4 focus:ring-accent/15 transition duration-150">' + options + '</select>' +
+            (role === 'owner' ? '<a href="superadmin.html" class="mt-2 flex items-center justify-center h-8 px-3 rounded-xl bg-white border border-black/10 text-xs font-medium text-zinc-800 hover:bg-zinc-50 hover:border-black/15 transition shadow-sm">Кабинет платформы</a>' : '') +
           '</div>' +
         '</div>' +
         '<div class="m-3 p-2 rounded-2xl bg-white border border-black/5 shadow-sm hover:border-black/10 transition relative flex items-center justify-between gap-2 shrink-0" data-user-menu-container>' +
@@ -347,7 +347,7 @@ tailwind.config = {
           '<span class="mx-auto mb-5 w-14 h-14 rounded-full bg-black/5 text-zinc-500 flex items-center justify-center">' + svg('lock', 'w-6 h-6') + '</span>' +
           '<h1 class="text-xl font-semibold tracking-tight mb-2">Нет доступа</h1>' +
           '<p class="text-sm text-zinc-500 mb-6">Раздел недоступен для роли «' + r.label + '». Права задаются матрицей разрешений в «Настройки компании → Роли и доступ».</p>' +
-          '<a href="' + homeFor(role) + '" class="inline-block px-5 py-2.5 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-hover transition">На главную</a>' +
+          '<a href="' + homeFor(role) + '" class="inline-flex items-center h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shadow-sm active:scale-[0.98]">На главную</a>' +
         '</div>' +
       '</div>';
   }
@@ -747,9 +747,13 @@ tailwind.config = {
      preventDefault — окно остаётся открытым). Общие окна регистрирует assets/modals.js. */
   const MODALS = {};
   const MODAL_WIDTH = { sm: 'max-w-md', md: 'max-w-lg', lg: 'max-w-2xl', xl: 'max-w-3xl' };
-  const FIELD = 'w-full px-3.5 py-2 rounded-xl border border-zinc-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-accent/15 focus:border-accent/40';
+  const FIELD = 'w-full h-9 px-3.5 rounded-xl border border-black/10 bg-zinc-50 text-xs text-ink placeholder:text-zinc-400 focus:outline-none focus:bg-white focus:border-accent focus:ring-4 focus:ring-accent/15 transition duration-150';
+  const FIELD_SELECT = FIELD + ' pr-8 appearance-none bg-[length:12px] bg-[right_0.75rem_center] bg-no-repeat';
+  const BTN_PRIMARY = 'h-9 px-4 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition shadow-sm active:scale-[0.98]';
+  const BTN_SECONDARY = 'h-9 px-4 rounded-xl bg-white border border-black/10 text-zinc-800 text-xs font-medium hover:bg-zinc-50 hover:border-black/15 transition shadow-sm active:scale-[0.98]';
+  const BTN_DANGER = 'h-9 px-4 rounded-xl bg-red-600 text-white text-xs font-medium hover:bg-red-700 transition shadow-sm active:scale-[0.98]';
   const INVALID = ['!border-red-400', 'ring-4', 'ring-red-100'];
-  const ICON_CLOSE = '<svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>';
+  const ICON_CLOSE = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>';
 
   function registerModal(name, def) { MODALS[name] = def; }
 
@@ -766,21 +770,20 @@ tailwind.config = {
       '<button type="button" data-modal-submit' +
       (o.submitCan ? ' data-can="' + o.submitCan + '"' : '') +
       (o.submitToast ? ' data-submit-toast="' + o.submitToast + '"' : '') +
-      ' class="h-9 px-4 rounded-full ' + (o.danger ? 'bg-red-600 hover:bg-red-700' : 'bg-accent hover:bg-accent-hover') +
-      ' text-white text-xs font-medium transition shadow-sm">' + (o.submit || 'Сохранить') + '</button>';
+      ' class="' + (o.danger ? BTN_DANGER : BTN_PRIMARY) + '">' + (o.submit || 'Сохранить') + '</button>';
     el.innerHTML =
-      '<div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-close-modal></div>' +
-      '<div class="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">' +
-        '<div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop w-full ' + (MODAL_WIDTH[o.size] || MODAL_WIDTH.md) + ' pointer-events-auto max-h-[90vh] overflow-y-auto">' +
-          '<div class="px-5 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between gap-3 sticky top-0 bg-white/95 backdrop-blur z-10 rounded-t-3xl">' +
-            '<div class="min-w-0"><h3 id="' + name + '-title" class="text-sm font-semibold tracking-tight truncate" data-modal-title>' + o.title + '</h3>' +
+      '<div class="absolute inset-0 bg-black/25 backdrop-blur-md transition-opacity" data-close-modal></div>' +
+      '<div class="absolute inset-0 flex items-end sm:items-center justify-center p-4 pointer-events-none">' +
+        '<div class="bg-white rounded-t-3xl sm:rounded-3xl shadow-pop border border-black/5 w-full ' + (MODAL_WIDTH[o.size] || MODAL_WIDTH.md) + ' pointer-events-auto max-h-[90vh] overflow-hidden flex flex-col transform transition-all">' +
+          '<div class="px-6 py-4 border-b border-black/5 flex items-center justify-between gap-3 shrink-0">' +
+            '<div class="min-w-0"><h3 id="' + name + '-title" class="text-sm font-semibold tracking-tight text-ink truncate" data-modal-title>' + o.title + '</h3>' +
             (o.subtitle ? '<p class="text-xs text-zinc-500 mt-0.5 truncate" data-modal-subtitle>' + o.subtitle + '</p>' : '') + '</div>' +
-            '<button type="button" data-close-modal aria-label="Закрыть" class="w-8 h-8 shrink-0 rounded-full hover:bg-zinc-100 flex items-center justify-center">' + ICON_CLOSE + '</button>' +
+            '<button type="button" data-close-modal aria-label="Закрыть" class="h-7 w-7 shrink-0 rounded-full text-zinc-400 hover:text-zinc-600 hover:bg-black/5 flex items-center justify-center transition">' + ICON_CLOSE + '</button>' +
           '</div>' +
-          '<div class="p-5 sm:p-6 space-y-4" data-modal-body>' + body + '</div>' +
-          '<div class="sticky bottom-0 bg-white/95 backdrop-blur-sm border-t border-zinc-100 py-3 px-5 sm:px-6 flex flex-col-reverse sm:flex-row gap-2 sm:items-center sm:justify-end rounded-b-3xl z-10">' +
+          '<div class="p-6 space-y-4 max-h-[75vh] overflow-y-auto" data-modal-body>' + body + '</div>' +
+          '<div class="px-6 py-3.5 bg-zinc-50/70 border-t border-black/5 flex flex-col-reverse sm:flex-row gap-2.5 sm:items-center sm:justify-end sticky bottom-0 shrink-0">' +
             (o.footerNote ? '<div class="text-xs text-zinc-500 sm:mr-auto" data-modal-note>' + o.footerNote + '</div>' : '') +
-            '<button type="button" data-close-modal class="h-9 px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition">' + (o.cancel || 'Отмена') + '</button>' +
+            '<button type="button" data-close-modal class="' + BTN_SECONDARY + '">' + (o.cancel || 'Отмена') + '</button>' +
             submit +
           '</div>' +
         '</div>' +
@@ -982,8 +985,8 @@ tailwind.config = {
      На кнопке — событие confirm:ok для страничных скриптов. */
   let pendingConfirm = null;
   const CONFIRM_DEFAULT_TEXT = 'Это действие необратимо. Связанные данные будут удалены или переведены в архив.';
-  const CONFIRM_BTN_CANCEL = 'h-9 px-4 rounded-full bg-white border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition';
-  const CONFIRM_BTN_OK = 'h-9 px-4 rounded-full bg-red-600 hover:bg-red-700 text-white text-xs font-medium transition shadow-sm';
+  const CONFIRM_BTN_CANCEL = BTN_SECONDARY;
+  const CONFIRM_BTN_OK = BTN_DANGER;
   function confirmOnSubmit(modal, detail) {
     const btn = pendingConfirm;
     pendingConfirm = null;
