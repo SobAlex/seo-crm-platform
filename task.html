@@ -370,7 +370,30 @@
   const events = [];
 
   const store = App.comments.load();
-  const all = () => SEED.map(c => Object.assign({}, c, c.id in store.flags ? { report: store.flags[c.id] } : {})).concat(store.items, events);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const pad = n => String(n).padStart(2, '0');
+  const stamp = d => '18.06, ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  /* Парсинг «ДД.ММ, ЧЧ:ММ» → ms (демо-год 2025) для хронологии ленты */
+  const parseStamp = s => {
+    const m = String(s || '').match(/(\d{1,2})\.(\d{1,2}),?\s*(\d{1,2}):(\d{2})/);
+    if (!m) return 0;
+    return Date.UTC(2025, Number(m[2]) - 1, Number(m[1]), Number(m[3]), Number(m[4]));
+  };
+  const sortKey = c => {
+    if (c.ts != null && c.ts === c.ts) return Number(c.ts);
+    if (c.time) return parseStamp(c.time);
+    if (c.system && c.text) return parseStamp(c.text);
+    return 0;
+  };
+  /* Единый поток: seed + сохранённые + сессионные события, строго по возрастанию времени */
+  const all = () => SEED.map(c => Object.assign({}, c, c.id in store.flags ? { report: store.flags[c.id] } : {}))
+    .concat(store.items, events)
+    .slice()
+    .sort((a, b) => {
+      const d = sortKey(a) - sortKey(b);
+      if (d !== 0) return d;
+      return String(a.id).localeCompare(String(b.id));
+    });
 
   const feed = document.querySelector('[data-feed]');
   const editor = document.querySelector('[data-editor]');
@@ -379,9 +402,6 @@
   const composer = document.querySelector('[data-composer]');
   let pending = [];
 
-  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  const pad = n => String(n).padStart(2, '0');
-  const stamp = d => '18.06, ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
   const fmtH = h => (Math.round(h * 10) / 10).toString().replace('.', ',') + ' ч';
   const fmtSize = b => b == null ? '' : (b >= 1048576 ? (b / 1048576).toFixed(1).replace('.', ',') + ' МБ' : Math.max(1, Math.round(b / 1024)) + ' КБ');
 
@@ -432,8 +452,15 @@
     document.querySelector('[data-comments-count]').textContent = msgs.length;
     document.querySelector('[data-report-count]').textContent = inReport;
     document.querySelector('[data-report-link]').classList.toggle('hidden', !inReport);
-    if (scroll) feed.scrollTop = feed.scrollHeight;
+    if (scroll) {
+      requestAnimationFrame(() => { feed.scrollTop = feed.scrollHeight; });
+    }
     paintTime(msgs);
+  }
+
+  function pushEvent(entry) {
+    const ts = entry.ts != null ? entry.ts : Date.now();
+    events.push(Object.assign({ ts: ts }, entry));
   }
 
   /* ---------- Учёт времени (сайдбар) ---------- */
@@ -593,7 +620,7 @@
       if (task.status === 'done' || task.status === 'review') return;
       task.status = 'progress';
       task.dates.progress = task.dates.progress || '18.06';
-      events.push({ id: 'e' + Date.now(), system: true, text: esc(who) + ' вернул задачу в работу · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });
+      pushEvent({ id: 'e' + Date.now(), system: true, text: esc(who) + ' вернул задачу в работу · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });
       addHistory(who + ' перевёл задачу в работу', 'bg-blue-500');
       paint(true); paintLifecycle();
       return App.toast('Задача снова в работе', 'success');
@@ -602,7 +629,7 @@
       if (task.status === 'done' || task.status === 'review') return;
       task.status = 'WAITING_CLIENT';
       task.dates.waiting = '18.06';
-      events.push({ id: 'e' + Date.now(), system: true, text: esc(who) + ' поставил задачу в ожидание клиента · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });
+      pushEvent({ id: 'e' + Date.now(), system: true, text: esc(who) + ' поставил задачу в ожидание клиента · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });
       addHistory(who + ' перевёл задачу в ожидание клиента', 'bg-sky-500');
       paint(true); paintLifecycle();
       return App.toast('Задача переведена в статус: Ждёт ответа клиента', 'warning');
@@ -611,7 +638,7 @@
       if (task.status === 'review' || task.status === 'done') return;
       task.status = 'review';
       task.dates.review = '18.06';
-      events.push({ id: 'e' + Date.now(), system: true, text: esc(who) + ' передал задачу на проверку · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });
+      pushEvent({ id: 'e' + Date.now(), system: true, text: esc(who) + ' передал задачу на проверку · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });
       addHistory(who + ' отправил задачу на проверку', 'bg-amber-500');
       paint(true); paintLifecycle();
       return App.toast('Задача на проверке · А. Петров получит уведомление', 'success');
@@ -620,7 +647,7 @@
       if (task.status === 'done') return;
       task.status = 'done';
       task.dates.done = '18.06';
-      events.push({ id: 'e' + Date.now(), system: true, tone: 'green', text: esc(who) + ' завершил задачу · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });
+      pushEvent({ id: 'e' + Date.now(), system: true, tone: 'green', text: esc(who) + ' завершил задачу · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });
       addHistory(who + ' завершил задачу', 'bg-emerald-500');
       paint(true); paintLifecycle();
       return App.toast('Задача завершена', 'success');
@@ -629,7 +656,7 @@
     if (action === 'accept') {
       task.status = 'done';
       task.dates.done = '18.06';
-      events.push({ id: 'e' + Date.now(), system: true, tone: 'green', text: esc(who) + ' принял задачу · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });
+      pushEvent({ id: 'e' + Date.now(), system: true, tone: 'green', text: esc(who) + ' принял задачу · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });
       addHistory(who + ' принял задачу', 'bg-emerald-500');
       paint(true); paintLifecycle();
       return App.toast('Задача принята · исполнитель уведомлён', 'success');
@@ -644,8 +671,9 @@
     if (!reason || !String(reason).trim()) return;
     task.status = 'rework';
     task.returns.push({ date: '18.06', who, reason: String(reason).trim() });
-    events.push({ id: 'e' + Date.now(), author: me.user, initials: me.initials, dark: true, role: 'принимает работу', time: stamp(new Date()), remark: true, html: esc(reason) },
-                { id: 'e' + Date.now() + 'r', system: true, tone: 'amber', text: esc(who) + ' вернул задачу на доработку · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });
+    const t0 = Date.now();
+    pushEvent({ id: 'e' + t0, ts: t0, author: me.user, initials: me.initials, dark: true, role: 'принимает работу', time: stamp(new Date()), remark: true, html: esc(reason) });
+    pushEvent({ id: 'e' + t0 + 'r', ts: t0 + 1, system: true, tone: 'amber', text: esc(who) + ' вернул задачу на доработку · <span class="tabular-nums">' + stamp(new Date()) + '</span>' });
     addHistory(who + ' вернул задачу на доработку', 'bg-amber-500');
     paint(true); paintLifecycle();
     App.toast('Задача отправлена на доработку · исполнитель уведомлён', 'warning');
@@ -846,8 +874,9 @@
     const hasText = !!html.replace(/<[^>]+>/g, '').trim();
     if (!hasText && !pending.length && !hours) { editor.focus(); return App.toast('Напишите комментарий, прикрепите файл или укажите время', 'error'); }
     const report = !!toggle.checked && canReport;
+    const now = Date.now();
     const item = {
-      id: 'u' + Date.now(), author: me.user, initials: me.initials, dark: true, role: me.label, time: stamp(new Date()),
+      id: 'u' + now, ts: now, author: me.user, initials: me.initials, dark: true, role: me.label, time: stamp(new Date()),
       html: hasText ? html : '<span class="text-zinc-500">' + (pending.length ? 'Вложение' : 'Списано время') + '</span>',
       files: pending.map(f => ({ id: f.id, name: f.name, size: f.size, url: f.url })), report, hours: hours || undefined
     };
