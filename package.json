@@ -1,0 +1,16 @@
+{
+  "name": "seo-crm-platform",
+  "private": true,
+  "packageManager": "pnpm@10.34.9",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "turbo": "^2.11.10"
+  }
+}

@@ -1,0 +1,12 @@
+node_modules
+dist
+.output
+.nuxt
+.nitro
+.cache
+.turbo
+coverage
+.env
+.env.*
+!.env.example
+.DS_Store
