@@ -174,9 +174,34 @@ const COLUMNS: { key: SortKey; label: string; cls: string }[] = [
 
 // Новый проект появляется в таблице сразу после создания.
 const createOpen = ref(false)
-function onCreated(p: { title: string; site: string; client: string; budget: string }) {
+
+onMounted(async () => {
+  try {
+    const list = await $fetch<Array<{ id: string; slug: string; name: string; domain: string | null; clientName: string; monthlyBudget: number | null; taskCount: number; targetTraffic: number; targetLeads: number }>>('/api/projects', { credentials: 'include' })
+    const known = new Set(rows.value.map(row => row.id))
+    for (const project of list) {
+      const id = project.slug || project.id
+      if (known.has(id) || known.has(project.id)) continue
+      rows.value.unshift({
+        id: project.id,
+        name: project.name,
+        site: `${project.domain || '—'} · ${project.clientName}`,
+        range: '',
+        health: { dot: 'bg-zinc-300', label: 'Нет данных — проект только создан' },
+        status: { label: 'Старт', badge: 'bg-blue-50 text-blue-700', dot: 'bg-blue-600' },
+        traffic: project.targetTraffic ? { value: '0', pct: '0%', tone: 'zinc', plan: String(project.targetTraffic), metric: 'traffic' } : null,
+        leads: project.targetLeads ? { value: '0', pct: '0%', tone: 'zinc', plan: String(project.targetLeads), metric: 'leads' } : null,
+        top10: null,
+        works: { value: String(project.taskCount), pct: '', tone: 'zinc', plan: '' },
+        hours: { used: 0, limit: 0, pct: '' },
+        fee: project.monthlyBudget ? project.monthlyBudget.toLocaleString('ru-RU') + ' ₽' : '—'
+      })
+    }
+  } catch { /* реестр прототипа остаётся видимым */ }
+})
+function onCreated(p: { id: string; title: string; site: string; client: string; budget: string }) {
   rows.value.unshift({
-    id: 'new-' + Date.now(), name: p.title, site: `${p.site} · ${p.client}`, range: '', isNew: true,
+    id: p.id, name: p.title, site: `${p.site} · ${p.client}`, range: '', isNew: true,
     health: { dot: 'bg-zinc-300', label: 'Нет данных — проект только создан' },
     status: { label: 'Старт', badge: 'bg-blue-50 text-blue-700', dot: 'bg-blue-600' },
     traffic: null, leads: null, top10: null,

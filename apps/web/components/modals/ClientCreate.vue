@@ -31,27 +31,74 @@ watch(open, v => {
 const briefOpen = ref(false)
 const created = ref<DirectoryClient | null>(null)
 
-function submit() {
+const pending = ref(false)
+
+async function submit() {
   if (fields.value && !fields.value.check()) return
   const f = form.value
-  const c: DirectoryClient = {
-    id: 'c' + Date.now(), name: f.name.trim(), inn: f.inn.trim(), city: f.city.trim(), rate: +f.rate || 0,
-    contact: f.contact.trim(), post: f.post.trim(), email: f.email.trim(), phone: f.phone.trim(), brief: f.brief
-  }
-  if (f.logo) {
-    try { localStorage.setItem(`seo_client_logo_${c.id}`, f.logo) } catch { /* ignore */ }
-  }
-  emit('created', c)
-  open.value = false
-  if (!sendBrief.value) {
-    notify(`Клиент ${c.name} создан`)
+  if (!f.name.trim() || !f.contact.trim() || !f.email.trim()) {
+    notify('Заполните название компании, контактное лицо и email', 'error')
     return
   }
-  created.value = c
-  setTimeout(() => {
-    briefOpen.value = true
-    notify('Клиент создан — отправьте ему бриф')
-  }, 50)
+  pending.value = true
+  try {
+    const saved = await $fetch<{
+      id: string
+      slug: string
+      name: string
+      inn: string | null
+      city: string | null
+      ratePerHour: number | null
+      contactPerson: string
+      contactPosition: string
+      email: string
+      phone: string
+    }>('/api/clients', {
+      method: 'POST',
+      credentials: 'include',
+      body: {
+        name: f.name.trim(),
+        contactPerson: f.contact.trim(),
+        email: f.email.trim(),
+        phone: f.phone.trim(),
+        inn: f.inn.trim(),
+        city: f.city.trim(),
+        contactPosition: f.post.trim(),
+        ratePerHour: f.rate.trim(),
+        status: 'LEAD'
+      }
+    })
+    const c = {
+      id: saved.slug || saved.id,
+      name: saved.name,
+      inn: saved.inn || '',
+      city: saved.city || '',
+      rate: saved.ratePerHour || 0,
+      contact: saved.contactPerson,
+      post: saved.contactPosition || '',
+      email: saved.email,
+      phone: saved.phone || '',
+      brief: f.brief
+    } as DirectoryClient
+    if (f.logo) {
+      try { localStorage.setItem(`seo_client_logo_${c.id}`, f.logo) } catch { /* ignore */ }
+    }
+    emit('created', c)
+    open.value = false
+    if (!sendBrief.value) {
+      notify(`Клиент ${c.name} создан`, 'success')
+      return
+    }
+    created.value = c
+    setTimeout(() => {
+      briefOpen.value = true
+      notify('Клиент создан — отправьте ему бриф', 'success')
+    }, 50)
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  } finally {
+    pending.value = false
+  }
 }
 </script>
 
@@ -61,8 +108,8 @@ function submit() {
     title="Новый клиент"
     subtitle="Реквизиты, контакт и бриф для старта"
     size="lg"
-    submit="Создать клиента"
-    :submit-allowed="can('client.manage')"
+    :submit="pending ? 'Создание…' : 'Создать клиента'"
+    :submit-allowed="can('client.manage') && !pending"
     submit-tip="Управление клиентами доступно менеджерам и руководству"
     manual
     @submit="submit"

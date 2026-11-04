@@ -1,12 +1,14 @@
 <script setup lang="ts">
 // Окно «Новый проект» (registerModal('project-create') в assets/modals.js).
-import { CLIENTS, KPI_DEFAULT, KPI_OPTS, ROADMAPS, ROLE_NAME, TEAM, TYPES, monthOptions } from '~/constants/directory'
+import { KPI_DEFAULT, KPI_OPTS, monthOptions } from '~/constants/directory'
 
 interface ProjectCreated {
+  id: string
   title: string
   site: string
   client: string
   budget: string
+  taskCount: number
 }
 
 const props = defineProps<{
@@ -22,10 +24,15 @@ const emit = defineEmits<{
 const { can } = useRole()
 const notify = useNotify()
 const limitHint = ref('')
+const pending = ref(false)
+const clients = ref<{ id: string; name: string; contact: string; email: string; rate: number }[]>([])
+const types = ref<{ id: string; name: string }[]>([])
+const roadmaps = ref<{ id: string; name: string; type: string }[]>([])
+const members = ref<{ id: string; name: string; role: string }[]>([])
 
 const blank = () => ({
-  title: '', site: '', client: props.prefillClient ?? '', newClient: '', newInn: '', newContact: '',
-  type: '', roadmap: '', start: '2025-07', budget: '', hours: '60', pm: '', seo: '', kpis: [...KPI_DEFAULT]
+  title: '', site: '', client: props.prefillClient ?? '', newClient: '', newInn: '', newContact: '', newEmail: '',
+  type: '', roadmap: '', start: '2025-07', budget: '', hours: '60', traffic: '', leads: '', pm: '', seo: '', kpis: [...KPI_DEFAULT]
 })
 const form = ref(blank())
 
@@ -33,52 +40,105 @@ const open = computed({
   get: () => props.modelValue,
   set: v => emit('update:modelValue', v)
 })
-watch(open, v => { if (v) form.value = blank() })
+watch(open, v => { if (v) { form.value = blank(); void loadCatalog() } })
 
-const clientOptions = [...CLIENTS.map(c => ({ value: c.id, label: c.name })), { value: '__new', label: '+ Новый клиент...' }]
-const typeOptions = TYPES.map(t => ({ value: t.id, label: t.name }))
-const roadmapOptions = computed(() => ROADMAPS.filter(r => r.type === form.value.type).map(r => ({ value: r.id, label: r.name })))
+async function loadCatalog() {
+  try {
+    const [clientRows, typeRows, mapRows, people] = await Promise.all([
+      $fetch<Array<{ id: string; slug: string; name: string; contactPerson: string; email: string; ratePerHour: number | null }>>('/api/clients', { credentials: 'include' }),
+      $fetch<Array<{ id: string; name: string }>>('/api/templates/types', { credentials: 'include' }),
+      $fetch<Array<{ id: string; name: string; type: string }>>('/api/templates/roadmaps', { credentials: 'include' }),
+      $fetch<Array<{ id: string; name: string; role: string }>>('/api/members', { credentials: 'include' })
+    ])
+    clients.value = clientRows.map(row => ({ id: row.id, name: row.name, contact: row.contactPerson, email: row.email, rate: row.ratePerHour || 0 }))
+    types.value = typeRows
+    roadmaps.value = mapRows
+    members.value = people
+    if (!form.value.type && types.value[0]) form.value.type = types.value[0].id
+    if (!form.value.client && props.prefillClient) form.value.client = props.prefillClient
+    if (!form.value.client && clients.value[0]) form.value.client = clients.value[0].id
+    form.value.roadmap = roadmapOptions.value[0]?.value ?? ''
+    form.value.pm = pmOptions.value[0]?.value ?? ''
+    form.value.seo = seoOptions.value[0]?.value ?? ''
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
+}
+
+const clientOptions = computed(() => [...clients.value.map(c => ({ value: c.id, label: c.name })), { value: '__new', label: '+ Новый клиент...' }])
+const typeOptions = computed(() => types.value.map(t => ({ value: t.id, label: t.name })))
+const roadmapOptions = computed(() => roadmaps.value.filter(r => r.type === form.value.type).map(r => ({ value: r.id, label: r.name })))
 const startOptions = monthOptions(6, 11)
-const pmOptions = TEAM.filter(p => p.role === 'account_manager' || p.role === 'mgr_head').map(p => ({ value: p.id, label: `${p.name} · ${ROLE_NAME[p.role]}` }))
-const seoOptions = TEAM.filter(p => p.role === 'seo_specialist' || p.role === 'seo_head').map(p => ({ value: p.id, label: `${p.name} · ${ROLE_NAME[p.role]} · ${p.load} ч` }))
+const pmOptions = computed(() => members.value.filter(p => p.role === 'pm' || p.role === 'mgr_head' || p.role === 'owner').map(p => ({ value: p.id, label: p.name })))
+const seoOptions = computed(() => members.value.filter(p => p.role === 'employee' || p.role === 'seo_head').map(p => ({ value: p.id, label: p.name })))
 
 const clientInfo = computed(() => {
-  const c = CLIENTS.find(x => x.id === form.value.client)
+  const c = clients.value.find(x => x.id === form.value.client)
   return c ? `${c.contact} · ${c.email} · ставка ${c.rate.toLocaleString('ru-RU')} ₽/ч` : 'Ставка и контакты подтянутся из карточки клиента'
 })
-const roadmapInfo = computed(() => form.value.roadmap ? 'В проект будут скопированы дорожная карта и все месячные планы шаблона' : 'Показаны шаблоны выбранного типа')
+const roadmapInfo = computed(() => form.value.roadmap ? 'В первый месяц проекта будут созданы задачи выбранной дорожной карты' : 'Показаны шаблоны выбранного типа')
 
-watch(() => form.value.client, id => {
-  const c = CLIENTS.find(x => x.id === id)
-  if (c && !form.value.type && TYPES.some(t => t.id === c.brief)) form.value.type = c.brief
-})
 watch(() => form.value.type, () => {
   if (!roadmapOptions.value.some(o => o.value === form.value.roadmap)) form.value.roadmap = roadmapOptions.value[0]?.value ?? ''
 })
 
 async function submit() {
   const f = form.value
+  if (!f.title.trim() || !f.site.trim()) {
+    notify('Укажите название и сайт проекта', 'error')
+    return
+  }
   if (!f.kpis.length) {
     notify('Отметьте хотя бы одну метрику проекта', 'error')
     return
   }
   limitHint.value = ''
+  pending.value = true
   try {
-    await $fetch('/api/projects', {
+    let clientId = f.client
+    let clientName = clients.value.find(c => c.id === f.client)?.name ?? ''
+    if (f.client === '__new') {
+      if (!f.newClient.trim() || !f.newContact.trim() || !f.newEmail.trim()) {
+        notify('Для нового клиента укажите компанию, контакт и email', 'error')
+        pending.value = false
+        return
+      }
+      const created = await $fetch<{ id: string; name: string }>('/api/clients', {
+        method: 'POST',
+        credentials: 'include',
+        body: { name: f.newClient.trim(), contactPerson: f.newContact.trim(), email: f.newEmail.trim(), inn: f.newInn.trim(), status: 'LEAD' }
+      })
+      clientId = created.id
+      clientName = created.name
+    }
+    const saved = await $fetch<{ id: string; taskCount: number }>('/api/projects', {
       method: 'POST',
       credentials: 'include',
-      body: { name: f.title.trim(), domain: f.site.trim() }
+      body: {
+        name: f.title.trim(),
+        siteUrl: f.site.trim(),
+        clientId: clientId && clientId !== '__new' ? clientId : undefined,
+        projectTypeId: f.type || undefined,
+        roadmapTemplateId: f.roadmap || undefined,
+        budgetMonthly: f.budget ? Number(f.budget) : undefined,
+        hoursLimit: f.hours ? Number(f.hours) : undefined,
+        targetTraffic: f.traffic ? Number(f.traffic) : 0,
+        targetLeads: f.leads ? Number(f.leads) : 0,
+        startMonth: f.start,
+        kpis: f.kpis
+      }
     })
+    emit('created', { id: saved.id, title: f.title, site: f.site, client: clientName, budget: f.budget, taskCount: saved.taskCount })
+    open.value = false
+    notify(`Проект «${f.title}» создан · задач первого месяца: ${saved.taskCount}`, 'success')
   } catch (err: unknown) {
     const message = apiErrorMessage(err)
-    if (message.includes('Лимит')) limitHint.value = message
+    const status = err && typeof err === 'object' && 'statusCode' in err ? Number((err as { statusCode?: number }).statusCode) : 0
+    if (status === 403 || message.includes('Лимит')) limitHint.value = message
     notify(message, 'error')
-    return
+  } finally {
+    pending.value = false
   }
-  const client = f.client === '__new' ? f.newClient : CLIENTS.find(c => c.id === f.client)?.name ?? ''
-  emit('created', { title: f.title, site: f.site, client, budget: f.budget })
-  open.value = false
-  notify(`Проект «${f.title}» создан · ${client} · дорожная карта и все месячные планы скопированы`)
 }
 </script>
 
@@ -88,8 +148,8 @@ async function submit() {
     title="Новый проект"
     subtitle="Клиент, тип и дорожная карта связаны: карта подбирается по типу проекта"
     size="lg"
-    submit="Создать проект"
-    :submit-allowed="can('project.create')"
+    :submit="pending ? 'Создание…' : 'Создать проект'"
+    :submit-allowed="can('project.create') && !pending"
     :submit-tip="TIP_TEAM"
     manual
     @submit="submit"
@@ -118,17 +178,20 @@ async function submit() {
         <UiField label="Компания" req><UInput v-model="form.newClient" required placeholder="ООО «Бета»" /></UiField>
         <UiField label="ИНН" req><UInput v-model="form.newInn" required inputmode="numeric" placeholder="10 или 12 цифр" /></UiField>
       </div>
-      <UiField label="Контактное лицо" opt="можно позже"><UInput v-model="form.newContact" placeholder="Имя и фамилия" /></UiField>
+      <UiField label="Контактное лицо" req><UInput v-model="form.newContact" required placeholder="Имя и фамилия" /></UiField>
+      <UiField label="Email" req><UInput v-model="form.newEmail" required type="email" placeholder="name@company.ru" /></UiField>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <UiField label="Тип проекта" req><USelect v-model="form.type" :options="typeOptions" placeholder="Выберите тип" required /></UiField>
       <UiField label="Дорожная карта" req :hint="roadmapInfo">
-        <USelect v-model="form.roadmap" :options="roadmapOptions" :placeholder="form.type ? undefined : 'Сначала выберите тип'" required />
+        <USelect v-model="form.roadmap" :options="roadmapOptions" :placeholder="form.type ? 'Без карты' : 'Сначала выберите тип'" />
       </UiField>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <UiField label="Старт работ"><USelect v-model="form.start" :options="startOptions" /></UiField>
       <UiField v-if="can('finance.fee.view')" label="Чек в месяц, ₽"><UInput v-model="form.budget" type="number" min="0" step="1000" placeholder="120 000" /></UiField>
+      <UiField label="Целевой трафик"><UInput v-model="form.traffic" type="number" min="0" step="100" placeholder="12000" /></UiField>
+      <UiField label="Целевые лиды"><UInput v-model="form.leads" type="number" min="0" step="1" placeholder="70" /></UiField>
       <UiField label="Лимит часов"><UInput v-model="form.hours" type="number" min="1" /></UiField>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">

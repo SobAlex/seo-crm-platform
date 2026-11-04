@@ -8,7 +8,7 @@ export type TaskFlag = 'attention' | 'review' | 'overdue' | 'waiting'
 export type DueTone = 'wait' | 'none' | 'done' | 'over' | 'soon' | 'ok'
 
 export interface BoardTask {
-  id: number
+  id: number | string
   title: string
   project: string
   dir: DirId | null

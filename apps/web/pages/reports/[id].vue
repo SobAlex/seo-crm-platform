@@ -265,7 +265,7 @@ const TIP_COMPOSE = 'Составлять отчёты может сотрудн
 
   <!-- Черновик / навигация агентства -->
   <div v-else class="space-y-6">
-    <PageHeader :back="{ to: '/reports', label: 'Отчёты' }">
+    <PageHeader :back="{ to: '/reports', label: 'Отчёты' }" :crumbs="[{ label: 'Главная', to: '/' }, { label: 'Отчёты', to: '/reports' }, { label: `Отчёт за ${monthLower}` }]">
       <template #title>
         <h1 :title="`Отчёт за ${monthLower}`" class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[200px]">Отчёт за {{ monthLower }}</h1>
       </template>

@@ -9,3 +9,11 @@ const PROJECT_SLUG_BY_ID: Record<string, string> = {
 export function projectSlug(id: string): string {
   return PROJECT_SLUG_BY_ID[id] ?? id;
 }
+
+const ID_BY_SLUG: Record<string, string> = Object.fromEntries(
+  Object.entries(PROJECT_SLUG_BY_ID).map(([id, slug]) => [slug, id]),
+);
+
+export function resolveProjectId(key: string): string {
+  return ID_BY_SLUG[key] ?? key;
+}

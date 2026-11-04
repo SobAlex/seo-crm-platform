@@ -35,6 +35,7 @@ const TABS = [
   { value: 'brief', label: 'Бриф' }
 ]
 
+const monthCatalog = initialTypes()
 const types = ref<ProjectType[]>(initialTypes())
 const roadmaps = ref<Roadmap[]>(initialRoadmaps(types.value))
 const plans = ref<MonthPlan[]>(initialPlans())
@@ -48,23 +49,81 @@ const counts = computed(() => Object.fromEntries(types.value.map(t => [t.id, {
   maps: roadmaps.value.filter(r => r.type === t.id).length,
   plans: plans.value.filter(p => p.type === t.id).length
 }])))
+
+interface ApiType { id: string; name: string; description: string; color: TypeColor }
+interface ApiWork { id: string; title: string; hours: number; role: string }
+interface ApiRoadmap { id: string; type: string; name: string; directions: { id: string; name: string; works: ApiWork[] }[] }
+
+function asRole(role: string): 'seo' | 'pm' | 'contractor' {
+  return role === 'pm' || role === 'contractor' ? role : 'seo'
+}
+function mapRoadmap(row: ApiRoadmap, index: number): Roadmap {
+  return {
+    id: row.id,
+    type: row.type,
+    name: row.name,
+    desc: '',
+    open: index === 0,
+    directions: row.directions.map(direction => ({
+      id: direction.id,
+      name: direction.name,
+      works: direction.works.map(work => ({ id: work.id, title: work.title, role: asRole(work.role), hours: work.hours }))
+    }))
+  }
+}
+
+onMounted(async () => {
+  try {
+    const [typeRows, mapRows] = await Promise.all([
+      $fetch<ApiType[]>('/api/templates/types', { credentials: 'include' }),
+      $fetch<ApiRoadmap[]>('/api/templates/roadmaps', { credentials: 'include' })
+    ])
+    if (typeRows.length) {
+      types.value = typeRows.map(row => ({ id: row.id, name: row.name, color: row.color, desc: row.description }))
+    }
+    if (mapRows.length) roadmaps.value = mapRows.map(mapRoadmap)
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
+})
 // ---------- Типы проектов ----------
 const typeOpen = ref(false)
 const typeEditOpen = ref(false)
 const editType = ref<ProjectType | null>(null)
-function onTypeCreated(t: { name: string; desc: string; color: TypeColor }) {
-  types.value.push({ id: newId('type'), ...t })
+async function onTypeCreated(t: { name: string; desc: string; color: TypeColor }) {
+  try {
+    const saved = await $fetch<ApiType>('/api/templates/types', {
+      method: 'POST', credentials: 'include', body: { name: t.name, description: t.desc }
+    })
+    types.value.push({ id: saved.id, name: saved.name, color: t.color, desc: saved.description })
+    notify(`Тип проекта «${saved.name}» создан`, 'success')
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
 }
 function openTypeEdit(t: ProjectType) {
   editType.value = t
   typeEditOpen.value = true
 }
-function onTypeSaved(t: ProjectType) {
-  const i = types.value.findIndex(x => x.id === t.id)
-  if (i !== -1) types.value[i] = t
+async function onTypeSaved(t: ProjectType) {
+  try {
+    await $fetch(`/api/templates/types/${t.id}`, {
+      method: 'PUT', credentials: 'include', body: { name: t.name, description: t.desc }
+    })
+    const i = types.value.findIndex(x => x.id === t.id)
+    if (i !== -1) types.value[i] = t
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
 }
-function removeType(id: string) {
-  types.value = types.value.filter(t => t.id !== id)
+async function removeType(id: string) {
+  try {
+    await $fetch(`/api/templates/types/${id}`, { method: 'DELETE', credentials: 'include' })
+    types.value = types.value.filter(t => t.id !== id)
+    roadmaps.value = roadmaps.value.filter(r => r.type !== id)
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
 }
 
 // ---------- Дорожные карты ----------
@@ -74,51 +133,112 @@ const directionOpen = ref(false)
 const workOpen = ref(false)
 const target = ref<{ roadmap: Roadmap; dirId?: string } | null>(null)
 
-function duplicateRoadmap(rm: Roadmap) {
-  const copy: Roadmap = {
-    ...rm,
-    id: newId('rm'),
-    name: `${rm.name} (копия)`,
-    open: true,
-    ring: true,
-    directions: rm.directions.map(d => ({ ...d, id: newId('dir'), works: d.works.map(w => ({ ...w, id: newId('work') })) }))
+async function duplicateRoadmap(rm: Roadmap) {
+  try {
+    const copy = await $fetch<ApiRoadmap>(`/api/templates/roadmaps/${rm.id}/duplicate`, { method: 'POST', credentials: 'include' })
+    const mapped = { ...mapRoadmap(copy, 0), open: true, ring: true }
+    roadmaps.value.splice(roadmaps.value.indexOf(rm) + 1, 0, mapped)
+    notify(`Создана копия: ${mapped.name}`, 'success')
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
   }
-  roadmaps.value.splice(roadmaps.value.indexOf(rm) + 1, 0, copy)
-  notify(`Создана копия: ${copy.name}`)
 }
 function openRoadmapEdit(rm: Roadmap) {
   target.value = { roadmap: rm }
   roadmapEditOpen.value = true
 }
-function onRoadmapSaved(patch: { type: string; name: string; desc: string }) {
-  if (target.value) Object.assign(target.value.roadmap, patch)
+async function onRoadmapSaved(patch: { type: string; name: string; desc: string }) {
+  if (!target.value) return
+  try {
+    await $fetch(`/api/templates/roadmaps/${target.value.roadmap.id}`, {
+      method: 'PUT', credentials: 'include', body: { projectTypeId: patch.type, name: patch.name }
+    })
+    Object.assign(target.value.roadmap, patch)
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
 }
-function removeRoadmap(rm: Roadmap) {
-  roadmaps.value = roadmaps.value.filter(r => r.id !== rm.id)
+async function removeRoadmap(rm: Roadmap) {
+  try {
+    await $fetch(`/api/templates/roadmaps/${rm.id}`, { method: 'DELETE', credentials: 'include' })
+    roadmaps.value = roadmaps.value.filter(r => r.id !== rm.id)
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
 }
-function removeDirection(rm: Roadmap, dirId: string) {
-  rm.directions = rm.directions.filter(d => d.id !== dirId)
+async function removeDirection(rm: Roadmap, dirId: string) {
+  try {
+    await $fetch(`/api/templates/stages/${dirId}`, { method: 'DELETE', credentials: 'include' })
+    rm.directions = rm.directions.filter(d => d.id !== dirId)
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
 }
-function removeWork(rm: Roadmap, dirId: string, workId: string) {
-  const d = rm.directions.find(x => x.id === dirId)
-  if (d) d.works = d.works.filter(w => w.id !== workId)
+async function removeWork(rm: Roadmap, dirId: string, workId: string) {
+  try {
+    await $fetch(`/api/templates/works/${workId}`, { method: 'DELETE', credentials: 'include' })
+    const d = rm.directions.find(x => x.id === dirId)
+    if (d) d.works = d.works.filter(w => w.id !== workId)
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
 }
 function openDirection(rm: Roadmap) {
   target.value = { roadmap: rm }
   directionOpen.value = true
 }
-function onDirectionAdded(name: string) {
-  target.value?.roadmap.directions.push({ id: newId('dir'), name, works: [] })
+async function onDirectionAdded(name: string) {
+  const roadmap = target.value?.roadmap
+  if (!roadmap || !name) return
+  try {
+    const saved = await $fetch<{ id: string; name: string }>(`/api/templates/roadmaps/${roadmap.id}/stages`, {
+      method: 'POST', credentials: 'include', body: { title: name }
+    })
+    roadmap.directions.push({ id: saved.id, name: saved.name, works: [] })
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
 }
 function openWork(rm: Roadmap, dir: RoadmapDirection) {
   target.value = { roadmap: rm, dirId: dir.id }
   workOpen.value = true
 }
-function onWorkAdded(dirId: string, title: string) {
-  target.value?.roadmap.directions.find(d => d.id === dirId)?.works.push({ id: newId('work'), title, role: 'seo', hours: 0 })
+async function onWorkAdded(dirId: string, work: { title: string; role: 'seo' | 'pm' | 'contractor'; hours: number }) {
+  if (!work.title) return
+  try {
+    const saved = await $fetch<{ id: string; title: string; role: string; hours: number }>(`/api/templates/stages/${dirId}/works`, {
+      method: 'POST', credentials: 'include', body: work
+    })
+    target.value?.roadmap.directions.find(d => d.id === dirId)?.works.push({
+      id: saved.id, title: saved.title, role: asRole(saved.role), hours: saved.hours
+    })
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
 }
-function onRoadmapCreated(rm: { type: string; name: string; desc: string; directions: RoadmapDirection[] }) {
-  roadmaps.value.unshift({ id: newId('rm'), ...rm, open: true, ring: true, codes: true })
+async function onRoadmapCreated(rm: { type: string; name: string; desc: string; directions: RoadmapDirection[] }) {
+  try {
+    const saved = await $fetch<{ id: string }>('/api/templates/roadmaps', {
+      method: 'POST', credentials: 'include', body: { projectTypeId: rm.type, name: rm.name }
+    })
+    const directions: RoadmapDirection[] = []
+    for (const direction of rm.directions) {
+      const stage = await $fetch<{ id: string }>(`/api/templates/roadmaps/${saved.id}/stages`, {
+        method: 'POST', credentials: 'include', body: { title: direction.name }
+      })
+      const works = []
+      for (const work of direction.works) {
+        const created = await $fetch<{ id: string; title: string; role: string; hours: number }>(`/api/templates/stages/${stage.id}/works`, {
+          method: 'POST', credentials: 'include', body: { title: work.title, role: work.role, hours: work.hours }
+        })
+        works.push({ id: created.id, title: created.title, role: asRole(created.role), hours: created.hours })
+      }
+      directions.push({ id: stage.id, name: direction.name, works })
+    }
+    roadmaps.value.unshift({ id: saved.id, type: rm.type, name: rm.name, desc: rm.desc, open: true, ring: true, codes: true, directions })
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
 }
 
 // ---------- Бизнес-процессы ----------
@@ -135,7 +255,7 @@ function onWorkflowSaved(statuses: string[]) {
 
 // ---------- Месячные планы ----------
 const monthType = ref('ecommerce')
-const monthOptions = computed(() => typeOptions.value)
+const monthOptions = computed(() => monthCatalog.map(t => ({ value: t.id, label: t.name })))
 const monthPlans = computed(() => plans.value.filter(p => p.type === monthType.value))
 const planLink = computed(() => `Тип проекта: ${typeName(monthType.value) || 'Интернет-магазин'} · Карта: ${TYPE_MONTHS[monthType.value] ?? '6 месяцев'}`)
 

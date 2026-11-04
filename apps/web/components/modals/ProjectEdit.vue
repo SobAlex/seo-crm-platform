@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Окно «Настройки проекта» (registerModal('project-edit') в assets/modals.js).
-import { CLIENTS, KPI_OPTS, ROADMAPS, ROLE_NAME, TEAM, TYPES, monthOptions } from '~/constants/directory'
+import { KPI_DEFAULT, KPI_OPTS, monthOptions } from '~/constants/directory'
 import { readProjectKpis, writeProjectKpis, type MetricKey } from '~/types/project'
 
 interface ProjectUpdated {
@@ -20,61 +20,116 @@ const emit = defineEmits<{
 
 const { can } = useRole()
 const notify = useNotify()
+const route = useRoute()
+const pending = ref(false)
+const clients = ref<{ id: string; name: string; contact: string; email: string; rate: number }[]>([])
+const types = ref<{ id: string; name: string }[]>([])
+const roadmaps = ref<{ id: string; name: string; type: string }[]>([])
+const members = ref<{ id: string; name: string; role: string }[]>([])
 
-// reset: false — значения сохраняются между открытиями окна.
 const form = ref({
-  title: 'Интернет-магазин «Холод»', site: 'holod-shop.ru', client: 'holod', newClient: '', newInn: '', newContact: '',
-  type: 'ecommerce', roadmap: 'rm-ecom', start: '2025-05', budget: '240000', hours: '96', pm: 'morozov', seo: 'petrov',
-  kpis: ['traffic', 'leads'] as string[]
+  title: 'Интернет-магазин «Холод»', site: 'holod-shop.ru', client: '', newClient: '', newInn: '', newContact: '',
+  type: '', roadmap: '', start: '2025-05', budget: '240000', hours: '96', traffic: '', leads: '', pm: '', seo: '',
+  kpis: [...KPI_DEFAULT] as string[]
 })
 
 const open = computed({
   get: () => props.modelValue,
   set: v => emit('update:modelValue', v)
 })
-watch(open, v => { if (v) form.value.kpis = readProjectKpis() })
+watch(open, v => { if (v) void load() })
 
-const clientOptions = [...CLIENTS.map(c => ({ value: c.id, label: c.name })), { value: '__new', label: '+ Новый клиент...' }]
-const typeOptions = TYPES.map(t => ({ value: t.id, label: t.name }))
-const roadmapOptions = computed(() => ROADMAPS.filter(r => r.type === form.value.type).map(r => ({ value: r.id, label: r.name })))
+async function load() {
+  form.value.kpis = readProjectKpis()
+  try {
+    const [clientRows, typeRows, mapRows, people, project] = await Promise.all([
+      $fetch<Array<{ id: string; name: string; contactPerson: string; email: string; ratePerHour: number | null }>>('/api/clients', { credentials: 'include' }),
+      $fetch<Array<{ id: string; name: string }>>('/api/templates/types', { credentials: 'include' }),
+      $fetch<Array<{ id: string; name: string; type: string }>>('/api/templates/roadmaps', { credentials: 'include' }),
+      $fetch<Array<{ id: string; name: string; role: string }>>('/api/members', { credentials: 'include' }),
+      $fetch<{ name: string; domain: string | null; monthlyBudget: number | null; monthlyHoursLimit: number | null; client: { id: string } | null; projectType: { id: string } | null; plan: { targetTraffic: number; targetLeads: number } | null; startDate: string | null }>(`/api/projects/${route.params.id}`, { credentials: 'include' })
+    ])
+    clients.value = clientRows.map(row => ({ id: row.id, name: row.name, contact: row.contactPerson, email: row.email, rate: row.ratePerHour || 0 }))
+    types.value = typeRows
+    roadmaps.value = mapRows
+    members.value = people
+    const start = project.startDate ? project.startDate.slice(0, 7) : form.value.start
+    form.value = {
+      ...form.value,
+      title: project.name,
+      site: project.domain || '',
+      client: project.client?.id || clients.value[0]?.id || '',
+      type: project.projectType?.id || types.value[0]?.id || '',
+      start,
+      budget: project.monthlyBudget != null ? String(project.monthlyBudget) : '',
+      hours: project.monthlyHoursLimit != null ? String(project.monthlyHoursLimit) : form.value.hours,
+      traffic: project.plan ? String(project.plan.targetTraffic) : '',
+      leads: project.plan ? String(project.plan.targetLeads) : '',
+      pm: pmOptions.value[0]?.value ?? '',
+      seo: seoOptions.value[0]?.value ?? '',
+      roadmap: roadmaps.value.find(item => item.type === (project.projectType?.id || ''))?.id ?? ''
+    }
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
+}
+
+const clientOptions = computed(() => clients.value.map(c => ({ value: c.id, label: c.name })))
+const typeOptions = computed(() => types.value.map(t => ({ value: t.id, label: t.name })))
+const roadmapOptions = computed(() => roadmaps.value.filter(r => r.type === form.value.type).map(r => ({ value: r.id, label: r.name })))
 const startOptions = monthOptions(4, 11)
-const pmOptions = TEAM.filter(p => p.role === 'account_manager' || p.role === 'mgr_head').map(p => ({ value: p.id, label: `${p.name} · ${ROLE_NAME[p.role]}` }))
-const seoOptions = TEAM.filter(p => p.role === 'seo_specialist' || p.role === 'seo_head').map(p => ({ value: p.id, label: `${p.name} · ${ROLE_NAME[p.role]} · ${p.load} ч` }))
+const pmOptions = computed(() => members.value.filter(p => p.role === 'pm' || p.role === 'mgr_head' || p.role === 'owner').map(p => ({ value: p.id, label: p.name })))
+const seoOptions = computed(() => members.value.filter(p => p.role === 'employee' || p.role === 'seo_head').map(p => ({ value: p.id, label: p.name })))
 
 const clientInfo = computed(() => {
-  const c = CLIENTS.find(x => x.id === form.value.client)
+  const c = clients.value.find(x => x.id === form.value.client)
   return c ? `${c.contact} · ${c.email} · ставка ${c.rate.toLocaleString('ru-RU')} ₽/ч` : 'Ставка и контакты подтянутся из карточки клиента'
 })
-const roadmapInfo = computed(() => {
-  const r = ROADMAPS.find(x => x.id === form.value.roadmap)
-  return r ? `${r.info} · смена карты не удаляет уже созданные задачи` : 'Смена карты не удаляет уже созданные задачи'
-})
+const roadmapInfo = computed(() => 'Смена карты не удаляет уже созданные задачи')
 
 watch(() => form.value.type, () => {
   if (!roadmapOptions.value.some(o => o.value === form.value.roadmap)) form.value.roadmap = roadmapOptions.value[0]?.value ?? ''
 })
 
-function submit() {
+async function submit() {
   const f = form.value
-  if (f.client === '__new' && !/^(\d{10}|\d{12})$/.test(f.newInn.trim())) {
-    notify('Проверьте выделенные поля')
-    return
-  }
   if (!f.kpis.length) {
     notify('Отметьте хотя бы одну метрику проекта', 'error')
     return
   }
-  const kpis = writeProjectKpis(f.kpis)
-  emit('updated', {
-    title: f.title,
-    site: f.site,
-    client: clientOptions.find(o => o.value === f.client)?.label ?? '',
-    type: typeOptions.find(o => o.value === f.type)?.label ?? '',
-    roadmap: roadmapOptions.value.find(o => o.value === f.roadmap)?.label ?? '',
-    kpis
-  })
-  open.value = false
-  notify('Настройки проекта сохранены')
+  pending.value = true
+  try {
+    await $fetch(`/api/projects/${route.params.id}`, {
+      method: 'PUT',
+      credentials: 'include',
+      body: {
+        name: f.title.trim(),
+        siteUrl: f.site.trim(),
+        clientId: f.client || undefined,
+        projectTypeId: f.type || undefined,
+        budgetMonthly: f.budget ? Number(f.budget) : undefined,
+        hoursLimit: f.hours ? Number(f.hours) : undefined,
+        targetTraffic: f.traffic ? Number(f.traffic) : 0,
+        targetLeads: f.leads ? Number(f.leads) : 0,
+        startMonth: f.start,
+        kpis: writeProjectKpis(f.kpis)
+      }
+    })
+    emit('updated', {
+      title: f.title,
+      site: f.site,
+      client: clientOptions.value.find(o => o.value === f.client)?.label ?? '',
+      type: typeOptions.value.find(o => o.value === f.type)?.label ?? '',
+      roadmap: roadmapOptions.value.find(o => o.value === f.roadmap)?.label ?? '',
+      kpis: writeProjectKpis(f.kpis)
+    })
+    open.value = false
+    notify('Настройки проекта сохранены', 'success')
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  } finally {
+    pending.value = false
+  }
 }
 </script>
 
@@ -84,8 +139,8 @@ function submit() {
     title="Настройки проекта"
     subtitle="Интернет-магазин «Холод» · holod-shop.ru"
     size="lg"
-    submit="Сохранить"
-    :submit-allowed="can('project.update')"
+    :submit="pending ? 'Сохранение…' : 'Сохранить'"
+    :submit-allowed="can('project.update') && !pending"
     :submit-tip="TIP_TEAM"
     manual
     @submit="submit"
@@ -108,7 +163,7 @@ function submit() {
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <UiField label="Тип проекта" req><USelect v-model="form.type" :options="typeOptions" required /></UiField>
       <UiField label="Дорожная карта" req :hint="roadmapInfo">
-        <USelect v-model="form.roadmap" :options="roadmapOptions" required />
+        <USelect v-model="form.roadmap" :options="roadmapOptions" placeholder="Без смены карты" />
       </UiField>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">

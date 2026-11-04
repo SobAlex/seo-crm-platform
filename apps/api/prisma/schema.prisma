@@ -297,6 +297,8 @@ model RoadmapTaskTemplate {
   stageId      String
   title        String
   defaultHours Decimal @db.Decimal(8, 2)
+  /// Роль исполнителя в шаблоне: seo, pm, contractor.
+  assigneeRole String?
   sortOrder    Int     @default(0)
 
   stage            RoadmapStageTemplate     @relation(fields: [stageId], references: [id], onDelete: Cascade)
@@ -375,6 +377,7 @@ model Client {
   contactPosition String?
   contactPhone    String?
   contactEmail    String?
+  website         String?
   logo            String?
   createdAt       DateTime     @default(now())
 

@@ -1,8 +1,11 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { NotificationType, TaskLifecycleStatus } from '@prisma/client';
+import { NotificationType, Prisma, TaskLifecycleStatus } from '@prisma/client';
 import { AuthPayload } from '../auth/auth.types';
+import { assertCan } from '../access';
 import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
+import { resolveProjectId } from '../projects/slugs';
+import { CreateCommentDto, CreateTaskDto, UpdateTaskDto } from './dto';
 
 const STAFF = new Set(['owner', 'seo_head', 'mgr_head', 'pm', 'employee', 'contractor']);
 
@@ -21,11 +24,7 @@ export class TasksService {
     assigneeId?: string,
   ) {
     if (!STAFF.has(actor.role)) throw new ForbiddenException('Недостаточно прав для изменения задачи');
-    const task = await this.prisma.task.findFirst({
-      where: { id: taskId, project: { companyId: actor.companyId } },
-      include: { project: { select: { companyId: true, name: true } } },
-    });
-    if (!task) throw new NotFoundException('Задача не найдена');
+    const task = await this.load(actor, taskId);
 
     if (action === 'assign') {
       return this.assign(actor, task, assigneeId);
@@ -125,6 +124,191 @@ export class TasksService {
       });
     }
     return this.present(updated);
+  }
+
+  async list(actor: AuthPayload) {
+    assertCan(actor, 'task.view');
+    const mine = actor.role === 'contractor';
+    const rows = await this.prisma.task.findMany({
+      where: {
+        project: { companyId: actor.companyId },
+        ...(mine ? { assigneeId: actor.sub } : {}),
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 100,
+      include: {
+        project: { select: { id: true, name: true } },
+        assignee: { select: { id: true, firstName: true, lastName: true } },
+      },
+    });
+    return rows.map((row) => ({
+      ...this.present(row),
+      title: row.title,
+      projectId: row.project.id,
+      projectName: row.project.name,
+      assigneeName: row.assignee ? `${row.assignee.firstName} ${row.assignee.lastName}`.trim() : '',
+      deadline: row.deadline,
+      isInReport: row.isInReport,
+      plannedHours: Number(row.plannedHours),
+    }));
+  }
+
+  async get(actor: AuthPayload, id: string) {
+    assertCan(actor, 'task.view');
+    const task = await this.prisma.task.findFirst({
+      where: { id, project: { companyId: actor.companyId } },
+      include: {
+        project: { select: { id: true, name: true, companyId: true } },
+        assignee: { select: { id: true, firstName: true, lastName: true } },
+        creator: { select: { id: true, firstName: true, lastName: true } },
+        comments: { orderBy: { createdAt: 'asc' }, include: { author: { select: { firstName: true, lastName: true } } } },
+      },
+    });
+    if (!task) throw new NotFoundException('Задача не найдена');
+    if (actor.role === 'contractor' && task.assigneeId !== actor.sub) {
+      throw new ForbiddenException('Подрядчик видит только назначенные задачи');
+    }
+    return {
+      ...this.present(task),
+      title: task.title,
+      description: task.description,
+      projectId: task.project.id,
+      projectName: task.project.name,
+      isInReport: task.isInReport,
+      reportNote: task.reportNote,
+      plannedHours: Number(task.plannedHours),
+      deadline: task.deadline,
+      reviewComment: task.reviewComment,
+      assigneeName: task.assignee ? `${task.assignee.firstName} ${task.assignee.lastName}`.trim() : '',
+      creatorName: task.creator ? `${task.creator.firstName} ${task.creator.lastName}`.trim() : '',
+      comments: task.comments.map((comment) => ({
+        id: comment.id,
+        text: comment.text,
+        isInReport: comment.isReportNote,
+        createdAt: comment.createdAt,
+        author: comment.author ? `${comment.author.firstName} ${comment.author.lastName}`.trim() : 'Сотрудник',
+      })),
+    };
+  }
+
+  async create(actor: AuthPayload, dto: CreateTaskDto) {
+    assertCan(actor, 'task.create');
+    const project = await this.prisma.project.findFirst({
+      where: { id: resolveProjectId(dto.projectId), companyId: actor.companyId },
+      select: { id: true },
+    });
+    if (!project) throw new NotFoundException('Проект не найден');
+    if (dto.assigneeId) await this.ensureMember(actor.companyId, dto.assigneeId);
+    const task = await this.prisma.task.create({
+      data: {
+        projectId: project.id,
+        creatorId: actor.sub,
+        assigneeId: dto.assigneeId || null,
+        title: dto.title.trim(),
+        description: dto.description?.trim() || null,
+        deadline: dto.deadline ? new Date(dto.deadline) : null,
+        plannedHours: dto.estimatedHours ?? 0,
+        isInReport: dto.isInReport ?? false,
+        lifecycleStatus: TaskLifecycleStatus.PLANNED,
+      },
+    });
+    if (dto.assigneeId && dto.assigneeId !== actor.sub) {
+      await this.notifications.createNotification({
+        companyId: actor.companyId,
+        userId: dto.assigneeId,
+        type: NotificationType.TASK_ASSIGNED,
+        title: 'Новая задача',
+        message: `Вас назначили исполнителем задачи: ${task.title}`,
+        link: `/tasks/${task.id}`,
+      });
+    }
+    return this.present(task);
+  }
+
+  async update(actor: AuthPayload, id: string, dto: UpdateTaskDto) {
+    assertCan(actor, 'task.update');
+    const current = await this.load(actor, id);
+    if (dto.assigneeId) await this.ensureMember(actor.companyId, dto.assigneeId);
+    const task = await this.prisma.task.update({
+      where: { id: current.id },
+      data: {
+        title: dto.title?.trim() || undefined,
+        description: dto.description === undefined ? undefined : dto.description.trim() || null,
+        assigneeId: dto.assigneeId === undefined ? undefined : dto.assigneeId || null,
+        deadline: dto.deadline === undefined ? undefined : dto.deadline ? new Date(dto.deadline) : null,
+        plannedHours: dto.estimatedHours,
+        isInReport: dto.isInReport,
+      },
+    });
+    if (dto.assigneeId && dto.assigneeId !== actor.sub && dto.assigneeId !== current.assigneeId) {
+      await this.notifications.createNotification({
+        companyId: actor.companyId,
+        userId: dto.assigneeId,
+        type: NotificationType.TASK_ASSIGNED,
+        title: 'Новая задача',
+        message: `Вас назначили исполнителем задачи: ${task.title}`,
+        link: `/tasks/${task.id}`,
+      });
+    }
+    return this.present(task);
+  }
+
+  async comment(actor: AuthPayload, id: string, dto: CreateCommentDto) {
+    assertCan(actor, 'comment.internal.write');
+    const task = await this.load(actor, id);
+    const text = dto.text.trim();
+    const saved = await this.prisma.$transaction(async (tx) => {
+      const row = await tx.taskComment.create({
+        data: {
+          taskId: task.id,
+          authorId: actor.sub,
+          text,
+          isReportNote: dto.isInReport ?? false,
+        },
+      });
+      if (dto.hours && dto.hours > 0) {
+        await tx.taskTimeLog.create({
+          data: { taskId: task.id, userId: actor.sub, hours: dto.hours, comment: text, loggedAt: new Date() },
+        });
+        await tx.task.update({
+          where: { id: task.id },
+          data: { actualHours: { increment: new Prisma.Decimal(dto.hours) } },
+        });
+      }
+      if (dto.isInReport) {
+        await tx.task.update({ where: { id: task.id }, data: { isInReport: true, reportNote: text } });
+      }
+      return row;
+    });
+    const recipient = task.assigneeId === actor.sub ? task.creatorId : task.assigneeId;
+    if (recipient && recipient !== actor.sub) {
+      await this.notifications.createNotification({
+        companyId: actor.companyId,
+        userId: recipient,
+        type: NotificationType.TASK_COMMENT,
+        title: 'Новый комментарий',
+        message: `Комментарий к задаче «${task.title}»`,
+        link: `/tasks/${task.id}`,
+      });
+    }
+    return { id: saved.id, text: saved.text, isInReport: saved.isReportNote, createdAt: saved.createdAt };
+  }
+
+  private async load(actor: AuthPayload, taskId: string): Promise<TaskRow> {
+    const task = await this.prisma.task.findFirst({
+      where: { id: taskId, project: { companyId: actor.companyId } },
+      include: { project: { select: { companyId: true, name: true } } },
+    });
+    if (!task) throw new NotFoundException('Задача не найдена');
+    if (actor.role === 'contractor' && task.assigneeId !== actor.sub) {
+      throw new ForbiddenException('Подрядчик работает только с назначенными задачами');
+    }
+    return task;
+  }
+
+  private async ensureMember(companyId: string, userId: string) {
+    const member = await this.prisma.companyMember.findFirst({ where: { companyId, userId, isActive: true } });
+    if (!member) throw new NotFoundException('Сотрудник не найден');
   }
 
   private async personName(userId: string): Promise<string> {

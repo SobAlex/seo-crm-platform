@@ -11,21 +11,21 @@ const { can, hasRole, isLead, role, user, roleLabel } = useRole()
 const notify = useNotify()
 const route = useRoute()
 
-function dbTaskId(): string | null {
+function taskApiId(): string | null {
   const raw = String(route.params.id || '')
   if (raw === '1') return 'tsk_gsc'
-  if (raw.startsWith('tsk_')) return raw
-  return null
+  if (/^\d+$/.test(raw)) return null
+  return raw
 }
 
 async function syncTask(action: 'submit' | 'accept' | 'rework', comment?: string) {
-  const id = dbTaskId()
+  const id = taskApiId()
   if (!id) return
   try {
-    await $fetch(`/api/tasks/${id}/transition`, {
-      method: 'POST',
+    await $fetch(`/api/tasks/${id}/status`, {
+      method: 'PUT',
       credentials: 'include',
-      body: { action, comment }
+      body: { action, reason: comment }
     })
     window.dispatchEvent(new Event('notifications:refresh'))
   } catch (error) {
@@ -33,7 +33,13 @@ async function syncTask(action: 'submit' | 'accept' | 'rework', comment?: string
   }
 }
 
-const TITLE = 'Проверить индексацию в GSC'
+const remoteTitle = ref('')
+const TITLE = computed(() => remoteTitle.value || 'Проверить индексацию в GSC')
+const crumbs = computed(() => [
+  { label: 'Главная', to: '/' },
+  { label: 'Задачи', to: '/tasks' },
+  { label: TITLE.value }
+])
 const ESTIMATE = 4
 
 /* Лента: обсуждение, списанное время, возврат на доработку и сообщения «В отчёте» */
@@ -135,6 +141,15 @@ function onSend(d: CommentDraft) {
     html: d.html || `<span class="text-zinc-500">${d.files.length ? 'Вложение' : 'Списано время'}</span>`,
     files: d.files, report: d.report, hours: d.hours || undefined
   })
+  const text = (d.html || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() || (d.hours ? 'Списано время' : 'Комментарий')
+  const id = taskApiId()
+  if (id && text) {
+    void $fetch(`/api/tasks/${id}/comments`, {
+      method: 'POST',
+      credentials: 'include',
+      body: { text, isInReport: !!d.report, hours: d.hours || undefined }
+    }).catch((error) => notify(apiErrorMessage(error), 'error'))
+  }
   if (!saveStore()) {
     store.value.items[store.value.items.length - 1]!.files?.forEach(f => { delete f.url })
     if (!saveStore()) notify('Не удалось сохранить комментарий в браузере — он останется до перезагрузки', 'warning')
@@ -262,7 +277,7 @@ async function act(action: 'progress' | 'wait_client' | 'submit' | 'accept' | 'r
   const anchor = (e?.currentTarget as HTMLElement | null) ?? document.body
   const reason = await reasonPop.value?.ask(anchor, {
     title: 'Вернуть на доработку',
-    sub: `${TITLE} · М. Ким`,
+    sub: `${TITLE.value} · М. Ким`,
     placeholder: 'Обязательно опишите, что исправить — исполнитель увидит это в задаче',
     ok: 'Вернуть'
   })
@@ -283,14 +298,20 @@ const SUBTASK_TIP = 'Подрядчик не может создавать за�
 
 const requestOpen = ref(false)
 
-onMounted(() => {
+onMounted(async () => {
   store.value = loadStore()
   scrollFeed()
+  const id = taskApiId()
+  if (!id || id === 'tsk_gsc') return
+  try {
+    const row = await $fetch<{ title: string }>(`/api/tasks/${id}`, { credentials: 'include' })
+    remoteTitle.value = row.title
+  } catch { /* карточка прототипа */ }
 })
 </script>
 
 <template>
-  <PageSplit :back="{ to: '/tasks', label: 'Задачи' }">
+  <PageSplit :back="{ to: '/tasks', label: 'Задачи' }" :crumbs="crumbs">
     <template #title>
       <h1 :title="TITLE" class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[200px]">{{ TITLE }}</h1>
     </template>

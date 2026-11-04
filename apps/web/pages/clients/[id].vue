@@ -9,6 +9,13 @@ useHead({ title: 'Клиент · Холод Групп — SEO Control' })
 const { can, user } = useRole()
 const notify = useNotify()
 
+const route = useRoute()
+const crumbName = ref('Холод Групп')
+const crumbs = computed(() => [
+  { label: 'Главная', to: '/' },
+  { label: 'Клиенты', to: '/clients' },
+  { label: crumbName.value }
+])
 const MANAGE_TIP = 'Управление клиентами доступно менеджерам и руководству'
 const PROJECT_TIP = 'Создание проектов доступно менеджеру или руководству'
 const INVITE_TIP = 'Приглашать в портал может владелец или руководитель отдела'
@@ -20,14 +27,46 @@ const client = ref({
 })
 const logo = ref('')
 const mono = computed(() => clientMono(client.value.name || 'Холод Групп', 'ХГ'))
-onMounted(() => {
+onMounted(async () => {
   try { logo.value = localStorage.getItem('seo_client_logo_holod') || '' } catch { /* ignore */ }
+  try {
+    const row = await $fetch<{
+      name: string
+      inn: string | null
+      city: string | null
+      since: string
+      ratePerHour: number | null
+      contactPerson: string
+      contactPosition: string
+      email: string
+      phone: string
+      projects: { id: string; name: string; site: string; status: string }[]
+    }>(`/api/clients/${route.params.id}`, { credentials: 'include' })
+    client.value.name = row.name
+    crumbName.value = row.name.replace(/^ООО |^АО |^ИП /, '')
+    client.value.meta = [row.inn ? `ИНН ${row.inn}` : '', row.city || '', row.since].filter(Boolean).join(' · ')
+    if (row.ratePerHour != null) client.value.rate = row.ratePerHour.toLocaleString('ru-RU')
+    if (row.contactPerson) {
+      contacts.value.splice(0, 1, { name: row.contactPerson, post: row.contactPosition || '', email: row.email, phone: row.phone || '' })
+    }
+    if (row.projects.length) {
+      projects.value = row.projects.map(project => ({
+        id: project.id,
+        name: project.name,
+        site: project.site,
+        status: project.status === 'active'
+          ? { label: 'Активен', badge: 'bg-emerald-50 text-emerald-700', dot: 'bg-emerald-600' }
+          : { label: 'На паузе', badge: 'bg-zinc-100 text-zinc-700', dot: 'bg-zinc-500' },
+        fee: '—'
+      }))
+    }
+  } catch { /* карточка прототипа остаётся, если сервер недоступен */ }
 })
 
-const PROJECTS = [
+const projects = ref([
   { id: 'holod', name: 'Интернет-магазин «Холод»', site: 'holod-shop.ru', status: { label: 'Активен', badge: 'bg-emerald-50 text-emerald-700', dot: 'bg-emerald-600' }, fee: '240 000 ₽' },
   { id: 'holodb2b', name: 'Оптовый портал «Холод B2B»', site: 'b2b.holod-shop.ru', status: { label: 'Запуск', badge: 'bg-blue-50 text-blue-700', dot: 'bg-blue-600' }, fee: '90 000 ₽' }
-]
+])
 
 const HISTORY = [
   { text: 'Отправлен бриф по проекту «Холод B2B»', date: '12.06.2025' },
@@ -117,7 +156,7 @@ const DOC_ICON = 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01
 </script>
 
 <template>
-  <PageSplit :back="{ to: '/clients', label: 'Клиенты' }">
+  <PageSplit :back="{ to: '/clients', label: 'Клиенты' }" :crumbs="crumbs">
     <template #title>
       <h1 :title="client.name" class="text-base font-semibold tracking-tight text-ink leading-none truncate max-w-[200px]">{{ client.name }}</h1>
     </template>
@@ -189,7 +228,7 @@ const DOC_ICON = 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01
             </tr>
           </thead>
           <tbody class="divide-y divide-zinc-100 block md:table-row-group">
-            <tr v-for="p in PROJECTS" :key="p.id" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
+            <tr v-for="p in projects" :key="p.id" class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row">
               <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
                 <NuxtLink :to="`/projects/${p.id}`" class="text-sm font-medium hover:underline">{{ p.name }}</NuxtLink>
                 <div class="text-xs text-zinc-500 mt-0.5">{{ p.site }}</div>

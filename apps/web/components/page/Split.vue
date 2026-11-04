@@ -3,13 +3,14 @@
 defineProps<{
   title?: string
   back?: { to: string; label: string }
+  crumbs?: { label: string; to?: string }[]
   asideClass?: string
 }>()
 </script>
 
 <template>
   <div class="space-y-6">
-    <PageHeader :title="title" :back="back">
+    <PageHeader :title="title" :back="back" :crumbs="crumbs">
       <template v-if="$slots.title" #title><slot name="title" /></template>
       <template v-if="$slots.actions" #actions><slot name="actions" /></template>
     </PageHeader>

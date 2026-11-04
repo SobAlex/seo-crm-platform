@@ -24,12 +24,38 @@ const open = computed({
   set: v => emit('update:modelValue', v)
 })
 
-function submit() {
+const route = useRoute()
+const pending = ref(false)
+
+async function submit() {
   if (fields.value && !fields.value.check()) return
-  const { brief: _brief, ...rest } = form.value
-  emit('updated', { ...rest })
-  open.value = false
-  notify('Карточка клиента сохранена')
+  const f = form.value
+  pending.value = true
+  try {
+    await $fetch(`/api/clients/${route.params.id}`, {
+      method: 'PUT',
+      credentials: 'include',
+      body: {
+        name: f.name.trim(),
+        contactPerson: f.contact.trim(),
+        email: f.email.trim(),
+        phone: f.phone.trim(),
+        inn: f.inn.trim(),
+        city: f.city.trim(),
+        contactPosition: f.post.trim(),
+        ratePerHour: f.rate.trim(),
+        status: 'ACTIVE'
+      }
+    })
+    const { brief: _brief, ...rest } = f
+    emit('updated', { ...rest })
+    open.value = false
+    notify('Карточка клиента сохранена', 'success')
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  } finally {
+    pending.value = false
+  }
 }
 </script>
 
@@ -39,8 +65,8 @@ function submit() {
     title="Редактировать клиента"
     subtitle="ООО «Холод Групп»"
     size="lg"
-    submit="Сохранить"
-    :submit-allowed="can('client.manage')"
+    :submit="pending ? 'Сохранение…' : 'Сохранить'"
+    :submit-allowed="can('client.manage') && !pending"
     submit-tip="Управление клиентами доступно менеджерам и руководству"
     manual
     @submit="submit"

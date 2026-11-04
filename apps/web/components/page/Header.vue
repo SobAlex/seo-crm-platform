@@ -4,6 +4,8 @@ defineProps<{
   title?: string
   /** Ссылка назад: { to: '/projects', label: 'Проекты' }. */
   back?: { to: string; label: string }
+  /** Хлебные крошки: Главная / раздел / текущий экран. */
+  crumbs?: { label: string; to?: string }[]
 }>()
 </script>
 
@@ -21,8 +23,21 @@ defineProps<{
       >
         <AppIcon name="back" class="w-4 h-4" /><span class="hidden sm:inline">{{ back.label }}</span>
       </NuxtLink>
-      <span v-if="back && (title || $slots.title)" class="h-4 w-px bg-black/10 shrink-0" aria-hidden="true" />
-      <slot name="title">
+      <span v-if="back && (title || crumbs?.length || $slots.title)" class="h-4 w-px bg-black/10 shrink-0" aria-hidden="true" />
+      <div v-if="crumbs?.length" class="min-w-0 text-xs">
+        <UBreadcrumb
+          :links="crumbs"
+          :ui="{
+            ol: 'flex items-center gap-1 min-w-0',
+            li: 'flex items-center gap-1 min-w-0 text-zinc-500',
+            active: 'text-zinc-900 font-medium truncate',
+            inactive: 'hover:text-zinc-900 truncate',
+            icon: { base: 'w-3.5 h-3.5' },
+            divider: { base: 'text-zinc-300' }
+          }"
+        />
+      </div>
+      <slot v-else name="title">
         <h1 class="text-base font-semibold tracking-tight text-ink leading-none truncate">{{ title }}</h1>
       </slot>
     </div>

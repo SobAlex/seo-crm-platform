@@ -51,7 +51,7 @@ const SHADES: Record<DirId, string[]> = {
 
 const me = computed(() => user.value.id)
 const isContractor = computed(() => role.value === 'contractor')
-const createTip = 'Подрядчик не может создавать задачи другим участникам'
+const createTip = 'Подрядчик работает только с назначенными задачами'
 const canCreate = computed(() => can('task.create') && !hasRole(['contractor']))
 
 // Состояние тулбара: query-параметры ?project= ?direction= ?executor= ?view= ?work= задают стартовые фильтры.
@@ -65,7 +65,7 @@ const q = ref('')
 const flag = ref<TaskFlag | ''>('')
 const work = ref('')
 const collapsed = ref<TaskStatus[]>(['done'])
-const selected = ref<number[]>([])
+const selected = ref<Array<number | string>>([])
 
 function readQuery() {
   const dir = qs('direction')
@@ -81,12 +81,36 @@ watch(() => route.query, readQuery)
 
 const FOCUS_KEY = computed(() => 'seo_tasks_focus_' + role.value)
 const MODE_KEY = 'seo_tasks_mode'
-onMounted(() => {
+onMounted(async () => {
   try {
     const f = localStorage.getItem(FOCUS_KEY.value)
     if (!isContractor.value && (f === 'all' || f === 'exec' || f === 'set')) focus.value = f
     if (localStorage.getItem(MODE_KEY) === 'list') mode.value = 'list'
   } catch { /* ignore */ }
+  try {
+    const rows = await $fetch<Array<{ id: string; title: string; projectId: string; status: string; assigneeId: string | null; deadline: string | null; isInReport: boolean }>>('/api/tasks', { credentials: 'include' })
+    const known = new Set(tasks.value.map(task => String(task.id)))
+    const statusMap: Record<string, BoardTask['status']> = {
+      PLANNED: 'planned', IN_PROGRESS: 'progress', ON_REVIEW: 'review', WAITING_CLIENT: 'waiting', DONE: 'done'
+    }
+    for (const row of rows) {
+      if (known.has(row.id) || row.id.startsWith('tsk_')) continue
+      tasks.value.unshift({
+        id: row.id,
+        title: row.title,
+        project: row.projectId,
+        dir: null,
+        assignee: row.assigneeId || '',
+        co: [],
+        creator: '',
+        acceptor: '',
+        status: statusMap[row.status] ?? 'planned',
+        stage: null,
+        due: row.deadline ? row.deadline.slice(0, 10) : null,
+        report: row.isInReport
+      })
+    }
+  } catch { /* доска прототипа остаётся */ }
 })
 watch(focus, v => { try { localStorage.setItem(FOCUS_KEY.value, v) } catch { /* ignore */ } })
 watch(mode, v => { try { localStorage.setItem(MODE_KEY, v) } catch { /* ignore */ } })
@@ -195,7 +219,7 @@ const someChecked = computed(() => selected.value.length > 0 && selected.value.l
 function toggleAll(on: boolean) {
   selected.value = on ? current.value.map(t => t.id) : []
 }
-function toggleRow(id: number, on: boolean) {
+function toggleRow(id: number | string, on: boolean) {
   selected.value = on ? [...selected.value, id] : selected.value.filter(x => x !== id)
 }
 
@@ -266,8 +290,8 @@ function moveLocal(t: BoardTask, i: number): boolean {
 }
 
 // Перетаскивание карточек между колонками.
-const draggedId = ref<number | null>(null)
-const fadedId = ref<number | null>(null)
+const draggedId = ref<number | string | null>(null)
+const fadedId = ref<number | string | null>(null)
 const hoverZone = ref('')
 function onDragStart(e: DragEvent, t: BoardTask) {
   draggedId.value = t.id
@@ -317,7 +341,7 @@ const SEL = 'w-full sm:w-auto'
   <PageRegistry title="Задачи">
     <template #actions>
       <AccessGate :allowed="canCreate" :tip="createTip">
-        <UButton to="/tasks/new" :disabled="!canCreate" :data-deny-tip="createTip">
+        <UButton to="/tasks/new" :disabled="!canCreate" :data-deny-tip="createTip" class="disabled:opacity-50 disabled:cursor-not-allowed">
           <span class="sm:hidden">+ Задача</span><span class="hidden sm:inline">+ Создать задачу</span>
         </UButton>
       </AccessGate>

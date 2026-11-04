@@ -12,6 +12,17 @@ const notify = useNotify()
 const route = useRoute()
 
 const PROJECT = { name: 'Интернет-магазин «Холод»', site: 'holod-shop.ru', start: '01.05.2025' }
+const projectTitle = ref(PROJECT.name)
+const projectSite = ref(PROJECT.site)
+const projectStart = ref(PROJECT.start)
+const fresh = ref(false)
+const liveTasks = ref<{ id: string; title: string; plannedHours: number; status: string }[]>([])
+const crumbs = computed(() => [
+  { label: 'Главная', to: '/' },
+  { label: 'Проекты', to: '/projects' },
+  { label: projectTitle.value }
+])
+const KNOWN = new Set(['holod', 'remont', 'medlife', 'stroytech', 'holodb2b'])
 const projectKey = computed(() => {
   const raw = route.params.id
   return typeof raw === 'string' && raw ? raw : 'holod'
@@ -196,7 +207,33 @@ async function saveQueries() {
   }
 }
 
-onMounted(() => { void loadAnalytics() })
+onMounted(async () => {
+  void loadAnalytics()
+  try {
+    const row = await $fetch<{
+      name: string
+      domain: string | null
+      startDate: string | null
+      tasks: { id: string; title: string; plannedHours: number; status: string }[]
+      plan: { targetTraffic: number; targetLeads: number } | null
+    }>(`/api/projects/${projectKey.value}`, { credentials: 'include' })
+    projectTitle.value = row.name
+    projectSite.value = row.domain || projectSite.value
+    if (row.startDate) projectStart.value = new Date(row.startDate).toLocaleDateString('ru-RU')
+    liveTasks.value = row.tasks
+    fresh.value = !KNOWN.has(projectKey.value)
+    if (fresh.value && row.plan) {
+      const traffic = kpis.value.find(item => item.key === 'traffic')
+      const leads = kpis.value.find(item => item.key === 'leads')
+      if (traffic) traffic.of = `из ${row.plan.targetTraffic.toLocaleString('ru-RU')}`
+      if (leads) leads.of = `из ${row.plan.targetLeads.toLocaleString('ru-RU')}`
+      const trafficPlan = metrics.value.series.traffic.plan
+      const leadsPlan = metrics.value.series.leads.plan
+      if (trafficPlan) metrics.value.series.traffic.plan = trafficPlan.map(() => row.plan!.targetTraffic)
+      if (leadsPlan) metrics.value.series.leads.plan = leadsPlan.map(() => row.plan!.targetLeads)
+    }
+  } catch { /* карточка прототипа */ }
+})
 
 /* ---------- Табы ---------- */
 const tab = ref('roadmap')
@@ -415,7 +452,7 @@ const CHECK = 'w-4 h-4 rounded-full bg-zinc-900 flex items-center justify-center
 </script>
 
 <template>
-  <PageSplit :title="PROJECT.name" :back="{ to: '/projects', label: 'Проекты' }">
+  <PageSplit :title="projectTitle" :back="{ to: '/projects', label: 'Проекты' }" :crumbs="crumbs">
     <template #actions>
       <AccessGate :allowed="can('project.update')" :tip="TIP_TEAM">
         <UButton color="white" :disabled="!can('project.update')" class="gap-1.5 shrink-0" @click="editOpen = true">
@@ -427,8 +464,14 @@ const CHECK = 'w-4 h-4 rounded-full bg-zinc-900 flex items-center justify-center
 
     <template #top>
       <div>
-        <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight">{{ PROJECT.name }}</h2>
-        <p class="text-sm text-zinc-500 mt-1">{{ PROJECT.site }} · Старт {{ PROJECT.start }}</p>
+        <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight">{{ projectTitle }}</h2>
+        <p class="text-sm text-zinc-500 mt-1">{{ projectSite }} · Старт {{ projectStart }}</p>
+        <ul v-if="fresh && liveTasks.length" class="mt-4 divide-y divide-zinc-100 rounded-2xl border border-zinc-200 bg-white">
+          <li v-for="task in liveTasks" :key="task.id" class="px-4 py-3 flex items-center justify-between gap-3">
+            <NuxtLink :to="`/tasks/${task.id}`" class="text-sm font-medium hover:underline truncate">{{ task.title }}</NuxtLink>
+            <span class="text-xs text-zinc-500 shrink-0 tabular-nums">{{ task.plannedHours }} ч · {{ task.status === 'PLANNED' ? 'бэклог' : task.status }}</span>
+          </li>
+        </ul>
         <div class="flex flex-wrap gap-2 mt-3">
           <NuxtLink to="/audit" class="px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-sm font-medium hover:bg-zinc-50 transition">ИИ-аудит</NuxtLink>
           <AccessGate :allowed="canBrief" :tip="TIP_TEAM">

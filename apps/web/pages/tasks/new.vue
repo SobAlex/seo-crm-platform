@@ -16,12 +16,6 @@ const ROADMAP: { group: string; items: { value: string; label: string }[] }[] = 
   { group: 'Внешняя оптимизация', items: ['out-links', 'out-crowd'].map(v => ({ value: v, label: WORKS[v]! })) }
 ]
 
-const EXECUTORS_BY_ROLE: Record<string, string[]> = {
-  'seo-lead': ['Иван Сидоров'],
-  pm: ['Никита Морозов', 'Ольга Ветрова'],
-  employee: ['Алексей Петров', 'Иван Дронов'],
-  contractor: ['Мария Ким', 'Пётр Лебедев']
-}
 const ROLE_OPTIONS = [
   { value: 'seo-lead', label: 'Руководитель SEO' },
   { value: 'pm', label: 'Менеджер проекта' },
@@ -30,16 +24,20 @@ const ROLE_OPTIONS = [
 ]
 const CO = ['А. Петров', 'И. Дронов', 'П. Лебедев', 'М. Ким']
 
+const projects = ref<{ value: string; label: string }[]>([])
+const members = ref<{ value: string; label: string }[]>([])
+const saving = ref(false)
+
 const qWork = typeof route.query.work === 'string' && route.query.work in WORKS ? route.query.work : ''
 const form = reactive({
-  project: 'Интернет-магазин «Холод»',
+  project: '',
   month: 'Июнь 2025',
   roadmap: qWork,
   parent: '',
   title: '',
   description: '',
   role: 'employee',
-  executor: 'Алексей Петров',
+  executor: '',
   co: [] as string[],
   acceptor: 'Постановщик — вы',
   priority: 'Средний',
@@ -50,22 +48,60 @@ const form = reactive({
   status: 'Запланирована'
 })
 
-const executors = computed(() => EXECUTORS_BY_ROLE[form.role] ?? [])
-watch(() => form.role, () => { form.executor = executors.value[0] ?? '' })
+onMounted(async () => {
+  try {
+    const [projectRows, people] = await Promise.all([
+      $fetch<Array<{ id: string; name: string }>>('/api/projects', { credentials: 'include' }),
+      $fetch<Array<{ id: string; name: string; role: string }>>('/api/members', { credentials: 'include' })
+    ])
+    projects.value = projectRows.map(row => ({ value: row.id, label: row.name }))
+    members.value = people.map(row => ({ value: row.id, label: `${row.name}` }))
+    form.project = projects.value[0]?.value ?? ''
+    form.executor = members.value[0]?.value ?? ''
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
+})
+
+const executors = computed(() => members.value)
 const showPayout = computed(() => can('finance.fee.view') && form.role === 'contractor')
 
-function submit() {
+async function submit() {
   if (!form.title.trim()) {
-    notify('Заполните название задачи')
+    notify('Заполните название задачи', 'error')
     return
   }
-  notify('Задача создана и назначена исполнителю')
-  navigateTo('/tasks/1')
+  if (!form.project) {
+    notify('Выберите проект', 'error')
+    return
+  }
+  saving.value = true
+  try {
+    const saved = await $fetch<{ id: string }>('/api/tasks', {
+      method: 'POST',
+      credentials: 'include',
+      body: {
+        title: form.title.trim(),
+        description: form.description.trim(),
+        projectId: form.project,
+        assigneeId: form.executor || undefined,
+        deadline: form.due || undefined,
+        estimatedHours: form.estimate ? Number(form.estimate) : undefined,
+        isInReport: false
+      }
+    })
+    notify('Задача создана и назначена исполнителю', 'success')
+    await navigateTo(`/tasks/${saved.id}`)
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  } finally {
+    saving.value = false
+  }
 }
 </script>
 
 <template>
-  <PageForm :back="{ to: '/tasks', label: 'Задачи' }">
+  <PageForm :back="{ to: '/tasks', label: 'Задачи' }" :crumbs="[{ label: 'Главная', to: '/' }, { label: 'Задачи', to: '/tasks' }, { label: 'Новая задача' }]">
     <template #actions>
       <UButton type="submit" form="task-form">Создать</UButton>
     </template>
@@ -80,7 +116,7 @@ function submit() {
           <h3 class="text-sm font-semibold tracking-tight mb-5">Основное</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-5">
             <UiField label="Проект" class="md:col-span-2">
-              <USelect v-model="form.project" :options="['Интернет-магазин «Холод»', 'Сайт услуг «Ремонт+»', 'B2B портал «Стройтех»']" />
+              <USelect v-model="form.project" :options="projects" placeholder="Выберите проект" />
             </UiField>
 
             <UiField label="Месяц" class="md:col-span-2">
@@ -120,7 +156,7 @@ function submit() {
               <USelect v-model="form.role" :options="ROLE_OPTIONS" />
             </UiField>
             <UiField label="Исполнитель">
-              <USelect v-model="form.executor" :options="executors" />
+              <USelect v-model="form.executor" :options="executors" placeholder="Выберите сотрудника" />
             </UiField>
             <UiField label="Соисполнители" opt="необязательно" class="md:col-span-2">
               <div class="flex flex-wrap gap-2">
@@ -169,7 +205,7 @@ function submit() {
         </section>
 
         <div class="flex flex-col sm:flex-row gap-3">
-          <UButton type="submit">Создать задачу</UButton>
+          <UButton type="submit" :loading="saving" :disabled="saving">{{ saving ? 'Создание…' : 'Создать' }}</UButton>
           <UButton color="white" to="/tasks" class="justify-center">Отмена</UButton>
         </div>
       </form>

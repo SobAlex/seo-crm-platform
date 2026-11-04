@@ -81,7 +81,43 @@ const visible = computed(() => {
 
 const expanded = ref<Record<string, boolean>>({})
 
+const CREATE_TIP = 'Только владелец или руководитель могут добавлять клиентов'
 const MANAGE_TIP = 'Управление клиентами доступно менеджерам и руководству'
+const canCreateClient = computed(() => can('client.manage'))
+
+interface ApiClient {
+  id: string
+  slug: string
+  name: string
+  status: 'ACTIVE' | 'PAUSED' | 'LEAD'
+  since: string
+  contactPerson: string
+  phone: string
+  email: string
+  brief: Brief
+  projects: ClientRow['projects']
+}
+const STATUS_MAP: Record<ApiClient['status'], Coop> = { ACTIVE: 'active', PAUSED: 'paused', LEAD: 'lead' }
+
+onMounted(async () => {
+  try {
+    const rows = await $fetch<ApiClient[]>('/api/clients', { credentials: 'include' })
+    if (!rows.length) return
+    clients.value = rows.map(row => ({
+      id: row.slug || row.id,
+      name: row.name,
+      status: STATUS_MAP[row.status] ?? 'active',
+      since: row.since,
+      contact: row.contactPerson,
+      phone: row.phone,
+      email: row.email,
+      brief: row.brief?.state ? row.brief : { state: 'none' },
+      projects: row.projects ?? []
+    }))
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
+})
 
 function remind(c: ClientRow) {
   c.brief.reminded = '18.06'
@@ -118,8 +154,8 @@ const LINK = 'text-xs font-medium text-accent hover:underline whitespace-nowrap 
 <template>
   <PageRegistry title="Клиенты">
     <template #actions>
-      <AccessGate :allowed="can('client.manage')" :tip="MANAGE_TIP">
-        <UButton :disabled="!can('client.manage')" :data-deny-tip="MANAGE_TIP" @click="createOpen = true">
+      <AccessGate :allowed="canCreateClient" :tip="CREATE_TIP">
+        <UButton :disabled="!canCreateClient" :data-deny-tip="CREATE_TIP" class="disabled:opacity-50 disabled:cursor-not-allowed" @click="createOpen = true">
           <span class="sm:hidden">+ Создать</span><span class="hidden sm:inline">+ Новый клиент</span>
         </UButton>
       </AccessGate>

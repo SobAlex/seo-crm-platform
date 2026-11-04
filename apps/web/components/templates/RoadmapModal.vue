@@ -80,24 +80,30 @@ async function removeWork(d: DraftDir, id: string) {
 }
 
 function submit() {
-  const result = dirs.value.map(d => ({
+  const draft = dirs.value.map(d => ({
     id: newId('dir'),
     name: d.name.trim(),
     works: d.works.filter(w => w.title.trim()).map(w => ({ id: newId('work'), title: w.title.trim(), role: w.role, hours: parseFloat(w.hours) || 0 }))
   }))
-  const i = result.findIndex(d => !d.name || !d.works.length)
-  if (i !== -1) {
-    bad.value = dirs.value[i]!.id
-    setTimeout(() => { bad.value = null }, 1600)
-    notify(`У направления ${i + 1} нужно название и хотя бы одна работа`)
-    return
+  if (draft.length) {
+    const i = draft.findIndex(d => !d.name || !d.works.length)
+    if (i !== -1) {
+      bad.value = dirs.value[i]!.id
+      setTimeout(() => { bad.value = null }, 1600)
+      notify(`У направления ${i + 1} нужно название и хотя бы одна работа`)
+      return
+    }
   }
   const raw = name.value.trim()
+  if (!raw) {
+    notify('Укажите название дорожной карты')
+    return
+  }
   const full = raw.startsWith('Дорожная карта') ? raw : `Дорожная карта · ${raw}`
-  const works = result.reduce((n, d) => n + d.works.length, 0)
-  emit('created', { type: type.value, name: full, desc: desc.value.trim() || 'Направления и работы добавляются в эту карту.', directions: result })
+  const works = draft.reduce((n, d) => n + d.works.length, 0)
+  emit('created', { type: type.value, name: full, desc: desc.value.trim() || 'Направления и работы добавляются в эту карту.', directions: draft })
   open.value = false
-  notify(`Дорожная карта «${full}» создана · ${count(works, WORKS)}`)
+  notify(draft.length ? `Дорожная карта «${full}» создана · ${count(works, WORKS)}` : `Дорожная карта «${full}» создана пустой`)
 }
 </script>
 
