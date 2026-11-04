@@ -21,6 +21,7 @@ const emit = defineEmits<{
 
 const { can } = useRole()
 const notify = useNotify()
+const limitHint = ref('')
 
 const blank = () => ({
   title: '', site: '', client: props.prefillClient ?? '', newClient: '', newInn: '', newContact: '',
@@ -55,10 +56,23 @@ watch(() => form.value.type, () => {
   if (!roadmapOptions.value.some(o => o.value === form.value.roadmap)) form.value.roadmap = roadmapOptions.value[0]?.value ?? ''
 })
 
-function submit() {
+async function submit() {
   const f = form.value
   if (!f.kpis.length) {
     notify('Отметьте хотя бы одну метрику проекта', 'error')
+    return
+  }
+  limitHint.value = ''
+  try {
+    await $fetch('/api/projects', {
+      method: 'POST',
+      credentials: 'include',
+      body: { name: f.title.trim(), domain: f.site.trim() }
+    })
+  } catch (err: unknown) {
+    const message = apiErrorMessage(err)
+    if (message.includes('Лимит')) limitHint.value = message
+    notify(message, 'error')
     return
   }
   const client = f.client === '__new' ? f.newClient : CLIENTS.find(c => c.id === f.client)?.name ?? ''
@@ -80,6 +94,10 @@ function submit() {
     manual
     @submit="submit"
   >
+    <p v-if="limitHint" class="text-sm text-red-600">
+      {{ limitHint }}
+      <NuxtLink to="/settings#billing" class="text-accent hover:underline" @click="open = false">Открыть биллинг</NuxtLink>
+    </p>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <UiField label="Название проекта" req><UInput v-model="form.title" required placeholder="Интернет-магазин «Альфа»" /></UiField>
       <UiField label="Сайт" req><UInput v-model="form.site" required placeholder="alfa-shop.ru" inputmode="url" /></UiField>

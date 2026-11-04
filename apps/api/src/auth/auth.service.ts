@@ -1,15 +1,18 @@
 import {
   BadRequestException,
+  ConflictException,
   ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Role } from '@prisma/client';
+import { PlanTier, Role, SubscriptionStatus } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import type { Response } from 'express';
+import { TRIAL_LIMITS } from '../billing/plans';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuthPayload, AuthSession, PublicUser } from './auth.types';
+import { RegisterCompanyDto } from './dto';
 import { toDbRole } from './role-map';
 
 const WEEK = 60 * 60 * 24 * 7;
@@ -89,6 +92,45 @@ export class AuthService {
       throw new BadRequestException(`В компании «${COMPANY_NAME}» нет пользователя с этой ролью`);
     }
     return this.issue(this.pack(member.user, member), false);
+  }
+
+  async registerCompany(dto: RegisterCompanyDto): Promise<AuthSession> {
+    const email = dto.email.trim().toLowerCase();
+    const companyName = dto.companyName.trim();
+    const firstName = dto.firstName.trim();
+    const lastName = dto.lastName.trim();
+    if (!companyName || !firstName || !lastName) {
+      throw new BadRequestException('Заполните название компании, имя и фамилию');
+    }
+    const taken = await this.prisma.user.findUnique({ where: { email } });
+    if (taken) throw new ConflictException('Пользователь с таким email уже есть');
+
+    const passwordHash = await bcrypt.hash(dto.password, 10);
+    const expiresAt = new Date(Date.now() + TRIAL_LIMITS.days * 24 * 60 * 60 * 1000);
+    const created = await this.prisma.$transaction(async (tx) => {
+      const user = await tx.user.create({
+        data: { email, passwordHash, firstName, lastName },
+      });
+      const company = await tx.company.create({ data: { name: companyName } });
+      await tx.companyMember.create({
+        data: { companyId: company.id, userId: user.id, role: Role.owner },
+      });
+      await tx.subscription.create({
+        data: {
+          companyId: company.id,
+          plan: PlanTier.TRIAL,
+          status: SubscriptionStatus.ACTIVE,
+          maxProjects: TRIAL_LIMITS.maxProjects,
+          maxMembers: TRIAL_LIMITS.maxMembers,
+          expiresAt,
+        },
+      });
+      await tx.project.create({
+        data: { companyId: company.id, name: 'Мой первый проект', targetKpis: [] },
+      });
+      return { userId: user.id, companyId: company.id };
+    });
+    return this.sessionFor(created.userId, created.companyId);
   }
 
   async sessionFor(userId: string, companyId: string): Promise<AuthSession> {

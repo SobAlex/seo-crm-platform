@@ -57,7 +57,10 @@ async function submit() {
         </form>
       </div>
 
-      <p class="mt-5 text-center">
+      <p class="mt-5 text-center text-sm text-zinc-500">
+        <NuxtLink to="/register-company" class="text-accent hover:underline">Создать новую компанию</NuxtLink>
+      </p>
+      <p class="mt-3 text-center">
         <NuxtLink to="/landing" class="text-sm text-zinc-500 hover:text-zinc-900 transition">← На главную лендинга</NuxtLink>
       </p>
     </div>

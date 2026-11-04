@@ -21,7 +21,7 @@ const TASKS = [
         <h1 class="text-4xl sm:text-5xl lg:text-[3.25rem] font-semibold tracking-tight leading-[1.08]">Операционная система для SEO-агентств и in-house команд</h1>
         <p class="mt-5 text-base sm:text-lg text-zinc-500 leading-relaxed max-w-xl">Дорожные карты проектов, приёмка задач по регламентам, прозрачная отчётность для клиентов в один клик и сквозной контроль нагрузки команды.</p>
         <div class="mt-8 flex flex-col sm:flex-row sm:flex-wrap gap-3">
-          <UButton size="lg" class="px-5 justify-center rounded-full whitespace-nowrap" @click="$emit('signup')">Начать 14 дней триала без карты</UButton>
+          <UButton to="/register-company" size="lg" class="px-5 justify-center rounded-full whitespace-nowrap">Начать 14 дней триала без карты</UButton>
           <UButton size="lg" color="white" class="px-5 justify-center rounded-full whitespace-nowrap border-0 shadow-card" @click="$emit('demo')">Смотреть интерактивное демо</UButton>
         </div>
       </div>

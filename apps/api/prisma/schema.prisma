@@ -91,6 +91,20 @@ enum ReportStatus {
   APPROVED
 }
 
+enum PlanTier {
+  TRIAL
+  START
+  PRO
+  AGENCY
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  EXPIRED
+}
+
 // --- 1. Организация и пользователи ---
 
 model Company {
@@ -111,6 +125,7 @@ model Company {
   clients            Client[]
   projects           Project[]
   integrations       CompanyIntegration[]
+  subscription       Subscription?
 
   @@index([inn])
 }
@@ -483,6 +498,35 @@ model CompanyIntegration {
 
   @@unique([companyId, serviceType])
   @@index([status])
+}
+
+model Subscription {
+  id          String             @id @default(uuid())
+  companyId   String             @unique
+  company     Company            @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  plan        PlanTier           @default(TRIAL)
+  status      SubscriptionStatus @default(ACTIVE)
+  maxProjects Int                @default(5)
+  maxMembers  Int                @default(5)
+  startsAt    DateTime           @default(now())
+  expiresAt   DateTime
+  autoRenew   Boolean            @default(true)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  invoices    Invoice[]
+}
+
+model Invoice {
+  id             String       @id @default(uuid())
+  subscriptionId String
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  amount         Int
+  status         String       @default("PAID")
+  description    String
+  paidAt         DateTime?    @default(now())
+  createdAt      DateTime     @default(now())
+
+  @@index([subscriptionId])
 }
 
 model ProjectSource {

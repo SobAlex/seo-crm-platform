@@ -57,7 +57,7 @@ const note = (p: number[]) => period.value === 'year' ? `в месяц при о
           <ul class="mt-5 space-y-2 text-sm text-zinc-600 flex-1">
             <li v-for="f in p.features" :key="f">{{ f }}</li>
           </ul>
-          <UButton size="md" block :color="p.popular ? 'primary' : 'white'" class="mt-6 rounded-full" @click="$emit('signup', p.id)">Выбрать тариф (14 дней бесплатно)</UButton>
+          <UButton to="/register-company" size="md" block :color="p.popular ? 'primary' : 'white'" class="mt-6 rounded-full">Выбрать тариф (14 дней бесплатно)</UButton>
         </article>
       </div>
     </div>

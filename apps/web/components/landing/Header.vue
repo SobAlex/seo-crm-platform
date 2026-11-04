@@ -24,7 +24,7 @@ const navOpen = ref(false)
       </nav>
       <div class="ml-auto flex items-center gap-2">
         <UButton to="/login" color="white" variant="ghost" size="xs" class="hidden sm:inline-flex px-3.5 rounded-full text-sm">Войти в кабинет</UButton>
-        <UButton size="xs" class="px-3.5 rounded-full text-sm" @click="$emit('signup')">Попробовать бесплатно 14 дней</UButton>
+        <UButton to="/register-company" size="xs" class="px-3.5 rounded-full text-sm">Попробовать бесплатно 14 дней</UButton>
         <UButton color="white" variant="ghost" square aria-label="Меню" class="md:hidden rounded-full" :aria-expanded="navOpen" @click="navOpen = !navOpen">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M4 7h16M4 12h16M4 17h16" /></svg>
         </UButton>

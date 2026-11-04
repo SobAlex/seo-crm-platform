@@ -80,14 +80,15 @@ onMounted(() => {
   watch(integrations, v => {
     try { localStorage.setItem(INT_STORE, JSON.stringify(v)) } catch { /* file:// или приватный режим */ }
   }, { deep: true })
+  void loadBilling()
 })
 
 // Биллинг
-const PLAN_CARDS: { id: PlanId; name: string; sub: string; price: string; features: string[]; current?: boolean }[] = [
-  { id: 'start', name: 'Старт', sub: 'Небольшие команды', price: '4 900', features: ['До 5 проектов', 'Задачи, приёмка и отчёты', 'Базовые шаблоны карт'] },
-  { id: 'pro', name: 'Про / Агентство', sub: 'Для агентств с отделом', price: '9 900', features: ['До 25 проектов · 10 сотрудников', 'Портал клиентов и брендированные отчёты', 'Дорожные карты и планы месяца'], current: true },
-  { id: 'ent', name: 'Enterprise', sub: 'Сети и in-house', price: '39 900', features: ['Проекты без лимита', 'SSO, API и интеграции', 'Выделенная поддержка'] }
-]
+const PLAN_CARDS = computed(() => [
+  { id: 'start' as PlanId, name: 'Старт', sub: 'Небольшие команды', price: '1 900', features: ['До 3 проектов', 'До 3 сотрудников', 'Задачи, приёмка и отчёты'], current: billing.value?.plan === 'START' },
+  { id: 'pro' as PlanId, name: 'Про', sub: 'Хит', price: '4 900', features: ['До 15 проектов · 10 сотрудников', 'Автоматический съём позиций', 'Портал клиентов и отчёты'], current: billing.value?.plan === 'PRO' },
+  { id: 'ent' as PlanId, name: 'Агентство', sub: 'Сети и in-house', price: '9 900', features: ['Безлимит проектов и команды', 'Приоритетная поддержка', 'Портал клиентов'], current: billing.value?.plan === 'AGENCY' }
+])
 
 const checkoutOpen = ref(false)
 const tariffOpen = ref(false)
@@ -106,13 +107,58 @@ function toggleRenew() {
 const paidUntil = ref('')
 
 interface Payment { date: string; purpose: string; amount: number; method: string; ok: boolean | 'trial'; doc: string | null }
-const payments = ref<Payment[]>([
-  { date: '18.10.2026', purpose: 'Подписка «Про» на 1 месяц', amount: 9900, method: 'Карта •••• 4242', ok: true, doc: 'А-1041' },
-  { date: '18.09.2026', purpose: 'Подписка «Про» на 1 месяц', amount: 9900, method: 'Карта •••• 4242', ok: true, doc: 'А-1038' },
-  { date: '01.09.2026', purpose: 'Подписка «Про» на 1 месяц', amount: 9900, method: 'Безналичный расчёт', ok: true, doc: 'А-1032' },
-  { date: '16.08.2026', purpose: 'Старт пробного периода · Тариф «Про»', amount: 0, method: '—', ok: 'trial', doc: null }
-])
+interface BillingInvoice { id: string; amount: number; status: string; description: string; paidAt: string | null; createdAt: string }
+interface BillingCurrent {
+  plan: 'TRIAL' | 'START' | 'PRO' | 'AGENCY'
+  status: 'ACTIVE' | 'PAST_DUE' | 'CANCELED' | 'EXPIRED'
+  expiresAt: string
+  daysLeft: number
+  projectsUsed: number
+  maxProjects: number
+  membersUsed: number
+  maxMembers: number
+  invoices: BillingInvoice[]
+}
+const PLAN_VIEW = {
+  TRIAL: { title: 'Триал', badge: 'TRIAL 14 ДНЕЙ', price: '0' },
+  START: { title: 'Старт', badge: 'START', price: '1 900' },
+  PRO: { title: 'Про', badge: 'PRO', price: '4 900' },
+  AGENCY: { title: 'Агентство', badge: 'AGENCY', price: '9 900' }
+} as const
+const billing = ref<BillingCurrent | null>(null)
+const planView = computed(() => PLAN_VIEW[billing.value?.plan ?? 'TRIAL'])
+const payments = ref<Payment[]>([])
 let actN = 1042
+
+function ruDate(iso: string | null) {
+  if (!iso) return '—'
+  return new Date(iso).toLocaleDateString('ru-RU')
+}
+function usagePct(used: number, max: number) {
+  if (!max) return 0
+  return Math.min(100, Math.round((used / max) * 100))
+}
+function usageBar(used: number, max: number) {
+  return usagePct(used, max) >= 90 ? 'bg-red-500' : 'bg-zinc-900'
+}
+
+async function loadBilling() {
+  try {
+    const data = await $fetch<BillingCurrent>('/api/billing/current', { credentials: 'include' })
+    billing.value = data
+    paidUntil.value = ruDate(data.expiresAt)
+    payments.value = data.invoices.map(row => ({
+      date: ruDate(row.paidAt || row.createdAt),
+      purpose: row.description,
+      amount: row.amount,
+      method: '—',
+      ok: row.status === 'PAID',
+      doc: null
+    }))
+  } catch {
+    billing.value = null
+  }
+}
 
 function todayRu() {
   const d = new Date()
@@ -262,11 +308,15 @@ const PILL = 'rounded-full text-sm'
           <div class="min-w-0">
             <div class="text-xs font-medium text-zinc-500 mb-1">Текущий тариф</div>
             <div class="flex flex-wrap items-center gap-2">
-              <span class="text-2xl font-semibold tracking-tight">Тариф Про (Агентство)</span>
-              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-800"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500" />{{ paidUntil ? `Подписка активна до ${paidUntil}` : 'Активен пробный период · осталось 9 дней' }}</span>
+              <span class="text-2xl font-semibold tracking-tight">{{ planView.title }}</span>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-zinc-900 text-white">{{ planView.badge }}</span>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium" :class="billing?.status === 'EXPIRED' ? 'bg-red-50 text-red-700' : 'bg-emerald-50 text-emerald-800'">
+                <span class="w-1.5 h-1.5 rounded-full" :class="billing?.status === 'EXPIRED' ? 'bg-red-500' : 'bg-emerald-500'" />
+                {{ billing?.status === 'EXPIRED' ? 'Доступ закончился' : `Осталось ${billing?.daysLeft ?? '…'} дн. · до ${paidUntil || '…'}` }}
+              </span>
             </div>
-            <div class="mt-2 text-sm text-zinc-700"><span class="text-xl font-semibold tracking-tight tabular-nums text-ink">9 900</span> <span class="text-zinc-500">₽ / месяц</span> <span class="text-xs text-zinc-400">· при оплате за год — 7 920 ₽ / мес</span></div>
-            <p class="text-xs text-zinc-500 mt-1.5">Лимит: до 25 проектов и 10 сотрудников (занято 4 проекта, 6 сотрудников)</p>
+            <div class="mt-2 text-sm text-zinc-700"><span class="text-xl font-semibold tracking-tight tabular-nums text-ink">{{ planView.price }}</span> <span class="text-zinc-500">₽ / месяц</span></div>
+            <p v-if="billing" class="text-xs text-zinc-500 mt-1.5">Проекты {{ billing.projectsUsed }} из {{ billing.maxProjects }} · команда {{ billing.membersUsed }} из {{ billing.maxMembers }}</p>
           </div>
           <div class="flex flex-col sm:flex-row gap-2 shrink-0">
             <AccessGate :allowed="billingOk" :tip="BILLING_TIP">
@@ -275,6 +325,29 @@ const PILL = 'rounded-full text-sm'
             <AccessGate :allowed="billingOk" :tip="BILLING_TIP">
               <UButton color="white" :disabled="!billingOk" :data-deny-tip="BILLING_TIP" :class="[PILL, 'justify-center text-zinc-700']" @click="openTariff()">Сменить тариф</UButton>
             </AccessGate>
+          </div>
+        </div>
+
+        <div v-if="billing" class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <div class="flex items-center justify-between text-xs mb-1.5">
+              <span class="font-medium text-zinc-700">Проекты</span>
+              <span class="tabular-nums text-zinc-500">{{ billing.projectsUsed }} из {{ billing.maxProjects }}</span>
+            </div>
+            <div class="h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+              <div class="h-full rounded-full" :class="usageBar(billing.projectsUsed, billing.maxProjects)" :style="{ width: usagePct(billing.projectsUsed, billing.maxProjects) + '%' }" />
+            </div>
+            <p v-if="usagePct(billing.projectsUsed, billing.maxProjects) >= 90" class="text-xs text-red-600 mt-1.5">Лимит проектов почти исчерпан. Перейдите на тариф выше.</p>
+          </div>
+          <div>
+            <div class="flex items-center justify-between text-xs mb-1.5">
+              <span class="font-medium text-zinc-700">Команда</span>
+              <span class="tabular-nums text-zinc-500">{{ billing.membersUsed }} из {{ billing.maxMembers }}</span>
+            </div>
+            <div class="h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+              <div class="h-full rounded-full" :class="usageBar(billing.membersUsed, billing.maxMembers)" :style="{ width: usagePct(billing.membersUsed, billing.maxMembers) + '%' }" />
+            </div>
+            <p v-if="usagePct(billing.membersUsed, billing.maxMembers) >= 90" class="text-xs text-red-600 mt-1.5">Лимит сотрудников почти исчерпан. Перейдите на тариф выше.</p>
           </div>
         </div>
 
@@ -343,7 +416,10 @@ const PILL = 'rounded-full text-sm'
               </tr>
             </thead>
             <tbody class="divide-y divide-zinc-50">
-              <tr v-for="(row, i) in payments" :key="row.doc ?? `trial-${i}`" class="hover:bg-zinc-50/50 transition">
+              <tr v-if="!payments.length">
+                <td colspan="6" class="px-4 lg:px-6 py-6 text-sm text-zinc-500">Платежей пока нет</td>
+              </tr>
+              <tr v-for="(row, i) in payments" :key="row.doc ?? `pay-${i}`" class="hover:bg-zinc-50/50 transition">
                 <td class="px-4 lg:px-6 py-3 tabular-nums text-zinc-500 whitespace-nowrap">{{ row.date }}</td>
                 <td class="px-4 py-3">{{ row.purpose }}</td>
                 <td class="px-4 py-3 text-right tabular-nums font-medium whitespace-nowrap">{{ row.amount ? fmt(row.amount) : '0 ₽' }}</td>
@@ -368,7 +444,7 @@ const PILL = 'rounded-full text-sm'
 
     <ModalsIntegration v-model="wizardOpen" />
     <ModalsIntegrationOauth v-model="oauthOpen" :service="oauthService" />
-    <ModalsTariffChange v-model="tariffOpen" :plan="tariffPlan" @checkout="checkoutOpen = true" />
+    <ModalsTariffChange v-model="tariffOpen" :plan="tariffPlan" @changed="loadBilling" />
     <ModalsCheckout v-model="checkoutOpen" @paid="onPaid" />
   </PageRegistry>
 </template>

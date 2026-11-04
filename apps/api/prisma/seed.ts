@@ -13,10 +13,12 @@ import {
   IntegrationStatus,
   InvitationStatus,
   PrismaClient,
+  PlanTier,
   ProjectRole,
   ProjectStatus,
   ReportStatus,
   Role,
+  SubscriptionStatus,
   TaskLifecycleStatus
 } from '@prisma/client'
 
@@ -929,6 +931,45 @@ async function seedSemantics(): Promise<void> {
   }
 }
 
+/** Активная подписка «Ромашки» и два оплаченных счёта. Повторный запуск не затирает уже созданную подписку. */
+async function seedBilling(): Promise<void> {
+  const existing = await prisma.subscription.findUnique({ where: { companyId: COMPANY_ID } })
+  if (existing) return
+  const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+  await prisma.subscription.create({
+    data: {
+      id: 'sub_romashka',
+      companyId: COMPANY_ID,
+      plan: PlanTier.AGENCY,
+      status: SubscriptionStatus.ACTIVE,
+      maxProjects: 100,
+      maxMembers: 100,
+      expiresAt,
+      autoRenew: true,
+      invoices: {
+        create: [
+          {
+            id: 'inv_romashka_1',
+            amount: 9900,
+            status: 'PAID',
+            description: 'Подписка «Агентство» на 1 месяц',
+            paidAt: at('2026-10-04T10:00:00.000Z'),
+            createdAt: at('2026-10-04T10:00:00.000Z')
+          },
+          {
+            id: 'inv_romashka_2',
+            amount: 9900,
+            status: 'PAID',
+            description: 'Подписка «Агентство» на 1 месяц',
+            paidAt: at('2026-09-04T10:00:00.000Z'),
+            createdAt: at('2026-09-04T10:00:00.000Z')
+          }
+        ]
+      }
+    }
+  })
+}
+
 async function main(): Promise<void> {
   if (!process.env.DATABASE_URL) {
     throw new Error('DATABASE_URL не задан. Сид читает его из apps/api/.env.')
@@ -940,10 +981,17 @@ async function main(): Promise<void> {
     return
   }
 
+  if (process.argv.includes('--billing-only')) {
+    await seedBilling()
+    console.log('Подписка «Ромашки» проверена.')
+    return
+  }
+
   const passwordHash = hashPassword(DEMO_PASSWORD)
 
   await resetDemo()
   await seedOrganization(passwordHash)
+  await seedBilling()
   await seedLibrary()
   await seedClients()
   await seedProjects()

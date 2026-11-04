@@ -80,6 +80,24 @@ export function useAuth() {
     return session.user
   }
 
+  async function registerCompany(body: {
+    companyName: string
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+  }): Promise<AuthUser> {
+    const session = await $fetch<AuthSession>('/api/auth/register-company', {
+      method: 'POST',
+      body,
+      credentials: 'include',
+      headers: requestHeaders()
+    })
+    user.value = session.user
+    rememberRole(session.user.role)
+    return session.user
+  }
+
   async function switchDevRole(role: string): Promise<AuthUser> {
     const session = await $fetch<AuthSession>('/api/auth/dev-switch-role', {
       method: 'POST',
@@ -114,6 +132,7 @@ export function useAuth() {
     logout,
     fetchUser,
     switchDevRole,
-    registerByInvite
+    registerByInvite,
+    registerCompany
   }
 }

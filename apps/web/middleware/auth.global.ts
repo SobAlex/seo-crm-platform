@@ -1,4 +1,4 @@
-const PUBLIC = new Set(['/login', '/register', '/landing', '/portal', '/brief-form'])
+const PUBLIC = new Set(['/login', '/register', '/register-company', '/landing', '/portal', '/brief-form'])
 
 export default defineNuxtRouteMiddleware(async (to) => {
   const { user, fetchUser } = useAuth()

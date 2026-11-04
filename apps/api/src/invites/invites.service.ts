@@ -9,6 +9,7 @@ import bcrypt from 'bcrypt';
 import { randomUUID } from 'node:crypto';
 import { AuthPayload, AuthSession } from '../auth/auth.types';
 import { AuthService } from '../auth/auth.service';
+import { BillingService } from '../billing/billing.service';
 import { LEAD_ROLES, roleLabel, toDbRole } from '../auth/role-map';
 import { MailService } from '../mail/mail.service';
 import { PrismaService } from '../prisma/prisma.service';
@@ -23,6 +24,7 @@ export class InvitesService {
     private readonly prisma: PrismaService,
     private readonly auth: AuthService,
     private readonly mail: MailService,
+    private readonly billing: BillingService,
   ) {}
 
   async create(actor: AuthPayload, dto: CreateInviteDto) {
@@ -34,6 +36,8 @@ export class InvitesService {
     if (!role || role === Role.owner) {
       throw new BadRequestException('Эту роль нельзя выдать приглашением');
     }
+
+    await this.billing.assertMemberCapacity(actor.companyId);
 
     const email = dto.email.trim().toLowerCase();
     const existing = await this.prisma.user.findUnique({ where: { email } });

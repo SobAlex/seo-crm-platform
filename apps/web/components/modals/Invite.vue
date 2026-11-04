@@ -53,12 +53,14 @@ watch(() => form.value.role, r => {
 })
 
 const pending = ref(false)
+const limitHint = ref('')
 const toast = useToast()
 
 async function submit() {
   const f = form.value
   if (!f.role || pending.value) return
   pending.value = true
+  limitHint.value = ''
   try {
     const email = f.email.trim()
     await $fetch('/api/invites', {
@@ -84,7 +86,9 @@ async function submit() {
     })
     open.value = false
   } catch (err) {
-    notify(apiErrorMessage(err), 'error')
+    const message = apiErrorMessage(err)
+    if (message.includes('Лимит')) limitHint.value = message
+    notify(message, 'error')
   } finally {
     pending.value = false
   }
@@ -102,6 +106,10 @@ async function submit() {
     manual
     @submit="submit"
   >
+    <p v-if="limitHint" class="text-sm text-red-600">
+      {{ limitHint }}
+      <NuxtLink to="/settings#billing" class="text-accent hover:underline" @click="open = false">Открыть биллинг</NuxtLink>
+    </p>
     <UiField label="Роль" req :hint="desc">
       <USelect v-model="form.role" :options="roleOptions" required />
     </UiField>
