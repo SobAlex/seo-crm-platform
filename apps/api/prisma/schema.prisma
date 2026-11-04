@@ -126,6 +126,7 @@ model Company {
   projects           Project[]
   integrations       CompanyIntegration[]
   subscription       Subscription?
+  reports            Report[]
 
   @@index([inn])
 }
@@ -682,19 +683,31 @@ model TaskStatusHistory {
 model Report {
   id          String       @id @default(cuid())
   projectId   String
+  companyId   String
   periodMonth DateTime     @db.Date
+  /// Отчётный месяц, формат «2026-05».
+  month       String
+  title       String
   status      ReportStatus @default(DRAFT)
-  publicToken String       @unique
+  publicToken String       @unique @default(uuid())
   summaryText String?      @db.Text
+  /// Зафиксированный снимок KPI и работ месяца.
+  snapshot    Json         @default("{}")
   sentAt      DateTime?
+  sentToEmail String?
   approvedAt  DateTime?
   createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 
-  project      Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  project       Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  company       Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
   includedTasks ReportTask[]
 
   @@unique([projectId, periodMonth])
+  @@unique([projectId, month])
   @@index([status])
+  @@index([companyId, status])
+  @@index([publicToken])
 }
 
 model ReportTask {

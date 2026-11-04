@@ -1,6 +1,7 @@
 <script setup lang="ts">
 // reports.html → Сетка 1 (Registry): статусы отчётов и экспорт, фильтры проект / год / месяц / поиск, реестр, автосоздание черновиков.
 import ReportCreateModal from '~/components/reports/ReportCreateModal.vue'
+import ReportSendModal from '~/components/reports/ReportSendModal.vue'
 
 definePageMeta({ roles: ['owner', 'seo_head', 'mgr_head', 'pm', 'employee'] })
 useHead({ title: 'Отчёты — SEO Control' })
@@ -10,44 +11,53 @@ const notify = useNotify()
 
 type Status = 'draft' | 'review' | 'sent'
 interface Report {
+  id: string
   m: string
   p: string
+  projectId: string
+  name: string
+  client: string
+  clientEmail: string
   by: string
   status: Status
+  rawStatus: string
   note?: string
   late?: boolean
   sent?: string
-  opened?: string
-  token?: string
+  sentTo?: string
+  token: string
+  title: string
 }
 
-const PROJECTS: Record<string, { name: string; client: string; clientId: string }> = {
-  holod: { name: 'Интернет-магазин «Холод»', client: 'ООО «Холод Групп»', clientId: 'holod' },
-  remont: { name: 'Сайт услуг «Ремонт+»', client: 'ИП Смирнов А.', clientId: 'smirnov' },
-  medlife: { name: 'Клиника «МедЛайф»', client: 'ООО «МедЛайф»', clientId: 'medlife' },
-  stroytech: { name: 'B2B портал «Стройтех»', client: 'АО «Стройтех»', clientId: 'stroytech' }
+interface ApiReport {
+  id: string
+  projectId: string
+  projectSlug: string
+  projectName: string
+  clientName: string
+  clientEmail: string
+  month: string
+  title: string
+  status: string
+  publicToken: string
+  summaryText: string | null
+  sentAt: string | null
+  sentToEmail: string | null
+  authorName: string
 }
-const PEOPLE: Record<string, string> = { petrov: 'А. Петров', dronov: 'И. Дронов', kovalev: 'Д. Ковалёв' }
+
+interface ApiProject {
+  id: string
+  name: string
+}
+
 const MONTH_NAME: Record<string, string> = { '01': 'Январь', '02': 'Февраль', '03': 'Март', '04': 'Апрель', '05': 'Май', '06': 'Июнь', '07': 'Июль', '08': 'Август', '09': 'Сентябрь', '10': 'Октябрь', '11': 'Ноябрь', '12': 'Декабрь' }
-const MONTH: Record<string, string> = { '2025-06': 'Июнь 2025', '2025-05': 'Май 2025', '2025-04': 'Апрель 2025', '2025-03': 'Март 2025' }
 
-const reports = ref<Report[]>([
-  { m: '2025-06', p: 'holod', by: 'petrov', status: 'draft', note: 'собирается · до 05.07' },
-  { m: '2025-06', p: 'remont', by: 'petrov', status: 'draft', note: 'собирается · до 05.07' },
-  { m: '2025-06', p: 'medlife', by: 'dronov', status: 'draft', note: 'собирается · до 05.07' },
-  { m: '2025-05', p: 'holod', by: 'petrov', status: 'sent', sent: '03.06', opened: '04.06', token: 'h7k2m9' },
-  { m: '2025-05', p: 'remont', by: 'petrov', status: 'sent', sent: '03.06', opened: '04.06', token: 'r4p8x1' },
-  { m: '2025-05', p: 'medlife', by: 'dronov', status: 'review', note: 'у Н. Морозова 3 дн. · срок 05.06', late: true },
-  { m: '2025-05', p: 'stroytech', by: 'kovalev', status: 'sent', sent: '03.06', token: 's9d3q5' },
-  { m: '2025-04', p: 'holod', by: 'petrov', status: 'sent', sent: '05.05', opened: '05.05', token: 'h1a6c4' },
-  { m: '2025-04', p: 'remont', by: 'petrov', status: 'sent', sent: '05.05', opened: '07.05', token: 'r2n7v8' },
-  { m: '2025-04', p: 'medlife', by: 'dronov', status: 'sent', sent: '06.05', opened: '06.05', token: 'm5t2b7' },
-  { m: '2025-04', p: 'stroytech', by: 'kovalev', status: 'sent', sent: '05.05', opened: '12.05', token: 's3w8e2' },
-  { m: '2025-03', p: 'holod', by: 'petrov', status: 'sent', sent: '03.04', opened: '03.04', token: 'h9z4y1' },
-  { m: '2025-03', p: 'remont', by: 'petrov', status: 'sent', sent: '04.04', opened: '04.04', token: 'r6u1k3' },
-  { m: '2025-03', p: 'medlife', by: 'dronov', status: 'sent', sent: '04.04', opened: '05.04', token: 'm8j5f6' },
-  { m: '2025-03', p: 'stroytech', by: 'kovalev', status: 'sent', sent: '07.04', opened: '09.04', token: 's2l9h4' }
-])
+const reports = ref<Report[]>([])
+const projects = ref<ApiProject[]>([])
+const loaded = ref(false)
+const sendOpen = ref(false)
+const sendTarget = ref<Report | null>(null)
 
 const BADGE: Record<Status, [string, string, string]> = {
   draft: ['bg-zinc-100 text-zinc-700', 'bg-zinc-400', 'Черновик'],
@@ -62,13 +72,10 @@ const year = ref('2025')
 const month = ref('05')
 const q = ref('')
 
-const TARGET_OPTIONS = [
+const TARGET_OPTIONS = computed(() => [
   { value: '', label: 'Все проекты и клиенты' },
-  { value: 'p:holod', label: 'Интернет-магазин «Холод»' },
-  { value: 'p:remont', label: 'Сайт услуг «Ремонт+»' },
-  { value: 'p:medlife', label: 'Клиника «МедЛайф»' },
-  { value: 'p:stroytech', label: 'B2B портал «Стройтех»' }
-]
+  ...projects.value.map(project => ({ value: project.id, label: project.name }))
+])
 const YEAR_OPTIONS = [
   { value: 'all', label: 'Все годы' },
   { value: '2026', label: '2026' },
@@ -86,16 +93,70 @@ function resetFilters() {
   view.value = 'all'
 }
 
+function monthLabel(key: string) {
+  const [y, m] = key.split('-')
+  return `${MONTH_NAME[m!] || key} ${y}`
+}
+
+function shortDate(iso: string | null) {
+  if (!iso) return ''
+  const date = new Date(iso)
+  if (Number.isNaN(date.getTime())) return ''
+  return `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}`
+}
+
+function uiStatus(status: string): Status {
+  if (status === 'ON_REVIEW') return 'review'
+  if (status === 'SENT' || status === 'APPROVED') return 'sent'
+  return 'draft'
+}
+
+function mapReport(row: ApiReport): Report {
+  const status = uiStatus(row.status)
+  return {
+    id: row.id,
+    m: row.month,
+    p: row.projectSlug,
+    projectId: row.projectId,
+    name: row.projectName,
+    client: row.clientName,
+    clientEmail: row.clientEmail,
+    by: row.authorName,
+    status,
+    rawStatus: row.status,
+    note: row.status === 'APPROVED' ? 'утверждён клиентом' : status === 'draft' ? 'черновик' : status === 'review' ? 'на согласовании' : undefined,
+    sent: shortDate(row.sentAt),
+    sentTo: row.sentToEmail || undefined,
+    token: row.publicToken,
+    title: row.title
+  }
+}
+
+async function loadReports() {
+  try {
+    const [list, projectList] = await Promise.all([
+      $fetch<ApiReport[]>('/api/reports', { credentials: 'include' }),
+      $fetch<ApiProject[]>('/api/projects', { credentials: 'include' })
+    ])
+    reports.value = list.map(mapReport)
+    projects.value = projectList
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  } finally {
+    loaded.value = true
+  }
+}
+
+onMounted(loadReports)
+
 const inScope = (r: Report) => {
   if (!seesWorkspace() && !user.value.projects.includes(r.p)) return false
   const [ry, rm] = r.m.split('-')
-  const pr = PROJECTS[r.p]!
   const needle = q.value.trim().toLowerCase()
-  const t = target.value
   return (year.value === 'all' || ry === year.value) &&
     (month.value === 'all' || rm === month.value) &&
-    (!t || (t[0] === 'p' ? r.p : pr.clientId) === t.slice(2)) &&
-    (!needle || `${pr.name} ${pr.client}`.toLowerCase().includes(needle))
+    (!target.value || target.value === r.projectId) &&
+    (!needle || `${r.name} ${r.client}`.toLowerCase().includes(needle))
 }
 const scoped = computed(() => reports.value.filter(inScope))
 const visible = computed(() => scoped.value.filter(r => view.value === 'all' || r.status === view.value))
@@ -107,25 +168,41 @@ const viewOptions = computed(() => ([
   { value: 'sent', label: 'Отправлены клиенту' }
 ]).map(o => ({ ...o, count: o.value === 'all' ? scoped.value.length : scoped.value.filter(r => r.status === o.value).length })))
 
-const linkUrl = (r: Report) => `https://${COMPANY.workspace}/r/${r.token}`
-
 function copyLink(r: Report) {
-  const url = linkUrl(r)
-  const done = () => notify('Ссылка скопирована: ' + url.replace('https://', ''), 'success')
-  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(url).then(done, done)
-  else done()
+  const url = `${window.location.origin}/public/reports/${r.token}`
+  const done = () => notify('Ссылка скопирована', 'success')
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(url).then(done, () => notify(url, 'success'))
+  else notify(url, 'success')
 }
 
 function sendReport(r: Report) {
   if (!can('report.publish')) return notify('Недостаточно прав: отправлять отчёты клиенту может менеджер проекта', 'error')
-  Object.assign(r, { status: 'sent', sent: '18.06', note: '', late: false, token: Math.random().toString(36).slice(2, 8) })
-  notify('Отчёт отправлен клиенту · ' + PROJECTS[r.p]!.client, 'success')
+  sendTarget.value = r
+  sendOpen.value = true
 }
 
-function submitReport(r: Report) {
+async function submitReport(r: Report) {
   if (!can('report.draft')) return notify('Недостаточно прав: составлять отчёты может сотрудник компании', 'error')
-  Object.assign(r, { status: 'review', note: 'у Н. Морозова · с 18.06' })
-  notify('Отчёт передан на согласование менеджеру', 'success')
+  try {
+    await $fetch(`/api/reports/${r.id}/status`, {
+      method: 'PUT',
+      body: { status: 'ON_REVIEW' },
+      credentials: 'include'
+    })
+    notify('Отчёт передан на согласование менеджеру', 'success')
+    await loadReports()
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
+}
+
+function onCreated(monthKey: string) {
+  const [y, m] = monthKey.split('-')
+  if (y && m) {
+    year.value = y
+    month.value = m
+  }
+  loadReports()
 }
 
 function exportRegistry() {
@@ -207,38 +284,26 @@ const PILL = 'rounded-full h-8 px-3 text-xs font-medium'
           <tbody class="divide-y divide-black/[0.04] block md:table-row-group">
             <tr
               v-for="r in visible"
-              :key="r.m + r.p"
+              :key="r.id"
               class="hover:bg-zinc-50/50 transition grid grid-cols-2 gap-x-4 gap-y-3 p-4 md:p-0 md:table-row align-top"
             >
               <td data-label="Проект и клиент" class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1 min-w-0 before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
-                <NuxtLink :to="`/projects/${r.p}`" class="text-sm font-semibold text-zinc-900 hover:underline">{{ PROJECTS[r.p]!.name }}</NuxtLink>
-                <div class="text-xs text-zinc-400 mt-0.5">Клиент: {{ PROJECTS[r.p]!.client }}</div>
+                <NuxtLink :to="`/projects/${r.p}`" class="text-sm font-semibold text-zinc-900 hover:underline">{{ r.name }}</NuxtLink>
+                <div class="text-xs text-zinc-400 mt-0.5">Клиент: {{ r.client || '—' }}</div>
               </td>
               <td data-label="Период и автор" :class="TD">
-                <span class="text-sm font-medium text-zinc-800">{{ MONTH[r.m] }}</span>
-                <div class="text-xs text-zinc-400 mt-0.5">составил: {{ PEOPLE[r.by] }}</div>
+                <span class="text-sm font-medium text-zinc-800">{{ monthLabel(r.m) }}</span>
+                <div class="text-xs text-zinc-400 mt-0.5">составил: {{ r.by }}</div>
               </td>
               <td data-label="Статус отчёта" :class="TD">
                 <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap" :class="BADGE[r.status][0]"><span class="w-1.5 h-1.5 rounded-full" :class="BADGE[r.status][1]" />{{ BADGE[r.status][2] }}</span>
-                <div v-if="r.status === 'sent'" class="text-xs text-zinc-500 mt-0.5">отправлен {{ r.sent }} · {{ r.opened ? 'открыт ' + r.opened : 'не открыт' }}</div>
+                <div v-if="r.status === 'sent'" class="text-xs text-zinc-500 mt-0.5">отправлен {{ r.sent || '—' }}<template v-if="r.sentTo"> · {{ r.sentTo }}</template></div>
                 <div v-else-if="r.note" class="text-xs mt-0.5" :class="r.late ? 'text-red-600' : 'text-zinc-500'">{{ r.note }}</div>
               </td>
               <td data-label="Действия" class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1 md:text-right before:block before:text-[11px] before:text-zinc-500 before:mb-0.5 before:content-[attr(data-label)] md:before:hidden">
                 <div class="inline-flex items-center justify-end gap-2 flex-wrap">
                   <template v-if="r.status === 'sent'">
-                    <UButton :to="`/reports/${r.m}?view=client`" color="gray" variant="ghost" :class="[PILL, 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200']">Веб-версия</UButton>
-                    <UButton
-                      color="white"
-                      variant="ghost"
-                      square
-                      size="xs"
-                      title="Скопировать ссылку для клиента"
-                      aria-label="Скопировать ссылку для клиента"
-                      class="rounded-full border border-zinc-200 text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900"
-                      @click="copyLink(r)"
-                    >
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14a4 4 0 005.66 0l3-3a4 4 0 00-5.66-5.66l-1 1M14 10a4 4 0 00-5.66 0l-3 3a4 4 0 005.66 5.66l1-1" /></svg>
-                    </UButton>
+                    <UButton :to="`/public/reports/${r.token}`" target="_blank" color="gray" variant="ghost" :class="[PILL, 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200']">Веб-версия</UButton>
                   </template>
                   <template v-else-if="r.status === 'review'">
                     <UButton :to="`/reports/${r.m}`" color="white" :class="[PILL, 'border-zinc-200 text-zinc-700 shadow-none']">Проверить</UButton>
@@ -254,13 +319,25 @@ const PILL = 'rounded-full h-8 px-3 text-xs font-medium'
                       <UButton :disabled="!can('report.draft')" color="black" :class="PILL" @click="submitReport(r)">На согласование</UButton>
                     </AccessGate>
                   </template>
+                  <UButton
+                    color="white"
+                    variant="ghost"
+                    square
+                    size="xs"
+                    title="Скопировать ссылку для клиента"
+                    aria-label="Скопировать ссылку для клиента"
+                    class="rounded-full border border-zinc-200 text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900"
+                    @click="copyLink(r)"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14a4 4 0 005.66 0l3-3a4 4 0 00-5.66-5.66l-1 1M14 10a4 4 0 00-5.66 0l-3 3a4 4 0 005.66 5.66l1-1" /></svg>
+                  </UButton>
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div v-if="!visible.length" class="px-4 lg:px-6 py-14 text-center">
+      <div v-if="loaded && !visible.length" class="px-4 lg:px-6 py-14 text-center">
         <div class="mx-auto w-12 h-12 rounded-2xl bg-zinc-100 text-zinc-400 flex items-center justify-center mb-3">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z" /></svg>
         </div>
@@ -282,6 +359,7 @@ const PILL = 'rounded-full h-8 px-3 text-xs font-medium'
       </div>
     </section>
 
-    <ReportCreateModal v-model="createOpen" />
+    <ReportCreateModal v-model="createOpen" @created="onCreated" />
+    <ReportSendModal v-model="sendOpen" :report="sendTarget" @sent="loadReports" />
   </PageRegistry>
 </template>

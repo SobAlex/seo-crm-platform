@@ -800,10 +800,14 @@ async function seedReports(): Promise<void> {
       {
         id: 'rpt_holod_05',
         projectId: 'prj_holod',
+        companyId: COMPANY_ID,
         periodMonth: day('2025-05-01'),
+        month: '2025-05',
+        title: 'Отчёт по SEO за Май 2025',
         status: ReportStatus.APPROVED,
         publicToken: 'report-holod-2025-05',
         summaryText: 'В мае собрано семантическое ядро по категориям каталога: 1 240 маркеров переданы в кластеризацию. Трафик 11 300 против плана 12 000, заявок 64 против 70. Видимость в ТОП-10 выросла до 25%.',
+        snapshot: {},
         sentAt: at('2025-06-02T10:00:00.000Z'),
         approvedAt: at('2025-06-04T12:00:00.000Z'),
         createdAt: at('2025-06-01T09:00:00.000Z')
@@ -811,28 +815,40 @@ async function seedReports(): Promise<void> {
       {
         id: 'rpt_holod_06',
         projectId: 'prj_holod',
+        companyId: COMPANY_ID,
         periodMonth: day('2025-06-01'),
+        month: '2025-06',
+        title: 'Отчёт по SEO за Июнь 2025',
         status: ReportStatus.DRAFT,
         publicToken: 'report-holod-2025-06',
         summaryText: 'Черновик июня: индексация категорий и статья о выборе холодильника ещё на проверке.',
+        snapshot: {},
         createdAt: at('2025-06-18T09:00:00.000Z')
       },
       {
         id: 'rpt_remont_06',
         projectId: 'prj_remont',
+        companyId: COMPANY_ID,
         periodMonth: day('2025-06-01'),
+        month: '2025-06',
+        title: 'Отчёт по SEO за Июнь 2025',
         status: ReportStatus.ON_REVIEW,
         publicToken: 'report-remont-2025-06',
         summaryText: 'Технический аудит сайта услуг готов и ждёт подтверждения руководителя перед отправкой клиенту.',
+        snapshot: {},
         createdAt: at('2025-06-11T09:00:00.000Z')
       },
       {
         id: 'rpt_med_05',
         projectId: 'prj_medlife',
+        companyId: COMPANY_ID,
         periodMonth: day('2025-05-01'),
+        month: '2025-05',
+        title: 'Отчёт по SEO за Май 2025',
         status: ReportStatus.SENT,
         publicToken: 'report-medlife-2025-05',
         summaryText: 'В мае настроены цели в Метрике: запись, звонок и клик по номеру. Отчёт отправлен клиенту и ждёт решения.',
+        snapshot: {},
         sentAt: at('2025-06-03T10:00:00.000Z'),
         createdAt: at('2025-06-02T09:00:00.000Z')
       }

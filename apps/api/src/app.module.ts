@@ -7,9 +7,10 @@ import { BillingModule } from './billing/billing.module';
 import { InvitesModule } from './invites/invites.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ProjectsModule } from './projects/projects.module';
+import { ReportsModule } from './reports/reports.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule, InvitesModule, AnalyticsModule, BillingModule, ProjectsModule],
+  imports: [PrismaModule, AuthModule, InvitesModule, AnalyticsModule, BillingModule, ProjectsModule, ReportsModule],
   controllers: [AppController],
   providers: [AppService],
 })

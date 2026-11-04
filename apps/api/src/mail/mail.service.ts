@@ -49,6 +49,41 @@ export class MailService {
     }
   }
 
+  /** true, если SMTP принял письмо. false — очередь пишет безопасный fallback. */
+  async sendReportLink(to: string, reportUrl: string, title: string, companyName: string): Promise<boolean> {
+    const host = process.env.SMTP_HOST?.trim();
+    const user = process.env.SMTP_USER?.trim();
+    if (!host || !user) return false;
+
+    try {
+      const port = Number(process.env.SMTP_PORT) || 465;
+      const secure = process.env.SMTP_SECURE === 'true';
+      const transporter = nodemailer.createTransport({
+        host,
+        port,
+        secure,
+        auth: { user, pass: process.env.SMTP_PASS ?? '' },
+        connectionTimeout: 8000,
+        greetingTimeout: 8000,
+        socketTimeout: 8000,
+      });
+      const from = process.env.SMTP_FROM?.trim() || user;
+      await transporter.sendMail({
+        from,
+        to,
+        subject: title,
+        text: `${companyName} отправил отчёт.\n\nОткрыть: ${reportUrl}`,
+        html: `<p>${escapeHtml(companyName)} отправил отчёт «${escapeHtml(title)}».</p><p><a href="${escapeHtml(reportUrl)}">${escapeHtml(reportUrl)}</a></p>`,
+      });
+      this.logger.log(`Отчёт отправлен на ${to}`);
+      return true;
+    } catch (error) {
+      const detail = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Не удалось отправить отчёт на ${to}: ${detail}`);
+      return false;
+    }
+  }
+
   private devLog(to: string, inviteUrl: string) {
     console.log(`[MailerDev] Отправка на ${to}, ссылка: ${inviteUrl}`);
   }
