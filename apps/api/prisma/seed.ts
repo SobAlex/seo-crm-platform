@@ -1,10 +1,10 @@
 // Демо-данные SEO Control для компании «Ромашка Digital».
-// Пароль всех пользователей: demo1234. Хэш хранится как scrypt$<соль>$<ключ>.
+// Пароль всех пользователей: demo1234. Хэш — bcrypt.
 // Повторный запуск удаляет компании и пользователей (каскадом — их данные) и заполняет базу заново.
 // Роли pm и employee соответствуют прототипу: pm — Никита Морозов, employee — Алексей Петров и Иван Дронов.
 
 import 'dotenv/config'
-import { randomBytes, scryptSync } from 'node:crypto'
+import bcrypt from 'bcrypt'
 import {
   BriefFieldType,
   BriefStatus,
@@ -38,9 +38,7 @@ const USER = {
 } as const
 
 function hashPassword(password: string): string {
-  const salt = randomBytes(16).toString('hex')
-  const hash = scryptSync(password, salt, 64).toString('hex')
-  return `scrypt$${salt}$${hash}`
+  return bcrypt.hashSync(password, 10)
 }
 
 function day(isoDate: string): Date {
@@ -60,7 +58,7 @@ async function resetDemo(): Promise<void> {
 async function seedOrganization(passwordHash: string): Promise<void> {
   await prisma.user.createMany({
     data: [
-      { id: USER.smirnov, email: 'alex@romashka.ru', passwordHash, firstName: 'Александр', lastName: 'Смирнов', phone: '+7 495 120-00-26', createdAt: at('2024-11-01T09:00:00.000Z') },
+      { id: USER.smirnov, email: 'owner@romashka.ru', passwordHash, firstName: 'Александр', lastName: 'Смирнов', phone: '+7 495 120-00-26', createdAt: at('2024-11-01T09:00:00.000Z') },
       { id: USER.sidorov, email: 'sidorov@romashka.ru', passwordHash, firstName: 'Иван', lastName: 'Сидоров', phone: '+7 916 200-11-22', telegram: '@ivan_sidorov', createdAt: at('2024-11-02T09:00:00.000Z') },
       { id: USER.vetrova, email: 'vetrova@romashka.ru', passwordHash, firstName: 'Ольга', lastName: 'Ветрова', phone: '+7 903 300-22-33', createdAt: at('2024-11-02T09:00:00.000Z') },
       { id: USER.morozov, email: 'morozov@romashka.ru', passwordHash, firstName: 'Никита', lastName: 'Морозов', phone: '+7 926 111-22-33', createdAt: at('2024-11-04T09:00:00.000Z') },

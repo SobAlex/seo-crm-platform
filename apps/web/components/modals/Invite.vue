@@ -36,7 +36,7 @@ const blank = () => {
   const wanted = props.prefillRole ?? 'seo_specialist'
   const role: Role | '' = canGrant(wanted) ? wanted : (roles.find(r => canGrant(r)) ?? '')
   return {
-    role, email: '', name: '', dept: 'SEO', week: '40', until: '', rate: '', clientProject: 'holod',
+    role, email: '', firstName: '', lastName: '', dept: 'SEO', week: '40', until: '', rate: '', clientProject: 'holod',
     allProjects: true, allTouched: false, projects: [] as string[], message: ''
   }
 }
@@ -52,12 +52,42 @@ watch(() => form.value.role, r => {
   if (r === 'contractor' && form.value.allProjects && !form.value.allTouched) form.value.allProjects = false
 })
 
-function submit() {
+const pending = ref(false)
+const toast = useToast()
+
+async function submit() {
   const f = form.value
-  if (!f.role) return
-  emit('invited', { email: f.email, name: f.name, role: f.role })
-  open.value = false
-  notify(`Приглашение отправлено: ${f.email} · ${ROLE_NAME[f.role]}`)
+  if (!f.role || pending.value) return
+  pending.value = true
+  try {
+    const email = f.email.trim()
+    await $fetch('/api/invites', {
+      method: 'POST',
+      credentials: 'include',
+      body: {
+        email,
+        role: f.role,
+        firstName: f.firstName.trim(),
+        lastName: f.lastName.trim()
+      }
+    })
+    toast.add({
+      title: `Приглашение отправлено на ${email}`,
+      color: 'emerald',
+      icon: 'i-heroicons-check-circle-20-solid',
+      timeout: 5000
+    })
+    emit('invited', {
+      email,
+      name: [f.firstName.trim(), f.lastName.trim()].filter(Boolean).join(' '),
+      role: f.role
+    })
+    open.value = false
+  } catch (err) {
+    notify(apiErrorMessage(err), 'error')
+  } finally {
+    pending.value = false
+  }
 }
 </script>
 
@@ -77,8 +107,9 @@ function submit() {
     </UiField>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <UiField label="Email" req><UInput v-model="form.email" type="email" required placeholder="name@romashka.ru" /></UiField>
-      <UiField label="Имя и фамилия" opt="опционально"><UInput v-model="form.name" placeholder="Анна Белова" /></UiField>
+      <UiField label="Имя" opt="опционально"><UInput v-model="form.firstName" autocomplete="given-name" /></UiField>
     </div>
+    <UiField label="Фамилия" opt="опционально"><UInput v-model="form.lastName" autocomplete="family-name" /></UiField>
     <div v-if="isStaff" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <UiField label="Отдел"><USelect v-model="form.dept" :options="deptOptions" /></UiField>
       <UiField label="Норма часов в неделю"><UInput v-model="form.week" type="number" min="1" max="60" /></UiField>

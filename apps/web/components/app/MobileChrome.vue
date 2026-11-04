@@ -3,7 +3,9 @@ import { BOTTOM, NAV, isActive } from '~/constants/nav'
 
 const route = useRoute()
 const { role, user } = useRole()
+const auth = useAuth()
 const open = useState('sidebar-open', () => false)
+const initials = computed(() => (auth.user.value ? personInitials(auth.user.value) : user.value.initials))
 
 const bottom = computed(() =>
   role.value === 'client' ? [] : NAV.filter(i => BOTTOM.includes(i.id) && i.roles.includes(role.value))
@@ -16,7 +18,7 @@ const bottom = computed(() =>
       <AppIcon name="menu" class="w-5 h-5 text-zinc-800" />
     </button>
     <NuxtLink :to="homeFor(role)" class="text-sm font-semibold tracking-tight">{{ COMPANY.name }}</NuxtLink>
-    <button type="button" aria-label="Профиль и роль" class="w-8 h-8 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center" @click="open = true">{{ user.initials }}</button>
+    <button type="button" aria-label="Профиль и роль" class="w-8 h-8 rounded-full bg-zinc-900 text-white text-[10px] font-semibold flex items-center justify-center" @click="open = true">{{ initials }}</button>
   </header>
 
   <nav v-if="bottom.length" data-bottom-nav aria-label="Быстрая навигация" class="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-white/80 backdrop-blur-xl border-t border-black/5 pb-[env(safe-area-inset-bottom)] flex">

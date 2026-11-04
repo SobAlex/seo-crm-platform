@@ -12,6 +12,11 @@ export default defineNuxtConfig({
     preference: 'light',
     fallback: 'light'
   },
+  runtimeConfig: {
+    public: {
+      apiBase: 'http://localhost:3001'
+    }
+  },
   app: {
     head: {
       htmlAttrs: { lang: 'ru', class: 'overflow-x-hidden' },

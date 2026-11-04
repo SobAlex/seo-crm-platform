@@ -1,11 +1,11 @@
 <script setup lang="ts">
 // Каркас приложения: сайдбар w-64, мобильная шапка и нижняя навигация, контент.
 // definePageMeta({ roles: [...] }) на странице — как data-roles у data-app-chrome прототипа: чужой роли «Нет доступа».
-const route = useRoute()
+const router = useRouter()
 const { role, roleLabel, hasRole } = useRole()
 
 const denied = computed(() => {
-  const allowed = route.meta.roles as string[] | undefined
+  const allowed = router.currentRoute.value.meta.roles as string[] | undefined
   return !!allowed && !hasRole(allowed)
 })
 </script>

@@ -1,3 +1,4 @@
+import { accessRoleOf } from '~/utils/session-role'
 import {
   ROLES,
   ROLE_INFO,
@@ -25,7 +26,7 @@ export interface DemoUser {
 }
 
 export const DEMO_USERS: Record<Role, DemoUser> = {
-  owner: { id: 'smirnov', name: 'Александр Смирнов', email: 'alex@romashka.ru', initials: 'АС', badge: 'bg-zinc-900 text-white', desc: 'Делает всё в компании, включая профиль, тариф, смену ролей и удаление компании.', projects: [] },
+  owner: { id: 'smirnov', name: 'Александр Смирнов', email: 'owner@romashka.ru', initials: 'АС', badge: 'bg-zinc-900 text-white', desc: 'Делает всё в компании, включая профиль, тариф, смену ролей и удаление компании.', projects: [] },
   seo_head: { id: 'sidorov', name: 'Иван Сидоров', email: 'sidorov@romashka.ru', initials: 'ИС', badge: 'bg-blue-50 text-blue-700', desc: 'Полный доступ, кроме профиля компании, тарифа, смены ролей и удаления компании. Шаблоны и интеграции ему доступны.', projects: ['holod', 'remont'] },
   mgr_head: { id: 'vetrova', name: 'Ольга Ветрова', email: 'vetrova@romashka.ru', initials: 'ОВ', badge: 'bg-violet-50 text-violet-700', desc: 'Тот же доступ, что у руководителя SEO: всё, кроме профиля, тарифа, смены ролей и удаления компании.', projects: ['medlife', 'stroytech'] },
   seo_specialist: { id: 'petrov', name: 'Алексей Петров', email: 'petrov@romashka.ru', initials: 'АП', badge: 'bg-emerald-50 text-emerald-700', desc: 'Проекты своей команды, задачи и отчёты. Без шаблонов, интеграций и профиля компании.', projects: ['holod', 'remont'] },
@@ -62,8 +63,12 @@ export function homeFor(role: Role): string {
 }
 
 export function useRole() {
+  const auth = useAuth()
   const cookie = useCookie<string>('seo_role', { default: () => 'owner', sameSite: 'lax' })
-  const role = computed<Role>(() => (isRole(cookie.value) ? cookie.value : 'owner'))
+  const role = computed<Role>(() => {
+    if (auth.user.value) return accessRoleOf(auth.user.value.role)
+    return isRole(cookie.value) ? cookie.value : 'owner'
+  })
   const user = computed(() => DEMO_USERS[role.value])
   const info = computed(() => ROLE_INFO[role.value])
   const profile = computed(() => profileOf(role.value))

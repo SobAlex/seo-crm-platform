@@ -8,6 +8,7 @@ export default defineConfig({
   schema: "prisma/schema.prisma",
   migrations: {
     path: "prisma/migrations",
+    seed: "node_modules/.bin/ts-node --transpile-only --compiler-options {\"module\":\"CommonJS\",\"moduleResolution\":\"node\",\"resolvePackageJsonExports\":false} prisma/seed.ts",
   },
   engine: "classic",
   datasource: {

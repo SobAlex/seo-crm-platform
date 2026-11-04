@@ -163,6 +163,8 @@ model Invitation {
   companyId String
   email     String
   role      Role
+  firstName String?
+  lastName  String?
   token     String           @unique
   status    InvitationStatus @default(PENDING)
   expiresAt DateTime

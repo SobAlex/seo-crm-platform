@@ -3,8 +3,15 @@ import type { Role } from '@crm/access'
 import { NAV, NAV_FOOT, isActive } from '~/constants/nav'
 
 const route = useRoute()
-const { role, user, roleLabel, roles, setRole, can, hasRole } = useRole()
+const { role, user, roleLabel, roles, can, hasRole } = useRole()
+const auth = useAuth()
+const notify = useNotify()
 const open = useState('sidebar-open', () => false)
+
+const sessionName = computed(() => (auth.user.value ? personName(auth.user.value) : user.value.name))
+const sessionEmail = computed(() => auth.user.value?.email ?? user.value.email)
+const sessionInitials = computed(() => (auth.user.value ? personInitials(auth.user.value) : user.value.initials))
+const sessionAvatar = computed(() => auth.user.value?.avatar ?? '')
 
 const nav = computed(() => NAV.filter(i => i.roles.includes(role.value)))
 const foot = computed(() => NAV_FOOT.filter(i => i.roles.includes(role.value)))
@@ -48,10 +55,21 @@ watch(() => route.fullPath, () => {
   menu.value = null
 })
 
-function switchRole(next: Role) {
-  setRole(next)
+async function switchRole(next: Role) {
+  if (next === role.value) return
+  try {
+    await auth.switchDevRole(next)
+  } catch (err) {
+    notify(apiErrorMessage(err), 'error')
+    return
+  }
   const allowed = route.meta.roles as string[] | undefined
-  if (allowed && !hasRole(allowed)) navigateTo(homeFor(next))
+  if (allowed && !hasRole(allowed)) await navigateTo(homeFor(next))
+}
+
+async function onLogout() {
+  menu.value = null
+  await auth.logout()
 }
 
 const linkCls = 'flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900 transition'
@@ -118,9 +136,10 @@ const linkCls = 'flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-zi
 
       <div ref="box" class="m-3 p-2 rounded-2xl bg-white border border-black/5 shadow-sm hover:border-black/10 transition relative flex items-center justify-between gap-2 shrink-0" data-user-menu-container>
         <button type="button" :aria-expanded="menu === 'user'" aria-haspopup="menu" aria-label="Меню пользователя" class="flex items-center gap-2.5 min-w-0 flex-1 text-left p-1 rounded-xl hover:bg-zinc-50 transition focus:outline-none" @click.stop="toggle('user')">
-          <span class="h-9 w-9 rounded-full bg-zinc-900 text-white text-xs font-semibold flex items-center justify-center shrink-0">{{ user.initials }}</span>
+          <img v-if="sessionAvatar" :src="sessionAvatar" alt="" class="h-9 w-9 rounded-full object-cover shrink-0">
+          <span v-else class="h-9 w-9 rounded-full bg-zinc-900 text-white text-xs font-semibold flex items-center justify-center shrink-0">{{ sessionInitials }}</span>
           <span class="min-w-0 flex-1">
-            <span class="block text-xs font-semibold text-zinc-900 truncate leading-tight">{{ user.name }}</span>
+            <span class="block text-xs font-semibold text-zinc-900 truncate leading-tight">{{ sessionName }}</span>
             <span class="block text-[11px] text-zinc-400 truncate mt-0.5">{{ roleLabel }}</span>
           </span>
         </button>
@@ -131,8 +150,8 @@ const linkCls = 'flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-zi
 
         <div v-if="menu === 'user'" role="menu" class="absolute bottom-[calc(100%+8px)] left-0 right-0 bg-white rounded-2xl shadow-pop border border-black/5 py-2 z-50 text-left">
           <div class="px-4 py-2.5">
-            <div class="text-xs font-semibold text-zinc-900 truncate">{{ user.name }}</div>
-            <div class="text-[11px] text-zinc-400 truncate mt-0.5">{{ user.email }}</div>
+            <div class="text-xs font-semibold text-zinc-900 truncate">{{ sessionName }}</div>
+            <div class="text-[11px] text-zinc-400 truncate mt-0.5">{{ sessionEmail }}</div>
             <div class="mt-2"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium" :class="user.badge">{{ roleLabel }}</span></div>
           </div>
           <div class="border-t border-zinc-100 my-1" />
@@ -146,7 +165,7 @@ const linkCls = 'flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-zi
             ><AppIcon name="sliders" class="w-4 h-4 text-zinc-400 shrink-0" />Настройки компании</NuxtLink>
           </AccessGate>
           <div class="border-t border-zinc-100 my-1" />
-          <NuxtLink to="/login" role="menuitem" class="flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-red-600 hover:bg-red-50 transition"><AppIcon name="logout" class="w-4 h-4 shrink-0" />Выйти из аккаунта</NuxtLink>
+          <button type="button" role="menuitem" class="w-full flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-red-600 hover:bg-red-50 transition" @click="onLogout"><AppIcon name="logout" class="w-4 h-4 shrink-0" />Выйти из аккаунта</button>
         </div>
 
         <div v-if="menu === 'notifications'" class="fixed lg:absolute left-4 right-4 bottom-20 lg:left-[calc(100%+12px)] lg:right-auto lg:bottom-0 w-auto lg:w-80 bg-white rounded-2xl shadow-pop border border-black/5 overflow-hidden z-50 text-left">

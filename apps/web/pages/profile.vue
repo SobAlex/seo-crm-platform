@@ -6,10 +6,11 @@ definePageMeta({ roles: ['owner', 'seo_head', 'mgr_head', 'pm', 'employee', 'con
 useHead({ title: 'Мой профиль — SEO Control' })
 
 const { role, user, roleLabel } = useRole()
+const auth = useAuth()
 const notify = useNotify()
 
 const EMAILS: Record<Role, string> = {
-  owner: 'alex@romashka.ru',
+  owner: 'owner@romashka.ru',
   seo_head: 'i.sidorov@romashka.ru',
   mgr_head: 'o.vetrova@romashka.ru',
   account_manager: 'n.morozov@romashka.ru',
@@ -18,16 +19,23 @@ const EMAILS: Record<Role, string> = {
   client: 'e.krylova@holod.ru'
 }
 
-const name = ref(user.value.name)
-const email = ref(EMAILS[role.value])
-const phone = ref('+7 (999) 000-11-22')
-const telegram = ref('@alex_smirnov')
+const session = computed(() => auth.user.value)
+const initials = computed(() => (session.value ? personInitials(session.value) : user.value.initials))
+const name = ref(session.value ? personName(session.value) : user.value.name)
+const email = ref(session.value?.email ?? EMAILS[role.value])
+const phone = ref(session.value ? (session.value.phone ?? '') : '+7 (999) 000-11-22')
+const telegram = ref(session.value ? (session.value.telegram ?? '') : '@alex_smirnov')
 const touched = { name: false, email: false }
 
 // Смена роли в демо-переключателе подставляет данные нового человека, пока поле не трогали.
-watch(role, r => {
-  if (!touched.name) name.value = DEMO_USERS[r].name
-  if (!touched.email) email.value = EMAILS[r]
+watch(role, () => {
+  const current = auth.user.value
+  if (!touched.name) name.value = current ? personName(current) : user.value.name
+  if (!touched.email) email.value = current?.email ?? EMAILS[role.value]
+  if (current) {
+    phone.value = current.phone ?? ''
+    telegram.value = current.telegram ?? ''
+  }
 })
 
 const showSettingsHint = computed(() => role.value !== 'client' && role.value !== 'contractor')
@@ -57,8 +65,9 @@ const notifications = ref([
   { label: 'Ежедневная сводка дедлайнов в 09:00', email: true, telegram: true }
 ])
 
-function logout() {
+async function logout() {
   notify('Вы вышли из системы', 'info')
+  await auth.logout({ redirect: false })
   setTimeout(() => navigateTo('/login'), 700)
 }
 </script>
@@ -72,7 +81,8 @@ function logout() {
     <section class="bg-white rounded-2xl shadow-card p-6 space-y-4">
       <h2 class="text-sm font-semibold tracking-tight text-zinc-900">Основные данные</h2>
       <div class="flex flex-col sm:flex-row sm:items-center gap-4">
-        <span class="w-20 h-20 rounded-full bg-zinc-900 text-white text-xl font-semibold flex items-center justify-center shrink-0"><span>{{ user.initials }}</span></span>
+        <img v-if="session?.avatar" :src="session.avatar" alt="" class="w-20 h-20 rounded-full object-cover shrink-0">
+        <span v-else class="w-20 h-20 rounded-full bg-zinc-900 text-white text-xl font-semibold flex items-center justify-center shrink-0"><span>{{ initials }}</span></span>
         <div class="flex flex-wrap items-center gap-2">
           <UButton color="white" class="rounded-full text-sm" @click="photoInput?.click()">Сменить фото</UButton>
           <input ref="photoInput" type="file" accept="image/png,image/jpeg" class="hidden" @change="onPhoto">

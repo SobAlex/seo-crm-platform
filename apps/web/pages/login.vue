@@ -1,26 +1,34 @@
 <script setup lang="ts">
-// login.html → чистый экран входа. Email демо-сотрудника выбирает его роль, иначе остаётся текущая.
-import type { Role } from '@crm/access'
-
+// login.html → чистый экран входа. Успешный вход ставит JWT-cookie и открывает проекты.
 definePageMeta({ layout: 'auth' })
 useHead({ title: 'Вход — SEO Control' })
 
-const { role, setRole } = useRole()
+const { login } = useAuth()
+const notify = useNotify()
 
 const form = ref<HTMLFormElement | null>(null)
 const email = ref('')
 const password = ref('')
 const remember = ref(false)
+const pending = ref(false)
+const error = ref('')
 
-function submit() {
+async function submit() {
   if (!form.value?.checkValidity()) {
     form.value?.reportValidity()
     return
   }
-  const login = email.value.trim().toLowerCase()
-  const match = (Object.keys(DEMO_USERS) as Role[]).find(r => DEMO_USERS[r].email === login)
-  if (match) setRole(match)
-  navigateTo(homeFor(match ?? role.value))
+  pending.value = true
+  error.value = ''
+  try {
+    await login(email.value.trim(), password.value, remember.value)
+    notify('Успешный вход', 'success')
+    await navigateTo('/projects')
+  } catch (err) {
+    error.value = apiErrorMessage(err)
+  } finally {
+    pending.value = false
+  }
 }
 </script>
 
@@ -44,7 +52,8 @@ function submit() {
             </label>
             <a href="#" class="text-sm text-accent hover:underline shrink-0" @click.prevent>Забыли пароль?</a>
           </div>
-          <UButton type="submit" size="md" block :ui="{ rounded: 'rounded-full' }">Войти</UButton>
+          <p v-if="error" class="text-sm text-red-600" role="alert">{{ error }}</p>
+          <UButton type="submit" size="md" block :loading="pending" :disabled="pending" :ui="{ rounded: 'rounded-full' }">Войти</UButton>
         </form>
       </div>
 
