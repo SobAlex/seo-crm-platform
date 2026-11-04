@@ -30,7 +30,7 @@ export class ClientsController {
   }
 
   @Delete(':id')
-  archive(@Req() req: { user: AuthPayload }, @Param('id') id: string) {
-    return this.clients.archive(req.user, id);
+  remove(@Req() req: { user: AuthPayload }, @Param('id') id: string) {
+    return this.clients.remove(req.user, id);
   }
 }

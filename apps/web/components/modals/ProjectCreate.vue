@@ -125,7 +125,9 @@ async function submit() {
         targetTraffic: f.traffic ? Number(f.traffic) : 0,
         targetLeads: f.leads ? Number(f.leads) : 0,
         startMonth: f.start,
-        kpis: f.kpis
+        kpis: f.kpis,
+        pmId: f.pm || undefined,
+        seoId: f.seo || undefined
       }
     })
     emit('created', { id: saved.id, title: f.title, site: f.site, client: clientName, budget: f.budget, taskCount: saved.taskCount })

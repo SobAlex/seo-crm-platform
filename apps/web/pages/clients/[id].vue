@@ -4,13 +4,13 @@ import { shortName } from '~/constants/directory'
 import { clientMono, type ClientUpdated } from '~/types/clients'
 
 definePageMeta({ roles: ['owner', 'seo_head', 'mgr_head', 'pm', 'employee'] })
-useHead({ title: 'Клиент · Холод Групп — SEO Control' })
+useHead({ title: 'Клиент — SEO Control' })
 
 const { can, user } = useRole()
 const notify = useNotify()
 
 const route = useRoute()
-const crumbName = ref('Холод Групп')
+const crumbName = ref('Клиент')
 const crumbs = computed(() => [
   { label: 'Главная', to: '/' },
   { label: 'Клиенты', to: '/clients' },
@@ -21,14 +21,16 @@ const PROJECT_TIP = 'Создание проектов доступно мене
 const INVITE_TIP = 'Приглашать в портал может владелец или руководитель отдела'
 
 const client = ref({
-  name: 'ООО «Холод Групп»',
-  meta: 'ИНН 7701234567 · Москва · в базе с 01.05.2025',
-  rate: '2 500'
+  name: '',
+  meta: '',
+  rate: ''
 })
 const logo = ref('')
-const mono = computed(() => clientMono(client.value.name || 'Холод Групп', 'ХГ'))
+const mono = computed(() => clientMono(client.value.name || 'Клиент', 'КЛ'))
+const projects = ref<{ id: string; name: string; site: string; status: { label: string; badge: string; dot: string }; fee: string }[]>([])
 onMounted(async () => {
-  try { logo.value = localStorage.getItem('seo_client_logo_holod') || '' } catch { /* ignore */ }
+  const id = String(route.params.id)
+  try { logo.value = localStorage.getItem(`seo_client_logo_${id}`) || '' } catch { /* ignore */ }
   try {
     const row = await $fetch<{
       name: string
@@ -41,47 +43,36 @@ onMounted(async () => {
       email: string
       phone: string
       projects: { id: string; name: string; site: string; status: string }[]
-    }>(`/api/clients/${route.params.id}`, { credentials: 'include' })
+    }>(`/api/clients/${id}`, { credentials: 'include' })
     client.value.name = row.name
     crumbName.value = row.name.replace(/^ООО |^АО |^ИП /, '')
     client.value.meta = [row.inn ? `ИНН ${row.inn}` : '', row.city || '', row.since].filter(Boolean).join(' · ')
     if (row.ratePerHour != null) client.value.rate = row.ratePerHour.toLocaleString('ru-RU')
     if (row.contactPerson) {
-      contacts.value.splice(0, 1, { name: row.contactPerson, post: row.contactPosition || '', email: row.email, phone: row.phone || '' })
+      contacts.value.splice(0, contacts.value.length, { name: row.contactPerson, post: row.contactPosition || '', email: row.email, phone: row.phone || '' })
+    } else {
+      contacts.value = []
     }
-    if (row.projects.length) {
-      projects.value = row.projects.map(project => ({
-        id: project.id,
-        name: project.name,
-        site: project.site,
-        status: project.status === 'active'
-          ? { label: 'Активен', badge: 'bg-emerald-50 text-emerald-700', dot: 'bg-emerald-600' }
-          : { label: 'На паузе', badge: 'bg-zinc-100 text-zinc-700', dot: 'bg-zinc-500' },
-        fee: '—'
-      }))
-    }
-  } catch { /* карточка прототипа остаётся, если сервер недоступен */ }
+    projects.value = row.projects.map(project => ({
+      id: project.id,
+      name: project.name,
+      site: project.site,
+      status: project.status === 'active'
+        ? { label: 'Активен', badge: 'bg-emerald-50 text-emerald-700', dot: 'bg-emerald-600' }
+        : { label: 'На паузе', badge: 'bg-zinc-100 text-zinc-700', dot: 'bg-zinc-500' },
+      fee: '—'
+    }))
+  } catch {
+    client.value.name = 'Клиент не найден'
+    crumbName.value = 'Не найден'
+    projects.value = []
+  }
 })
 
-const projects = ref([
-  { id: 'holod', name: 'Интернет-магазин «Холод»', site: 'holod-shop.ru', status: { label: 'Активен', badge: 'bg-emerald-50 text-emerald-700', dot: 'bg-emerald-600' }, fee: '240 000 ₽' },
-  { id: 'holodb2b', name: 'Оптовый портал «Холод B2B»', site: 'b2b.holod-shop.ru', status: { label: 'Запуск', badge: 'bg-blue-50 text-blue-700', dot: 'bg-blue-600' }, fee: '90 000 ₽' }
-])
-
-const HISTORY = [
-  { text: 'Отправлен бриф по проекту «Холод B2B»', date: '12.06.2025' },
-  { text: 'Создан проект «Холод B2B»', date: '10.06.2025' },
-  { text: 'Создан проект «Холод»', date: '01.05.2025' },
-  { text: 'Подписан договор на 6 мес', date: '28.04.2025' },
-  { text: 'Проведена встреча-знакомство', date: '22.04.2025' }
-]
+const HISTORY: { text: string; date: string }[] = []
 
 // Лента комментариев (data-thread).
-const comments = ref([
-  { initials: 'ИС', name: 'И. Сидоров', time: '10.05, 12:30', text: 'Клиент просит ускорить техаудит. Добавить в план на следующую неделю.' },
-  { initials: 'ОВ', name: 'О. Ветрова', time: '06.05, 15:45', text: 'Обсудили бюджет на Q3. Клиент готов рассмотреть увеличение чека при росте трафика на 30%.' },
-  { initials: 'ИС', name: 'И. Сидоров', time: '02.05, 10:15', text: 'Старт проекта. Согласовали приоритеты: техника, потом семантика, потом контент.' }
-])
+const comments = ref<{ initials: string; name: string; time: string; text: string }[]>([])
 const draft = ref('')
 const draftBox = ref<HTMLElement | null>(null)
 function sendComment() {
@@ -102,15 +93,12 @@ function sendComment() {
   notify('Комментарий добавлен')
 }
 
-const contacts = ref([
-  { name: 'Сергей Волков', post: 'Директор по маркетингу', email: 's.volkov@holod.ru', phone: '+7 495 123-45-67' },
-  { name: 'Анна Морозова', post: 'Менеджер проекта', email: 'a.morozova@holod.ru', phone: '' }
-])
-const docs = ref(['Договор №1205', 'ТЗ на квартал Q2'])
+const contacts = ref<{ name: string; post: string; email: string; phone: string }[]>([])
+const docs = ref<string[]>([])
 
 // Бриф: «Холод» — заполнен; состояние «отправлен» оставлено для других клиентов.
 const briefState = ref<'filled' | 'sent'>('filled')
-const BRIEF_LINK = 'https://romashka.seo-control.app/brief/holod-7f3a'
+const BRIEF_LINK = ''
 function copyBriefLink() {
   navigator.clipboard?.writeText(BRIEF_LINK).catch(() => {})
   notify('Ссылка на бриф скопирована', 'success')
@@ -143,11 +131,9 @@ function onUpdated(c: ClientUpdated) {
   client.value.name = c.name
   client.value.meta = `ИНН ${c.inn} · ${c.city} · в базе с 01.05.2025`
   if (c.rate) client.value.rate = (+c.rate).toLocaleString('ru-RU')
-  const first = contacts.value[0]!
-  first.name = c.contact
-  first.post = c.post || ''
-  first.email = c.email
-  first.phone = c.phone || ''
+  const next = { name: c.contact, post: c.post || '', email: c.email, phone: c.phone || '' }
+  if (contacts.value[0]) contacts.value.splice(0, 1, next)
+  else contacts.value = [next]
   if (c.logo) logo.value = c.logo
 }
 

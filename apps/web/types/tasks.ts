@@ -27,6 +27,8 @@ export interface BoardTask {
   wait?: number
   /** Пункт дорожной карты (?work= из project.html). */
   work?: string
+  projectLabel?: string
+  assigneeName?: string
 }
 
 export const PEOPLE: Record<string, [string, string]> = {

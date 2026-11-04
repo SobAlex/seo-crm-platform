@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { AuthPayload } from '../auth/auth.types';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ChangeStatusDto, CreateCommentDto, CreateTaskDto, TransitionTaskDto, UpdateTaskDto } from './dto';
@@ -42,5 +42,10 @@ export class TasksController {
   @Post(':id/transition')
   transition(@Req() req: { user: AuthPayload }, @Param('id') id: string, @Body() dto: TransitionTaskDto) {
     return this.tasks.transition(req.user, id, dto.action, dto.comment, dto.assigneeId);
+  }
+
+  @Delete(':id')
+  remove(@Req() req: { user: AuthPayload }, @Param('id') id: string) {
+    return this.tasks.remove(req.user, id);
   }
 }

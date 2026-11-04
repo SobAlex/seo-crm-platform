@@ -29,7 +29,8 @@ async function remove(t: ProjectType) {
 <template>
   <div class="flex flex-col gap-4">
     <div class="bg-white rounded-2xl shadow-card overflow-hidden">
-      <ul class="divide-y divide-zinc-100">
+      <p v-if="!types.length" class="px-4 lg:px-6 py-8 text-sm text-zinc-500">Нет созданных типов проектов</p>
+      <ul v-else class="divide-y divide-zinc-100">
         <li v-for="t in types" :key="t.id" class="px-4 lg:px-6 py-4 flex items-center justify-between gap-3">
           <div class="flex items-center gap-3 lg:gap-4 min-w-0">
             <TemplatesTypeDot :color="t.color" class="w-2.5 h-2.5" />

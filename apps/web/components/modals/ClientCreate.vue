@@ -13,7 +13,7 @@ const emit = defineEmits<{
 const { can } = useRole()
 const notify = useNotify()
 
-const blank = (): ClientForm => ({ name: '', inn: '', city: '', rate: '', contact: '', post: '', email: '', phone: '', brief: 'base', logo: '' })
+const blank = (): ClientForm => ({ name: '', inn: '', city: '', rate: '', contact: '', post: '', email: '', phone: '', website: '', brief: 'base', logo: '' })
 const form = ref(blank())
 const sendBrief = ref(true)
 const fields = ref<{ check: () => boolean } | null>(null)
@@ -65,6 +65,7 @@ async function submit() {
         city: f.city.trim(),
         contactPosition: f.post.trim(),
         ratePerHour: f.rate.trim(),
+        website: f.website.trim(),
         status: 'LEAD'
       }
     })

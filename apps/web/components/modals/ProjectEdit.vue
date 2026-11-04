@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // Окно «Настройки проекта» (registerModal('project-edit') в assets/modals.js).
 import { KPI_DEFAULT, KPI_OPTS, monthOptions } from '~/constants/directory'
-import { readProjectKpis, writeProjectKpis, type MetricKey } from '~/types/project'
+import { writeProjectKpis, type MetricKey } from '~/types/project'
 
 interface ProjectUpdated {
   title: string
@@ -39,15 +39,18 @@ const open = computed({
 })
 watch(open, v => { if (v) void load() })
 
+function storedKpis(value: unknown): string[] {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : []
+}
+
 async function load() {
-  form.value.kpis = readProjectKpis()
   try {
     const [clientRows, typeRows, mapRows, people, project] = await Promise.all([
       $fetch<Array<{ id: string; name: string; contactPerson: string; email: string; ratePerHour: number | null }>>('/api/clients', { credentials: 'include' }),
       $fetch<Array<{ id: string; name: string }>>('/api/templates/types', { credentials: 'include' }),
       $fetch<Array<{ id: string; name: string; type: string }>>('/api/templates/roadmaps', { credentials: 'include' }),
       $fetch<Array<{ id: string; name: string; role: string }>>('/api/members', { credentials: 'include' }),
-      $fetch<{ name: string; domain: string | null; monthlyBudget: number | null; monthlyHoursLimit: number | null; client: { id: string } | null; projectType: { id: string } | null; plan: { targetTraffic: number; targetLeads: number } | null; startDate: string | null }>(`/api/projects/${route.params.id}`, { credentials: 'include' })
+      $fetch<{ name: string; domain: string | null; monthlyBudget: number | null; monthlyHoursLimit: number | null; targetKpis: unknown; pmId: string | null; seoId: string | null; client: { id: string } | null; projectType: { id: string } | null; plan: { targetTraffic: number; targetLeads: number } | null; startDate: string | null }>(`/api/projects/${route.params.id}`, { credentials: 'include' })
     ])
     clients.value = clientRows.map(row => ({ id: row.id, name: row.name, contact: row.contactPerson, email: row.email, rate: row.ratePerHour || 0 }))
     types.value = typeRows
@@ -58,15 +61,16 @@ async function load() {
       ...form.value,
       title: project.name,
       site: project.domain || '',
-      client: project.client?.id || clients.value[0]?.id || '',
-      type: project.projectType?.id || types.value[0]?.id || '',
+      client: project.client?.id || '',
+      type: project.projectType?.id || '',
       start,
       budget: project.monthlyBudget != null ? String(project.monthlyBudget) : '',
-      hours: project.monthlyHoursLimit != null ? String(project.monthlyHoursLimit) : form.value.hours,
+      hours: project.monthlyHoursLimit != null ? String(project.monthlyHoursLimit) : '',
       traffic: project.plan ? String(project.plan.targetTraffic) : '',
       leads: project.plan ? String(project.plan.targetLeads) : '',
-      pm: pmOptions.value[0]?.value ?? '',
-      seo: seoOptions.value[0]?.value ?? '',
+      pm: project.pmId || '',
+      seo: project.seoId || '',
+      kpis: storedKpis(project.targetKpis),
       roadmap: roadmaps.value.find(item => item.type === (project.projectType?.id || ''))?.id ?? ''
     }
   } catch (error) {
@@ -112,7 +116,9 @@ async function submit() {
         targetTraffic: f.traffic ? Number(f.traffic) : 0,
         targetLeads: f.leads ? Number(f.leads) : 0,
         startMonth: f.start,
-        kpis: writeProjectKpis(f.kpis)
+        kpis: writeProjectKpis(f.kpis),
+        pmId: f.pm || undefined,
+        seoId: f.seo || undefined
       }
     })
     emit('updated', {
@@ -169,6 +175,8 @@ async function submit() {
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <UiField label="Старт работ"><USelect v-model="form.start" :options="startOptions" /></UiField>
       <UiField v-if="can('finance.fee.view')" label="Чек в месяц, ₽"><UInput v-model="form.budget" type="number" min="0" step="1000" /></UiField>
+      <UiField label="Целевой трафик"><UInput v-model="form.traffic" type="number" min="0" step="100" /></UiField>
+      <UiField label="Целевые лиды"><UInput v-model="form.leads" type="number" min="0" step="1" /></UiField>
       <UiField label="Лимит часов"><UInput v-model="form.hours" type="number" min="1" /></UiField>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">

@@ -1,4 +1,4 @@
-import { IsBoolean, IsEmail, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsBoolean, IsEmail, IsOptional, IsString, MinLength, ValidateIf } from 'class-validator';
 
 export class LoginDto {
   @IsEmail({}, { message: 'Укажите корректный email' })
@@ -55,4 +55,50 @@ export class RegisterByInviteDto {
   @IsString()
   @MinLength(6, { message: 'Пароль — не менее 6 символов' })
   password!: string;
+}
+
+export class UpdateProfileDto {
+  @IsOptional()
+  @IsString()
+  @MinLength(1, { message: 'Укажите имя' })
+  firstName?: string;
+
+  @IsOptional()
+  @IsString()
+  lastName?: string;
+
+  @IsOptional()
+  @ValidateIf((_, value) => typeof value === 'string' && value.trim() !== '')
+  @IsEmail({}, { message: 'Укажите корректный email' })
+  email?: string;
+
+  @IsOptional()
+  @IsString()
+  phone?: string;
+
+  @IsOptional()
+  @IsString()
+  telegram?: string;
+}
+
+export class UpdateCompanyDto {
+  @IsString()
+  @MinLength(1, { message: 'Укажите название компании' })
+  name!: string;
+
+  @IsOptional()
+  @IsString()
+  inn?: string;
+
+  @IsOptional()
+  @IsString()
+  city?: string;
+
+  @IsOptional()
+  @IsString()
+  address?: string;
+
+  @IsOptional()
+  @IsString()
+  email?: string;
 }

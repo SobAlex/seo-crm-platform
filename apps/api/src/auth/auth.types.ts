@@ -16,6 +16,10 @@ export interface PublicUser {
   telegram: string | null;
   avatar: string | null;
   companyName: string;
+  companyInn: string | null;
+  companyCity: string | null;
+  companyAddress: string | null;
+  companyEmail: string | null;
 }
 
 export interface AuthSession {

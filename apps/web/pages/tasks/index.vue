@@ -14,28 +14,8 @@ const { can, hasRole, role, user, isLead, seesWorkspace } = useRole()
 const notify = useNotify()
 const route = useRoute()
 
-const tasks = ref<BoardTask[]>([
-  { id: 13, title: 'Настройка целей в Метрике', project: 'medlife', dir: 'audit', assignee: 'lebedev', co: [], creator: 'vetrova', acceptor: 'sidorov', status: 'progress', stage: 0, due: '2025-06-09', report: false },
-  { id: 12, title: 'Оптимизация карточек услуг', project: 'remont', dir: 'onpage', assignee: 'dronov', co: ['petrov'], creator: 'morozov', acceptor: 'sidorov', status: 'progress', stage: 1, due: '2025-06-10', report: true },
-  { id: 11, title: 'Дубли Title на пагинации', project: 'remont', dir: 'audit', assignee: 'petrov', co: ['dronov'], creator: 'sidorov', acceptor: 'sidorov', status: 'progress', stage: 1, due: '2025-06-12', prio: 'high', report: false },
-  { id: 3, title: 'Мета-теги категорий', project: 'remont', dir: 'onpage', assignee: 'lebedev', co: [], creator: 'petrov', acceptor: 'petrov', status: 'review', stage: 2, due: '2025-06-16', reviewDays: 3, report: true },
-  { id: 2, title: 'Canonical для фильтров', project: 'holod', dir: 'audit', assignee: 'petrov', co: [], creator: 'morozov', acceptor: 'sidorov', status: 'review', stage: 2, due: '2025-06-17', reviewDays: 1, report: true },
-  { id: 1, title: 'Проверить индексацию в GSC', project: 'holod', dir: 'audit', assignee: 'kim', co: [], creator: 'petrov', acceptor: 'petrov', status: 'review', stage: 2, due: '2025-06-18', reviewDays: 2, prio: 'high', report: true },
-  { id: 19, title: 'Запросить доступы у клиента', project: 'medlife', dir: null, assignee: 'morozov', co: [], creator: 'morozov', acceptor: '', status: 'progress', stage: null, due: '2025-06-19', report: false },
-  { id: 6, title: 'Статья «Как выбрать холодильник»', project: 'holod', dir: 'content', assignee: 'kim', co: [], creator: 'petrov', acceptor: 'petrov', status: 'progress', stage: 1, due: '2025-06-20', returned: true, report: true },
-  { id: 20, title: 'Согласовать отчётность с клиентом', project: 'medlife', dir: null, assignee: 'vetrova', co: [], creator: 'vetrova', acceptor: '', status: 'progress', stage: null, due: '2025-06-20', report: false },
-  { id: 17, title: 'Чек-лист аудита для шаблона', project: 'holod', dir: 'audit', assignee: 'petrov', co: [], creator: 'petrov', acceptor: '', status: 'progress', stage: 0, due: '2025-06-21', report: false },
-  { id: 4, title: 'Сбор семантики', project: 'holod', dir: 'semantic', assignee: 'sidorov', co: ['kim'], creator: 'sidorov', acceptor: '', status: 'progress', stage: 0, due: '2025-06-22', report: true },
-  { id: 7, title: 'Перелинковка в карточках', project: 'holod', dir: 'onpage', assignee: 'petrov', co: [], creator: 'sidorov', acceptor: 'sidorov', status: 'planned', stage: null, due: '2025-06-24', report: false },
-  { id: 14, title: 'Посадочные для услуг', project: 'medlife', dir: 'onpage', assignee: 'lebedev', co: [], creator: 'morozov', acceptor: 'sidorov', status: 'progress', stage: 0, due: '2025-06-25', report: true },
-  { id: 18, title: 'ТЗ копирайтеру на тексты услуг', project: 'remont', dir: 'content', assignee: 'lebedev', co: [], creator: 'petrov', acceptor: 'petrov', status: 'planned', stage: null, due: '2025-06-26', report: false },
-  { id: 8, title: 'Кластеризация запросов', project: 'holod', dir: 'semantic', assignee: 'sidorov', co: [], creator: 'sidorov', acceptor: '', status: 'planned', stage: null, due: '2025-06-27', report: false },
-  { id: 5, title: 'Стратегия по наращиванию ссылок', project: 'holod', dir: 'offpage', assignee: 'lebedev', co: ['petrov'], creator: 'sidorov', acceptor: 'sidorov', status: 'progress', stage: 1, due: '2025-06-30', report: false },
-  { id: 9, title: 'Доступы к GSC и Метрике', project: 'holod', dir: null, assignee: 'dronov', co: [], creator: 'morozov', acceptor: 'sidorov', status: 'waiting', stage: null, due: null, wait: 6, report: false },
-  { id: 10, title: 'Тексты категорий на согласование', project: 'holod', dir: 'content', assignee: 'kim', co: [], creator: 'petrov', acceptor: 'petrov', status: 'waiting', stage: 2, due: null, wait: 3, report: false },
-  { id: 15, title: 'Сбор маркеров', project: 'holod', dir: 'semantic', assignee: 'sidorov', co: [], creator: 'sidorov', acceptor: '', status: 'done', stage: 3, due: '2025-05-20', report: true },
-  { id: 16, title: 'Аудит технический', project: 'remont', dir: 'audit', assignee: 'dronov', co: [], creator: 'sidorov', acceptor: 'sidorov', status: 'done', stage: 3, due: '2025-06-10', report: true, work: 'audit-tech' }
-])
+const tasks = ref<BoardTask[]>([])
+const tasksLoaded = ref(false)
 
 const STATUS_DOT: Record<TaskStatus, string> = {
   planned: 'bg-zinc-400', progress: 'bg-blue-600', review: 'bg-amber-500', waiting: 'bg-violet-500', done: 'bg-emerald-500'
@@ -88,36 +68,50 @@ onMounted(async () => {
     if (localStorage.getItem(MODE_KEY) === 'list') mode.value = 'list'
   } catch { /* ignore */ }
   try {
-    const rows = await $fetch<Array<{ id: string; title: string; projectId: string; status: string; assigneeId: string | null; deadline: string | null; isInReport: boolean }>>('/api/tasks', { credentials: 'include' })
-    const known = new Set(tasks.value.map(task => String(task.id)))
+    const rows = await $fetch<Array<{ id: string; title: string; projectId: string; projectName: string; status: string; assigneeId: string | null; assigneeName: string; deadline: string | null; isInReport: boolean }>>('/api/tasks', { credentials: 'include' })
     const statusMap: Record<string, BoardTask['status']> = {
       PLANNED: 'planned', IN_PROGRESS: 'progress', ON_REVIEW: 'review', WAITING_CLIENT: 'waiting', DONE: 'done'
     }
-    for (const row of rows) {
-      if (known.has(row.id) || row.id.startsWith('tsk_')) continue
-      tasks.value.unshift({
-        id: row.id,
-        title: row.title,
-        project: row.projectId,
-        dir: null,
-        assignee: row.assigneeId || '',
-        co: [],
-        creator: '',
-        acceptor: '',
-        status: statusMap[row.status] ?? 'planned',
-        stage: null,
-        due: row.deadline ? row.deadline.slice(0, 10) : null,
-        report: row.isInReport
-      })
-    }
-  } catch { /* доска прототипа остаётся */ }
+    tasks.value = rows.map(row => ({
+      id: row.id,
+      title: row.title,
+      project: row.projectId,
+      projectLabel: row.projectName,
+      dir: null,
+      assignee: row.assigneeId || '',
+      assigneeName: row.assigneeName || '',
+      co: [],
+      creator: '',
+      acceptor: '',
+      status: statusMap[row.status] ?? 'planned',
+      stage: null,
+      due: row.deadline ? row.deadline.slice(0, 10) : null,
+      report: row.isInReport
+    }))
+  } catch (error) {
+    tasks.value = []
+    notify(apiErrorMessage(error), 'error')
+  } finally {
+    tasksLoaded.value = true
+  }
 })
 watch(focus, v => { try { localStorage.setItem(FOCUS_KEY.value, v) } catch { /* ignore */ } })
 watch(mode, v => { try { localStorage.setItem(MODE_KEY, v) } catch { /* ignore */ } })
 watch(isContractor, c => { if (c) focus.value = 'exec' })
+const { confirm } = useConfirm()
+async function removeTask(task: BoardTask) {
+  if (!(await confirm({ title: 'Удалить задачу?', text: task.title, ok: 'Удалить', toast: false }))) return
+  try {
+    await $fetch(`/api/tasks/${task.id}`, { method: 'DELETE', credentials: 'include' })
+    tasks.value = tasks.value.filter(row => row.id !== task.id)
+    notify('Задача удалена', 'success')
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
+}
 
 // Фильтрация: видимость по роли, фокус, фильтры тулбара, быстрый вид (?view=) и пункт дорожной карты (?work=).
-const isExec = (t: BoardTask) => t.assignee === me.value || t.co.includes(me.value)
+const isExec = (t: BoardTask) => t.assignee === me.value || t.co.includes(me.value) || (isContractor.value && Boolean(t.projectLabel))
 const visibleToMe = (t: BoardTask) => {
   if (!seesWorkspace() && !user.value.projects.includes(t.project)) return false
   return !isContractor.value || isExec(t)
@@ -388,6 +382,7 @@ const SEL = 'w-full sm:w-auto'
     </template>
 
     <div class="w-full">
+      <p v-if="tasksLoaded && !tasks.length" class="mb-4 px-4 py-8 rounded-2xl bg-white shadow-card text-sm text-zinc-500">Задач пока нет</p>
       <div v-if="mode === 'board'" class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4 lg:mx-0 lg:px-0 lg:grid lg:grid-cols-5 lg:gap-4 no-scrollbar">
         <section v-for="col in columns" :key="col.key" :class="COL">
           <div class="flex items-center gap-2 px-2 py-2">
@@ -419,6 +414,7 @@ const SEL = 'w-full sm:w-auto'
               :dragging="fadedId === t.id"
               @dragstart="onDragStart($event, t)"
               @dragend="onDragEnd"
+              @remove="removeTask(t)"
             />
             <div v-if="!col.items.length" class="rounded-xl border border-dashed border-zinc-300 px-3 py-6 text-center text-xs text-zinc-500">Пусто</div>
           </div>

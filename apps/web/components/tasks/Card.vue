@@ -9,7 +9,7 @@ const props = defineProps<{
   local?: boolean
   dragging?: boolean
 }>()
-const emit = defineEmits<{ dragstart: [e: DragEvent]; dragend: [] }>()
+const emit = defineEmits<{ dragstart: [e: DragEvent]; dragend: []; remove: [] }>()
 
 const PILL: Record<DueTone, string> = {
   wait: 'bg-violet-50 text-violet-700',
@@ -36,8 +36,9 @@ const overdue = computed(() => (dd.value.sub?.startsWith('просрочена')
     <div class="flex items-start gap-2">
       <NuxtLink :to="`/tasks/${task.id}`" draggable="false" class="flex-1 min-w-0 text-sm font-medium leading-snug hover:underline">{{ task.title }}</NuxtLink>
       <TasksReportMark v-if="task.report" on class="shrink-0 mt-0.5" />
+      <button type="button" class="shrink-0 text-[11px] text-zinc-400 hover:text-red-600" @click.stop="emit('remove')">Удалить</button>
     </div>
-    <div class="text-xs text-zinc-500 mt-1">{{ TASK_PROJECTS[task.project] }} · <span class="tabular-nums">#{{ task.id }}</span></div>
+    <div class="text-xs text-zinc-500 mt-1">{{ task.projectLabel || TASK_PROJECTS[task.project] || 'Проект' }}</div>
     <div class="flex flex-wrap gap-1 mt-2">
       <TasksStatusChip v-if="local" :status="task.status" />
       <TasksDirBadge v-else :task="task" />

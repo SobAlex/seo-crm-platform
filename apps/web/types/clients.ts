@@ -13,6 +13,7 @@ export interface ClientForm {
   post: string
   email: string
   phone: string
+  website: string
   brief: string
   /** data:URL выбранного логотипа. */
   logo: string

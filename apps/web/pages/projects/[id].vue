@@ -167,6 +167,9 @@ async function loadAnalytics() {
   if (source.status === 'fulfilled') {
     sourceForm.metrikaCounter = source.value.metrikaCounter ?? ''
     sourceForm.goalIds = source.value.goalIds.join(', ')
+    seoRows.value = source.value.metrikaCounter
+      ? [{ metric: 'Трафик', source: `Метрика · счётчик ${source.value.metrikaCounter}`, value: '—', updated: 'из базы' }]
+      : []
   }
 }
 
@@ -181,6 +184,9 @@ async function saveSource() {
     })
     sourceForm.metrikaCounter = saved.metrikaCounter ?? ''
     sourceForm.goalIds = saved.goalIds.join(', ')
+    seoRows.value = saved.metrikaCounter
+      ? [{ metric: 'Трафик', source: `Метрика · счётчик ${saved.metrikaCounter}`, value: '—', updated: 'только что' }]
+      : []
     notify('Параметры источника сохранены')
     await loadAnalytics()
   } catch (error: unknown) {
@@ -222,7 +228,7 @@ onMounted(async () => {
     if (row.startDate) projectStart.value = new Date(row.startDate).toLocaleDateString('ru-RU')
     liveTasks.value = row.tasks
     fresh.value = !KNOWN.has(projectKey.value)
-    if (fresh.value && row.plan) {
+    if (row.plan) {
       const traffic = kpis.value.find(item => item.key === 'traffic')
       const leads = kpis.value.find(item => item.key === 'leads')
       if (traffic) traffic.of = `из ${row.plan.targetTraffic.toLocaleString('ru-RU')}`
@@ -320,13 +326,13 @@ const monthSub = computed(() => MONTH_SUB[month.value] ?? '10 задач · 2 н
 
 /* ---------- Источники ---------- */
 type IntStatus = 'connected' | 'expired' | 'off'
-const integrations = ref<Record<'yandex' | 'google' | 'callibri', IntStatus>>({ yandex: 'connected', google: 'expired', callibri: 'off' })
+const integrations = ref<Record<'yandex' | 'google' | 'callibri', IntStatus>>({ yandex: 'off', google: 'off', callibri: 'off' })
 function readIntegrations() {
   try {
     const raw = JSON.parse(localStorage.getItem('seo_company_integrations') || 'null') || {}
     integrations.value = {
-      yandex: raw.yandex?.status ?? 'connected',
-      google: raw.google?.status ?? 'expired',
+      yandex: raw.yandex?.status ?? 'off',
+      google: raw.google?.status ?? 'off',
       callibri: raw.callibri?.status ?? 'off'
     }
   } catch { /* ignore */ }
@@ -337,14 +343,8 @@ const callibriOn = computed(() => integrations.value.callibri === 'connected')
 const gscSource = computed(() => integrations.value.google === 'connected' ? 'GSC · holod-shop.ru' : integrations.value.google === 'expired' ? 'GSC · токен истёк' : 'GSC · не подключён')
 
 interface SourceRow { metric: string; source: string; value: string; updated: string; loading?: boolean; isNew?: boolean; gsc?: boolean; callibri?: boolean; synced?: boolean }
-const seoRows = ref<SourceRow[]>([
-  { metric: 'Трафик', source: 'Метрика · счётчик 94512367', value: '24 380', updated: 'сегодня 04:15', synced: true },
-  { metric: 'Топ-10', source: 'Вебмастер · holod-shop.ru', value: '148', updated: 'вчера 22:15' },
-  { metric: 'Показы', source: 'GSC · holod-shop.ru', value: '12 400', updated: 'сегодня 05:00', gsc: true }
-])
-const clientRows = ref<SourceRow[]>([
-  { metric: 'Лиды из звонков', source: 'Callibri · holod-shop', value: '87', updated: 'сегодня 06:00', callibri: true }
-])
+const seoRows = ref<SourceRow[]>([])
+const clientRows = ref<SourceRow[]>([])
 const SOURCE_METRIC: Record<SourceConnected['type'], string> = { metrika: 'Трафик и цели', webmaster: 'Позиции и индексация', gsc: 'Показы и клики', callibri: 'Звонки и заявки' }
 function onSource(s: SourceConnected) {
   const rows = s.type === 'callibri' ? clientRows : seoRows
@@ -429,7 +429,9 @@ async function remove() {
 }
 
 const editOpen = ref(false)
-function onUpdated(p: { kpis: MetricKey[] }) {
+function onUpdated(p: { title?: string; site?: string; kpis: MetricKey[] }) {
+  if (p.title) projectTitle.value = p.title
+  if (p.site) projectSite.value = p.site
   if (p.kpis[0]) metric.value = p.kpis[0]
 }
 const sourceOpen = ref(false)
@@ -801,22 +803,15 @@ const CHECK = 'w-4 h-4 rounded-full bg-zinc-900 flex items-center justify-center
           </AccessGate>
         </div>
         <ul class="border-t border-zinc-100 divide-y divide-zinc-100">
-          <li class="px-4 lg:px-6 py-4 flex flex-col sm:flex-row sm:items-center gap-3">
+          <li v-if="sourceForm.metrikaCounter" class="px-4 lg:px-6 py-4 flex flex-col sm:flex-row sm:items-center gap-3">
             <span class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center font-bold shrink-0">Я</span>
             <div class="min-w-0 flex-1">
               <div class="text-sm font-medium">Яндекс.Метрика</div>
-              <div class="text-xs text-zinc-500 mt-0.5 tabular-nums">ID счётчика <span class="text-zinc-800 font-medium">{{ sourceForm.metrikaCounter || 'не указан' }}</span> · последняя выгрузка: {{ lastExport }}</div>
+              <div class="text-xs text-zinc-500 mt-0.5 tabular-nums">ID счётчика <span class="text-zinc-800 font-medium">{{ sourceForm.metrikaCounter }}</span></div>
             </div>
             <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500" />Активен</span>
           </li>
-          <li class="px-4 lg:px-6 py-4 flex flex-col sm:flex-row sm:items-center gap-3">
-            <span class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center font-bold shrink-0">В</span>
-            <div class="min-w-0 flex-1">
-              <div class="text-sm font-medium">Яндекс.Вебмастер</div>
-              <div class="text-xs text-zinc-500 mt-0.5">Сайт holod-shop.ru · индексация и запросы</div>
-            </div>
-            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500" />Активен</span>
-          </li>
+          <li v-else class="px-4 lg:px-6 py-8 text-sm text-zinc-500">Счётчики не подключены</li>
         </ul>
       </section>
 

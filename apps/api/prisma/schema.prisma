@@ -121,6 +121,8 @@ model Company {
   name      String
   inn       String?
   address   String?
+  city      String?
+  email     String?
   logo      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -229,6 +231,7 @@ model ProjectType {
   companyId   String
   name        String
   description String?
+  color       String  @default("violet")
   isDefault   Boolean @default(false)
 
   company      Company               @relation(fields: [companyId], references: [id], onDelete: Cascade)

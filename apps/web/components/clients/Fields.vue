@@ -102,6 +102,7 @@ watch(() => form.value.rate, () => { rateBad.value = false })
     <UiField label="Email" req><UInput v-model="form.email" type="email" required placeholder="name@company.ru" /></UiField>
     <UiField label="Телефон" opt="опционально"><UInput v-model="form.phone" type="tel" placeholder="+7 900 000-00-00" /></UiField>
   </div>
+  <UiField label="Сайт" opt="опционально"><UInput v-model="form.website" inputmode="url" placeholder="company.ru" /></UiField>
   <UiField label="Шаблон брифа" hint="Этот бриф клиент получит по ссылке или в портале">
     <USelect v-model="form.brief" :options="briefOptions" />
   </UiField>

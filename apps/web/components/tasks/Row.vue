@@ -27,7 +27,7 @@ const TD = 'px-4 py-3.5 text-xs text-ink align-middle'
     <td :class="TD">
       <div class="flex flex-wrap items-center gap-x-2 gap-y-1"><NuxtLink :to="`/tasks/${task.id}`" class="font-medium hover:underline">{{ task.title }}</NuxtLink><TasksTags :task="task" :me="me" /></div>
     </td>
-    <td :class="[TD, 'whitespace-nowrap']"><NuxtLink :to="`/tasks?project=${task.project}`" class="hover:underline">{{ TASK_PROJECTS[task.project] }}</NuxtLink></td>
+    <td :class="[TD, 'whitespace-nowrap']"><NuxtLink :to="`/tasks?project=${task.project}`" class="hover:underline">{{ task.projectLabel || TASK_PROJECTS[task.project] || 'Проект' }}</NuxtLink></td>
     <td :class="TD"><TasksDirBadge :task="task" /></td>
     <td :class="[TD, 'whitespace-nowrap']"><TasksStatusChip :status="task.status" :extra="extra" /></td>
     <td :class="TD">

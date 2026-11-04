@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { AuthPayload } from '../auth/auth.types';
 import { assertCan } from '../access';
@@ -6,6 +6,10 @@ import { PrismaService } from '../prisma/prisma.service';
 import { RoadmapDto, StageDto, TypeDto, WorkDto } from './dto';
 
 const COLORS = ['violet', 'emerald', 'blue', 'amber', 'cyan', 'rose'] as const;
+
+function marker(value?: string | null): (typeof COLORS)[number] {
+  return COLORS.includes(value as (typeof COLORS)[number]) ? (value as (typeof COLORS)[number]) : 'violet';
+}
 
 function hours(value: Prisma.Decimal): number {
   return Number(value);
@@ -22,11 +26,11 @@ export class TemplatesService {
       orderBy: { name: 'asc' },
       include: { _count: { select: { roadmaps: true, projects: true } } },
     });
-    return rows.map((row, index) => ({
+    return rows.map((row) => ({
       id: row.id,
       name: row.name,
       description: row.description ?? '',
-      color: COLORS[index % COLORS.length],
+      color: marker(row.color),
       roadmaps: row._count.roadmaps,
       projects: row._count.projects,
     }));
@@ -34,10 +38,16 @@ export class TemplatesService {
 
   async createType(actor: AuthPayload, dto: TypeDto) {
     assertCan(actor, 'templates.manage');
+    const color = marker(dto.color);
     const row = await this.prisma.projectType.create({
-      data: { companyId: actor.companyId, name: dto.name.trim(), description: dto.description?.trim() || null },
+      data: {
+        companyId: actor.companyId,
+        name: dto.name.trim(),
+        description: dto.description?.trim() || null,
+        color,
+      },
     });
-    return { id: row.id, name: row.name, description: row.description ?? '', color: 'violet' as const };
+    return { id: row.id, name: row.name, description: row.description ?? '', color: marker(row.color) };
   }
 
   async updateType(actor: AuthPayload, id: string, dto: TypeDto) {
@@ -45,15 +55,26 @@ export class TemplatesService {
     await this.ownedType(actor.companyId, id);
     const row = await this.prisma.projectType.update({
       where: { id },
-      data: { name: dto.name.trim(), description: dto.description?.trim() || null },
+      data: {
+        name: dto.name.trim(),
+        description: dto.description?.trim() || null,
+        ...(dto.color ? { color: marker(dto.color) } : {}),
+      },
     });
-    return { id: row.id, name: row.name, description: row.description ?? '' };
+    return { id: row.id, name: row.name, description: row.description ?? '', color: marker(row.color) };
   }
 
   async deleteType(actor: AuthPayload, id: string) {
     assertCan(actor, 'templates.manage');
     await this.ownedType(actor.companyId, id);
-    await this.prisma.projectType.delete({ where: { id } });
+    try {
+      await this.prisma.projectType.delete({ where: { id } });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2003') {
+        throw new BadRequestException('Тип проекта привязан к существующим записям и не может быть удалён');
+      }
+      throw error;
+    }
     return { id };
   }
 

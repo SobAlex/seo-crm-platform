@@ -24,16 +24,62 @@ const tabOptions = computed(() => [
 const tab = ref(tabOptions.value.find(o => !o.disabled)?.value ?? 'general')
 
 // Общие
+const companyLoaded = ref(false)
 const company = ref({
-  name: 'Ромашка Digital',
-  inn: '7701234567',
-  city: 'Москва',
-  email: 'hello@romashka.ru',
+  name: '',
+  inn: '',
+  city: '',
+  email: '',
   address: '',
-  title: 'SEO Control — кабинет агентства «Ромашка Digital»',
+  title: 'SEO Control — кабинет агентства',
   description: 'Проекты, задачи, приёмка и отчёты клиенту в одном кабинете.',
-  social: 'Ромашка Digital ведёт SEO в SEO Control: видно, что принять и что горит.'
+  social: 'Агентство ведёт SEO в SEO Control: видно, что принять и что горит.'
 })
+
+onMounted(async () => {
+  try {
+    const me = await $fetch<{
+      companyName: string
+      companyInn: string | null
+      companyCity: string | null
+      companyAddress: string | null
+      companyEmail: string | null
+    }>('/api/auth/me', { credentials: 'include' })
+    company.value.name = me.companyName || ''
+    company.value.inn = me.companyInn || ''
+    company.value.city = me.companyCity || ''
+    company.value.address = me.companyAddress || ''
+    company.value.email = me.companyEmail || ''
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  } finally {
+    companyLoaded.value = true
+  }
+})
+
+async function saveCompany() {
+  if (!company.value.name.trim()) {
+    notify('Укажите название компании', 'error')
+    return
+  }
+  try {
+    const saved = await $fetch<{ companyName: string }>('/api/auth/company', {
+      method: 'PUT',
+      credentials: 'include',
+      body: {
+        name: company.value.name.trim(),
+        inn: company.value.inn.trim(),
+        city: company.value.city.trim(),
+        address: company.value.address.trim(),
+        email: company.value.email.trim()
+      }
+    })
+    company.value.name = saved.companyName || company.value.name
+    notify('Профиль компании сохранён', 'success')
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
+}
 const logoInput = ref<HTMLInputElement | null>(null)
 function onLogo(e: Event) {
   const input = e.target as HTMLInputElement
@@ -185,7 +231,7 @@ const PILL = 'rounded-full text-sm'
   <PageRegistry title="Настройки компании">
     <template #actions>
       <AccessGate :allowed="profileOk" :tip="TIP_SYSTEM">
-        <UButton :disabled="!profileOk" :data-deny-tip="TIP_SYSTEM" @click="notify('Настройки сохранены')">Сохранить настройки</UButton>
+        <UButton :disabled="!profileOk || !companyLoaded" :data-deny-tip="TIP_SYSTEM" @click="saveCompany">Сохранить настройки</UButton>
       </AccessGate>
     </template>
 
@@ -202,7 +248,7 @@ const PILL = 'rounded-full text-sm'
           </span>
           <div class="min-w-0">
             <h3 class="text-sm font-semibold tracking-tight">Изолированное рабочее пространство</h3>
-            <p class="text-sm text-zinc-500 mt-1">Данные компании <strong class="text-zinc-900 font-medium">Ромашка Digital</strong> (клиенты, проекты, задачи, отчёты, интеграции) полностью отделены от других агентств в сервисе. Сотрудники, подрядчики и клиенты видят только это пространство.</p>
+            <p class="text-sm text-zinc-500 mt-1">Данные компании <strong class="text-zinc-900 font-medium">{{ company.name || 'вашей компании' }}</strong> (клиенты, проекты, задачи, отчёты, интеграции) полностью отделены от других агентств в сервисе. Сотрудники, подрядчики и клиенты видят только это пространство.</p>
             <div class="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 text-xs text-zinc-600 font-mono">romashka.seo-control.app</div>
           </div>
         </div>
@@ -241,7 +287,7 @@ const PILL = 'rounded-full text-sm'
 
       <div class="flex flex-col sm:flex-row gap-3">
         <AccessGate :allowed="profileOk" tip="Профиль компании может менять только владелец">
-          <UButton :disabled="!profileOk" data-deny-tip="Профиль компании может менять только владелец" @click="notify('Профиль компании сохранён')">Сохранить</UButton>
+          <UButton :disabled="!profileOk || !companyLoaded" data-deny-tip="Профиль компании может менять только владелец" @click="saveCompany">Сохранить</UButton>
         </AccessGate>
       </div>
     </div>

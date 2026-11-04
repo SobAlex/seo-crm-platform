@@ -5,9 +5,6 @@ import {
   TYPE_LABEL,
   TYPE_MONTHS,
   WORKFLOW_DEFAULT,
-  initialPlans,
-  initialRoadmaps,
-  initialTypes,
   initialWorkflows,
   itemsToRows,
   newId,
@@ -35,10 +32,11 @@ const TABS = [
   { value: 'brief', label: 'Бриф' }
 ]
 
-const monthCatalog = initialTypes()
-const types = ref<ProjectType[]>(initialTypes())
-const roadmaps = ref<Roadmap[]>(initialRoadmaps(types.value))
-const plans = ref<MonthPlan[]>(initialPlans())
+const types = ref<ProjectType[]>([])
+const roadmaps = ref<Roadmap[]>([])
+const plans = ref<MonthPlan[]>([])
+const monthType = ref('')
+const libraryLoaded = ref(false)
 const workflows = ref<Record<string, string[]>>(initialWorkflows())
 const flash = ref('')
 
@@ -78,12 +76,15 @@ onMounted(async () => {
       $fetch<ApiType[]>('/api/templates/types', { credentials: 'include' }),
       $fetch<ApiRoadmap[]>('/api/templates/roadmaps', { credentials: 'include' })
     ])
-    if (typeRows.length) {
-      types.value = typeRows.map(row => ({ id: row.id, name: row.name, color: row.color, desc: row.description }))
-    }
-    if (mapRows.length) roadmaps.value = mapRows.map(mapRoadmap)
+    types.value = typeRows.map(row => ({ id: row.id, name: row.name, color: row.color, desc: row.description }))
+    roadmaps.value = mapRows.map(mapRoadmap)
+    if (!types.value.some(type => type.id === monthType.value)) monthType.value = types.value[0]?.id ?? ''
   } catch (error) {
+    types.value = []
+    roadmaps.value = []
     notify(apiErrorMessage(error), 'error')
+  } finally {
+    libraryLoaded.value = true
   }
 })
 // ---------- Типы проектов ----------
@@ -93,9 +94,9 @@ const editType = ref<ProjectType | null>(null)
 async function onTypeCreated(t: { name: string; desc: string; color: TypeColor }) {
   try {
     const saved = await $fetch<ApiType>('/api/templates/types', {
-      method: 'POST', credentials: 'include', body: { name: t.name, description: t.desc }
+      method: 'POST', credentials: 'include', body: { name: t.name, description: t.desc, color: t.color }
     })
-    types.value.push({ id: saved.id, name: saved.name, color: t.color, desc: saved.description })
+    types.value.push({ id: saved.id, name: saved.name, color: saved.color || t.color, desc: saved.description })
     notify(`Тип проекта «${saved.name}» создан`, 'success')
   } catch (error) {
     notify(apiErrorMessage(error), 'error')
@@ -108,7 +109,7 @@ function openTypeEdit(t: ProjectType) {
 async function onTypeSaved(t: ProjectType) {
   try {
     await $fetch(`/api/templates/types/${t.id}`, {
-      method: 'PUT', credentials: 'include', body: { name: t.name, description: t.desc }
+      method: 'PUT', credentials: 'include', body: { name: t.name, description: t.desc, color: t.color }
     })
     const i = types.value.findIndex(x => x.id === t.id)
     if (i !== -1) types.value[i] = t
@@ -254,10 +255,9 @@ function onWorkflowSaved(statuses: string[]) {
 }
 
 // ---------- Месячные планы ----------
-const monthType = ref('ecommerce')
-const monthOptions = computed(() => monthCatalog.map(t => ({ value: t.id, label: t.name })))
+const monthOptions = computed(() => typeOptions.value)
 const monthPlans = computed(() => plans.value.filter(p => p.type === monthType.value))
-const planLink = computed(() => `Тип проекта: ${typeName(monthType.value) || 'Интернет-магазин'} · Карта: ${TYPE_MONTHS[monthType.value] ?? '6 месяцев'}`)
+const planLink = computed(() => `Тип проекта: ${typeName(monthType.value) || 'не выбран'} · Карта: ${TYPE_MONTHS[monthType.value] ?? '—'}`)
 
 const monthOpen = ref(false)
 const monthEditOpen = ref(false)
@@ -306,6 +306,7 @@ function removeRow(p: MonthPlan, rowId: string) {
     <!-- ============ ДОРОЖНЫЕ КАРТЫ ============ -->
     <div v-show="tab === 'roadmap'">
       <div class="flex flex-col gap-4">
+        <p v-if="libraryLoaded && !roadmaps.length" class="px-4 py-8 rounded-2xl bg-white shadow-card text-sm text-zinc-500">Нет дорожных карт</p>
         <TemplatesRoadmapCard
           v-for="rm in roadmaps"
           :key="rm.id"
@@ -339,6 +340,7 @@ function removeRow(p: MonthPlan, rowId: string) {
       </div>
 
       <div class="flex flex-col gap-4">
+        <p v-if="libraryLoaded && !monthPlans.length" class="px-4 py-8 rounded-2xl bg-white shadow-card text-sm text-zinc-500">Нет месячных планов</p>
         <TemplatesMonthPlanCard
           v-for="p in monthPlans"
           :key="p.id"

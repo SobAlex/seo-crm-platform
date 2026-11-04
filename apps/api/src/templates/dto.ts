@@ -9,6 +9,10 @@ export class TypeDto {
   @IsOptional()
   @IsString()
   description?: string;
+
+  @IsOptional()
+  @IsIn(['violet', 'emerald', 'blue', 'amber', 'cyan', 'rose'])
+  color?: string;
 }
 
 export class RoadmapDto {

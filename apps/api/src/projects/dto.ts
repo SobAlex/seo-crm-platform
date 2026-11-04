@@ -56,6 +56,14 @@ export class CreateProjectDto {
   @IsArray()
   @IsString({ each: true })
   kpis?: string[];
+
+  @IsOptional()
+  @IsString()
+  pmId?: string;
+
+  @IsOptional()
+  @IsString()
+  seoId?: string;
 }
 
 export class UpdateProjectDto extends CreateProjectDto {}

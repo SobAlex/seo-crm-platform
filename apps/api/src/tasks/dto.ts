@@ -45,6 +45,10 @@ export class CreateTaskDto {
   @IsOptional()
   @IsBoolean()
   isInReport?: boolean;
+
+  @IsOptional()
+  @IsString()
+  reportNote?: string;
 }
 
 export class UpdateTaskDto {
@@ -74,6 +78,20 @@ export class UpdateTaskDto {
   @IsOptional()
   @IsBoolean()
   isInReport?: boolean;
+
+  @IsOptional()
+  @IsString()
+  reportNote?: string;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(0)
+  spentHours?: number;
+
+  @IsOptional()
+  @IsString()
+  reviewComment?: string;
 }
 
 export class ChangeStatusDto {

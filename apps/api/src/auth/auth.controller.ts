@@ -1,8 +1,8 @@
-import { Body, Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
 import type { Response } from 'express';
 import { AuthService } from './auth.service';
 import { AuthPayload } from './auth.types';
-import { DevSwitchDto, LoginDto, RegisterCompanyDto } from './dto';
+import { DevSwitchDto, LoginDto, RegisterCompanyDto, UpdateCompanyDto, UpdateProfileDto } from './dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller('api/auth')
@@ -20,6 +20,18 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   me(@Req() req: { user: AuthPayload }) {
     return this.auth.me(req.user);
+  }
+
+  @Put('profile')
+  @UseGuards(JwtAuthGuard)
+  updateProfile(@Req() req: { user: AuthPayload }, @Body() dto: UpdateProfileDto) {
+    return this.auth.updateProfile(req.user, dto);
+  }
+
+  @Put('company')
+  @UseGuards(JwtAuthGuard)
+  updateCompany(@Req() req: { user: AuthPayload }, @Body() dto: UpdateCompanyDto) {
+    return this.auth.updateCompany(req.user, dto);
   }
 
   @Post('dev-switch-role')

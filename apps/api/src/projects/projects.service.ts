@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Prisma, TaskLifecycleStatus } from '@prisma/client';
+import { Prisma, ProjectRole, TaskLifecycleStatus } from '@prisma/client';
 import { AuthPayload } from '../auth/auth.types';
 import { assertCan } from '../access';
 import { BillingService } from '../billing/billing.service';
@@ -63,6 +63,7 @@ export class ProjectsService {
           select: { id: true, title: true, lifecycleStatus: true, plannedHours: true, deadline: true },
         },
         metricPlans: { orderBy: { periodMonth: 'asc' }, take: 1 },
+        members: { select: { userId: true, projectRole: true } },
       },
     });
     if (!project) throw new NotFoundException('Проект не найден');
@@ -77,6 +78,8 @@ export class ProjectsService {
       monthlyBudget: money(project.monthlyBudget),
       monthlyHoursLimit: money(project.monthlyHoursLimit),
       targetKpis: project.targetKpis,
+      pmId: project.members.find((member) => member.projectRole === ProjectRole.PM)?.userId ?? null,
+      seoId: project.members.find((member) => member.projectRole === ProjectRole.SEO_LEAD)?.userId ?? null,
       client: project.client,
       projectType: project.projectType,
       tasks: project.tasks.map((task) => ({
@@ -127,6 +130,8 @@ export class ProjectsService {
           targetLeads: dto.targetLeads ?? 0,
         },
       });
+      await this.setMember(tx, actor.companyId, project.id, dto.pmId, ProjectRole.PM);
+      await this.setMember(tx, actor.companyId, project.id, dto.seoId, ProjectRole.SEO_LEAD);
       return { id: project.id, name: project.name, domain: project.domain, taskCount };
     });
     return { ...created, slug: projectSlug(created.id) };
@@ -152,11 +157,13 @@ export class ProjectsService {
           clientId,
           projectTypeId,
           startDate: start,
-          monthlyBudget: dto.budgetMonthly ?? null,
-          monthlyHoursLimit: dto.hoursLimit ?? current.monthlyHoursLimit,
+          monthlyBudget: dto.budgetMonthly === undefined ? current.monthlyBudget : dto.budgetMonthly,
+          monthlyHoursLimit: dto.hoursLimit === undefined ? current.monthlyHoursLimit : dto.hoursLimit,
           targetKpis: dto.kpis ?? current.targetKpis ?? [],
         },
       });
+      await this.setMember(tx, actor.companyId, project.id, dto.pmId, ProjectRole.PM);
+      await this.setMember(tx, actor.companyId, project.id, dto.seoId, ProjectRole.SEO_LEAD);
       if (start) {
         await tx.projectMetricPlan.upsert({
           where: { projectId_periodMonth: { projectId: project.id, periodMonth: start } },
@@ -172,6 +179,27 @@ export class ProjectsService {
       return project;
     });
     return { id: updated.id, name: updated.name, domain: updated.domain, slug: projectSlug(updated.id) };
+  }
+
+  private async setMember(
+    tx: Prisma.TransactionClient,
+    companyId: string,
+    projectId: string,
+    userId: string | undefined,
+    role: ProjectRole,
+  ) {
+    if (!userId) return;
+    const member = await tx.companyMember.findFirst({
+      where: { companyId, userId, isActive: true },
+      select: { userId: true },
+    });
+    if (!member) throw new NotFoundException('Сотрудник не найден');
+    await tx.projectMember.deleteMany({ where: { projectId, projectRole: role, NOT: { userId } } });
+    await tx.projectMember.upsert({
+      where: { projectId_userId: { projectId, userId } },
+      create: { projectId, userId, projectRole: role },
+      update: { projectRole: role },
+    });
   }
 
   private async ownedClient(tx: Prisma.TransactionClient, companyId: string, clientId: string) {

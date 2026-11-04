@@ -45,7 +45,9 @@ const form = reactive({
   amount: '',
   estimate: '',
   due: '2025-06-18',
-  status: 'Запланирована'
+  status: 'Запланирована',
+  report: false,
+  reportNote: ''
 })
 
 onMounted(async () => {
@@ -87,7 +89,8 @@ async function submit() {
         assigneeId: form.executor || undefined,
         deadline: form.due || undefined,
         estimatedHours: form.estimate ? Number(form.estimate) : undefined,
-        isInReport: false
+        isInReport: form.report,
+        reportNote: form.reportNote.trim() || undefined
       }
     })
     notify('Задача создана и назначена исполнителю', 'success')
@@ -200,6 +203,13 @@ async function submit() {
             </UiField>
             <UiField label="Статус" class="sm:col-span-2 md:col-span-1">
               <USelect v-model="form.status" :options="['Запланирована', 'В работе', 'Ждёт клиента']" />
+            </UiField>
+            <label class="sm:col-span-2 md:col-span-3 flex items-center gap-2.5 text-sm text-zinc-700">
+              <input v-model="form.report" type="checkbox" class="w-4 h-4 rounded border-zinc-300 text-accent focus:ring-accent accent-accent">
+              В отчёт
+            </label>
+            <UiField v-if="form.report" label="Заметка к отчёту" class="md:col-span-3">
+              <UInput v-model="form.reportNote" placeholder="Что увидит клиент в отчёте" />
             </UiField>
           </div>
         </section>

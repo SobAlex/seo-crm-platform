@@ -1,6 +1,7 @@
 <script setup lang="ts">
 // profile.html → Сетка 3 (Form): основные данные, безопасность, уведомления, сессии.
 import type { Role } from '@crm/access'
+import type { AuthUser } from '~/composables/useAuth'
 
 definePageMeta({ roles: ['owner', 'seo_head', 'mgr_head', 'pm', 'employee', 'contractor', 'client'] })
 useHead({ title: 'Мой профиль — SEO Control' })
@@ -65,6 +66,35 @@ const notifications = ref([
   { label: 'Ежедневная сводка дедлайнов в 09:00', email: true, telegram: true }
 ])
 
+async function saveProfile() {
+  const parts = name.value.trim().split(/\s+/).filter(Boolean)
+  if (!parts.length) {
+    notify('Укажите имя и фамилию', 'error')
+    return
+  }
+  try {
+    const saved = await $fetch<AuthUser>('/api/auth/profile', {
+      method: 'PUT',
+      credentials: 'include',
+      body: {
+        firstName: parts[0],
+        lastName: parts.slice(1).join(' '),
+        email: email.value.trim(),
+        phone: phone.value.trim(),
+        telegram: telegram.value.trim()
+      }
+    })
+    auth.user.value = saved
+    name.value = personName(saved)
+    email.value = saved.email
+    phone.value = saved.phone ?? ''
+    telegram.value = saved.telegram ?? ''
+    notify('Профиль обновлён', 'success')
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
+}
+
 async function logout() {
   notify('Вы вышли из системы', 'info')
   await auth.logout({ redirect: false })
@@ -75,7 +105,7 @@ async function logout() {
 <template>
   <PageForm title="Мой профиль" :back="{ to: homeFor(role), label: 'Назад' }">
     <template #actions>
-      <UButton @click="notify('Профиль обновлён')">Сохранить изменения</UButton>
+      <UButton @click="saveProfile">Сохранить изменения</UButton>
     </template>
 
     <section class="bg-white rounded-2xl shadow-card p-6 space-y-4">

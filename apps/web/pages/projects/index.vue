@@ -49,56 +49,7 @@ const metricOptions = [
 ]
 
 const ACTIVE = { label: 'Активен', badge: 'bg-emerald-50 text-emerald-700', dot: 'bg-emerald-600' }
-const rows = ref<ProjectRow[]>([
-  {
-    id: 'holod', name: 'Интернет-магазин «Холод»', site: 'holod-shop.ru', range: '2025-01-01/2025-06-30',
-    health: { dot: 'bg-emerald-500', label: 'Динамика в плане · трафик 94%, лиды 108%, ТОП-10 114%' },
-    status: ACTIVE,
-    traffic: { value: '24 380', pct: '94%', tone: 'amber', plan: '26 000', metric: 'traffic' },
-    leads: { value: '312', pct: '108%', tone: 'emerald', plan: '290', metric: 'leads' },
-    top10: { value: '148', pct: '114%', tone: 'emerald', plan: '130', metric: 'top10' },
-    works: { value: '22', pct: '96%', tone: 'amber', plan: '23' },
-    hours: { used: 82, limit: 96, pct: '85%' }, fee: '240 000 ₽'
-  },
-  {
-    id: 'remont', name: 'Сайт услуг «Ремонт+»', site: 'remont-plus.ru', range: '2025-01-01/2025-06-30',
-    health: { dot: 'bg-amber-400', label: 'Есть отставание от плана · трафик 90%, лиды 85%, ТОП-10 74%' },
-    status: ACTIVE,
-    traffic: { value: '8 120', pct: '90%', tone: 'amber', plan: '9 000', metric: 'traffic' },
-    leads: { value: '94', pct: '85%', tone: 'red', plan: '110', metric: 'leads' },
-    top10: { value: '52', pct: '74%', tone: 'red', plan: '70', metric: 'top10' },
-    works: { value: '13', pct: '87%', tone: 'red', plan: '15' },
-    hours: { used: 42, limit: 60, pct: '70%' }, fee: '120 000 ₽'
-  },
-  {
-    id: 'stroytech', name: 'B2B портал «Стройтех»', site: 'stroytech.ru', range: '2025-01-01/2025-06-30',
-    health: { dot: 'bg-red-500', label: 'Сильно отстаёт от плана · трафик 69%, лиды 51%, ТОП-10 52%' },
-    status: { label: 'На паузе', badge: 'bg-zinc-100 text-zinc-700', dot: 'bg-zinc-500' },
-    traffic: { value: '4 500', pct: '69%', tone: 'red', plan: '6 500', metric: 'traffic' },
-    leads: { value: '28', pct: '51%', tone: 'red', plan: '55', metric: 'leads' },
-    top10: { value: '31', pct: '52%', tone: 'red', plan: '60', metric: 'top10' },
-    works: { value: '10', pct: '83%', tone: 'red', plan: '12' },
-    hours: { used: 18, limit: 72, pct: '25%' }, fee: '180 000 ₽'
-  },
-  {
-    id: 'medlife', name: 'Клиника «МедЛайф»', site: 'medlife-clinic.ru', range: '2025-01-01/2025-06-30',
-    health: { dot: 'bg-amber-400', label: 'Есть отставание от плана · трафик 114%, лиды 89%, ТОП-10 151%' },
-    status: ACTIVE,
-    traffic: { value: '15 900', pct: '114%', tone: 'emerald', plan: '14 000', metric: 'traffic' },
-    leads: { value: '210', pct: '89%', tone: 'red', plan: '235', metric: 'leads' },
-    top10: { value: '181', pct: '151%', tone: 'emerald', plan: '120', metric: 'top10' },
-    works: { value: '10', pct: '100%', tone: 'emerald', plan: '10' },
-    hours: { used: 14, limit: 40, pct: '35%' }, fee: '80 000 ₽'
-  },
-  {
-    id: 'holodb2b', name: 'Оптовый портал «Холод B2B»', site: 'b2b.holod-shop.ru', range: '2025-01-01/2025-06-30',
-    health: { dot: 'bg-zinc-300', label: 'Нет данных — проект на запуске, план с июля' },
-    status: { label: 'Запуск', badge: 'bg-blue-50 text-blue-700', dot: 'bg-blue-600', note: 'план с июля' },
-    traffic: null, leads: null, top10: null,
-    works: { value: '2', pct: '50%', tone: 'zinc', plan: '4' },
-    hours: { used: 6, limit: 40, pct: '15%' }, fee: '90 000 ₽'
-  }
-])
+const rows = ref<ProjectRow[]>([])
 
 const TONE: Record<Tone, string> = { emerald: 'text-emerald-600', amber: 'text-amber-600', red: 'text-red-600', zinc: 'text-zinc-500' }
 const METRIC_TITLE = { traffic: 'трафик', leads: 'лиды', top10: 'ТОП-10' } as const
@@ -177,27 +128,28 @@ const createOpen = ref(false)
 
 onMounted(async () => {
   try {
-    const list = await $fetch<Array<{ id: string; slug: string; name: string; domain: string | null; clientName: string; monthlyBudget: number | null; taskCount: number; targetTraffic: number; targetLeads: number }>>('/api/projects', { credentials: 'include' })
-    const known = new Set(rows.value.map(row => row.id))
-    for (const project of list) {
-      const id = project.slug || project.id
-      if (known.has(id) || known.has(project.id)) continue
-      rows.value.unshift({
-        id: project.id,
-        name: project.name,
-        site: `${project.domain || '—'} · ${project.clientName}`,
-        range: '',
-        health: { dot: 'bg-zinc-300', label: 'Нет данных — проект только создан' },
-        status: { label: 'Старт', badge: 'bg-blue-50 text-blue-700', dot: 'bg-blue-600' },
-        traffic: project.targetTraffic ? { value: '0', pct: '0%', tone: 'zinc', plan: String(project.targetTraffic), metric: 'traffic' } : null,
-        leads: project.targetLeads ? { value: '0', pct: '0%', tone: 'zinc', plan: String(project.targetLeads), metric: 'leads' } : null,
-        top10: null,
-        works: { value: String(project.taskCount), pct: '', tone: 'zinc', plan: '' },
-        hours: { used: 0, limit: 0, pct: '' },
-        fee: project.monthlyBudget ? project.monthlyBudget.toLocaleString('ru-RU') + ' ₽' : '—'
-      })
-    }
-  } catch { /* реестр прототипа остаётся видимым */ }
+    const list = await $fetch<Array<{ id: string; slug: string; name: string; domain: string | null; clientName: string; status: string; monthlyBudget: number | null; taskCount: number; targetTraffic: number; targetLeads: number }>>('/api/projects', { credentials: 'include' })
+    rows.value = list.map(project => ({
+      id: project.slug || project.id,
+      name: project.name,
+      site: [project.domain, project.clientName].filter(Boolean).join(' · ') || '—',
+      range: '',
+      health: { dot: 'bg-zinc-300', label: 'Данные из базы' },
+      status: project.status === 'ACTIVE'
+        ? ACTIVE
+        : project.status === 'DRAFT'
+          ? { label: 'Запуск', badge: 'bg-blue-50 text-blue-700', dot: 'bg-blue-600' }
+          : { label: 'На паузе', badge: 'bg-zinc-100 text-zinc-700', dot: 'bg-zinc-500' },
+      traffic: project.targetTraffic ? { value: '—', pct: '', tone: 'zinc' as const, plan: String(project.targetTraffic), metric: 'traffic' as const } : null,
+      leads: project.targetLeads ? { value: '—', pct: '', tone: 'zinc' as const, plan: String(project.targetLeads), metric: 'leads' as const } : null,
+      top10: null,
+      works: { value: String(project.taskCount), pct: '', tone: 'zinc' as const, plan: '' },
+      hours: { used: 0, limit: 0, pct: '' },
+      fee: project.monthlyBudget ? project.monthlyBudget.toLocaleString('ru-RU') + ' ₽' : '—'
+    }))
+  } catch {
+    rows.value = []
+  }
 })
 function onCreated(p: { id: string; title: string; site: string; client: string; budget: string }) {
   rows.value.unshift({
@@ -342,8 +294,8 @@ const DATE = 'h-9 sm:h-8 flex-1 sm:flex-none min-w-0'
         <div class="mx-auto w-12 h-12 rounded-2xl bg-zinc-100 text-zinc-400 flex items-center justify-center mb-3">
           <AppIcon name="folder" class="w-6 h-6" />
         </div>
-        <h3 class="text-sm font-semibold text-zinc-900">Ничего не найдено</h3>
-        <p class="text-xs text-zinc-500 mt-1">Попробуйте изменить параметры поиска или сбросить фильтры</p>
+        <h3 class="text-sm font-semibold text-zinc-900">{{ rows.length ? 'Ничего не найдено' : 'Проектов пока нет' }}</h3>
+        <p class="text-xs text-zinc-500 mt-1">{{ rows.length ? 'Попробуйте изменить параметры поиска или сбросить фильтры' : 'Создайте первый проект — карточки появятся из базы' }}</p>
         <UButton color="gray" variant="ghost" size="xs" class="mt-4 bg-zinc-100 hover:bg-zinc-200 text-zinc-700" @click="resetFilters">Сбросить фильтры</UButton>
       </div>
       <div class="px-4 lg:px-6 py-4 border-t border-zinc-100 flex flex-wrap items-center justify-between gap-3">

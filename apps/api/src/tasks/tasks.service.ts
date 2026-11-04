@@ -135,7 +135,7 @@ export class TasksService {
         ...(mine ? { assigneeId: actor.sub } : {}),
       },
       orderBy: { createdAt: 'desc' },
-      take: 100,
+      take: 500,
       include: {
         project: { select: { id: true, name: true } },
         assignee: { select: { id: true, firstName: true, lastName: true } },
@@ -177,8 +177,11 @@ export class TasksService {
       isInReport: task.isInReport,
       reportNote: task.reportNote,
       plannedHours: Number(task.plannedHours),
+      actualHours: Number(task.actualHours),
       deadline: task.deadline,
       reviewComment: task.reviewComment,
+      assigneeId: task.assigneeId,
+      lifecycleStatus: task.lifecycleStatus,
       assigneeName: task.assignee ? `${task.assignee.firstName} ${task.assignee.lastName}`.trim() : '',
       creatorName: task.creator ? `${task.creator.firstName} ${task.creator.lastName}`.trim() : '',
       comments: task.comments.map((comment) => ({
@@ -189,6 +192,13 @@ export class TasksService {
         author: comment.author ? `${comment.author.firstName} ${comment.author.lastName}`.trim() : 'Сотрудник',
       })),
     };
+  }
+
+  async remove(actor: AuthPayload, id: string) {
+    assertCan(actor, 'task.delete');
+    const task = await this.load(actor, id);
+    await this.prisma.task.delete({ where: { id: task.id } });
+    return { id: task.id };
   }
 
   async create(actor: AuthPayload, dto: CreateTaskDto) {
@@ -209,6 +219,7 @@ export class TasksService {
         deadline: dto.deadline ? new Date(dto.deadline) : null,
         plannedHours: dto.estimatedHours ?? 0,
         isInReport: dto.isInReport ?? false,
+        reportNote: dto.reportNote?.trim() || null,
         lifecycleStatus: TaskLifecycleStatus.PLANNED,
       },
     });
@@ -237,7 +248,10 @@ export class TasksService {
         assigneeId: dto.assigneeId === undefined ? undefined : dto.assigneeId || null,
         deadline: dto.deadline === undefined ? undefined : dto.deadline ? new Date(dto.deadline) : null,
         plannedHours: dto.estimatedHours,
+        actualHours: dto.spentHours === undefined ? undefined : new Prisma.Decimal(dto.spentHours),
         isInReport: dto.isInReport,
+        reportNote: dto.reportNote === undefined ? undefined : dto.reportNote.trim() || null,
+        reviewComment: dto.reviewComment === undefined ? undefined : dto.reviewComment.trim() || null,
       },
     });
     if (dto.assigneeId && dto.assigneeId !== actor.sub && dto.assigneeId !== current.assigneeId) {

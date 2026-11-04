@@ -60,8 +60,8 @@ export const SERVICES: Record<ServiceId, Service> = {
 export const INT_STORE = 'seo_company_integrations'
 
 export const INT_DEFAULT: Record<ServiceId, IntegrationRow> = {
-  yandex: { status: 'connected', account: 'direct@romashka.ru', projects: 12 },
-  google: { status: 'expired', account: 'marketing@romashka.ru', projects: 0 },
+  yandex: { status: 'off', account: '', projects: 0 },
+  google: { status: 'off', account: '', projects: 0 },
   callibri: { status: 'off', account: '', projects: 0 },
   amocrm: { status: 'off', account: '', projects: 0 }
 }

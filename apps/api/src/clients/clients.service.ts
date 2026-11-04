@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { BriefStatus, ClientStatus, Prisma } from '@prisma/client';
 import { AuthPayload } from '../auth/auth.types';
 import { assertCan, assertOwnerOrHead } from '../access';
@@ -88,14 +88,18 @@ export class ClientsService {
     return this.present(row);
   }
 
-  async archive(actor: AuthPayload, id: string) {
+  async remove(actor: AuthPayload, id: string) {
     assertOwnerOrHead(actor);
     const current = await this.find(actor.companyId, id);
-    await this.prisma.client.update({
-      where: { id: current.id },
-      data: { status: ClientStatus.PAUSED },
-    });
-    return { id: current.id, status: ClientStatus.PAUSED };
+    try {
+      await this.prisma.client.delete({ where: { id: current.id } });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2003') {
+        throw new BadRequestException('Клиент связан с другими записями и не может быть удалён');
+      }
+      throw error;
+    }
+    return { id: current.id };
   }
 
   private data(companyId: string, dto: ClientDto, status: ClientStatus): Prisma.ClientCreateInput {

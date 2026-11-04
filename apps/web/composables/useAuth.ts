@@ -11,6 +11,10 @@ export interface AuthUser {
   telegram: string | null
   avatar: string | null
   companyName: string
+  companyInn: string | null
+  companyCity: string | null
+  companyAddress: string | null
+  companyEmail: string | null
 }
 
 interface AuthSession {

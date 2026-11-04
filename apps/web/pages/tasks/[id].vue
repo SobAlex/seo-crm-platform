@@ -34,6 +34,28 @@ async function syncTask(action: 'submit' | 'accept' | 'rework', comment?: string
 }
 
 const remoteTitle = ref('')
+const remoteLoaded = ref(false)
+const taskSaving = ref(false)
+const taskAssignees = ref<{ value: string; label: string }[]>([])
+const taskEdit = reactive({
+  title: '',
+  description: '',
+  assigneeId: '',
+  deadline: '',
+  estimate: '',
+  spent: '',
+  report: false,
+  reportNote: '',
+  reviewComment: '',
+  status: ''
+})
+const STATUS_LABEL: Record<string, string> = {
+  PLANNED: 'Запланирована',
+  IN_PROGRESS: 'В работе',
+  ON_REVIEW: 'На проверке',
+  WAITING_CLIENT: 'Ждёт клиента',
+  DONE: 'Принята'
+}
 const TITLE = computed(() => remoteTitle.value || 'Проверить индексацию в GSC')
 const crumbs = computed(() => [
   { label: 'Главная', to: '/' },
@@ -298,14 +320,69 @@ const SUBTASK_TIP = 'Подрядчик не может создавать за�
 
 const requestOpen = ref(false)
 
+async function saveTaskFields() {
+  const id = taskApiId()
+  if (!id || !taskEdit.title.trim()) return
+  taskSaving.value = true
+  try {
+    await $fetch(`/api/tasks/${id}`, {
+      method: 'PUT',
+      credentials: 'include',
+      body: {
+        title: taskEdit.title.trim(),
+        description: taskEdit.description.trim(),
+        assigneeId: taskEdit.assigneeId || undefined,
+        deadline: taskEdit.deadline || undefined,
+        estimatedHours: taskEdit.estimate ? Number(taskEdit.estimate) : 0,
+        spentHours: taskEdit.spent ? Number(taskEdit.spent) : 0,
+        isInReport: taskEdit.report,
+        reportNote: taskEdit.reportNote,
+        reviewComment: taskEdit.reviewComment
+      }
+    })
+    remoteTitle.value = taskEdit.title.trim()
+    notify('Задача сохранена', 'success')
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  } finally {
+    taskSaving.value = false
+  }
+}
+
 onMounted(async () => {
   store.value = loadStore()
   scrollFeed()
   const id = taskApiId()
   if (!id || id === 'tsk_gsc') return
   try {
-    const row = await $fetch<{ title: string }>(`/api/tasks/${id}`, { credentials: 'include' })
+    const [row, people] = await Promise.all([
+      $fetch<{
+        title: string
+        description: string | null
+        assigneeId: string | null
+        deadline: string | null
+        plannedHours: number
+        actualHours: number
+        isInReport: boolean
+        reportNote: string | null
+        reviewComment: string | null
+        lifecycleStatus: string
+      }>(`/api/tasks/${id}`, { credentials: 'include' }),
+      $fetch<Array<{ id: string; name: string }>>('/api/members', { credentials: 'include' })
+    ])
+    taskAssignees.value = people.map(person => ({ value: person.id, label: person.name }))
     remoteTitle.value = row.title
+    taskEdit.title = row.title
+    taskEdit.description = row.description || ''
+    taskEdit.assigneeId = row.assigneeId || ''
+    taskEdit.deadline = row.deadline ? String(row.deadline).slice(0, 10) : ''
+    taskEdit.estimate = row.plannedHours ? String(row.plannedHours) : ''
+    taskEdit.spent = row.actualHours ? String(row.actualHours) : ''
+    taskEdit.report = row.isInReport
+    taskEdit.reportNote = row.reportNote || ''
+    taskEdit.reviewComment = row.reviewComment || ''
+    taskEdit.status = STATUS_LABEL[row.lifecycleStatus] || row.lifecycleStatus
+    remoteLoaded.value = true
   } catch { /* карточка прототипа */ }
 })
 </script>
@@ -379,7 +456,26 @@ onMounted(async () => {
       </div>
     </div>
 
-    <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
+    <section v-if="remoteLoaded" class="bg-white rounded-2xl shadow-card p-4 lg:p-6 space-y-4">
+      <h3 class="text-sm font-semibold tracking-tight">Задача</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <UiField label="Название" class="sm:col-span-2"><UInput v-model="taskEdit.title" /></UiField>
+        <UiField label="Описание" class="sm:col-span-2"><UTextarea v-model="taskEdit.description" :rows="3" resize /></UiField>
+        <UiField label="Исполнитель"><USelect v-model="taskEdit.assigneeId" :options="taskAssignees" placeholder="Не назначен" /></UiField>
+        <UiField label="Статус"><UInput :model-value="taskEdit.status" disabled /></UiField>
+        <UiField label="Дедлайн"><UInput v-model="taskEdit.deadline" type="date" /></UiField>
+        <UiField label="Плановые часы"><UInput v-model="taskEdit.estimate" type="number" min="0" step="0.25" /></UiField>
+        <UiField label="Списанные часы"><UInput v-model="taskEdit.spent" type="number" min="0" step="0.25" /></UiField>
+        <label class="flex items-center gap-2.5 text-sm text-zinc-700 sm:mt-6">
+          <input v-model="taskEdit.report" type="checkbox" class="w-4 h-4 rounded border-zinc-300 text-accent focus:ring-accent accent-accent">
+          В отчёт
+        </label>
+        <UiField label="Заметка к отчёту" class="sm:col-span-2"><UInput v-model="taskEdit.reportNote" /></UiField>
+        <UiField label="Причина возврата" class="sm:col-span-2"><UTextarea v-model="taskEdit.reviewComment" :rows="2" resize /></UiField>
+      </div>
+      <UButton :loading="taskSaving" :disabled="taskSaving" @click="saveTaskFields">Сохранить</UButton>
+    </section>
+    <section v-else class="bg-white rounded-2xl shadow-card p-4 lg:p-6">
       <h3 class="text-sm font-semibold tracking-tight mb-3">Описание задачи</h3>
       <p class="text-sm text-zinc-700 leading-relaxed">Проверить индексацию ключевых категорий и карточек товаров после внедрения canonical. Убедиться, что служебные страницы закрыты от обхода.</p>
       <div class="mt-4 pt-4 border-t border-zinc-100">

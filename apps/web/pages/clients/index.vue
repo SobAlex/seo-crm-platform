@@ -32,33 +32,8 @@ const STATUS: Record<Coop, [string, string, string]> = {
 }
 const PSTATUS: Record<ProjectStatus, [string, string]> = { active: ['bg-emerald-500', 'Активен'], launch: ['bg-blue-500', 'Запуск'], paused: ['bg-zinc-400', 'На паузе'] }
 
-const clients = ref<ClientRow[]>([
-  {
-    id: 'holod', name: 'ООО «Холод Групп»', status: 'active', since: 'с мая 2025', contact: 'Сергей Волков', phone: '+7 495 123-45-67', email: 's.volkov@holod.ru',
-    brief: { state: 'filled', date: '03.05' },
-    projects: [{ id: 'holod', name: 'Интернет-магазин «Холод»', site: 'holod-shop.ru', status: 'active' }, { id: 'holodb2b', name: 'Оптовый портал «Холод B2B»', site: 'b2b.holod-shop.ru', status: 'launch' }]
-  },
-  {
-    id: 'smirnov', name: 'ИП Смирнов А.', status: 'active', since: 'с марта 2025', contact: 'Андрей Смирнов', phone: '+7 916 555-12-34', email: 'a@remont-plus.ru',
-    brief: { state: 'sent', date: '12.06' },
-    projects: [{ id: 'remont', name: 'Сайт услуг «Ремонт+»', site: 'remont-plus.ru', status: 'active' }]
-  },
-  {
-    id: 'stroytech', name: 'АО «Стройтех»', status: 'paused', since: 'пауза с 01.06', contact: 'Михаил Орлов', phone: '+7 812 300-40-50', email: 'm.orlov@stroytech.ru',
-    brief: { state: 'filled', date: '14.02' },
-    projects: [{ id: 'stroytech', name: 'B2B портал «Стройтех»', site: 'stroytech.ru', status: 'paused' }]
-  },
-  {
-    id: 'medlife', name: 'ООО «МедЛайф»', status: 'active', since: 'с апреля 2025', contact: 'Елена Крылова', phone: '+7 383 200-10-20', email: 'e.krylova@medlife.ru',
-    brief: { state: 'none' },
-    projects: [{ id: 'medlife', name: 'Клиника «МедЛайф»', site: 'medlife-clinic.ru', status: 'active' }]
-  },
-  {
-    id: 'alfa', name: 'ООО «Альфа»', status: 'lead', since: 'КП отправлено 10.06', contact: 'Дмитрий Лебедев', phone: '+7 343 222-33-44', email: 'd.lebedev@alfa-group.ru',
-    brief: { state: 'sent', date: '16.06' },
-    projects: []
-  }
-])
+const clients = ref<ClientRow[]>([])
+const clientsLoaded = ref(false)
 
 // Тулбар: строка 1 — сотрудничество, строка 2 — поиск.
 const coop = ref('all')
@@ -102,7 +77,6 @@ const STATUS_MAP: Record<ApiClient['status'], Coop> = { ACTIVE: 'active', PAUSED
 onMounted(async () => {
   try {
     const rows = await $fetch<ApiClient[]>('/api/clients', { credentials: 'include' })
-    if (!rows.length) return
     clients.value = rows.map(row => ({
       id: row.slug || row.id,
       name: row.name,
@@ -115,10 +89,24 @@ onMounted(async () => {
       projects: row.projects ?? []
     }))
   } catch (error) {
+    clients.value = []
     notify(apiErrorMessage(error), 'error')
+  } finally {
+    clientsLoaded.value = true
   }
 })
 
+const { confirm } = useConfirm()
+async function removeClient(client: ClientRow) {
+  if (!(await confirm({ title: 'Удалить клиента?', text: client.name, ok: 'Удалить', toast: false }))) return
+  try {
+    await $fetch(`/api/clients/${client.id}`, { method: 'DELETE', credentials: 'include' })
+    clients.value = clients.value.filter(row => row.id !== client.id)
+    notify('Клиент удалён', 'success')
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
+}
 function remind(c: ClientRow) {
   c.brief.reminded = '18.06'
   notify('Напоминание отправлено: ссылка на бриф повторно ушла на ' + c.email, 'success')
@@ -190,6 +178,9 @@ const LINK = 'text-xs font-medium text-accent hover:underline whitespace-nowrap 
             </tr>
           </thead>
           <tbody class="divide-y divide-zinc-100 block md:table-row-group">
+            <tr v-if="clientsLoaded && !clients.length">
+              <td colspan="5" class="px-4 lg:px-6 py-10 text-sm text-zinc-500">Клиенты ещё не добавлены</td>
+            </tr>
             <tr
               v-for="c in visible"
               :key="c.id"
@@ -199,6 +190,7 @@ const LINK = 'text-xs font-medium text-accent hover:underline whitespace-nowrap 
               <td class="md:px-4 lg:px-6 md:py-3 lg:py-4 col-span-2 md:col-span-1">
                 <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
                   <NuxtLink :to="`/clients/${c.id}`" class="text-sm font-semibold hover:underline">{{ c.name }}</NuxtLink>
+                  <button type="button" class="text-xs text-zinc-400 hover:text-red-600" @click="removeClient(c)">Удалить</button>
                   <span :class="[CHIP, STATUS[c.status][0]]"><span class="w-1.5 h-1.5 rounded-full" :class="STATUS[c.status][1]" />{{ STATUS[c.status][2] }}</span>
                 </div>
                 <div class="text-xs text-zinc-500 mt-0.5">{{ c.contact }}{{ c.phone ? ' · ' + c.phone : '' }}</div>

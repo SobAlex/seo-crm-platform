@@ -6,13 +6,14 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { PlanTier, Role, SubscriptionStatus } from '@prisma/client';
+import { PlanTier, Prisma, Role, SubscriptionStatus } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import type { Response } from 'express';
 import { TRIAL_LIMITS } from '../billing/plans';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuthPayload, AuthSession, PublicUser } from './auth.types';
-import { RegisterCompanyDto } from './dto';
+import { assertCan } from '../access';
+import { RegisterCompanyDto, UpdateCompanyDto, UpdateProfileDto } from './dto';
 import { toDbRole } from './role-map';
 
 const WEEK = 60 * 60 * 24 * 7;
@@ -24,7 +25,7 @@ const COOKIE = 'auth_token';
 type MemberWithUser = {
   role: Role;
   companyId: string;
-  company: { name: string };
+  company: { name: string; inn: string | null; address: string | null; city: string | null; email: string | null };
   user: {
     id: string;
     email: string;
@@ -69,6 +70,39 @@ export class AuthService {
       throw new UnauthorizedException('Нужно войти в систему');
     }
     return this.pack(member.user, member);
+  }
+
+  async updateProfile(actor: AuthPayload, dto: UpdateProfileDto): Promise<PublicUser> {
+    const data: Prisma.UserUpdateInput = {};
+    if (dto.firstName?.trim()) data.firstName = dto.firstName.trim();
+    if (dto.lastName !== undefined) data.lastName = dto.lastName.trim();
+    if (dto.phone !== undefined) data.phone = dto.phone.trim() || null;
+    if (dto.telegram !== undefined) data.telegram = dto.telegram.trim() || null;
+    if (dto.email?.trim()) data.email = dto.email.trim().toLowerCase();
+    try {
+      await this.prisma.user.update({ where: { id: actor.sub }, data });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+        throw new ConflictException('Этот email уже занят');
+      }
+      throw error;
+    }
+    return this.me(actor);
+  }
+
+  async updateCompany(actor: AuthPayload, dto: UpdateCompanyDto): Promise<PublicUser> {
+    assertCan(actor, 'company.profile.manage');
+    await this.prisma.company.update({
+      where: { id: actor.companyId },
+      data: {
+        name: dto.name.trim(),
+        inn: dto.inn?.trim() || null,
+        city: dto.city?.trim() || null,
+        address: dto.address?.trim() || null,
+        email: dto.email?.trim() || null,
+      },
+    });
+    return this.me(actor);
   }
 
   /** Dev-переключатель: JWT пользователя «Ромашка Digital» с выбранной ролью. */
@@ -173,7 +207,11 @@ export class AuthService {
 
   private pack(
     user: MemberWithUser['user'],
-    member: { role: Role; companyId: string; company: { name: string } },
+    member: {
+      role: Role;
+      companyId: string;
+      company: { name: string; inn: string | null; address: string | null; city: string | null; email: string | null };
+    },
   ): PublicUser {
     return {
       id: user.id,
@@ -186,6 +224,10 @@ export class AuthService {
       telegram: user.telegram,
       avatar: user.avatar,
       companyName: member.company.name,
+      companyInn: member.company.inn ?? null,
+      companyCity: member.company.city ?? null,
+      companyAddress: member.company.address ?? null,
+      companyEmail: member.company.email ?? null,
     };
   }
 
