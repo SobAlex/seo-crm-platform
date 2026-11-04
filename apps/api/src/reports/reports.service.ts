@@ -4,8 +4,9 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Prisma, ReportStatus, TaskLifecycleStatus } from '@prisma/client';
+import { NotificationType, Prisma, ReportStatus, TaskLifecycleStatus } from '@prisma/client';
 import { AuthPayload } from '../auth/auth.types';
+import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { projectSlug } from '../projects/slugs';
 import { ReportsQueue } from './reports.queue';
@@ -134,6 +135,7 @@ export class ReportsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly queue: ReportsQueue,
+    private readonly notifications: NotificationsService,
   ) {}
 
   async generateReport(actor: AuthPayload, projectId: string, month: string, summaryText?: string) {
@@ -184,6 +186,7 @@ export class ReportsService {
       return report;
     });
 
+    await this.notifyReportReady(actor.companyId, saved.projectId, saved.title);
     return this.present(saved.id);
   }
 
@@ -329,6 +332,29 @@ export class ReportsService {
       },
       snapshot: readSnapshot(report.snapshot, report.month),
     };
+  }
+
+  private async notifyReportReady(companyId: string, projectId: string, title: string) {
+    const [owner, pm] = await Promise.all([
+      this.prisma.companyMember.findFirst({
+        where: { companyId, role: 'owner', isActive: true },
+        select: { userId: true },
+      }),
+      this.prisma.projectMember.findFirst({
+        where: { projectId, projectRole: 'PM' },
+        select: { userId: true },
+      }),
+    ]);
+    const userId = owner?.userId ?? pm?.userId;
+    if (!userId) return;
+    await this.notifications.createNotification({
+      companyId,
+      userId,
+      type: NotificationType.REPORT_READY,
+      title: 'Отчёт готов',
+      message: `Месячный отчёт «${title}» сформирован и готов к отправке.`,
+      link: '/reports',
+    });
   }
 
   private assertCompose(actor: AuthPayload) {

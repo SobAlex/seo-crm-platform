@@ -6,11 +6,13 @@ import { AppService } from './app.service';
 import { BillingModule } from './billing/billing.module';
 import { InvitesModule } from './invites/invites.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { NotificationsModule } from './notifications/notifications.module';
 import { ProjectsModule } from './projects/projects.module';
 import { ReportsModule } from './reports/reports.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule, InvitesModule, AnalyticsModule, BillingModule, ProjectsModule, ReportsModule],
+  imports: [PrismaModule, AuthModule, InvitesModule, AnalyticsModule, BillingModule, ProjectsModule, ReportsModule, NotificationsModule, TasksModule],
   controllers: [AppController],
   providers: [AppService],
 })

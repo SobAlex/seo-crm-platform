@@ -16,6 +16,7 @@ import {
   PlanTier,
   ProjectRole,
   ProjectStatus,
+  NotificationType,
   ReportStatus,
   Role,
   SubscriptionStatus,
@@ -869,8 +870,9 @@ async function seedReports(): Promise<void> {
     data: [
       {
         id: 'ntf_report_approved',
+        companyId: COMPANY_ID,
         userId: USER.smirnov,
-        type: 'report.approved',
+        type: NotificationType.REPORT_READY,
         title: 'Отчёт утверждён',
         message: 'Клиент утвердил отчёт за май 2025 по проекту «Холод».',
         link: '/reports/2025-05',
@@ -879,8 +881,9 @@ async function seedReports(): Promise<void> {
       },
       {
         id: 'ntf_task_review',
+        companyId: COMPANY_ID,
         userId: USER.petrov,
-        type: 'task.review',
+        type: NotificationType.TASK_SUBMITTED,
         title: 'Задача на проверке',
         message: 'Мария Ким сдала задачу «Проверить индексацию в GSC».',
         link: '/tasks/tsk_gsc',
@@ -889,8 +892,9 @@ async function seedReports(): Promise<void> {
       },
       {
         id: 'ntf_waiting',
+        companyId: COMPANY_ID,
         userId: USER.morozov,
-        type: 'task.waiting_client',
+        type: NotificationType.TASK_COMMENT,
         title: 'Ждём клиента',
         message: 'Задача «Доступы к GSC и Метрике» ждёт доступы от «Холод Групп».',
         link: '/tasks/tsk_access',

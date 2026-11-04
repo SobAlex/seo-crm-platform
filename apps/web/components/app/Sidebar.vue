@@ -27,12 +27,83 @@ const DEMO_ROLE_LABEL: Record<Role, string> = {
   client: 'Клиент'
 }
 
+interface Notice {
+  id: string
+  type: string
+  title: string
+  message: string
+  link: string | null
+  isRead: boolean
+  createdAt: string
+}
+
+const DOT: Record<string, string> = {
+  TASK_ASSIGNED: 'bg-blue-500',
+  TASK_SUBMITTED: 'bg-amber-500',
+  TASK_REWORK: 'bg-amber-500',
+  TASK_DONE: 'bg-emerald-500',
+  TASK_COMMENT: 'bg-blue-500',
+  REPORT_READY: 'bg-violet-500'
+}
+
 const menu = ref<'user' | 'notifications' | null>(null)
-const unread = ref(true)
+const notices = ref<Notice[]>([])
+const unreadCount = ref(0)
 const box = ref<HTMLElement | null>(null)
+let pollTimer: ReturnType<typeof setInterval> | null = null
+
+function relativeTime(iso: string) {
+  const diff = Date.now() - new Date(iso).getTime()
+  const minutes = Math.round(diff / 60000)
+  if (!Number.isFinite(minutes) || minutes < 1) return 'только что'
+  if (minutes < 60) return `${minutes} мин назад`
+  const hours = Math.round(minutes / 60)
+  if (hours < 24) return `${hours} ч назад`
+  const days = Math.round(hours / 24)
+  if (days === 1) return 'Вчера'
+  if (days < 7) return `${days} дн. назад`
+  return new Date(iso).toLocaleDateString('ru-RU')
+}
+
+async function loadNotifications() {
+  if (!auth.user.value) return
+  try {
+    const data = await $fetch<{ items: Notice[]; unreadCount: number }>('/api/notifications', { credentials: 'include' })
+    notices.value = data.items
+    unreadCount.value = data.unreadCount
+  } catch {
+    /* колокольчик не должен ронять меню */
+  }
+}
 
 function toggle(which: 'user' | 'notifications') {
   menu.value = menu.value === which ? null : which
+  if (menu.value === 'notifications') void loadNotifications()
+}
+
+async function markAllRead() {
+  if (!unreadCount.value) return
+  try {
+    await $fetch('/api/notifications/read-all', { method: 'POST', credentials: 'include' })
+    notices.value = notices.value.map(item => ({ ...item, isRead: true }))
+    unreadCount.value = 0
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
+}
+
+async function openNotice(item: Notice) {
+  if (!item.isRead) {
+    try {
+      await $fetch(`/api/notifications/${item.id}/read`, { method: 'PUT', credentials: 'include' })
+      item.isRead = true
+      unreadCount.value = Math.max(0, unreadCount.value - 1)
+    } catch (error) {
+      notify(apiErrorMessage(error), 'error')
+    }
+  }
+  menu.value = null
+  if (item.link) await navigateTo(item.link)
 }
 
 function onDocClick(e: MouseEvent) {
@@ -41,13 +112,23 @@ function onDocClick(e: MouseEvent) {
 function onKey(e: KeyboardEvent) {
   if (e.key === 'Escape') menu.value = null
 }
+function onRefresh() {
+  void loadNotifications()
+}
 onMounted(() => {
   document.addEventListener('click', onDocClick)
   document.addEventListener('keydown', onKey)
+  window.addEventListener('focus', onRefresh)
+  window.addEventListener('notifications:refresh', onRefresh)
+  void loadNotifications()
+  pollTimer = setInterval(onRefresh, 60_000)
 })
 onBeforeUnmount(() => {
   document.removeEventListener('click', onDocClick)
   document.removeEventListener('keydown', onKey)
+  window.removeEventListener('focus', onRefresh)
+  window.removeEventListener('notifications:refresh', onRefresh)
+  if (pollTimer) clearInterval(pollTimer)
 })
 
 watch(() => route.fullPath, () => {
@@ -145,7 +226,7 @@ const linkCls = 'flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-zi
         </button>
         <button type="button" :aria-expanded="menu === 'notifications'" aria-label="Уведомления" class="relative h-8 w-8 rounded-full text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 flex items-center justify-center shrink-0 transition focus:outline-none" @click.stop="toggle('notifications')">
           <AppIcon name="bell" class="w-4 h-4" />
-          <span v-if="unread" class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-accent" />
+          <span v-if="unreadCount" class="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-red-500 text-white text-[9px] font-semibold leading-4 text-center">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
         </button>
 
         <div v-if="menu === 'user'" role="menu" class="absolute bottom-[calc(100%+8px)] left-0 right-0 bg-white rounded-2xl shadow-pop border border-black/5 py-2 z-50 text-left">
@@ -173,45 +254,31 @@ const linkCls = 'flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-zi
             <span class="text-xs font-semibold text-zinc-900">Уведомления</span>
             <button
               type="button"
-              :disabled="!unread"
+              :disabled="!unreadCount"
               class="text-[11px] font-medium"
-              :class="unread ? 'text-accent hover:underline' : 'text-zinc-400 pointer-events-none'"
-              @click="unread = false"
-            >{{ unread ? 'Прочитать все' : 'Все прочитано' }}</button>
+              :class="unreadCount ? 'text-accent hover:underline' : 'text-zinc-400 pointer-events-none'"
+              @click="markAllRead"
+            >{{ unreadCount ? 'Прочитать все' : 'Все прочитано' }}</button>
           </div>
-          <div v-if="unread">
-            <NuxtLink to="/tasks/1" class="block p-3 hover:bg-zinc-50 border-b border-zinc-100/80 transition">
+          <div v-if="notices.length" class="max-h-80 overflow-y-auto">
+            <button
+              v-for="item in notices"
+              :key="item.id"
+              type="button"
+              class="block w-full text-left p-3 hover:bg-zinc-50 border-b border-zinc-100/80 last:border-b-0 transition"
+              @click="openNotice(item)"
+            >
               <div class="flex items-start gap-2.5">
-                <span class="w-2 h-2 rounded-full bg-blue-500 mt-1.5 shrink-0" />
+                <span class="w-2 h-2 rounded-full mt-1.5 shrink-0" :class="item.isRead ? 'bg-zinc-200' : (DOT[item.type] || 'bg-zinc-400')" />
                 <div class="text-xs min-w-0">
-                  <p class="font-medium text-zinc-900">Вам назначена задача</p>
-                  <p class="text-zinc-500 text-[11px] line-clamp-1">Новые заголовки и описания для раздела «Холодильники»</p>
-                  <p class="text-zinc-400 text-[10px] mt-0.5">15 минут назад · Интернет-магазин «Холод»</p>
+                  <p class="font-medium text-zinc-900">{{ item.title }}</p>
+                  <p class="text-zinc-500 text-[11px] line-clamp-2">{{ item.message }}</p>
+                  <p class="text-zinc-400 text-[10px] mt-0.5">{{ relativeTime(item.createdAt) }}</p>
                 </div>
               </div>
-            </NuxtLink>
-            <NuxtLink to="/tasks/1" class="block p-3 hover:bg-zinc-50 border-b border-zinc-100/80 transition">
-              <div class="flex items-start gap-2.5">
-                <span class="w-2 h-2 rounded-full bg-amber-500 mt-1.5 shrink-0" />
-                <div class="text-xs min-w-0">
-                  <p class="font-medium text-zinc-900">Задача возвращена на доработку</p>
-                  <p class="text-zinc-500 text-[11px] line-clamp-1">Причина: Уточнить частотность в кластере</p>
-                  <p class="text-zinc-400 text-[10px] mt-0.5">2 часа назад · Никита Морозов</p>
-                </div>
-              </div>
-            </NuxtLink>
-            <NuxtLink to="/reports/2025-05" class="block p-3 hover:bg-zinc-50 transition">
-              <div class="flex items-start gap-2.5">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
-                <div class="text-xs min-w-0">
-                  <p class="font-medium text-zinc-900">Сформирован отчёт за Май 2025</p>
-                  <p class="text-zinc-500 text-[11px] line-clamp-1">Отчёт ожидает проверки руководителя</p>
-                  <p class="text-zinc-400 text-[10px] mt-0.5">Вчера в 18:30 · Интернет-магазин «Холод»</p>
-                </div>
-              </div>
-            </NuxtLink>
+            </button>
           </div>
-          <div v-else class="px-4 py-6 text-center text-[11px] text-zinc-400">Все прочитано</div>
+          <div v-else class="px-4 py-6 text-center text-[11px] text-zinc-400">Нет новых уведомлений</div>
         </div>
       </div>
     </aside>

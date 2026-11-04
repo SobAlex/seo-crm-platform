@@ -105,6 +105,15 @@ enum SubscriptionStatus {
   EXPIRED
 }
 
+enum NotificationType {
+  TASK_ASSIGNED
+  TASK_SUBMITTED
+  TASK_REWORK
+  TASK_DONE
+  TASK_COMMENT
+  REPORT_READY
+}
+
 // --- 1. Организация и пользователи ---
 
 model Company {
@@ -127,6 +136,7 @@ model Company {
   integrations       CompanyIntegration[]
   subscription       Subscription?
   reports            Report[]
+  notifications      Notification[]
 
   @@index([inn])
 }
@@ -723,17 +733,21 @@ model ReportTask {
 }
 
 model Notification {
-  id        String   @id @default(cuid())
+  id        String           @id @default(cuid())
+  companyId String
   userId    String
-  type      String
+  type      NotificationType
   title     String
   message   String
   link      String?
-  isRead    Boolean  @default(false)
-  createdAt DateTime @default(now())
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, isRead, createdAt])
   @@index([type])
+  @@index([companyId, userId, isRead])
+  @@index([userId, createdAt])
 }

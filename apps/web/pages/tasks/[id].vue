@@ -9,6 +9,29 @@ useHead({ title: 'Задача — SEO Control' })
 
 const { can, hasRole, isLead, role, user, roleLabel } = useRole()
 const notify = useNotify()
+const route = useRoute()
+
+function dbTaskId(): string | null {
+  const raw = String(route.params.id || '')
+  if (raw === '1') return 'tsk_gsc'
+  if (raw.startsWith('tsk_')) return raw
+  return null
+}
+
+async function syncTask(action: 'submit' | 'accept' | 'rework', comment?: string) {
+  const id = dbTaskId()
+  if (!id) return
+  try {
+    await $fetch(`/api/tasks/${id}/transition`, {
+      method: 'POST',
+      credentials: 'include',
+      body: { action, comment }
+    })
+    window.dispatchEvent(new Event('notifications:refresh'))
+  } catch (error) {
+    notify(apiErrorMessage(error), 'error')
+  }
+}
 
 const TITLE = 'Проверить индексацию в GSC'
 const ESTIMATE = 4
@@ -224,6 +247,7 @@ async function act(action: 'progress' | 'wait_client' | 'submit' | 'accept' | 'r
     pushEvent({ system: true, text: `${esc(who)} передал задачу на проверку · ${time()}` })
     addHistory(`${who} отправил задачу на проверку`, 'bg-amber-500')
     scrollFeed()
+    void syncTask('submit')
     return notify('Задача на проверке · А. Петров получит уведомление', 'success')
   }
   if (action === 'accept') {
@@ -232,6 +256,7 @@ async function act(action: 'progress' | 'wait_client' | 'submit' | 'accept' | 'r
     pushEvent({ system: true, tone: 'green', text: `${esc(who)} принял задачу · ${time()}` })
     addHistory(`${who} принял задачу`, 'bg-emerald-500')
     scrollFeed()
+    void syncTask('accept')
     return notify('Задача принята · исполнитель уведомлён', 'success')
   }
   const anchor = (e?.currentTarget as HTMLElement | null) ?? document.body
@@ -249,6 +274,7 @@ async function act(action: 'progress' | 'wait_client' | 'submit' | 'accept' | 'r
   pushEvent({ id: 'e' + t0 + 'r', ts: t0 + 1, system: true, tone: 'amber', text: `${esc(who)} вернул задачу на доработку · ${time()}` })
   addHistory(`${who} вернул задачу на доработку`, 'bg-amber-500')
   scrollFeed()
+  void syncTask('rework', reason.trim())
   notify('Задача отправлена на доработку · исполнитель уведомлён', 'warning')
 }
 

@@ -79,6 +79,7 @@ async function submit() {
       }
     })
     notify('Отчёт собран', 'success')
+    window.dispatchEvent(new Event('notifications:refresh'))
     const month = form.value.month
     open.value = false
     emit('created', month)
