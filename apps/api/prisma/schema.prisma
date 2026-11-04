@@ -418,6 +418,8 @@ model Project {
   metricFacts ProjectMetricFact[]
   tasks       Task[]
   reports     Report[]
+  source      ProjectSource?
+  queries     SearchQuery[]
 
   @@index([companyId, status])
   @@index([clientId])
@@ -481,6 +483,46 @@ model CompanyIntegration {
 
   @@unique([companyId, serviceType])
   @@index([status])
+}
+
+model ProjectSource {
+  id             String    @id @default(uuid())
+  projectId      String    @unique
+  project        Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  metrikaCounter String?
+  goalIds        String[]
+  searchEngine   String?   @default("YANDEX")
+  regionId       Int?
+  isAutoSync     Boolean   @default(false)
+  lastSyncAt     DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model SearchQuery {
+  id        String                @id @default(uuid())
+  projectId String
+  project   Project               @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  query     String
+  targetUrl String?
+  frequency Int?
+  isMarker  Boolean               @default(false)
+  createdAt DateTime              @default(now())
+  positions SearchQueryPosition[]
+
+  @@index([projectId])
+  @@index([projectId, isMarker])
+}
+
+model SearchQueryPosition {
+  id          String      @id @default(uuid())
+  queryId     String
+  searchQuery SearchQuery @relation(fields: [queryId], references: [id], onDelete: Cascade)
+  engine      String
+  position    Int
+  checkedAt   DateTime    @default(now())
+
+  @@index([queryId, checkedAt])
 }
 
 // --- 5. Задачи и учёт времени ---

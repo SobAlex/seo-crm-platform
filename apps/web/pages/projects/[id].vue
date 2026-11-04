@@ -12,13 +12,17 @@ const notify = useNotify()
 const route = useRoute()
 
 const PROJECT = { name: 'Интернет-магазин «Холод»', site: 'holod-shop.ru', start: '01.05.2025' }
+const projectKey = computed(() => {
+  const raw = route.params.id
+  return typeof raw === 'string' && raw ? raw : 'holod'
+})
 
 /* ---------- KPI ---------- */
-interface Kpi { key?: 'traffic' | 'leads'; label: string; value: string; of: string; bar: string; width: string; style?: string; note: string; tone: string; wide?: boolean }
+interface Kpi { key?: MetricKey; label: string; value: string; of: string; bar: string; width: string; style?: string; note: string; tone: string; wide?: boolean }
 const kpis = ref<Kpi[]>([
   { key: 'traffic', label: 'Трафик', value: '24 380', of: 'из 26 000', bar: 'bg-amber-500', width: 'w-[94%]', note: '94% плана', tone: 'text-amber-700' },
   { key: 'leads', label: 'Лиды', value: '312', of: 'из 290', bar: 'bg-emerald-500', width: 'w-full', note: '108% плана', tone: 'text-emerald-700' },
-  { label: 'ТОП-10', value: '148', of: 'из 130', bar: 'bg-emerald-500', width: 'w-full', note: '114% плана', tone: 'text-emerald-700' },
+  { key: 'top10', label: 'ТОП-10', value: '148', of: 'из 130', bar: 'bg-emerald-500', width: 'w-full', note: '114% плана', tone: 'text-emerald-700' },
   { label: 'Работы', value: '22', of: 'из 23', bar: 'bg-amber-500', width: 'w-[96%]', note: '96% плана', tone: 'text-amber-700' },
   { label: 'Часы', value: '82', of: 'из 96 ч', bar: 'bg-zinc-400', width: 'w-[85%]', note: '85% лимита', tone: 'text-zinc-500', wide: true }
 ])
@@ -32,6 +36,42 @@ const metrics = ref<ProjectMetrics>({
     top10: { label: '% в ТОП-10', color: '#7c3aed', suffix: '%', fact: [18.5, 22.1, 25.7, 28.6, 32.4, 35.2], plan: [20, 22, 25, 27, 29, 31] }
   }
 })
+const chartCaption = ref('Январь–июнь 2025 · пунктир — план из дорожной карты')
+
+interface MarkerItem {
+  id: string
+  query: string
+  targetUrl: string | null
+  position: number | null
+  delta: number | null
+}
+interface DashboardPayload {
+  mode: 'live' | 'fallback'
+  periodLabel: string
+  visibilityTop10: number | null
+  months: string[]
+  series: Record<MetricKey, { fact: number[]; plan: number[] }>
+  kpi: Record<MetricKey, { fact: number; plan: number; pct: number }>
+}
+const markers = ref<MarkerItem[]>([])
+const visibilityTop10 = ref<number | null>(null)
+const queryPlaceholder = 'Вставьте поисковые фразы (каждая с новой строки).\nПример: купить кондиционер; /catalog/split; 1200'
+const sourceForm = reactive({ metrikaCounter: '', goalIds: '' })
+const queriesText = ref('')
+const sourceSaving = ref(false)
+const queriesSaving = ref(false)
+const visibilityLabel = computed(() => {
+  if (visibilityTop10.value == null) return '—'
+  const rounded = Math.round(visibilityTop10.value * 10) / 10
+  const text = Number.isInteger(rounded) ? String(rounded) : rounded.toLocaleString('ru-RU', { maximumFractionDigits: 1 })
+  return `${text}%`
+})
+function positionBadge(item: MarkerItem) {
+  if (item.position == null) return { text: '—', cls: 'bg-zinc-100 text-zinc-600' }
+  if (item.delta == null || item.delta === 0) return { text: `${item.position} =`, cls: 'bg-zinc-100 text-zinc-700' }
+  if (item.delta > 0) return { text: `${item.position} ▲+${item.delta}`, cls: 'bg-emerald-50 text-emerald-700' }
+  return { text: `${item.position} ▼${item.delta}`, cls: 'bg-red-50 text-red-700' }
+}
 const metricOptions = [
   { value: 'leads', label: 'Лиды' },
   { value: 'traffic', label: 'Трафик' },
@@ -71,6 +111,92 @@ function onFact({ index, values }: FactSaved) {
     card.style = `width: ${Math.min(pct, 100)}%`
   })
 }
+
+function paintKpi(card: Kpi, fact: number, plan: number, percent: number) {
+  const [text, bar] = TONE(percent) as [string, string]
+  const digits = card.key === 'top10' ? 1 : 0
+  card.value = fact.toLocaleString('ru-RU', { maximumFractionDigits: digits })
+  card.of = `из ${plan.toLocaleString('ru-RU', { maximumFractionDigits: digits })}`
+  card.note = `${percent}% плана`
+  card.tone = text
+  card.bar = bar
+  card.width = ''
+  card.style = `width: ${Math.min(percent, 100)}%`
+}
+
+function applyDashboard(data: DashboardPayload) {
+  if (data.months.length >= 2) {
+    (Object.keys(data.series) as MetricKey[]).forEach(key => {
+      metrics.value.series[key].fact = data.series[key].fact
+      metrics.value.series[key].plan = data.series[key].plan
+    })
+    metrics.value.months = data.months
+    chartCaption.value = `${data.periodLabel} · пунктир — план из дорожной карты`
+  }
+  visibilityTop10.value = data.visibilityTop10
+  kpis.value.forEach(card => {
+    if (!card.key) return
+    const point = data.kpi[card.key]
+    paintKpi(card, point.fact, point.plan, point.pct)
+  })
+}
+
+async function loadAnalytics() {
+  const id = projectKey.value
+  const [dashboard, marker, source] = await Promise.allSettled([
+    $fetch<DashboardPayload>(`/api/projects/${id}/analytics/dashboard`, { credentials: 'include' }),
+    $fetch<{ visibilityTop10: number | null; items: MarkerItem[] }>(`/api/projects/${id}/analytics/marker-queries`, { credentials: 'include' }),
+    $fetch<{ metrikaCounter: string | null; goalIds: string[] }>(`/api/projects/${id}/source`, { credentials: 'include' })
+  ])
+  if (dashboard.status === 'fulfilled') applyDashboard(dashboard.value)
+  if (marker.status === 'fulfilled') {
+    markers.value = marker.value.items
+    if (dashboard.status !== 'fulfilled') visibilityTop10.value = marker.value.visibilityTop10
+  }
+  if (source.status === 'fulfilled') {
+    sourceForm.metrikaCounter = source.value.metrikaCounter ?? ''
+    sourceForm.goalIds = source.value.goalIds.join(', ')
+  }
+}
+
+async function saveSource() {
+  sourceSaving.value = true
+  try {
+    const goalIds = sourceForm.goalIds.split(/[,;\s]+/).map(item => item.trim()).filter(Boolean)
+    const saved = await $fetch<{ metrikaCounter: string | null; goalIds: string[] }>(`/api/projects/${projectKey.value}/source`, {
+      method: 'PUT',
+      body: { metrikaCounter: sourceForm.metrikaCounter.trim(), goalIds },
+      credentials: 'include'
+    })
+    sourceForm.metrikaCounter = saved.metrikaCounter ?? ''
+    sourceForm.goalIds = saved.goalIds.join(', ')
+    notify('Параметры источника сохранены')
+    await loadAnalytics()
+  } catch (error: unknown) {
+    notify(apiErrorMessage(error), 'error')
+  } finally {
+    sourceSaving.value = false
+  }
+}
+
+async function saveQueries() {
+  queriesSaving.value = true
+  try {
+    const result = await $fetch<{ imported: number }>(`/api/projects/${projectKey.value}/queries/import`, {
+      method: 'POST',
+      body: { rawText: queriesText.value },
+      credentials: 'include'
+    })
+    notify(`Список запросов сохранён: ${result.imported}`)
+    await loadAnalytics()
+  } catch (error: unknown) {
+    notify(apiErrorMessage(error), 'error')
+  } finally {
+    queriesSaving.value = false
+  }
+}
+
+onMounted(() => { void loadAnalytics() })
 
 /* ---------- Табы ---------- */
 const tab = ref('roadmap')
@@ -360,7 +486,7 @@ const CHECK = 'w-4 h-4 rounded-full bg-zinc-900 flex items-center justify-center
         <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
           <div>
             <h3 class="text-sm font-semibold tracking-tight">Динамика проекта</h3>
-            <p class="text-xs text-zinc-500 mt-0.5">Январь–июнь 2025 · пунктир — план из дорожной карты</p>
+            <p class="text-xs text-zinc-500 mt-0.5">{{ chartCaption }}</p>
           </div>
           <div class="flex flex-wrap items-center gap-2">
             <UiSegmented v-model="metric" :options="metricOptions" size="md" aria-label="Показатель" />
@@ -370,6 +496,23 @@ const CHECK = 'w-4 h-4 rounded-full bg-zinc-900 flex items-center justify-center
           </div>
         </div>
         <UiMetricChart :months="metrics.months" :series="metrics.series" :metric="metric" />
+      </section>
+
+      <section class="w-full bg-white rounded-2xl shadow-card p-4 lg:p-5">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+          <h3 class="text-sm font-semibold tracking-tight">Маркерные запросы (ТОП)</h3>
+          <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700 tabular-nums">Видимость ядра: {{ visibilityLabel }} в ТОП-10</span>
+        </div>
+        <p v-if="!markers.length" class="text-sm text-zinc-500 mt-3">Маркерных запросов пока нет. Добавьте фразы во вкладке «Источники».</p>
+        <ul v-else class="mt-1 divide-y divide-zinc-100">
+          <li v-for="item in markers" :key="item.id" class="py-2.5 flex items-start justify-between gap-3">
+            <div class="min-w-0">
+              <div class="text-sm font-medium truncate">{{ item.query }}</div>
+              <div v-if="item.targetUrl" class="text-[11px] text-zinc-400 truncate">{{ item.targetUrl }}</div>
+            </div>
+            <span class="shrink-0 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold tabular-nums" :class="positionBadge(item).cls">{{ positionBadge(item).text }}</span>
+          </li>
+        </ul>
       </section>
 
       <div class="w-full max-w-full bg-white rounded-2xl shadow-card overflow-hidden p-3 lg:p-3.5 flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-3">
@@ -561,6 +704,33 @@ const CHECK = 'w-4 h-4 rounded-full bg-zinc-900 flex items-center justify-center
 
     <!-- ИСТОЧНИКИ -->
     <div v-show="tab === 'sources'" class="mt-0 pt-0 space-y-6">
+      <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6 space-y-4">
+        <div>
+          <h3 class="text-sm font-semibold tracking-tight">Привязка Яндекс.Метрики</h3>
+          <p class="text-xs text-zinc-500 mt-0.5">Без токена интеграции график остаётся на ручных фактах.</p>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-3">
+          <label class="block">
+            <span class="block text-xs font-medium text-zinc-500 mb-1.5">Номер счётчика</span>
+            <input v-model="sourceForm.metrikaCounter" type="text" inputmode="numeric" placeholder="94512367" class="w-full h-10 px-3 rounded-xl border border-zinc-200 text-sm tabular-nums focus:outline-none focus:ring-2 focus:ring-accent/30">
+          </label>
+          <label class="block">
+            <span class="block text-xs font-medium text-zinc-500 mb-1.5">Номера целей через запятую</span>
+            <input v-model="sourceForm.goalIds" type="text" placeholder="31245612, 31245615" class="w-full h-10 px-3 rounded-xl border border-zinc-200 text-sm tabular-nums focus:outline-none focus:ring-2 focus:ring-accent/30">
+          </label>
+        </div>
+        <UButton :loading="sourceSaving" :disabled="sourceSaving" @click="saveSource">Сохранить параметры источника</UButton>
+      </section>
+
+      <section class="bg-white rounded-2xl shadow-card p-4 lg:p-6 space-y-4">
+        <div>
+          <h3 class="text-sm font-semibold tracking-tight">Семантическое ядро проекта</h3>
+          <p class="text-xs text-zinc-500 mt-0.5">Первые 10 фраз становятся маркерными.</p>
+        </div>
+        <textarea v-model="queriesText" rows="6" class="w-full px-3 py-2 rounded-xl border border-zinc-200 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-accent/30" :placeholder="queryPlaceholder" />
+        <UButton :loading="queriesSaving" :disabled="queriesSaving" @click="saveQueries">Сохранить список запросов</UButton>
+      </section>
+
       <div v-if="!yandexOn" class="rounded-2xl border border-amber-200 bg-amber-50/70 px-4 py-4 sm:px-5 flex flex-col sm:flex-row sm:items-center gap-3">
         <div class="min-w-0 flex-1">
           <div class="text-sm font-medium text-amber-950">Автоматический сбор данных не настроен</div>
@@ -592,7 +762,7 @@ const CHECK = 'w-4 h-4 rounded-full bg-zinc-900 flex items-center justify-center
             <span class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center font-bold shrink-0">Я</span>
             <div class="min-w-0 flex-1">
               <div class="text-sm font-medium">Яндекс.Метрика</div>
-              <div class="text-xs text-zinc-500 mt-0.5 tabular-nums">ID счётчика <span class="text-zinc-800 font-medium">94512367</span> · последняя выгрузка: {{ lastExport }}</div>
+              <div class="text-xs text-zinc-500 mt-0.5 tabular-nums">ID счётчика <span class="text-zinc-800 font-medium">{{ sourceForm.metrikaCounter || 'не указан' }}</span> · последняя выгрузка: {{ lastExport }}</div>
             </div>
             <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500" />Активен</span>
           </li>

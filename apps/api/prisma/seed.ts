@@ -883,9 +883,61 @@ async function seedReports(): Promise<void> {
   })
 }
 
+/** Маркерные запросы «Холода» с двумя съёмами позиции. Повторный запуск не затирает уже сохранённое ядро. */
+async function seedSemantics(): Promise<void> {
+  const projectId = 'prj_holod'
+  const existing = await prisma.searchQuery.count({ where: { projectId } })
+  if (existing > 0) return
+
+  await prisma.projectSource.upsert({
+    where: { projectId },
+    update: {},
+    create: {
+      id: 'src_holod',
+      projectId,
+      goalIds: [],
+      searchEngine: 'YANDEX',
+      isAutoSync: false
+    }
+  })
+
+  const rows: { id: string; query: string; targetUrl: string; frequency: number; previous: number; current: number }[] = [
+    { id: 'sq_holod_split', query: 'монтаж сплит систем', targetUrl: '/uslugi/split', frequency: 890, previous: 6, current: 4 },
+    { id: 'sq_holod_fridge', query: 'купить холодильник', targetUrl: '/catalog/holodilniki', frequency: 2400, previous: 8, current: 8 },
+    { id: 'sq_holod_repair', query: 'ремонт холодильника', targetUrl: '/service', frequency: 640, previous: 11, current: 14 },
+    { id: 'sq_holod_gas', query: 'заправка кондиционера', targetUrl: '/uslugi/zapravka', frequency: 430, previous: 9, current: 3 },
+    { id: 'sq_holod_freeze', query: 'купить морозильную камеру', targetUrl: '/catalog/moroz', frequency: 510, previous: 15, current: 12 }
+  ]
+
+  for (const row of rows) {
+    await prisma.searchQuery.create({
+      data: {
+        id: row.id,
+        projectId,
+        query: row.query,
+        targetUrl: row.targetUrl,
+        frequency: row.frequency,
+        isMarker: true,
+        positions: {
+          create: [
+            { engine: 'YANDEX', position: row.previous, checkedAt: at('2025-05-01T09:00:00.000Z') },
+            { engine: 'YANDEX', position: row.current, checkedAt: at('2025-06-01T09:00:00.000Z') }
+          ]
+        }
+      }
+    })
+  }
+}
+
 async function main(): Promise<void> {
   if (!process.env.DATABASE_URL) {
     throw new Error('DATABASE_URL не задан. Сид читает его из apps/api/.env.')
+  }
+
+  if (process.argv.includes('--semantics-only')) {
+    await seedSemantics()
+    console.log('Семантика «Холода» проверена.')
+    return
   }
 
   const passwordHash = hashPassword(DEMO_PASSWORD)
@@ -895,6 +947,7 @@ async function main(): Promise<void> {
   await seedLibrary()
   await seedClients()
   await seedProjects()
+  await seedSemantics()
   await seedTasks()
   await seedReports()
 
