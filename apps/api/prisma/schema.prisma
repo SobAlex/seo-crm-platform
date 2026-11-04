@@ -1,8 +1,7 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Схема SEO Control. Слои идут от независимых сущностей к зависимым.
+// Роли pm и employee — роли прототипа: pm ведёт клиентов, employee выполняет SEO.
+// Удаление компании каскадом снимает её данные. Необязательные ссылки (замещающий,
+// соисполнитель, этап воркфлоу, шаблон вопроса) обнуляются, чтобы история не пропадала.
 
 generator client {
   provider = "prisma-client-js"
@@ -11,4 +10,629 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+// --- Перечисления ---
+
+enum Role {
+  owner
+  seo_head
+  mgr_head
+  pm
+  employee
+  contractor
+  client
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+}
+
+enum BriefFieldType {
+  TEXT
+  SELECT
+  CHECKBOX
+  RADIO
+}
+
+enum BriefStatus {
+  DRAFT
+  SENT
+  COMPLETED
+}
+
+enum ClientStatus {
+  ACTIVE
+  PAUSED
+  LEAD
+}
+
+enum ProjectStatus {
+  ACTIVE
+  ARCHIVED
+  ON_HOLD
+}
+
+enum ProjectRole {
+  PM
+  SEO_LEAD
+  EXECUTOR
+  GUEST
+}
+
+enum IntegrationService {
+  YANDEX_METRIKA
+  YANDEX_WEBMASTER
+  GOOGLE_ANALYTICS
+  GOOGLE_SEARCH_CONSOLE
+  CALLIBRI
+}
+
+enum IntegrationStatus {
+  CONNECTED
+  DISCONNECTED
+  ERROR
+}
+
+enum TaskLifecycleStatus {
+  PLANNED
+  IN_PROGRESS
+  ON_REVIEW
+  WAITING_CLIENT
+  DONE
+}
+
+enum ReportStatus {
+  DRAFT
+  ON_REVIEW
+  SENT
+  APPROVED
+}
+
+// --- 1. Организация и пользователи ---
+
+model Company {
+  id        String   @id @default(cuid())
+  name      String
+  inn       String?
+  address   String?
+  logo      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  members            CompanyMember[]
+  invitations        Invitation[]
+  vacations          EmployeeVacation[]
+  projectTypes       ProjectType[]
+  workflowCategories WorkflowCategory[]
+  briefTemplates     BriefTemplate[]
+  clients            Client[]
+  projects           Project[]
+  integrations       CompanyIntegration[]
+
+  @@index([inn])
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  firstName    String
+  lastName     String
+  phone        String?
+  avatar       String?
+  telegram     String?
+  createdAt    DateTime @default(now())
+
+  memberships      CompanyMember[]
+  vacations        EmployeeVacation[]      @relation("VacationSubject")
+  covering         EmployeeVacation[]      @relation("VacationCover")
+  portalClients    Client[]                @relation("ClientPortalUser")
+  projectMembers   ProjectMember[]
+  createdTasks     Task[]                  @relation("TaskCreator")
+  assignedTasks    Task[]                  @relation("TaskPrimaryAssignee")
+  taskAssignments  TaskAssignee[]
+  comments         TaskComment[]
+  timeLogs         TaskTimeLog[]
+  statusChanges    TaskStatusHistory[]
+  notifications    Notification[]
+}
+
+model CompanyMember {
+  id                String   @id @default(cuid())
+  companyId         String
+  userId            String
+  role              Role
+  hourlyRate        Decimal? @db.Decimal(10, 2)
+  monthlyHoursQuota Int?
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([companyId, userId])
+  @@index([userId])
+  @@index([companyId, role])
+}
+
+model Invitation {
+  id        String           @id @default(cuid())
+  companyId String
+  email     String
+  role      Role
+  token     String           @unique
+  status    InvitationStatus @default(PENDING)
+  expiresAt DateTime
+  createdAt DateTime         @default(now())
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@index([companyId, email])
+  @@index([status])
+}
+
+model EmployeeVacation {
+  id          String   @id @default(cuid())
+  companyId   String
+  userId      String
+  coverUserId String?
+  startDate   DateTime @db.Date
+  endDate     DateTime @db.Date
+  comment     String?
+  createdAt   DateTime @default(now())
+
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  user      User    @relation("VacationSubject", fields: [userId], references: [id], onDelete: Cascade)
+  coverUser User?   @relation("VacationCover", fields: [coverUserId], references: [id], onDelete: SetNull)
+
+  @@index([companyId])
+  @@index([userId])
+  @@index([coverUserId])
+  @@index([startDate, endDate])
+}
+
+// --- 2. Справочники и шаблоны ---
+
+model ProjectType {
+  id          String  @id @default(cuid())
+  companyId   String
+  name        String
+  description String?
+  isDefault   Boolean @default(false)
+
+  company      Company               @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  roadmaps     RoadmapTemplate[]
+  monthlyPlans MonthlyPlanTemplate[]
+  projects     Project[]
+
+  @@index([companyId])
+}
+
+model WorkflowCategory {
+  id        String @id @default(cuid())
+  companyId String
+  name      String
+  color     String
+  sortOrder Int    @default(0)
+
+  company  Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  statuses WorkflowStatus[]
+  tasks    Task[]
+
+  @@index([companyId, sortOrder])
+}
+
+model WorkflowStatus {
+  id         String  @id @default(cuid())
+  categoryId String
+  name       String
+  sortOrder  Int     @default(0)
+  isInitial  Boolean @default(false)
+  isDone     Boolean @default(false)
+
+  category WorkflowCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  tasks    Task[]
+
+  @@index([categoryId, sortOrder])
+}
+
+model RoadmapTemplate {
+  id            String   @id @default(cuid())
+  projectTypeId String
+  name          String
+  createdAt     DateTime @default(now())
+
+  projectType ProjectType            @relation(fields: [projectTypeId], references: [id], onDelete: Cascade)
+  stages      RoadmapStageTemplate[]
+
+  @@index([projectTypeId])
+}
+
+model RoadmapStageTemplate {
+  id         String @id @default(cuid())
+  templateId String
+  monthIndex Int
+  title      String
+  sortOrder  Int    @default(0)
+
+  template RoadmapTemplate       @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  tasks    RoadmapTaskTemplate[]
+
+  @@index([templateId, sortOrder])
+}
+
+model RoadmapTaskTemplate {
+  id           String  @id @default(cuid())
+  stageId      String
+  title        String
+  defaultHours Decimal @db.Decimal(8, 2)
+  sortOrder    Int     @default(0)
+
+  stage            RoadmapStageTemplate     @relation(fields: [stageId], references: [id], onDelete: Cascade)
+  monthlyPlanTasks MonthlyPlanTaskTemplate[]
+
+  @@index([stageId, sortOrder])
+}
+
+model MonthlyPlanTemplate {
+  id            String @id @default(cuid())
+  projectTypeId String
+  name          String
+  sortOrder     Int    @default(0)
+
+  projectType ProjectType              @relation(fields: [projectTypeId], references: [id], onDelete: Cascade)
+  tasks       MonthlyPlanTaskTemplate[]
+
+  @@index([projectTypeId, sortOrder])
+}
+
+model MonthlyPlanTaskTemplate {
+  id                    String  @id @default(cuid())
+  planId                String
+  roadmapTaskTemplateId String?
+  title                 String
+  defaultHours          Decimal @db.Decimal(8, 2)
+
+  plan                MonthlyPlanTemplate  @relation(fields: [planId], references: [id], onDelete: Cascade)
+  roadmapTaskTemplate RoadmapTaskTemplate? @relation(fields: [roadmapTaskTemplateId], references: [id], onDelete: SetNull)
+
+  @@index([planId])
+  @@index([roadmapTaskTemplateId])
+}
+
+model BriefTemplate {
+  id        String   @id @default(cuid())
+  companyId String
+  title     String
+  createdAt DateTime @default(now())
+
+  company   Company                 @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  questions BriefQuestionTemplate[]
+  briefs    ClientBrief[]
+
+  @@index([companyId])
+}
+
+model BriefQuestionTemplate {
+  id              String         @id @default(cuid())
+  briefTemplateId String
+  question        String
+  description     String?
+  fieldType       BriefFieldType
+  options         Json?
+  sortOrder       Int            @default(0)
+  isRequired      Boolean        @default(false)
+
+  briefTemplate BriefTemplate @relation(fields: [briefTemplateId], references: [id], onDelete: Cascade)
+  answers       BriefAnswer[]
+
+  @@index([briefTemplateId, sortOrder])
+}
+
+// --- 3. Клиенты ---
+
+model Client {
+  id              String       @id @default(cuid())
+  companyId       String
+  portalUserId    String?      @unique
+  name            String
+  inn             String?
+  city            String?
+  status          ClientStatus @default(ACTIVE)
+  hourlyRate      Decimal?     @db.Decimal(10, 2)
+  contactPerson   String?
+  contactPosition String?
+  contactPhone    String?
+  contactEmail    String?
+  logo            String?
+  createdAt       DateTime     @default(now())
+
+  company    Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  portalUser User?         @relation("ClientPortalUser", fields: [portalUserId], references: [id], onDelete: SetNull)
+  briefs     ClientBrief[]
+  projects   Project[]
+
+  @@index([companyId, status])
+  @@index([inn])
+}
+
+model ClientBrief {
+  id              String      @id @default(cuid())
+  clientId        String
+  briefTemplateId String?
+  status          BriefStatus @default(DRAFT)
+  publicToken     String      @unique
+  createdAt       DateTime    @default(now())
+  completedAt     DateTime?
+
+  client        Client         @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  briefTemplate BriefTemplate? @relation(fields: [briefTemplateId], references: [id], onDelete: SetNull)
+  answers       BriefAnswer[]
+
+  @@index([clientId])
+  @@index([briefTemplateId])
+  @@index([status])
+}
+
+model BriefAnswer {
+  id                 String  @id @default(cuid())
+  briefId            String
+  questionTemplateId String?
+  answerText         String? @db.Text
+  selectedOptions    Json?
+
+  brief            ClientBrief            @relation(fields: [briefId], references: [id], onDelete: Cascade)
+  questionTemplate BriefQuestionTemplate? @relation(fields: [questionTemplateId], references: [id], onDelete: SetNull)
+
+  @@index([briefId])
+  @@index([questionTemplateId])
+}
+
+// --- 4. Проекты и метрики ---
+
+model Project {
+  id                String        @id @default(cuid())
+  companyId         String
+  clientId          String?
+  projectTypeId     String?
+  name              String
+  domain            String?
+  status            ProjectStatus @default(ACTIVE)
+  startDate         DateTime?     @db.Date
+  monthlyBudget     Decimal?      @db.Decimal(12, 2)
+  monthlyHoursLimit Decimal?      @db.Decimal(8, 2)
+  /// Выбранные KPI: ["traffic", "leads", "top10"].
+  targetKpis        Json          @default("[]")
+  createdAt         DateTime      @default(now())
+
+  company     Company             @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  client      Client?             @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  projectType ProjectType?        @relation(fields: [projectTypeId], references: [id], onDelete: SetNull)
+  members     ProjectMember[]
+  metricPlans ProjectMetricPlan[]
+  metricFacts ProjectMetricFact[]
+  tasks       Task[]
+  reports     Report[]
+
+  @@index([companyId, status])
+  @@index([clientId])
+  @@index([projectTypeId])
+  @@index([domain])
+}
+
+model ProjectMember {
+  id          String      @id @default(cuid())
+  projectId   String
+  userId      String
+  projectRole ProjectRole
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, userId])
+  @@index([userId])
+  @@index([projectId, projectRole])
+}
+
+model ProjectMetricPlan {
+  id            String   @id @default(cuid())
+  projectId     String
+  periodMonth   DateTime @db.Date
+  targetTraffic Int      @default(0)
+  targetLeads   Int      @default(0)
+  targetTop10   Decimal  @default(0) @db.Decimal(5, 2)
+  plannedHours  Decimal  @default(0) @db.Decimal(8, 2)
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, periodMonth])
+}
+
+model ProjectMetricFact {
+  id                 String   @id @default(cuid())
+  projectId          String
+  periodMonth        DateTime @db.Date
+  factTraffic        Int      @default(0)
+  factLeads          Int      @default(0)
+  factTop10          Decimal  @default(0) @db.Decimal(5, 2)
+  acceptedTasksCount Int      @default(0)
+  spentHours         Decimal  @default(0) @db.Decimal(8, 2)
+  isManualInput      Boolean  @default(true)
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, periodMonth])
+}
+
+model CompanyIntegration {
+  id           String             @id @default(cuid())
+  companyId    String
+  serviceType  IntegrationService
+  status       IntegrationStatus  @default(DISCONNECTED)
+  config       Json?
+  lastSyncedAt DateTime?
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@unique([companyId, serviceType])
+  @@index([status])
+}
+
+// --- 5. Задачи и учёт времени ---
+
+model Task {
+  id               String              @id @default(cuid())
+  projectId        String
+  categoryId       String?
+  workflowStatusId String?
+  creatorId        String?
+  assigneeId       String?
+  parentTaskId     String?
+  title            String
+  description      String?             @db.Text
+  lifecycleStatus  TaskLifecycleStatus @default(PLANNED)
+  plannedHours     Decimal             @default(0) @db.Decimal(8, 2)
+  actualHours      Decimal             @default(0) @db.Decimal(8, 2)
+  deadline         DateTime?
+  isInReport       Boolean             @default(false)
+  reportNote       String?             @db.Text
+  reviewComment    String?             @db.Text
+  sortOrder        Int                 @default(0)
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+
+  project        Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  category       WorkflowCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  workflowStatus WorkflowStatus? @relation(fields: [workflowStatusId], references: [id], onDelete: SetNull)
+  creator        User?           @relation("TaskCreator", fields: [creatorId], references: [id], onDelete: SetNull)
+  assignee       User?           @relation("TaskPrimaryAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  parentTask     Task?           @relation("TaskSubtasks", fields: [parentTaskId], references: [id], onDelete: SetNull)
+  subtasks       Task[]          @relation("TaskSubtasks")
+  assignees      TaskAssignee[]
+  comments       TaskComment[]
+  timeLogs       TaskTimeLog[]
+  statusHistory  TaskStatusHistory[]
+  reportLinks    ReportTask[]
+
+  @@index([projectId, lifecycleStatus])
+  @@index([assigneeId])
+  @@index([creatorId])
+  @@index([categoryId])
+  @@index([workflowStatusId])
+  @@index([parentTaskId])
+  @@index([deadline])
+  @@index([isInReport])
+}
+
+model TaskAssignee {
+  id     String @id @default(cuid())
+  taskId String
+  userId String
+
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([taskId, userId])
+  @@index([userId])
+}
+
+model TaskComment {
+  id           String   @id @default(cuid())
+  taskId       String
+  authorId     String?
+  text         String   @db.Text
+  isInternal   Boolean  @default(true)
+  isReportNote Boolean  @default(false)
+  attachments  Json?
+  createdAt    DateTime @default(now())
+
+  task   Task  @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  author User? @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  @@index([taskId, createdAt])
+  @@index([authorId])
+  @@index([isReportNote])
+}
+
+model TaskTimeLog {
+  id        String   @id @default(cuid())
+  taskId    String
+  userId    String?
+  hours     Decimal  @db.Decimal(8, 2)
+  comment   String?
+  loggedAt  DateTime
+  createdAt DateTime @default(now())
+
+  task Task  @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([taskId, loggedAt])
+  @@index([userId])
+}
+
+model TaskStatusHistory {
+  id          String               @id @default(cuid())
+  taskId      String
+  changedById String?
+  oldStatus   TaskLifecycleStatus?
+  newStatus   TaskLifecycleStatus
+  reason      String?
+  createdAt   DateTime             @default(now())
+
+  task      Task  @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  changedBy User? @relation(fields: [changedById], references: [id], onDelete: SetNull)
+
+  @@index([taskId, createdAt])
+  @@index([changedById])
+}
+
+// --- 6. Отчёты и уведомления ---
+
+model Report {
+  id          String       @id @default(cuid())
+  projectId   String
+  periodMonth DateTime     @db.Date
+  status      ReportStatus @default(DRAFT)
+  publicToken String       @unique
+  summaryText String?      @db.Text
+  sentAt      DateTime?
+  approvedAt  DateTime?
+  createdAt   DateTime     @default(now())
+
+  project      Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  includedTasks ReportTask[]
+
+  @@unique([projectId, periodMonth])
+  @@index([status])
+}
+
+model ReportTask {
+  id       String @id @default(cuid())
+  reportId String
+  taskId   String
+
+  report Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  task   Task   @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@unique([reportId, taskId])
+  @@index([taskId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  title     String
+  message   String
+  link      String?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead, createdAt])
+  @@index([type])
 }
